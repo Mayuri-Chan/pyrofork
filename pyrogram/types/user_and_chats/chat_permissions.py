@@ -1,20 +1,21 @@
-#  Pyrogram - Telegram MTProto API Client Library for Python
+#  Pyrofork - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
+#  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
-#  This file is part of Pyrogram.
+#  This file is part of Pyrofork.
 #
-#  Pyrogram is free software: you can redistribute it and/or modify
+#  Pyrofork is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published
 #  by the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  Pyrogram is distributed in the hope that it will be useful,
+#  Pyrofork is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU Lesser General Public License for more details.
 #
 #  You should have received a copy of the GNU Lesser General Public License
-#  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
+#  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from pyrogram import raw
 from ..object import Object
@@ -53,6 +54,10 @@ class ChatPermissions(Object):
         can_pin_messages (``bool``, *optional*):
             True, if the user is allowed to pin messages.
             Ignored in public supergroups.
+
+        can_manage_topics (``bool``, *optional*):
+            True, if the user is allowed to create, rename, close, and reopen forum topics.
+            supergroups only.
     """
 
     def __init__(
@@ -65,7 +70,8 @@ class ChatPermissions(Object):
         can_add_web_page_previews: bool = None,
         can_change_info: bool = None,
         can_invite_users: bool = None,
-        can_pin_messages: bool = None
+        can_pin_messages: bool = None,
+        can_manage_topics: bool = None
     ):
         super().__init__(None)
 
@@ -77,6 +83,7 @@ class ChatPermissions(Object):
         self.can_change_info = can_change_info
         self.can_invite_users = can_invite_users
         self.can_pin_messages = can_pin_messages
+        self.can_manage_topics = can_manage_topics
 
     @staticmethod
     def _parse(denied_permissions: "raw.base.ChatBannedRights") -> "ChatPermissions":
@@ -94,5 +101,6 @@ class ChatPermissions(Object):
                 can_send_polls=not denied_permissions.send_polls,
                 can_change_info=not denied_permissions.change_info,
                 can_invite_users=not denied_permissions.invite_users,
-                can_pin_messages=not denied_permissions.pin_messages
+                can_pin_messages=not denied_permissions.pin_messages,
+                can_manage_topics=not denied_permissions.manage_topics
             )

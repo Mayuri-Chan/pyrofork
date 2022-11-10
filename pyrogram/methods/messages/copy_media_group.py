@@ -1,20 +1,24 @@
 #  Pyrogram - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
 #
-#  This file is part of Pyrogram.
+#  Pyrofork - Telegram MTProto API Client Library for Python
+#  Copyright (C) 2017-present Dan <https://github.com/delivrance>
+#  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
-#  Pyrogram is free software: you can redistribute it and/or modify
+#  This file is part of Pyrofork.
+#
+#  Pyrofork is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published
 #  by the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  Pyrogram is distributed in the hope that it will be useful,
+#  Pyrofork is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU Lesser General Public License for more details.
 #
 #  You should have received a copy of the GNU Lesser General Public License
-#  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
+#  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
 from typing import Union, List
@@ -31,6 +35,7 @@ class CopyMediaGroup:
         message_id: int,
         captions: Union[List[str], str] = None,
         disable_notification: bool = None,
+        message_thread_id: int = None,
         reply_to_message_id: int = None,
         schedule_date: datetime = None,
     ) -> List["types.Message"]:
@@ -65,6 +70,10 @@ class CopyMediaGroup:
                 Sends the message silently.
                 Users will receive a notification with no sound.
 
+            message_thread_id (``int``, *optional*):
+                Unique identifier for the target message thread (topic) of the forum.
+                for forum supergroups only.
+
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
@@ -88,6 +97,10 @@ class CopyMediaGroup:
 
         media_group = await self.get_media_group(from_chat_id, message_id)
         multi_media = []
+
+        reply_to = None
+        if reply_to_message_id or message_thread_id:
+            reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id)
 
         for i, message in enumerate(media_group):
             if message.photo:
@@ -119,7 +132,7 @@ class CopyMediaGroup:
                 peer=await self.resolve_peer(chat_id),
                 multi_media=multi_media,
                 silent=disable_notification or None,
-                reply_to_msg_id=reply_to_message_id,
+                reply_to=reply_to,
                 schedule_date=utils.datetime_to_timestamp(schedule_date)
             ),
             sleep_threshold=60

@@ -1,20 +1,21 @@
-#  Pyrogram - Telegram MTProto API Client Library for Python
+#  Pyrofork - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
+#  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
-#  This file is part of Pyrogram.
+#  This file is part of Pyrofork.
 #
-#  Pyrogram is free software: you can redistribute it and/or modify
+#  Pyrofork is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published
 #  by the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  Pyrogram is distributed in the hope that it will be useful,
+#  Pyrofork is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU Lesser General Public License for more details.
 #
 #  You should have received a copy of the GNU Lesser General Public License
-#  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
+#  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
 from typing import List, Optional
@@ -130,6 +131,18 @@ class ChatEvent(Object):
         deleted_invite_link (:obj:`~pyrogram.types.ChatInviteLink`, *optional*):
             Deleted invite link.
             For :obj:`~pyrogram.enums.ChatEventAction.INVITE_LINK_DELETED` action only.
+
+        created_forum_topic (:obj:`~pyrogram.types.ForumTopic`, *optional*):
+            New forum topic.
+            For :obj:`~pyrogram.enums.ChatEvenAction.CREATED_FORUM_TOPIC` action only.
+
+        old_forum_topic, new_forum_topic (:obj:`~pyrogram.types.ForumTopic`, *optional*):
+            Edited forum topic.
+            For :obj:`~pyrogram.enums.ChatEvenAction.EDITED_FORUM_TOPIC` action only.
+
+        deleted_forum_topic (:obj:`~pyrogram.types.ForumTopic`, *optional*):
+            Deleted forum topic.
+            For :obj:`~pyrogram.enums.ChatEvenAction.DELETED_FORUM_TOPIC` action only.
     """
 
     def __init__(
@@ -190,7 +203,12 @@ class ChatEvent(Object):
         old_invite_link: "types.ChatInviteLink" = None,
         new_invite_link: "types.ChatInviteLink" = None,
         revoked_invite_link: "types.ChatInviteLink" = None,
-        deleted_invite_link: "types.ChatInviteLink" = None
+        deleted_invite_link: "types.ChatInviteLink" = None,
+
+        created_forum_topic: "types.ForumTopic" = None,
+        old_forum_topic: "types.ForumTopic" = None,
+        new_forum_topic: "types.ForumTopic" = None,
+        deleted_forum_topic: "types.ForumTopic" = None
     ):
         super().__init__()
 
@@ -251,6 +269,11 @@ class ChatEvent(Object):
         self.new_invite_link = new_invite_link
         self.revoked_invite_link = revoked_invite_link
         self.deleted_invite_link = deleted_invite_link
+
+        self.created_forum_topic = created_forum_topic
+        self.old_forum_topic = old_forum_topic
+        self.new_forum_topic = new_forum_topic
+        self.deleted_forum_topic = deleted_forum_topic
 
     @staticmethod
     async def _parse(
@@ -317,6 +340,11 @@ class ChatEvent(Object):
         new_invite_link: Optional[types.ChatInviteLink] = None
         revoked_invite_link: Optional[types.ChatInviteLink] = None
         deleted_invite_link: Optional[types.ChatInviteLink] = None
+
+        created_forum_topic: Optional[types.ForumTopic] = None
+        old_forum_topic: Optional[types.ForumTopic] = None
+        new_forum_topic: Optional[types.ForumTopic] = None
+        deleted_forum_topic: Optional[types.ForumTopic] = None
 
         if isinstance(action, raw.types.ChannelAdminLogEventActionChangeAbout):
             old_description = action.prev_value
@@ -426,6 +454,19 @@ class ChatEvent(Object):
             deleted_invite_link = types.ChatInviteLink._parse(client, action.invite, users)
             action = enums.ChatEventAction.INVITE_LINK_DELETED
 
+        elif isinstance(action, raw.types.ChannelAdminLogEventActionCreateTopic):
+            created_forum_topic = types.ForumTopic._parse(action.topic)
+            action = enums.ChatEventAction.CREATED_FORUM_TOPIC
+
+        elif isinstance(action, raw.types.ChannelAdminLogEventActionEditTopic):
+            old_forum_topic = types.ForumTopic._parse(action.prev_topic)
+            new_forum_topic = types.ForumTopic._parse(action.new_topic)
+            action = enums.ChatEventAction.EDITED_FORUM_TOPIC
+
+        elif isinstance(action, raw.types.ChannelAdminLogEventActionDeleteTopic):
+            created_forum_topic = types.ForumTopic._parse(action.topic)
+            action = enums.ChatEventAction.DELETED_FORUM_TOPIC
+
         else:
             action = f"{enums.ChatEventAction.UNKNOWN}-{action.QUALNAME}"
 
@@ -485,5 +526,9 @@ class ChatEvent(Object):
             old_invite_link=old_invite_link,
             new_invite_link=new_invite_link,
             revoked_invite_link=revoked_invite_link,
-            deleted_invite_link=deleted_invite_link
+            deleted_invite_link=deleted_invite_link,
+            created_forum_topic=created_forum_topic,
+            old_forum_topic=old_forum_topic,
+            new_forum_topic=new_forum_topic,
+            deleted_forum_topic=deleted_forum_topic
         )

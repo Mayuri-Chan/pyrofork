@@ -1,31 +1,42 @@
-#  Pyrogram - Telegram MTProto API Client Library for Python
+#  Pyrofork - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
+#  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
-#  This file is part of Pyrogram.
+#  This file is part of Pyrofork.
 #
-#  Pyrogram is free software: you can redistribute it and/or modify
+#  Pyrofork is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published
 #  by the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  Pyrogram is distributed in the hope that it will be useful,
+#  Pyrofork is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU Lesser General Public License for more details.
 #
 #  You should have received a copy of the GNU Lesser General Public License
-#  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
+#  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from .add_chat_members import AddChatMembers
 from .archive_chats import ArchiveChats
 from .ban_chat_member import BanChatMember
 from .create_channel import CreateChannel
+from .create_forum_topic import CreateForumTopic
 from .create_group import CreateGroup
 from .create_supergroup import CreateSupergroup
+from .close_forum_topic import CloseForumTopic
+from .close_general_topic import CloseGeneralTopic
 from .delete_channel import DeleteChannel
 from .delete_chat_photo import DeleteChatPhoto
+from .delete_forum_topic import DeleteForumTopic
 from .delete_supergroup import DeleteSupergroup
 from .delete_user_history import DeleteUserHistory
+from .edit_forum_topic import EditForumTopic
+from .edit_general_topic import EditGeneralTopic
+from .reopen_forum_topic import ReopenForumTopic
+from .reopen_general_topic import ReopenGeneralTopic
+from .hide_general_topic import HideGeneralTopic
+from .unhide_general_topic import UnhideGeneralTopic
 from .get_chat import GetChat
 from .get_chat_event_log import GetChatEventLog
 from .get_chat_member import GetChatMember
@@ -34,6 +45,8 @@ from .get_chat_members_count import GetChatMembersCount
 from .get_chat_online_count import GetChatOnlineCount
 from .get_dialogs import GetDialogs
 from .get_dialogs_count import GetDialogsCount
+from .get_forum_topics import GetForumTopics
+from .get_forum_topics_by_id import GetForumTopicsByID
 from .get_nearby_chats import GetNearbyChats
 from .get_send_as_chats import GetSendAsChats
 from .join_chat import JoinChat
@@ -78,14 +91,26 @@ class Chats(
     SetChatUsername,
     SetChatPermissions,
     GetDialogsCount,
+    GetForumTopics,
+    GetForumTopicsByID,
     ArchiveChats,
     UnarchiveChats,
     CreateGroup,
     CreateSupergroup,
     CreateChannel,
+    CreateForumTopic,
+    CloseForumTopic,
+    CloseGeneralTopic,
     AddChatMembers,
     DeleteChannel,
+    DeleteForumTopic,
     DeleteSupergroup,
+    EditForumTopic,
+    EditGeneralTopic,
+    ReopenForumTopic,
+    ReopenGeneralTopic,
+    HideGeneralTopic,
+    UnhideGeneralTopic,
     GetNearbyChats,
     SetAdministratorTitle,
     SetSlowMode,

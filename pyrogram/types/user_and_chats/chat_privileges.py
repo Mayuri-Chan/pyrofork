@@ -1,20 +1,21 @@
-#  Pyrogram - Telegram MTProto API Client Library for Python
+#  Pyrofork - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
+#  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
-#  This file is part of Pyrogram.
+#  This file is part of Pyrofork.
 #
-#  Pyrogram is free software: you can redistribute it and/or modify
+#  Pyrofork is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published
 #  by the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  Pyrogram is distributed in the hope that it will be useful,
+#  Pyrofork is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU Lesser General Public License for more details.
 #
 #  You should have received a copy of the GNU Lesser General Public License
-#  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
+#  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from pyrogram import raw
 from ..object import Object
@@ -62,6 +63,10 @@ class ChatPrivileges(Object):
             Groups and supergroups only.
             True, if the user is allowed to pin messages.
 
+        can_manage_topics (``bool``, *optional*):
+            supergroups only.
+            True, if the user is allowed to create, rename, close, and reopen forum topics.
+
         is_anonymous (``bool``, *optional*):
             True, if the user's presence in the chat is hidden.
     """
@@ -79,6 +84,7 @@ class ChatPrivileges(Object):
         can_edit_messages: bool = False,  # Channels only
         can_invite_users: bool = False,
         can_pin_messages: bool = False,  # Groups and supergroups only
+        can_manage_topics: bool = False, # supergroups only.
         is_anonymous: bool = False
     ):
         super().__init__(None)
@@ -93,6 +99,7 @@ class ChatPrivileges(Object):
         self.can_edit_messages: bool = can_edit_messages
         self.can_invite_users: bool = can_invite_users
         self.can_pin_messages: bool = can_pin_messages
+        self.can_manage_topics: bool = can_manage_topics
         self.is_anonymous: bool = is_anonymous
 
     @staticmethod
@@ -108,5 +115,6 @@ class ChatPrivileges(Object):
             can_edit_messages=admin_rights.edit_messages,
             can_invite_users=admin_rights.invite_users,
             can_pin_messages=admin_rights.pin_messages,
+            can_manage_topics=admin_rights.manage_topics,
             is_anonymous=admin_rights.anonymous
         )
