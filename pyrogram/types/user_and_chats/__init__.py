@@ -22,6 +22,7 @@ from .chat_event import ChatEvent
 from .chat_event_filter import ChatEventFilter
 from .chat_invite_link import ChatInviteLink
 from .chat_join_request import ChatJoinRequest
+from .chat_joined_by_request import ChatJoinedByRequest
 from .chat_joiner import ChatJoiner
 from .chat_member import ChatMember
 from .chat_member_updated import ChatMemberUpdated
@@ -74,6 +75,7 @@ __all__ = [
     "ChatMemberUpdated",
     "VideoChatScheduled",
     "ChatJoinRequest",
+    "ChatJoinedByRequest",
     "ChatPrivileges",
     "ChatJoiner",
     "EmojiStatus",

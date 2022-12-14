@@ -215,6 +215,9 @@ class Message(Object, Update):
             New members that were added to the group or supergroup and information about them
             (the bot itself may be one of these members).
 
+        chat_joined_by_request (:obj:`~pyrogram.types.ChatJoinedByRequest`, *optional*):
+            New members chat join request has been approved in group or supergroup.
+
         left_chat_member (:obj:`~pyrogram.types.User`, *optional*):
             A member was removed from the group, information about them (this member may be the bot itself).
 
@@ -378,6 +381,7 @@ class Message(Object, Update):
         poll: "types.Poll" = None,
         dice: "types.Dice" = None,
         new_chat_members: List["types.User"] = None,
+        chat_joined_by_request: "types.ChatJoinedByRequest" = None,
         left_chat_member: "types.User" = None,
         new_chat_title: str = None,
         new_chat_photo: "types.Photo" = None,
@@ -461,6 +465,7 @@ class Message(Object, Update):
         self.poll = poll
         self.dice = dice
         self.new_chat_members = new_chat_members
+        self.chat_joined_by_request = chat_joined_by_request
         self.left_chat_member = left_chat_member
         self.new_chat_title = new_chat_title
         self.new_chat_photo = new_chat_photo
@@ -528,6 +533,7 @@ class Message(Object, Update):
             action = message.action
 
             new_chat_members = None
+            chat_joined_by_request = None
             left_chat_member = None
             new_chat_title = None
             delete_chat_photo = None
@@ -555,6 +561,9 @@ class Message(Object, Update):
             elif isinstance(action, raw.types.MessageActionChatJoinedByLink):
                 new_chat_members = [types.User._parse(client, users[utils.get_raw_peer_id(message.from_id)])]
                 service_type = enums.MessageServiceType.NEW_CHAT_MEMBERS
+            elif isinstance(action, raw.types.MessageActionChatJoinedByRequest):
+                chat_joined_by_request = types.ChatJoinedByRequest()
+                service_type = enums.MessageServiceType.CHAT_JOINED_BY_REQUEST
             elif isinstance(action, raw.types.MessageActionChatDeleteUser):
                 left_chat_member = types.User._parse(client, users[action.user_id])
                 service_type = enums.MessageServiceType.LEFT_CHAT_MEMBERS
@@ -622,6 +631,7 @@ class Message(Object, Update):
                 sender_chat=sender_chat,
                 service=service_type,
                 new_chat_members=new_chat_members,
+                chat_joined_by_request=chat_joined_by_request,
                 left_chat_member=left_chat_member,
                 new_chat_title=new_chat_title,
                 new_chat_photo=new_chat_photo,
