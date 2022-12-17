@@ -1780,6 +1780,7 @@ class Message(Object, Update):
         result_id: str,
         quote: bool = None,
         disable_notification: bool = None,
+        message_thread_id: bool = None,
         reply_to_message_id: int = None
     ) -> "Message":
         """Bound method *reply_inline_bot_result* of :obj:`~pyrogram.types.Message`.
@@ -1835,6 +1836,7 @@ class Message(Object, Update):
             query_id=query_id,
             result_id=result_id,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id
         )
 
