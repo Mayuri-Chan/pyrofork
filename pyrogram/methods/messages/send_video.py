@@ -38,6 +38,7 @@ class SendVideo:
         caption: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
         caption_entities: List["types.MessageEntity"] = None,
+        has_spoiler: bool = None,
         ttl_seconds: int = None,
         duration: int = 0,
         width: int = 0,
@@ -85,6 +86,9 @@ class SendVideo:
 
             caption_entities (List of :obj:`~pyrogram.types.MessageEntity`):
                 List of special entities that appear in the caption, which can be specified instead of *parse_mode*.
+
+            has_spoiler (``bool``, *optional*):
+                Pass True if the video needs to be covered with a spoiler animation.
 
             ttl_seconds (``int``, *optional*):
                 Self-Destruct Timer.
@@ -190,6 +194,7 @@ class SendVideo:
                         mime_type=self.guess_mime_type(video) or "video/mp4",
                         file=file,
                         ttl_seconds=ttl_seconds,
+                        spoiler=has_spoiler,
                         thumb=thumb,
                         attributes=[
                             raw.types.DocumentAttributeVideo(
@@ -204,7 +209,8 @@ class SendVideo:
                 elif re.match("^https?://", video):
                     media = raw.types.InputMediaDocumentExternal(
                         url=video,
-                        ttl_seconds=ttl_seconds
+                        ttl_seconds=ttl_seconds,
+                        spoiler=has_spoiler
                     )
                 else:
                     media = utils.get_input_media_from_file_id(video, FileType.VIDEO, ttl_seconds=ttl_seconds)
@@ -215,6 +221,7 @@ class SendVideo:
                     mime_type=self.guess_mime_type(file_name or video.name) or "video/mp4",
                     file=file,
                     ttl_seconds=ttl_seconds,
+                    spoiler=has_spoiler,
                     thumb=thumb,
                     attributes=[
                         raw.types.DocumentAttributeVideo(
