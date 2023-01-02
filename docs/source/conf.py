@@ -39,7 +39,8 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
-    "sphinx_copybutton"
+    "sphinx_copybutton",
+    "sphinx_rtd_dark_mode"
 ]
 
 intersphinx_mapping = {
@@ -64,7 +65,7 @@ suppress_warnings = ["image.not_readable"]
 
 html_title = "PyroFork Documentation"
 html_theme = "sphinx_rtd_theme"
-html_static_path = ["../resources/static"]
+html_static_path = ["../resources/static","_static"]
 html_show_sourcelink = True
 html_show_copyright = False
 html_theme_options = {
@@ -90,3 +91,9 @@ latex_elements = {
         \setmonofont{Ubuntu Mono}
         """
 }
+
+html_css_files = [
+    "css/my.css",
+    "https://docs.pyrogram.org/_static/css/custom.css",
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css",
+]
