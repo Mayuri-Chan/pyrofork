@@ -5,7 +5,7 @@ You can control the way your client appears in the Active Sessions menu of an of
 settings. By default you will see something like the following:
 
 -   Device Model: ``CPython x.y.z``
--   Application: ``Pyrogram x.y.z``
+-   Application: ``PyroFork x.y.z``
 -   System Version: ``Linux x.y.z``
 
 .. contents:: Contents

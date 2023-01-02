@@ -22,10 +22,10 @@ It uses the @on_inline_query decorator to register an InlineQueryHandler.
                 InlineQueryResultArticle(
                     title="Installation",
                     input_message_content=InputTextMessageContent(
-                        "Here's how to install **Pyrogram**"
+                        "Here's how to install **PyroFork**"
                     ),
                     url="https://docs.pyrogram.org/intro/install",
-                    description="How to install Pyrogram",
+                    description="How to install PyroFork",
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [InlineKeyboardButton(
@@ -38,10 +38,10 @@ It uses the @on_inline_query decorator to register an InlineQueryHandler.
                 InlineQueryResultArticle(
                     title="Usage",
                     input_message_content=InputTextMessageContent(
-                        "Here's how to use **Pyrogram**"
+                        "Here's how to use **PyroFork**"
                     ),
                     url="https://docs.pyrogram.org/start/invoking",
-                    description="How to use Pyrogram",
+                    description="How to use PyroFork",
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [InlineKeyboardButton(

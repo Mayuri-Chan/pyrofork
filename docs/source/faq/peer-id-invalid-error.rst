@@ -9,6 +9,6 @@ This error could mean several things:
 - The chat id refers to a user or chat your current session hasn't met yet.
 
 About the last point: in order for you to meet a user and thus communicate with them, you should ask yourself how to
-contact people using official apps. The answer is the same for Pyrogram too and involves normal usages such as searching
+contact people using official apps. The answer is the same for PyroFork too and involves normal usages such as searching
 for usernames, meeting them in a common group, having their phone contacts saved, getting a message mentioning them
 or obtaining the dialogs list.

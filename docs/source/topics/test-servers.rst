@@ -1,7 +1,7 @@
 Test Servers
 ============
 
-If you wish to test your application in a separate environment, Pyrogram is able to authorize your account into
+If you wish to test your application in a separate environment, PyroFork is able to authorize your account into
 Telegram's test servers without hassle. All you need to do is start a new session (e.g.: "my_account_test") using
 ``test_mode=True``:
 

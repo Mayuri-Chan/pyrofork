@@ -6,7 +6,7 @@ Another reason could be because you are blocking the event loop for too long.
 
 You can consider the following:
 
-- Use Pyrogram asynchronously in its intended way.
+- Use PyroFork asynchronously in its intended way.
 - Use shorter non-asynchronous processing loops.
 - Use ``asyncio.sleep()`` instead of ``time.sleep()``.
 - Use a stable network connection.

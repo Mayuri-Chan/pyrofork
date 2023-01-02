@@ -1,12 +1,12 @@
-Welcome to Pyrogram
+Welcome to PyroFork
 ===================
 
 .. raw:: html
 
     <div align="center">
         <a href="/">
-            <div class="pyrogram-logo-index"><img src="_static/pyrogram.png" alt="Pyrogram"></div>
-            <div class="pyrogram-text pyrogram-text-index">Pyrogram</div>
+            <div class="pyrogram-logo-index"><img src="_static/pyrogram.png" alt="PyroFork"></div>
+            <div class="pyrogram-text pyrogram-text-index">PyroFork</div>
         </a>
     </div>
 
@@ -40,19 +40,19 @@ Welcome to Pyrogram
 
     @app.on_message(filters.private)
     async def hello(client, message):
-        await message.reply("Hello from Pyrogram!")
+        await message.reply("Hello from PyroFork!")
 
 
     app.run()
 
-**Pyrogram** is a modern, elegant and asynchronous :doc:`MTProto API <topics/mtproto-vs-botapi>` framework.
+**PyroFork** is a modern, elegant and asynchronous :doc:`MTProto API <topics/mtproto-vs-botapi>` framework.
 It enables you to easily interact with the main Telegram API through a user account (custom client) or a bot identity
 (bot API alternative) using Python.
 
 Support
 -------
 
-If you'd like to support Pyrogram, you can consider:
+If you'd like to support PyroFork, you can consider:
 
 - `Become a GitHub sponsor <https://github.com/sponsors/delivrance>`_.
 - `Become a LiberaPay patron <https://liberapay.com/delivrance>`_.
@@ -75,7 +75,7 @@ First Steps
     :columns: 1
 
     - :doc:`Quick Start <intro/quickstart>`: Overview to get you started quickly.
-    - :doc:`Invoking Methods <start/invoking>`: How to call Pyrogram's methods.
+    - :doc:`Invoking Methods <start/invoking>`: How to call PyroFork's methods.
     - :doc:`Handling Updates <start/updates>`: How to handle Telegram updates.
     - :doc:`Error Handling <start/errors>`: How to handle API errors correctly.
 
@@ -85,7 +85,7 @@ API Reference
 .. hlist::
     :columns: 1
 
-    - :doc:`Pyrogram Client <api/client>`: Reference details about the Client class.
+    - :doc:`PyroFork Client <api/client>`: Reference details about the Client class.
     - :doc:`Available Methods <api/methods/index>`: List of available high-level methods.
     - :doc:`Available Types <api/types/index>`: List of available high-level types.
     - :doc:`Enumerations <api/enums/index>`: List of available enumerations.
@@ -97,9 +97,9 @@ Meta
 .. hlist::
     :columns: 1
 
-    - :doc:`Pyrogram FAQ <faq/index>`: Answers to common Pyrogram questions.
-    - :doc:`Support Pyrogram <support>`: Ways to show your appreciation.
-    - :doc:`Release Notes <releases/index>`: Release notes for Pyrogram releases.
+    - :doc:`PyroFork FAQ <faq/index>`: Answers to common PyroFork questions.
+    - :doc:`Support PyroFork <support>`: Ways to show your appreciation.
+    - :doc:`Release Notes <releases/index>`: Release notes for PyroFork releases.
 
 .. toctree::
     :hidden:

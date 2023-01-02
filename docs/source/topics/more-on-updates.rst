@@ -62,7 +62,7 @@ Update propagation
 
 Registering multiple handlers, each in a different group, becomes useful when you want to handle the same update more
 than once. Any incoming update will be sequentially processed by all of your registered functions by respecting the
-groups priority policy described above. Even in case any handler raises an unhandled exception, Pyrogram will still
+groups priority policy described above. Even in case any handler raises an unhandled exception, PyroFork will still
 continue to propagate the same update to the next groups until all the handlers are done. Example:
 
 .. code-block:: python

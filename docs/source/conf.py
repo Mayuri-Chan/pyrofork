@@ -1,20 +1,21 @@
-#  Pyrogram - Telegram MTProto API Client Library for Python
+#  PyroFork - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
+#  Copyright (C) 2022-present wulan17 <https://github.com/wulan17>
 #
-#  This file is part of Pyrogram.
+#  This file is part of PyroFork.
 #
-#  Pyrogram is free software: you can redistribute it and/or modify
+#  PyroFork is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published
 #  by the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  Pyrogram is distributed in the hope that it will be useful,
+#  PyroFork is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU Lesser General Public License for more details.
 #
 #  You should have received a copy of the GNU Lesser General Public License
-#  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
+#  along with PyroFork.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import sys
@@ -27,9 +28,9 @@ from pygments.styles.friendly import FriendlyStyle
 
 FriendlyStyle.background_color = "#f3f2f1"
 
-project = "Pyrogram"
-copyright = f"2017-present, Dan"
-author = "Dan"
+project = "PyroFork"
+copyright = f"2022-present, wulan17"
+author = "wulan17"
 
 version = ".".join(__version__.split(".")[:-1])
 
@@ -61,7 +62,7 @@ copybutton_prompt_text = "$ "
 
 suppress_warnings = ["image.not_readable"]
 
-html_title = "Pyrogram Documentation"
+html_title = "PyroFork Documentation"
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["../resources/static"]
 html_show_sourcelink = True

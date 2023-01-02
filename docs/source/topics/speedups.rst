@@ -1,7 +1,7 @@
 Speedups
 ========
 
-Pyrogram's speed can be boosted up by using TgCrypto and uvloop.
+PyroFork's speed can be boosted up by using TgCrypto and uvloop.
 
 .. contents:: Contents
     :backlinks: none
@@ -13,7 +13,7 @@ Pyrogram's speed can be boosted up by using TgCrypto and uvloop.
 TgCrypto
 --------
 
-TgCrypto_ is a high-performance, easy-to-install cryptography library specifically written in C for Pyrogram as a Python
+TgCrypto_ is a high-performance, easy-to-install cryptography library specifically written in C for PyroFork as a Python
 extension. It is a replacement for a slower Python-only alternative and implements the cryptographic algorithms Telegram
 requires, namely: AES-256-IGE, AES-256-CTR and AES-256-CBC.
 
@@ -27,7 +27,7 @@ Installation
 Usage
 ^^^^^
 
-Pyrogram will automatically make use of TgCrypto when detected, all you need to do is to install it.
+PyroFork will automatically make use of TgCrypto when detected, all you need to do is to install it.
 
 uvloop
 ------

@@ -2,7 +2,7 @@ Debugging
 =========
 
 When working with the API, chances are you'll stumble upon bugs, get stuck and start wondering how to continue. Nothing
-to actually worry about since Pyrogram provides some commodities to help you in this.
+to actually worry about since PyroFork provides some commodities to help you in this.
 
 .. contents:: Contents
     :backlinks: none
@@ -19,7 +19,7 @@ Caveman Debugging
     -- Brian Kernighan, "Unix for Beginners" (1979)
 
 Adding ``print()`` statements in crucial parts of your code is by far the most ancient, yet efficient technique for
-debugging programs, especially considering the concurrent nature of the framework itself. Pyrogram goodness in this
+debugging programs, especially considering the concurrent nature of the framework itself. PyroFork goodness in this
 respect comes with the fact that any object can be nicely printed just by calling ``print(obj)``, thus giving to you
 an insight of all its inner details.
 
@@ -46,7 +46,7 @@ This will show a JSON representation of the object returned by :meth:`~pyrogram.
         "is_verified": false,
         "is_restricted": false,
         "is_support": false,
-        "first_name": "Pyrogram",
+        "first_name": "PyroFork",
         "photo": {
             "_": "ChatPhoto",
             "small_file_id": "AbCdE...EdCbA",
@@ -56,13 +56,13 @@ This will show a JSON representation of the object returned by :meth:`~pyrogram.
         }
     }
 
-As you've probably guessed already, Pyrogram objects can be nested. That's how compound data are built, and nesting
+As you've probably guessed already, PyroFork objects can be nested. That's how compound data are built, and nesting
 keeps going until we are left with base data types only, such as ``str``, ``int``, ``bool``, etc.
 
 Accessing Attributes
 --------------------
 
-Even though you see a JSON output, it doesn't mean we are dealing with dictionaries; in fact, all Pyrogram types are
+Even though you see a JSON output, it doesn't mean we are dealing with dictionaries; in fact, all PyroFork types are
 fully-fledged Python objects and the correct way to access any attribute of them is by using the dot notation ``.``:
 
 .. code-block:: python
