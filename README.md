@@ -1,28 +1,20 @@
 <p align="center">
-    <a href="https://github.com/pyrogram/pyrogram">
-        <img src="https://docs.pyrogram.org/_static/pyrogram.png" alt="Pyrogram" width="128">
+    <a href="https://github.com/Mayuri-Chan/pyrofork">
+        <img src="https://docs.pyrogram.org/_static/pyrogram.png" alt="PyroFork" width="128">
     </a>
     <br>
     <b>Telegram MTProto API Framework for Python</b>
     <br>
-    <a href="https://pyrogram.org">
+    <a href="https://pyrofork.mayuri.my.id">
         Homepage
     </a>
     •
-    <a href="https://docs.pyrogram.org">
+    <a href="https://pyrofork.mayuri.my.id">
         Documentation
-    </a>
-    •
-    <a href="https://docs.pyrogram.org/releases">
-        Releases
-    </a>
-    •
-    <a href="https://t.me/pyrogram">
-        News
     </a>
 </p>
 
-## Pyrogram
+## PyroFork
 
 > Elegant, modern and asynchronous Telegram MTProto API framework in Python for users and bots
 
@@ -40,17 +32,13 @@ async def hello(client, message):
 app.run()
 ```
 
-**Pyrogram** is a modern, elegant and asynchronous [MTProto API](https://docs.pyrogram.org/topics/mtproto-vs-botapi)
+**PyroFork** is a modern, elegant and asynchronous [MTProto API](https://docs.pyrogram.org/topics/mtproto-vs-botapi)
 framework. It enables you to easily interact with the main Telegram API through a user account (custom client) or a bot
 identity (bot API alternative) using Python.
 
 ### Support
 
 If you'd like to support Pyrogram, you can consider:
-
-- [Become a GitHub sponsor](https://github.com/sponsors/delivrance).
-- [Become a LiberaPay patron](https://liberapay.com/delivrance).
-- [Become an OpenCollective backer](https://opencollective.com/pyrogram).
 
 ### Key Features
 
@@ -65,11 +53,10 @@ If you'd like to support Pyrogram, you can consider:
 ### Installing
 
 ``` bash
-pip3 install pyrogram
+pip3 install git+https://github.com/Mayuri-Chan/pyrofork.git@dev/pyrofork
 ```
 
 ### Resources
 
-- Check out the docs at https://docs.pyrogram.org to learn more about Pyrogram, get started right
+- Check out the docs at https://pyrofork.mayuri.my.id to learn more about PyroFork, get started right
 away and discover more in-depth material for building your client applications.
-- Join the official channel at https://t.me/pyrogram and stay tuned for news, updates and announcements.
