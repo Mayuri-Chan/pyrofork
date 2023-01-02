@@ -237,6 +237,16 @@ def pyrogram_api():
             get_send_as_chats
             set_send_as_chat
             set_chat_protected_content
+            close_forum_topic
+            close_general_topic
+            create_forum_topic
+            delete_forum_topic
+            edit_forum_topic
+            edit_general_topic
+            hide_general_topic
+            reopen_forum_topic
+            reopen_general_topic
+            unhide_general_topic
         """,
         users="""
         Users
@@ -388,6 +398,7 @@ def pyrogram_api():
             Dialog
             Restriction
             EmojiStatus
+            ForumTopic
         """,
         messages_media="""
         Messages & Media
@@ -418,6 +429,12 @@ def pyrogram_api():
             WebAppData
             MessageReactions
             ChatReactions
+            ForumTopicCreated
+            ForumTopicEdited
+            ForumTopicClosed
+            ForumTopicReopened
+            GeneralTopicHidden
+            GeneralTopicUnhidden
         """,
         bot_keyboards="""
         Bot keyboards
