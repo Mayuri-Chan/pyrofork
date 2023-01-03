@@ -219,6 +219,8 @@ def pyrogram_api():
             get_chat_members_count
             get_dialogs
             get_dialogs_count
+            get_forum_topics
+            get_forum_topics_by_id
             set_chat_username
             get_nearby_chats
             archive_chats
