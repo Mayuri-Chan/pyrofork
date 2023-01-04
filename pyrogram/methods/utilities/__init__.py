@@ -17,7 +17,9 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from .add_handler import AddHandler
+from .ask import Ask
 from .export_session_string import ExportSessionString
+from .listen import Listen
 from .remove_handler import RemoveHandler
 from .restart import Restart
 from .run import Run
@@ -28,7 +30,9 @@ from .stop_transmission import StopTransmission
 
 class Utilities(
     AddHandler,
+    Ask,
     ExportSessionString,
+    Listen,
     RemoveHandler,
     Restart,
     Run,
