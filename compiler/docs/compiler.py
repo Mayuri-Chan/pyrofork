@@ -397,10 +397,13 @@ def pyrogram_api():
             ChatMemberUpdated
             ChatJoinRequest
             ChatJoiner
+            ChatJoinedByRequest
             Dialog
             Restriction
             EmojiStatus
             ForumTopic
+            PeerUser
+            PeerChannel
         """,
         messages_media="""
         Messages & Media
