@@ -275,8 +275,6 @@ class Client(Methods):
 
         self.loop = asyncio.get_event_loop()
 
-        self.listening = {}
-
     def __enter__(self):
         return self.start()
 

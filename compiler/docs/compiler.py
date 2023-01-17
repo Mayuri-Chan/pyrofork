@@ -144,8 +144,6 @@ def pyrogram_api():
             stop_transmission
             export_session_string
             set_parse_mode
-            ask
-            listen
         """,
         messages="""
         Messages

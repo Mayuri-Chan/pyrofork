@@ -46,27 +46,4 @@ class MessageHandler(Handler):
     """
 
     def __init__(self, callback: Callable, filters=None):
-        #super().__init__(callback, filters)
-        self.user_callback = callback
-        super().__init__(self.resolve_listener, filters)
-
-    async def resolve_listener(self, client, message, *args):
-        listener = client.listening.get(message.chat.id)
-        if listener and not listener['future'].done():
-            listener['future'].set_result(message)
-        else:
-            if listener and listener['future'].done():
-                client.clear_listener(message.chat.id, listener['future'])
-            await self.user_callback(client, message, *args)
-
-    async def check(self, client, update):
-        listener = client.listening.get(update.chat.id)
-
-        if listener and not listener['future'].done():
-            return await listener['filters'](client, update) if callable(listener['filters']) else True
-
-        return (
-            await self.filters(client, update)
-            if callable(self.filters)
-            else True
-        )
+        super().__init__(callback, filters)

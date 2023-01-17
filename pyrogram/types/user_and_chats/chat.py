@@ -967,12 +967,3 @@ class Chat(Object):
         """
 
         return await self._client.unpin_all_chat_messages(self.id)
-
-    def listen(self, *args, **kwargs):
-        return self._client.listen(self.id, *args, **kwargs)
-
-    def ask(self, *args, **kwargs):
-        return self._client.ask(self.id, *args, **kwargs)
-
-    def cancel_listener(self):
-        return self._client.cancel_listener(self.id)
