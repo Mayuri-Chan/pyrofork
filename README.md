@@ -53,10 +53,11 @@ If you'd like to support Pyrogram, you can consider:
 ### Installing
 
 ``` bash
-pip3 install git+https://github.com/Mayuri-Chan/pyrofork.git@dev/pyrofork
+pip3 install pyrofork
 ```
 
 ### Resources
 
 - Check out the docs at https://pyrofork.mayuri.my.id to learn more about PyroFork, get started right
 away and discover more in-depth material for building your client applications.
+
