@@ -446,6 +446,8 @@ def pyrogram_api():
             ReplyKeyboardMarkup
             KeyboardButton
             ReplyKeyboardRemove
+            RequestPeerTypeChat
+            RequestPeerTypeUser
             InlineKeyboardMarkup
             InlineKeyboardButton
             LoginUrl

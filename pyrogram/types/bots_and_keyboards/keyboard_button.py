@@ -38,6 +38,16 @@ class KeyboardButton(Object):
             If True, the user's current location will be sent when the button is pressed.
             Available in private chats only.
 
+        request_chat (:obj:`~pyrogram.types.RequestPeerTypeChat`, *optional*):
+            If specified, pressing the button will open a list of suitable chats.
+            Tapping on a chat will send its identifier to the bot in a “chat_shared” service message.
+            Available in private chats only.
+
+        request_user (:obj:`~pyrogram.types.RequestPeerTypeUser`, *optional*):
+            If specified, pressing the button will open a list of suitable users.
+            Tapping on any user will send their identifier to the bot in a “user_shared” service message.
+            Available in private chats only.
+
         web_app (:obj:`~pyrogram.types.WebAppInfo`, *optional*):
             If specified, the described `Web App <https://core.telegram.org/bots/webapps>`_ will be launched when the
             button is pressed. The Web App will be able to send a “web_app_data” service message. Available in private
@@ -50,6 +60,8 @@ class KeyboardButton(Object):
         text: str,
         request_contact: bool = None,
         request_location: bool = None,
+        request_chat: "types.RequestPeerTypeChat" = None,
+        request_user: "types.RequestPeerTypeUser" = None,
         web_app: "types.WebAppInfo" = None
     ):
         super().__init__()
@@ -57,6 +69,8 @@ class KeyboardButton(Object):
         self.text = str(text)
         self.request_contact = request_contact
         self.request_location = request_location
+        self.request_chat = request_chat
+        self.request_user = request_user
         self.web_app = web_app
 
     @staticmethod
@@ -84,6 +98,27 @@ class KeyboardButton(Object):
                 )
             )
 
+        if isinstance(b, raw.types.KeyboardButtonRequestPeer):
+            if isinstance(b.peer_type, raw.types.RequestPeerTypeUser):
+                return KeyboardButton(
+                    text=b.text,
+                    request_user=types.RequestPeerTypeUser(
+                        is_bot=b.peer_type.bot,
+                        is_premium=b.peer_type.premium
+                    )
+                )
+            return KeyboardButton(
+                text=b.text,
+                request_chat=types.RequestPeerTypeChat(
+                    creator=b.peer_type.creator,
+                    bot_participant=b.peer_type.bot_participant,
+                    has_username=b.peer_type.has_username,
+                    is_forum=b.peer_type.forum,
+                    user_admin_rights=b.peer_type.user_admin_rights,
+                    bot_admin_rights=b.peer_type.bot_admin_rights
+                )
+            )
+
     def write(self):
         if self.request_contact:
             return raw.types.KeyboardButtonRequestPhone(text=self.text)
@@ -91,5 +126,27 @@ class KeyboardButton(Object):
             return raw.types.KeyboardButtonRequestGeoLocation(text=self.text)
         elif self.web_app:
             return raw.types.KeyboardButtonSimpleWebView(text=self.text, url=self.web_app.url)
+        elif self.request_chat:
+            return raw.types.KeyboardButtonRequestPeer(
+                text=self.text,
+                button_id=0,
+                peer_type=raw.types.RequestPeerTypeChat(
+                    creator=self.request_chat.creator or None,
+                    bot_participant=self.request_chat.bot_participant or None,
+                    has_username=self.request_chat.has_username or None,
+                    forum=self.request_chat.forum or None,
+                    user_admin_rights=self.request_chat.user_admin_rights or None,
+                    bot_admin_rights=self.request_chat.bot_admin_rights or None
+                )
+            )
+        elif self.request_user:
+            return raw.types.KeyboardButtonRequestPeer(
+                text=self.text,
+                button_id=0,
+                peer_type=raw.types.RequestPeerTypeUser(
+                    bot=self.request_user.is_bot or None,
+                    premium=self.request_user.is_premium or None
+                )
+            )
         else:
             return raw.types.KeyboardButton(text=self.text)
