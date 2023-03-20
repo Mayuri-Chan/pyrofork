@@ -2,7 +2,7 @@ Error Handling
 ==============
 
 Errors can be correctly handled with ``try...except`` blocks in order to control the behaviour of your application.
-PyroFork errors all live inside the ``errors`` package:
+Pyrogram errors all live inside the ``errors`` package:
 
 .. code-block:: python
 
@@ -33,7 +33,7 @@ This error is raised every time a method call against Telegram's API was unsucce
 Error Categories
 ----------------
 
-The ``RPCError`` packs together all the possible errors Telegram could raise, but to make things tidier, PyroFork
+The ``RPCError`` packs together all the possible errors Telegram could raise, but to make things tidier, Pyrogram
 provides categories of errors, which are named after the common HTTP errors and are subclass-ed from the ``RPCError``:
 
 .. code-block:: python
@@ -51,7 +51,7 @@ provides categories of errors, which are named after the common HTTP errors and 
 Single Errors
 -------------
 
-For a fine-grained control over every single error, PyroFork does also expose errors that deal each with a specific
+For a fine-grained control over every single error, Pyrogram does also expose errors that deal each with a specific
 issue. For example:
 
 .. code-block:: python
@@ -77,7 +77,7 @@ These errors subclass directly from the category of errors they belong to, which
 Unknown Errors
 --------------
 
-In case PyroFork does not know anything about a specific error yet, it raises a generic error from its known category,
+In case Pyrogram does not know anything about a specific error yet, it raises a generic error from its known category,
 for example, an unknown error with error code ``400``, will be raised as a ``BadRequest``. This way you can catch the
 whole category of errors and be sure to also handle these unknown errors.
 

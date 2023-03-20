@@ -1,7 +1,7 @@
-PyroFork Client
+Pyrogram Client
 ===============
 
-You have entered the API Reference section where you can find detailed information about PyroFork's API. The main Client
+You have entered the API Reference section where you can find detailed information about Pyrogram's API. The main Client
 class, all available methods and types, filters, handlers, decorators and bound-methods detailed descriptions can be
 found starting from this page.
 

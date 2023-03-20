@@ -1,4 +1,4 @@
-Support PyroFork
+Support Pyrogram
 ================
 
 .. raw:: html
@@ -7,13 +7,13 @@ Support PyroFork
 
     <div style="float: right; margin-bottom: 10px">
         <a class="github-button"
-           href="https://github.com/Mayuri-Chan/pyrofork"
+           href="https://github.com/pyrogram/pyrogram"
            data-color-scheme="no-preference: light; light: light; dark: dark;"
            data-icon="octicon-star" data-size="large" data-show-count="true"
            aria-label="Star pyrogram/pyrogram on GitHub">Star</a>
 
         <a class="github-button"
-           href="https://github.com/Mayuri-Chan/pyrofork/fork"
+           href="https://github.com/pyrogram/pyrogram/fork"
            data-color-scheme="no-preference: light; light: light; dark: dark;"
            data-icon="octicon-repo-forked" data-size="large"
            data-show-count="true" aria-label="Fork pyrogram/pyrogram on GitHub">Fork</a>
@@ -21,11 +21,42 @@ Support PyroFork
 
     <br style="clear: both"/>
 
-PyroFork is a free and open source project.
-If you enjoy PyroFork and would like to show your appreciation, consider donating or becoming
-a sponsor of the project. You can support PyroFork via the ways shown below:
+Pyrogram is a free and open source project.
+If you enjoy Pyrogram and would like to show your appreciation, consider donating or becoming
+a sponsor of the project. You can support Pyrogram via the ways shown below:
 
 -----
+
+GitHub Sponsor
+--------------
+
+`Become a GitHub sponsor <https://github.com/sponsors/delivrance>`_.
+
+.. raw:: html
+
+    <a class="github-button"
+       href="https://github.com/sponsors/delivrance"
+       data-color-scheme="no-preference: light; light: light; dark: dark;"
+       data-icon="octicon-heart" data-size="large"
+       aria-label="Sponsor @delivrance on GitHub">Sponsor</a>
+
+-----
+
+LiberaPay Patron
+----------------
+
+`Become a LiberaPay patron <https://liberapay.com/delivrance>`_.
+
+.. raw:: html
+
+    <script src="https://liberapay.com/delivrance/widgets/button.js"></script>
+
+-----
+
+OpenCollective Backer
+---------------------
+
+`Become an OpenCollective backer <https://opencollective.com/pyrogram>`_
 
 .. raw:: html
 

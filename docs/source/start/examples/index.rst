@@ -1,7 +1,7 @@
 Examples
 ========
 
-This page contains example scripts to show you how PyroFork looks like.
+This page contains example scripts to show you how Pyrogram looks like.
 
 Every script is working right away (provided you correctly set up your credentials), meaning you can simply copy-paste
 and run. The only things you have to change are session names and target chats, where applicable.
@@ -18,7 +18,7 @@ to give you a basic idea.
 
     :doc:`hello_world`, "Demonstration of basic API usage"
     :doc:`echo_bot`, "Echo every private text message"
-    :doc:`welcome_bot`, "The Welcome Bot in @PyroForkChat"
+    :doc:`welcome_bot`, "The Welcome Bot in @PyrogramChat"
     :doc:`get_chat_history`, "Get the full message history of a chat"
     :doc:`get_chat_members`, "Get all the members of a chat"
     :doc:`get_dialogs`, "Get all of your dialog chats"

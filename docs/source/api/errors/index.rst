@@ -1,8 +1,8 @@
 RPC Errors
 ==========
 
-All PyroFork API errors live inside the ``errors`` sub-package: ``pyrogram.errors``.
-The errors ids listed here are shown as *UPPER_SNAKE_CASE*, but the actual exception names to import from PyroFork
+All Pyrogram API errors live inside the ``errors`` sub-package: ``pyrogram.errors``.
+The errors ids listed here are shown as *UPPER_SNAKE_CASE*, but the actual exception names to import from Pyrogram
 follow the usual *PascalCase* convention.
 
 .. code-block:: python

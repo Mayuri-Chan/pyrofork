@@ -2,7 +2,7 @@ Voice Calls
 ===========
 
 Both private voice calls and group voice calls are currently supported by third-party, external libraries that integrate
-with PyroFork.
+with Pyrogram.
 
 Libraries
 ---------
