@@ -1,7 +1,6 @@
 pyston_lite-autoload
 sphinx
 sphinx_rtd_theme==1.0.0
-sphinx-rtd-dark-mode
 sphinx_copybutton
 sphinx-autobuild
 tgcrypto
