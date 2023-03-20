@@ -1,13 +1,11 @@
 import datetime
-import random
 import re
 import string
 
 with open("pyrogram/__init__.py", "r") as f:
     pyro_version = re.findall(r"__version__ = \"(.+)\"", f.read())[0]
-    date = datetime.datetime.now().strftime("%Y%m%d")
-    dev_version = ''.join(random.choice(string.digits) for i in range(4))
-    version = f"{pyro_version}.dev{date}{dev_version}"
+    date = datetime.datetime.now().strftime("%Y%m%d%H%M")
+    version = f"{pyro_version}.dev{date}"
 
 with open("pyrogram/__init__.py", "r") as f:
     lines = f.readlines()
@@ -24,4 +22,5 @@ with open("setup.py", "r") as f:
 with open("setup.py", "w") as f:
     for line in lines:
         line = re.sub(r'    name="PyroFork"', '    name="PyroFork-dev"', line)
+        line = re.sub(r'        "Development Status :: 5 - Production/Stable"', '        "Development Status :: 4 - Beta"', line)
         f.write(line)
