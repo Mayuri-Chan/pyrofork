@@ -133,6 +133,10 @@ class Chat(Object):
 
         full_name (``str``, *property*):
             Full name of the other party in a private chat, for private chats and bots.
+
+        usernames (List of :obj:`~pyrogram.types.Username`, *optional*):
+            List of all chat (fragment) usernames; for private chats, supergroups and channels.
+            Returned only in :meth:`~pyrogram.Client.get_chat`.
     """
 
     def __init__(
@@ -166,7 +170,8 @@ class Chat(Object):
         distance: int = None,
         linked_chat: "types.Chat" = None,
         send_as_chat: "types.Chat" = None,
-        available_reactions: Optional["types.ChatReactions"] = None
+        available_reactions: Optional["types.ChatReactions"] = None,
+        usernames: List["types.Username"] = None
     ):
         super().__init__(client)
 
@@ -198,6 +203,7 @@ class Chat(Object):
         self.linked_chat = linked_chat
         self.send_as_chat = send_as_chat
         self.available_reactions = available_reactions
+        self.usernames = usernames
 
     @property
     def full_name(self) -> str:
@@ -227,6 +233,12 @@ class Chat(Object):
     @staticmethod
     def _parse_chat_chat(client, chat: raw.types.Chat) -> "Chat":
         peer_id = -chat.id
+        active_usernames = getattr(chat, "usernames", [])
+        usernames = None
+        if len(active_usernames) >= 1:
+            usernames = []
+            for username in active_usernames:
+                usernames.append(types.Username._parse(username))
 
         return Chat(
             id=peer_id,
@@ -238,6 +250,7 @@ class Chat(Object):
             members_count=getattr(chat, "participants_count", None),
             dc_id=getattr(getattr(chat, "photo", None), "dc_id", None),
             has_protected_content=getattr(chat, "noforwards", None),
+            usernames=usernames,
             client=client
         )
 
@@ -245,6 +258,12 @@ class Chat(Object):
     def _parse_channel_chat(client, channel: raw.types.Channel) -> "Chat":
         peer_id = utils.get_channel_id(channel.id)
         restriction_reason = getattr(channel, "restriction_reason", [])
+        active_usernames = getattr(channel, "usernames", [])
+        usernames = None
+        if len(active_usernames) >= 1:
+            usernames = []
+            for username in active_usernames:
+                usernames.append(types.Username._parse(username))
 
         return Chat(
             id=peer_id,
@@ -256,6 +275,7 @@ class Chat(Object):
             is_fake=getattr(channel, "fake", None),
             title=channel.title,
             username=getattr(channel, "username", None),
+            usernames=usernames,
             photo=types.ChatPhoto._parse(client, getattr(channel, "photo", None), peer_id,
                                          getattr(channel, "access_hash", 0)),
             restrictions=types.List([types.Restriction._parse(r) for r in restriction_reason]) or None,
