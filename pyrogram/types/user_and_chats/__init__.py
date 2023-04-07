@@ -36,6 +36,7 @@ from .emoji_status import EmojiStatus
 from .invite_link_importer import InviteLinkImporter
 from .restriction import Restriction
 from .user import User
+from .username import Username
 from .forum_topic import ForumTopic
 from .forum_topic_created import ForumTopicCreated
 from .forum_topic_closed import ForumTopicClosed
@@ -58,6 +59,7 @@ __all__ = [
     "ChatPreview",
     "Dialog",
     "User",
+    "Username",
     "Restriction",
     "ChatEvent",
     "ChatEventFilter",
