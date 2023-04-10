@@ -267,6 +267,12 @@ def pyrogram_api():
             get_default_emoji_statuses
             set_emoji_status
         """,
+        stickers="""
+        Stickers
+            add_sticker_to_set
+            create_sticker_set
+            get_sticker_set
+        """,
         invite_links="""
         Invite Links
             get_chat_invite_link
@@ -422,6 +428,7 @@ def pyrogram_api():
             Location
             Venue
             Sticker
+            StickerSet
             Game
             WebPage
             Poll

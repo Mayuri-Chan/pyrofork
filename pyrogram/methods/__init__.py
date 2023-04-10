@@ -25,6 +25,7 @@ from .decorators import Decorators
 from .invite_links import InviteLinks
 from .messages import Messages
 from .password import Password
+from .stickers import Stickers
 from .users import Users
 from .utilities import Utilities
 
@@ -36,6 +37,7 @@ class Methods(
     Contacts,
     Password,
     Chats,
+    Stickers,
     Users,
     Messages,
     Decorators,
