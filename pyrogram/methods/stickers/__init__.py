@@ -16,10 +16,12 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from .add_sticker_to_set import AddStickerToSet
 from .create_sticker_set import CreateStickerSet
 from .get_sticker_set import GetStickerSet
 
 class Stickers(
+    AddStickerToSet,
     CreateStickerSet,
     GetStickerSet
 ):
