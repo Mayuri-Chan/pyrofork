@@ -31,9 +31,9 @@ class AddStickerToSet:
         sticker: str,
         emoji: str = "🤔",
     ) -> "types.StickerSet":
-        """Get info about a stickerset.
+        """Add a sticker to stickerset.
 
-        .. include:: /_includes/usable-by/bot.rst
+        .. include:: /_includes/usable-by/bots.rst
 
         Parameters:
             set_short_name (``str``):

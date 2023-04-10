@@ -30,7 +30,7 @@ class GetStickerSet:
     ) -> "types.StickerSet":
         """Get info about a stickerset.
 
-        .. include:: /_includes/usable-by/users-bot.rst
+        .. include:: /_includes/usable-by/users-bots.rst
 
         Parameters:
             set_short_name (``str``):

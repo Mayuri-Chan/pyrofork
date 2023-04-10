@@ -25,7 +25,7 @@ from ..object import Object
 
 
 class StickerSet(Object):
-    """One size of a photo or a file/sticker thumbnail.
+    """A stickerset.
 
     Parameters:
         id (``Integer``):

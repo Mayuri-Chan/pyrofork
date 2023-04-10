@@ -39,7 +39,7 @@ class CreateStickerSet:
         videos: bool = None,
         emojis: bool = None
     ) -> Optional["types.Message"]:
-        """Send generic files.
+        """Create a new stickerset.
 
         .. include:: /_includes/usable-by/users-bots.rst
 
