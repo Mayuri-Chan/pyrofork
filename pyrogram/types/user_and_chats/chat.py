@@ -237,7 +237,7 @@ class Chat(Object):
     @staticmethod
     def _parse_chat_chat(client, chat: raw.types.Chat) -> "Chat":
         peer_id = -chat.id
-        active_usernames = getattr(channel, "usernames", [])
+        active_usernames = getattr(chat, "usernames", [])
         usernames = None
         if len(active_usernames) >= 1:
             usernames = []
