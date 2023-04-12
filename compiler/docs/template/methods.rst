@@ -73,6 +73,19 @@ Chats
 
     {chats}
 
+Stickers
+-----
+
+.. autosummary::
+    :nosignatures:
+
+    {stickers}
+
+.. toctree::
+    :hidden:
+
+    {stickers}
+
 Users
 -----
 

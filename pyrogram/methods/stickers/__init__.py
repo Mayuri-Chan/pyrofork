@@ -16,32 +16,13 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from .advanced import Advanced
-from .auth import Auth
-from .bots import Bots
-from .chats import Chats
-from .contacts import Contacts
-from .decorators import Decorators
-from .invite_links import InviteLinks
-from .messages import Messages
-from .password import Password
-from .stickers import Stickers
-from .users import Users
-from .utilities import Utilities
+from .add_sticker_to_set import AddStickerToSet
+from .create_sticker_set import CreateStickerSet
+from .get_sticker_set import GetStickerSet
 
-
-class Methods(
-    Advanced,
-    Auth,
-    Bots,
-    Contacts,
-    Password,
-    Chats,
-    Stickers,
-    Users,
-    Messages,
-    Decorators,
-    Utilities,
-    InviteLinks,
+class Stickers(
+    AddStickerToSet,
+    CreateStickerSet,
+    GetStickerSet
 ):
     pass
