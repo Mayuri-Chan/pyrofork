@@ -61,6 +61,28 @@ In case you don't want to have any session file saved to disk, you can use an in
 This storage engine is still backed by SQLite, but the database exists purely in memory. This means that, once you stop
 a client, the entire database is discarded and the session details used for logging in again will be lost forever.
 
+Mongodb Storage
+^^^^^^^^^^^^^^^
+
+In case you want to have persistent session but you don't have persistent storage you can use mongodb storage by passing
+mongodb config as ``dict`` to the ``mongodb`` parameter of the :obj:`~pyrogram.Client` constructor:
+
+.. code-block:: python
+
+    from pyrogram import Client
+
+    # uri (``str``):
+    #   mongodb database uri
+    # db_name (``str``, *optional*):
+    #   custom database name, default = pyrofork-session
+    # remove_peers (``bool``, *optional*):
+    #   remove peers collection on logout, default = False
+    async with Client("my_account", mongodb=dict(uri="mongodb://...", db_name="pyrofork-session", remove_peers=False)) as app:
+        print(await app.get_me())
+
+This storage engine is backed by MongoDB, a session will be created and saved to mongodb database. Any subsequent client
+restart will make PyroFork search for a database named that way and the session database will be automatically loaded.
+
 Session Strings
 ---------------
 
