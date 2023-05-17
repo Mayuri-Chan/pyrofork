@@ -255,7 +255,7 @@ class Client(Methods):
         elif self.in_memory:
             self.storage = MemoryStorage(self.name)
         elif self.mongodb:
-            self.storage = MongoStorage(self.mongodb)
+            self.storage = MongoStorage(self.name, **self.mongodb)
         else:
             self.storage = FileStorage(self.name, self.workdir)
 

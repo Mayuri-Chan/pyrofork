@@ -11,23 +11,30 @@ from pyrogram.storage.sqlite_storage import get_input_peer
 
 class MongoStorage(Storage):
     """
-    config (``dict``)
-        Mongodb config as dict, e.g.: *dict(uri="mongodb://...", db_name="pyrofork-session", remove_peers=False)*.
-        Only applicable for new sessions.
+    Initializes a new session.
+
+    Parameters:
+        - name (`str`):
+            The session name used for database name.
+
+        - uri (`str`):
+            MongoDB Connection String URI.
+            For more information refer to https://www.mongodb.com/docs/manual/reference/connection-string
+
+        - remove_peers (`bool`, *optional*):
+            Flag to remove data in the peers collection. If set to True, 
+            the data related to peers will be removed everytime client log out. 
+            If set to False or None, the data will not be removed.
+
+    Example:
+        session = MongoStorage("my_session", uri="mongodb://...", remove_peers=True)
     """
     lock: asyncio.Lock
     USERNAME_TTL = 8 * 60 * 60
 
-    def __init__(self, config: dict):
-        super().__init__('')
-        db_name = "pyrofork-session"
-        db_uri = config["uri"]
-        remove_peers = False
-        if "db_name" in config:
-            db_name = config["db_name"]
-        if "remove_peers" in config:
-            remove_peers = config["remove_peers"]
-        database = AsyncIOMotorClient(db_uri)[db_name]
+    def __init__(self, name: str, uri: str, remove_peers: bool = False):
+        super().__init__(name=name)
+        database = AsyncIOMotorClient(uri)[name]
         self.lock = asyncio.Lock()
         self.database = database
         self._peer = database['peers']
