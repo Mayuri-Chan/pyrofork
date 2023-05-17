@@ -102,7 +102,7 @@ class MongoStorage(Storage):
         r = await self._peer.find_one({'_id': peer_id}, {'_id': 1, 'access_hash': 1, 'type': 1})
         if not r:
             raise KeyError(f"ID not found: {peer_id}")
-        return get_input_peer(*r.values())
+        return get_input_peer(r['_id'], r['access_hash'], r['type'])
 
     async def get_peer_by_username(self, username: str):
         # id, access_hash, type, last_update_on,
@@ -115,7 +115,7 @@ class MongoStorage(Storage):
         if abs(time.time() - r['last_update_on']) > self.USERNAME_TTL:
             raise KeyError(f"Username expired: {username}")
 
-        return get_input_peer(*list(r.values())[:3])
+        return get_input_peer(r['_id'], r['access_hash'], r['type'])
 
     async def get_peer_by_phone_number(self, phone_number: str):
 
