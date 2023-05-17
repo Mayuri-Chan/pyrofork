@@ -11,28 +11,33 @@ from pyrogram.storage.sqlite_storage import get_input_peer
 
 class MongoStorage(Storage):
     """
-    config (``dict``)
-        Mongodb config as dict, e.g.: *dict(uri="mongodb://...", db_name="pyrofork-session", remove_peers=False)*.
-        Only applicable for new sessions.
+    Initializes a new session.
+
+    Parameters:
+        - name (str): The session name used for database name.
+        - remove_peers (bool): Flag to remove data in the peers collection. If set to True, 
+                               the data related to peers will be removed everytime client log out. 
+                               If set to False or None, the data will not be removed.
+        - **kwargs: Additional keyword arguments to pass to the AsyncIOMotorClient.
+
+    Note:
+        The `kwargs` parameter is used to pass additional arguments to the underlying AsyncIOMotorClient
+        instance. Refer to the AsyncIOMotorClient documentation for the list of available arguments.
+
+    Example:
+        session = MongoStorage("my_session", remove_peers=True, uri="mongodb://...")
     """
     lock: asyncio.Lock
     USERNAME_TTL = 8 * 60 * 60
 
-    def __init__(self, config: dict):
-        super().__init__('')
-        db_name = "pyrofork-session"
-        db_uri = config["uri"]
-        remove_peers = False
-        if "db_name" in config:
-            db_name = config["db_name"]
-        if "remove_peers" in config:
-            remove_peers = config["remove_peers"]
-        database = AsyncIOMotorClient(db_uri)[db_name]
+    def __init__(self, name: str, remove_peers: bool = None, **kwargs):
+        super().__init__(name=name)
+        database = AsyncIOMotorClient(**kwargs)[name]
         self.lock = asyncio.Lock()
         self.database = database
         self._peer = database['peers']
         self._session = database['session']
-        self._remove_peers = remove_peers
+        self._remove_peers = remove_peers or False
 
     async def open(self):
         """
