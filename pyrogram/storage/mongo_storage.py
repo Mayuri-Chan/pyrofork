@@ -126,7 +126,7 @@ class MongoStorage(Storage):
         if r is None:
             raise KeyError(f"Phone number not found: {phone_number}")
 
-        return get_input_peer(*r)
+        return get_input_peer(r['_id'], r['access_hash'], r['type'])
 
     async def _get(self):
         attr = inspect.stack()[2].function
