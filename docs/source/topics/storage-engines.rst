@@ -73,11 +73,9 @@ mongodb config as ``dict`` to the ``mongodb`` parameter of the :obj:`~pyrogram.C
 
     # uri (``str``):
     #   mongodb database uri
-    # db_name (``str``, *optional*):
-    #   custom database name, default = pyrofork-session
     # remove_peers (``bool``, *optional*):
     #   remove peers collection on logout, default = False
-    async with Client("my_account", mongodb=dict(uri="mongodb://...", db_name="pyrofork-session", remove_peers=False)) as app:
+    async with Client("my_account", mongodb=dict(uri="mongodb://...", remove_peers=False)) as app:
         print(await app.get_me())
 
 This storage engine is backed by MongoDB, a session will be created and saved to mongodb database. Any subsequent client

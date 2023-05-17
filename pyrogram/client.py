@@ -121,7 +121,7 @@ class Client(Methods):
             Defaults to False.
 
         mongodb (``dict``, *optional*):
-            Mongodb config as dict, e.g.: *dict(uri="mongodb://...", db_name="pyrofork-session", remove_peers=False)*.
+            Mongodb config as dict, e.g.: *dict(uri="mongodb://...", remove_peers=False)*.
             Only applicable for new sessions.
 
         phone_number (``str``, *optional*):
@@ -255,7 +255,7 @@ class Client(Methods):
         elif self.in_memory:
             self.storage = MemoryStorage(self.name)
         elif self.mongodb:
-            self.storage = MongoStorage(self.mongodb)
+            self.storage = MongoStorage(self.name, **self.mongodb)
         else:
             self.storage = FileStorage(self.name, self.workdir)
 
