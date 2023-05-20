@@ -3206,7 +3206,9 @@ class Message(Object, Update):
         chat_id: Union[int, str],
         message_thread_id: int = None,
         disable_notification: bool = None,
-        schedule_date: datetime = None
+        schedule_date: datetime = None,
+        protect_content: bool = None,
+        drop_author: bool = None
     ) -> Union["types.Message", List["types.Message"]]:
         """Bound method *forward* of :obj:`~pyrogram.types.Message`.
 
@@ -3241,6 +3243,12 @@ class Message(Object, Update):
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
 
+            protect_content (``bool``, *optional*):
+                Protects the contents of the sent message from forwarding and saving.
+
+            drop_author (``bool``, *optional*):
+                Forwards messages without quoting the original author
+
         Returns:
             On success, the forwarded Message is returned.
 
@@ -3253,7 +3261,9 @@ class Message(Object, Update):
             message_ids=self.id,
             message_thread_id=message_thread_id,
             disable_notification=disable_notification,
-            schedule_date=schedule_date
+            schedule_date=schedule_date,
+            protect_content=protect_content,
+            drop_author=drop_author
         )
 
     async def copy(
