@@ -121,7 +121,7 @@ class Client(Methods):
             Defaults to False.
 
         mongodb (``dict``, *optional*):
-            Mongodb config as dict, e.g.: *dict(uri="mongodb://...", db_name="pyrofork-session", remove_peers=False)*.
+            Mongodb config as dict, e.g.: *dict(connection=async_pymongo.AsyncClient("mongodb://..."), remove_peers=False)*.
             Only applicable for new sessions.
 
         phone_number (``str``, *optional*):
