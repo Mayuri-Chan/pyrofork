@@ -3,7 +3,6 @@ import inspect
 import time
 from typing import List, Tuple, Any
 
-from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import UpdateOne
 from pyrogram.storage.storage import Storage
 from pyrogram.storage.sqlite_storage import get_input_peer
@@ -17,9 +16,9 @@ class MongoStorage(Storage):
         - name (`str`):
             The session name used for database name.
 
-        - uri (`str`):
-            MongoDB Connection String URI.
-            For more information refer to https://www.mongodb.com/docs/manual/reference/connection-string
+        - connection (`obj`):
+            Mongodb connections object.
+            ~async_pymongo.AsyncClient or ~motor.motor_asyncio.AsyncIOMotorClient object
 
         - remove_peers (`bool`, *optional*):
             Flag to remove data in the peers collection. If set to True, 
@@ -27,14 +26,46 @@ class MongoStorage(Storage):
             If set to False or None, the data will not be removed.
 
     Example:
-        session = MongoStorage("my_session", uri="mongodb://...", remove_peers=True)
+        import async_pymongo
+
+        conn = async_pymongo.AsyncClient("mongodb://...")
+        bot_db = conn["my_bot"]
+        session = MongoStorage("my_session", connection=conn, remove_peers=True)
     """
     lock: asyncio.Lock
     USERNAME_TTL = 8 * 60 * 60
 
-    def __init__(self, name: str, uri: str, remove_peers: bool = False):
+    def __init__(
+        self,
+        name: str,
+        connection: object,
+        remove_peers: bool = False
+    ):
         super().__init__(name=name)
-        database = AsyncIOMotorClient(uri)[name]
+        database = None
+        try:
+            import async_pymongo
+        except ImportError:
+            pass
+        else:
+            if isinstance(connection, async_pymongo.AsyncClient):
+                database = connection[name]
+
+        try:
+            from motor.motor_asyncio import AsyncIOMotorClient
+        except ImportError:
+            pass
+        else:
+            if database:
+                pass
+            elif isinstance(connection, AsyncIOMotorClient):
+                database = connection[name]
+            else:
+                raise Exception("Wrong connection object type! please pass valid connection object to connection parameter!")
+
+        if not database:
+            raise Exception("Please install one of following modules!: async_pymongo, motor")
+
         self.lock = asyncio.Lock()
         self.database = database
         self._peer = database['peers']
