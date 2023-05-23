@@ -3,7 +3,7 @@ import inspect
 import time
 from typing import List, Tuple, Any
 
-from async_pymongo import AsyncClient
+from motor.motor_asyncio import AsyncIOMotorClient
 from pymongo import UpdateOne
 from pyrogram.storage.storage import Storage
 from pyrogram.storage.sqlite_storage import get_input_peer
@@ -34,7 +34,7 @@ class MongoStorage(Storage):
 
     def __init__(self, name: str, uri: str, remove_peers: bool = False):
         super().__init__(name=name)
-        database = AsyncClient(uri)[name]
+        database = AsyncIOMotorClient(uri)[name]
         self.lock = asyncio.Lock()
         self.database = database
         self._peer = database['peers']
