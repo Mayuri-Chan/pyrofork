@@ -67,22 +67,27 @@ Mongodb Storage
 In case you want to have persistent session but you don't have persistent storage you can use mongodb storage by passing
 mongodb config as ``dict`` to the ``mongodb`` parameter of the :obj:`~pyrogram.Client` constructor:
 
-Using async_pymongo (Recommended for python3.9+):
+*Using async_pymongo (Recommended for python3.9+):*
+
 .. code-block:: python
+
     from async_pymongo import AsyncClient
     from pyrogram import Client
 
     conn = AsyncClient("mongodb://...")
+
     async with Client("my_account", mongodb=dict(connection=conn, remove_peers=False)) as app:
         print(await app.get_me())
 
+*Using motor:*
 
-Using motor:
 .. code-block:: python
+
     from motor.motor_asyncio import AsyncIOMotorClient
     from pyrogram import Client
 
     conn = AsyncIOMotorClient("mongodb://...")
+
     async with Client("my_account", mongodb=dict(connection=conn, remove_peers=False)) as app:
         print(await app.get_me())
 
