@@ -1,4 +1,4 @@
-aiosqlite>=0.17.0,<0.19.0
+aiosqlite>=0.17.0,<0.20.0
 pyaes==1.6.1
 pymediainfo==6.0.1
 pymongo==4.3.3
