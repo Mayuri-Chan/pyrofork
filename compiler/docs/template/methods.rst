@@ -74,7 +74,7 @@ Chats
     {chats}
 
 Stickers
------
+--------
 
 .. autosummary::
     :nosignatures:
