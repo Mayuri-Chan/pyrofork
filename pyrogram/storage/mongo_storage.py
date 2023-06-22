@@ -3,7 +3,8 @@ import inspect
 import time
 from typing import List, Tuple, Any
 
-from pymongo import UpdateOne
+from .dummy_client import DummyMongoClient
+from pymongo import MongoClient, UpdateOne
 from pyrogram.storage.storage import Storage
 from pyrogram.storage.sqlite_storage import get_input_peer
 
@@ -38,33 +39,18 @@ class MongoStorage(Storage):
     def __init__(
         self,
         name: str,
-        connection: object,
+        connection: DummyMongoClient,
         remove_peers: bool = False
     ):
         super().__init__(name=name)
         database = None
-        try:
-            import async_pymongo
-        except ImportError:
-            pass
-        else:
-            if isinstance(connection, async_pymongo.AsyncClient):
-                database = connection[name]
 
-        try:
-            from motor.motor_asyncio import AsyncIOMotorClient
-        except ImportError:
-            pass
+        if isinstance(connection, DummyMongoClient):
+            if isinstance(connection, MongoClient):
+                raise Exception("Pymongo MongoClient object is not supported! please use async mongodb driver such as async_pymongo and motor.")
+            database = connection[name]
         else:
-            if database:
-                pass
-            elif isinstance(connection, AsyncIOMotorClient):
-                database = connection[name]
-            else:
-                raise Exception("Wrong connection object type! please pass valid connection object to connection parameter!")
-
-        if not database:
-            raise Exception("Please install one of following modules!: async_pymongo, motor")
+            raise Exception("Wrong connection object type! please pass valid connection object to connection parameter!")
 
         self.lock = asyncio.Lock()
         self.database = database
