@@ -4,6 +4,7 @@ from threading import Thread
 
 class AsyncCursor(Thread):
     def __init__(self, cursor: Cursor):
+        super().__init__()
         self.cursor = cursor
 
     async def fetchone(self):

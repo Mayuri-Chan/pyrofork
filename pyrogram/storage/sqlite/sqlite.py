@@ -7,6 +7,7 @@ from typing import Union
 
 class AsyncSqlite(Thread):
     def __init__(self, database: Union[str, Path], *args, **kwargs):
+        super().__init__()
         self.connection = sqlite3.connect(database, *args, **kwargs)
 
     async def commit(self):
