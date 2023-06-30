@@ -286,7 +286,7 @@ class Session:
 
         log.info("NetworkTask stopped")
 
-    async def send(self, data: TLObject, wait_response: bool = True, timeout: float = WAIT_TIMEOUT):
+    async def send(self, data: TLObject, wait_response: bool = True, timeout: float = WAIT_TIMEOUT, retry: int = 0):
         message = self.msg_factory(data)
         msg_id = message.msg_id
 
@@ -330,12 +330,23 @@ class Session:
 
                 RPCError.raise_it(result, type(data))
             elif isinstance(result, raw.types.BadMsgNotification):
-                raise BadMsgNotification(result.error_code)
+                if retry > 1:
+                    raise BadMsgNotification(result.error_code)
+
+                self._handle_bad_notification()
+                await self.send(data, wait_response, timeout, retry + 1)
             elif isinstance(result, raw.types.BadServerSalt):
                 self.salt = result.new_server_salt
                 return await self.send(data, wait_response, timeout)
             else:
                 return result
+
+    def _handle_bad_notification(self):
+        new_msg_id = MsgId()
+        if self.stored_msg_ids[len(self.stored_msg_ids)-1] >= new_msg_id:
+            new_msg_id = self.stored_msg_ids[len(self.stored_msg_ids)-1] + 4
+            log.debug("Changing msg_id old=%s new=%s", self.stored_msg_ids[len(self.stored_msg_ids)-1], new_msg_id)
+        self.stored_msg_ids[len(self.stored_msg_ids)-1] = new_msg_id
 
     async def invoke(
         self,
