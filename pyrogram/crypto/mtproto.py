@@ -27,7 +27,7 @@ from pyrogram.raw.core import Message, Long
 from . import aes
 from ..session.internals import MsgId
 
-STORED_MSG_IDS_MAX_SIZE = 1000 * 2
+STORED_MSG_IDS_MAX_SIZE = 500
 
 
 def kdf(auth_key: bytes, msg_key: bytes, outgoing: bool) -> tuple:
