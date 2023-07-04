@@ -52,7 +52,7 @@ class Session:
     MAX_RETRIES = 10
     ACKS_THRESHOLD = 10
     PING_INTERVAL = 5
-    STORED_MSG_IDS_MAX_SIZE = 1000 * 2
+    STORED_MSG_IDS_MAX_SIZE = 500
 
     TRANSPORT_ERRORS = {
         404: "auth key not found",
