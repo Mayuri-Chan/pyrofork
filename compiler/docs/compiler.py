@@ -325,6 +325,8 @@ def pyrogram_api():
             set_chat_menu_button
             get_chat_menu_button
             answer_web_app_query
+            get_bot_info
+            set_bot_info
         """,
         authorization="""
         Authorization
@@ -411,6 +413,7 @@ def pyrogram_api():
             ForumTopic
             PeerUser
             PeerChannel
+            BotInfo
         """,
         messages_media="""
         Messages & Media

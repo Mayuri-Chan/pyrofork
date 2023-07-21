@@ -25,6 +25,7 @@ from .bot_command_scope_chat import BotCommandScopeChat
 from .bot_command_scope_chat_administrators import BotCommandScopeChatAdministrators
 from .bot_command_scope_chat_member import BotCommandScopeChatMember
 from .bot_command_scope_default import BotCommandScopeDefault
+from .bot_info import BotInfo
 from .callback_game import CallbackGame
 from .callback_query import CallbackQuery
 from .force_reply import ForceReply
@@ -62,6 +63,7 @@ __all__ = [
     "BotCommandScopeChatAdministrators",
     "BotCommandScopeChatMember",
     "BotCommandScopeDefault",
+    "BotInfo",
     "WebAppInfo",
     "MenuButton",
     "MenuButtonCommands",
