@@ -38,3 +38,4 @@ CHAT_SEND_VIDEOS_FORBIDDEN	You can't send videos in this chat
 CHAT_SEND_VOICES_FORBIDDEN	You can't send voice recordings in this chat
 CHAT_WRITE_FORBIDDEN	You can't write in this chat
 GROUPCALL_FORBIDDEN	The group call has already ended
+LIVE_DISABLED	Story is disabled server-side
