@@ -1,4 +1,4 @@
 pyaes==1.6.1
 pymediainfo==6.0.1
-pymongo==4.4.0
+pymongo==4.4.1
 pysocks==1.7.1
