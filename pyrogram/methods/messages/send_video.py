@@ -219,6 +219,7 @@ class SendVideo:
                     )
                 else:
                     media = utils.get_input_media_from_file_id(video, FileType.VIDEO, ttl_seconds=ttl_seconds)
+                    media.spoiler = has_spoiler
             else:
                 thumb = await self.save_file(thumb)
                 file = await self.save_file(video, progress=progress, progress_args=progress_args)
