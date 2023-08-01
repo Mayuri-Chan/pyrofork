@@ -59,6 +59,9 @@ class Chat(Object):
         is_forum (``bool``, *optional*):
             True, if the supergroup chat is a forum
 
+        is_participants_hidden (``bool``, *optional*):
+            True, if the chat members are hidden.
+
         title (``str``, *optional*):
             Title, for supergroups, channels and basic group chats.
 
@@ -155,6 +158,7 @@ class Chat(Object):
         is_fake: bool = None,
         is_support: bool = None,
         is_forum: bool = None,
+        is_participants_hidden: bool = None,
         title: str = None,
         username: str = None,
         first_name: str = None,
@@ -188,6 +192,7 @@ class Chat(Object):
         self.is_fake = is_fake
         self.is_support = is_support
         self.is_forum = is_forum
+        self.is_participants_hidden = is_participants_hidden
         self.title = title
         self.username = username
         self.first_name = first_name
@@ -354,6 +359,7 @@ class Chat(Object):
                 # TODO: Add StickerSet type
                 parsed_chat.can_set_sticker_set = full_chat.can_set_stickers
                 parsed_chat.sticker_set_name = getattr(full_chat.stickerset, "short_name", None)
+                parsed_chat.is_participants_hidden = full_chat.participants_hidden
 
                 linked_chat_raw = chats.get(full_chat.linked_chat_id, None)
 
