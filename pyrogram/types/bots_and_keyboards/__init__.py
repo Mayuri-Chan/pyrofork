@@ -40,6 +40,7 @@ from .menu_button_default import MenuButtonDefault
 from .menu_button_web_app import MenuButtonWebApp
 from .reply_keyboard_markup import ReplyKeyboardMarkup
 from .reply_keyboard_remove import ReplyKeyboardRemove
+from .request_peer_type_channel import RequestPeerTypeChannel
 from .request_peer_type_chat import RequestPeerTypeChat
 from .request_peer_type_user import RequestPeerTypeUser
 from .sent_web_app_message import SentWebAppMessage
@@ -55,6 +56,7 @@ __all__ = [
     "KeyboardButton",
     "ReplyKeyboardMarkup",
     "ReplyKeyboardRemove",
+    "RequestPeerTypeChannel",
     "RequestPeerTypeChat",
     "RequestPeerTypeUser",
     "LoginUrl",

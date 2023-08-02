@@ -459,6 +459,7 @@ def pyrogram_api():
             ReplyKeyboardRemove
             InlineKeyboardMarkup
             InlineKeyboardButton
+            RequestPeerTypeChannel
             RequestPeerTypeChat
             RequestPeerTypeUser
             LoginUrl
