@@ -38,6 +38,14 @@ class KeyboardButton(Object):
             If True, the user's current location will be sent when the button is pressed.
             Available in private chats only.
 
+        request_chat ("obj:`~pyrogram.types.RequestPeerTypeChat`, *optional*):
+            If specified, defines the criteria used to request a suitable chats.
+            The identifier of the selected chats will be shared with the bot when the corresponding button is pressed.
+
+        request_user ("obj:`~pyrogram.types.RequestPeerTypeUser`, *optional*):
+            If specified, defines the criteria used to request a suitable users.
+            The identifier of the selected users will be shared with the bot when the corresponding button is pressed.
+
         web_app (:obj:`~pyrogram.types.WebAppInfo`, *optional*):
             If specified, the described `Web App <https://core.telegram.org/bots/webapps>`_ will be launched when the
             button is pressed. The Web App will be able to send a “web_app_data” service message. Available in private
@@ -50,6 +58,8 @@ class KeyboardButton(Object):
         text: str,
         request_contact: bool = None,
         request_location: bool = None,
+        request_chat: "types.RequestPeerTypeChat" = None,
+        request_user: "types.RequestPeerTypeUser" = None,
         web_app: "types.WebAppInfo" = None
     ):
         super().__init__()
@@ -57,6 +67,8 @@ class KeyboardButton(Object):
         self.text = str(text)
         self.request_contact = request_contact
         self.request_location = request_location
+        self.request_chat = request_chat
+        self.request_user = request_user
         self.web_app = web_app
 
     @staticmethod
@@ -84,11 +96,51 @@ class KeyboardButton(Object):
                 )
             )
 
+        if isinstance(b, raw.types.RequestPeerTypeChat):
+            return KeyboardButton(
+                text=b.text,
+                request_chat=types.RequestPeerTypeChat(
+                    is_creator=b.creator,
+                    is_bot_participant=b.bot_participant,
+                    is_username=b.has_username,
+                    is_forum=b.forum
+                )
+            )
+
+        if isinstance(b, raw.types.RequestPeerTypeUser):
+            return KeyboardButton(
+                text=b.text,
+                request_user=types.RequestPeerTypeUser(
+                    is_bot=b.bot,
+                    is_premium=b.premium
+                )
+            )
+
     def write(self):
         if self.request_contact:
             return raw.types.KeyboardButtonRequestPhone(text=self.text)
         elif self.request_location:
             return raw.types.KeyboardButtonRequestGeoLocation(text=self.text)
+        elif self.request_chat:
+            return raw.types.KeyboardButtonRequestPeer(
+                text=self.text,
+                button_id=0,
+                peer_type=raw.types.RequestPeerTypeChat(
+                    creator=self.request_chat.is_creator,
+                    bot_participant=self.request_chat.is_bot_participant,
+                    has_username=self.request_chat.is_username,
+                    forum=self.request_chat.is_forum
+                )
+            )
+        elif self.request_user:
+            return raw.types.KeyboardButtonRequestPeer(
+                text=self.text,
+                button_id=0,
+                peer_type=raw.types.RequestPeerTypeUser(
+                    bot=self.request_user.is_bot,
+                    premium=self.request_user.is_premium
+                )
+            )
         elif self.web_app:
             return raw.types.KeyboardButtonSimpleWebView(text=self.text, url=self.web_app.url)
         else:
