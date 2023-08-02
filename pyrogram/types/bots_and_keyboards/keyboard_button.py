@@ -38,6 +38,10 @@ class KeyboardButton(Object):
             If True, the user's current location will be sent when the button is pressed.
             Available in private chats only.
 
+        request_channel ("obj:`~pyrogram.types.RequestPeerTypeChannel`, *optional*):
+            If specified, defines the criteria used to request a suitable channels.
+            The identifier of the selected channels will be shared with the bot when the corresponding button is pressed.
+
         request_chat ("obj:`~pyrogram.types.RequestPeerTypeChat`, *optional*):
             If specified, defines the criteria used to request a suitable chats.
             The identifier of the selected chats will be shared with the bot when the corresponding button is pressed.
@@ -58,6 +62,7 @@ class KeyboardButton(Object):
         text: str,
         request_contact: bool = None,
         request_location: bool = None,
+        request_channel: "types.RequestPeerTypeChannel" = None,
         request_chat: "types.RequestPeerTypeChat" = None,
         request_user: "types.RequestPeerTypeUser" = None,
         web_app: "types.WebAppInfo" = None
@@ -67,6 +72,7 @@ class KeyboardButton(Object):
         self.text = str(text)
         self.request_contact = request_contact
         self.request_location = request_location
+        self.request_channel = request_channel
         self.request_chat = request_chat
         self.request_user = request_user
         self.web_app = web_app
@@ -96,6 +102,15 @@ class KeyboardButton(Object):
                 )
             )
 
+        if isinstance(b, raw.types.RequestPeerTypeBroadcast):
+            return KeyboardButton(
+                text=b.text,
+                request_chat=types.RequestPeerTypeChannel(
+                    is_creator=b.creator,
+                    is_username=b.has_username
+                )
+            )
+
         if isinstance(b, raw.types.RequestPeerTypeChat):
             return KeyboardButton(
                 text=b.text,
@@ -121,6 +136,15 @@ class KeyboardButton(Object):
             return raw.types.KeyboardButtonRequestPhone(text=self.text)
         elif self.request_location:
             return raw.types.KeyboardButtonRequestGeoLocation(text=self.text)
+        elif self.request_channel:
+            return raw.types.KeyboardButtonRequestPeer(
+                text=self.text,
+                button_id=0,
+                peer_type=raw.types.RequestPeerTypeBroadcast(
+                    creator=self.request_broadcast.is_creator,
+                    has_username=self.request_broadcast.is_username
+                )
+            )
         elif self.request_chat:
             return raw.types.KeyboardButtonRequestPeer(
                 text=self.text,
