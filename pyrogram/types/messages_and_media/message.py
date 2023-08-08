@@ -3271,6 +3271,7 @@ class Message(Object, Update):
         caption: str = None,
         parse_mode: Optional["enums.ParseMode"] = None,
         caption_entities: List["types.MessageEntity"] = None,
+        has_spoiler: bool = None,
         disable_notification: bool = None,
         message_thread_id: int = None,
         reply_to_message_id: int = None,
@@ -3317,6 +3318,9 @@ class Message(Object, Update):
 
             caption_entities (List of :obj:`~pyrogram.types.MessageEntity`):
                 List of special entities that appear in the new caption, which can be specified instead of *parse_mode*.
+
+            has_spoiler (``bool``, *optional*):
+                Pass True if the photo needs to be covered with a spoiler animation.
 
             disable_notification (``bool``, *optional*):
                 Sends the message silently.
@@ -3377,6 +3381,7 @@ class Message(Object, Update):
                 message_thread_id=message_thread_id,
                 reply_to_message_id=reply_to_message_id,
                 schedule_date=schedule_date,
+                has_spoiler=has_spoiler,
                 protect_content=protect_content,
                 reply_markup=self.reply_markup if reply_markup is object else reply_markup
             )
@@ -3464,6 +3469,7 @@ class Message(Object, Update):
                     caption=caption,
                     parse_mode=parse_mode,
                     caption_entities=caption_entities,
+                    has_spoiler=has_spoiler,
                     message_thread_id=message_thread_id
                 )
         else:
