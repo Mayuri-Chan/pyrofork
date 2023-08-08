@@ -1117,6 +1117,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_message(
             chat_id=self.chat.id,
             text=text,
@@ -1124,6 +1128,7 @@ class Message(Object, Update):
             entities=entities,
             disable_web_page_preview=disable_web_page_preview,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             schedule_date=schedule_date,
             protect_content=protect_content,
@@ -1263,6 +1268,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_animation(
             chat_id=self.chat.id,
             animation=animation,
@@ -1276,6 +1285,7 @@ class Message(Object, Update):
             thumb=thumb,
             file_name=file_name,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup,
             progress=progress,
@@ -1409,6 +1419,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_audio(
             chat_id=self.chat.id,
             audio=audio,
@@ -1421,6 +1435,7 @@ class Message(Object, Update):
             thumb=thumb,
             file_name=file_name,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup,
             progress=progress,
@@ -1502,6 +1517,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_cached_media(
             chat_id=self.chat.id,
             file_id=file_id,
@@ -1509,6 +1528,7 @@ class Message(Object, Update):
             parse_mode=parse_mode,
             caption_entities=caption_entities,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup
         )
@@ -1624,6 +1644,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_contact(
             chat_id=self.chat.id,
             phone_number=phone_number,
@@ -1631,6 +1655,7 @@ class Message(Object, Update):
             last_name=last_name,
             vcard=vcard,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup
         )
@@ -1760,6 +1785,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_document(
             chat_id=self.chat.id,
             document=document,
@@ -1770,6 +1799,7 @@ class Message(Object, Update):
             file_name=file_name,
             force_document=force_document,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             schedule_date=schedule_date,
             reply_markup=reply_markup,
@@ -1838,10 +1868,15 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_game(
             chat_id=self.chat.id,
             game_short_name=game_short_name,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup
         )
@@ -1852,7 +1887,6 @@ class Message(Object, Update):
         result_id: str,
         quote: bool = None,
         disable_notification: bool = None,
-        message_thread_id: bool = None,
         reply_to_message_id: int = None
     ) -> "Message":
         """Bound method *reply_inline_bot_result* of :obj:`~pyrogram.types.Message`.
@@ -1902,6 +1936,10 @@ class Message(Object, Update):
 
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
+
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
 
         return await self._client.send_inline_bot_result(
             chat_id=self.chat.id,
@@ -1978,11 +2016,16 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_location(
             chat_id=self.chat.id,
             latitude=latitude,
             longitude=longitude,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup
         )
@@ -2046,10 +2089,15 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_media_group(
             chat_id=self.chat.id,
             media=media,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id
         )
 
@@ -2166,6 +2214,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_photo(
             chat_id=self.chat.id,
             photo=photo,
@@ -2175,6 +2227,7 @@ class Message(Object, Update):
             has_spoiler=has_spoiler,
             ttl_seconds=ttl_seconds,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup,
             progress=progress,
@@ -2305,6 +2358,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_poll(
             chat_id=self.chat.id,
             question=question,
@@ -2321,6 +2378,7 @@ class Message(Object, Update):
             is_closed=is_closed,
             disable_notification=disable_notification,
             protect_content=protect_content,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             schedule_date=schedule_date,
             reply_markup=reply_markup
@@ -2416,10 +2474,15 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_sticker(
             chat_id=self.chat.id,
             sticker=sticker,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup,
             progress=progress,
@@ -2511,6 +2574,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_venue(
             chat_id=self.chat.id,
             latitude=latitude,
@@ -2520,6 +2587,7 @@ class Message(Object, Update):
             foursquare_id=foursquare_id,
             foursquare_type=foursquare_type,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup
         )
@@ -2665,6 +2733,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_video(
             chat_id=self.chat.id,
             video=video,
@@ -2680,6 +2752,7 @@ class Message(Object, Update):
             file_name=file_name,
             supports_streaming=supports_streaming,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup,
             progress=progress,
@@ -2791,6 +2864,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_video_note(
             chat_id=self.chat.id,
             video_note=video_note,
@@ -2798,6 +2875,7 @@ class Message(Object, Update):
             length=length,
             thumb=thumb,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup,
             progress=progress,
@@ -2911,6 +2989,10 @@ class Message(Object, Update):
         if reply_to_message_id is None and quote:
             reply_to_message_id = self.id
 
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
         return await self._client.send_voice(
             chat_id=self.chat.id,
             voice=voice,
@@ -2919,6 +3001,7 @@ class Message(Object, Update):
             caption_entities=caption_entities,
             duration=duration,
             disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
             reply_markup=reply_markup,
             progress=progress,
