@@ -140,17 +140,7 @@ class SendPoll:
 
         reply_to = None
         if reply_to_message_id or message_thread_id:
-            reply_to_msg_id = None
-            top_msg_id = None
-            if message_thread_id:
-                if not reply_to_message_id:
-                    reply_to_msg_id = message_thread_id
-                else:
-                    reply_to_msg_id = reply_to_message_id
-                    top_msg_id = message_thread_id
-            else:
-                reply_to_msg_id = reply_to_message_id
-            reply_to = raw.types.InputReplyToMessage(reply_to_msg_id=reply_to_msg_id, top_msg_id=top_msg_id)
+            reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id)
 
         solution, solution_entities = (await utils.parse_text_entities(
             self, explanation, explanation_parse_mode, explanation_entities

@@ -522,6 +522,7 @@ def pyrogram_api():
         input_message_content="""
         InputMessageContent
             InputMessageContent
+            InputReplyToMessage
             InputTextMessageContent
         """,
         authorization="""
