@@ -34,6 +34,7 @@ class SendCachedMedia:
         caption: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
         caption_entities: List["types.MessageEntity"] = None,
+        has_spoiler: bool = None,
         disable_notification: bool = None,
         message_thread_id: int = None,
         reply_to_message_id: int = None,
@@ -74,6 +75,9 @@ class SendCachedMedia:
             caption_entities (List of :obj:`~pyrogram.types.MessageEntity`):
                 List of special entities that appear in the caption, which can be specified instead of *parse_mode*.
 
+            has_spoiler (``bool``, *optional*):
+                Pass True if the photo needs to be covered with a spoiler animation.
+
             disable_notification (``bool``, *optional*):
                 Sends the message silently.
                 Users will receive a notification with no sound.
@@ -108,10 +112,13 @@ class SendCachedMedia:
         if reply_to_message_id or message_thread_id:
             reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id)
 
+        media = utils.get_input_media_from_file_id(file_id)
+        media.spoiler = has_spoiler
+
         r = await self.invoke(
             raw.functions.messages.SendMedia(
                 peer=await self.resolve_peer(chat_id),
-                media=utils.get_input_media_from_file_id(file_id),
+                media=media,
                 silent=disable_notification or None,
                 reply_to=reply_to,
                 random_id=self.rnd_id(),
