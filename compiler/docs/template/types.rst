@@ -47,6 +47,19 @@ Messages & Media
 
     {messages_media}
 
+Stories
+-------
+
+.. autosummary::
+    :nosignatures:
+
+    {stories}
+
+.. toctree::
+    :hidden:
+
+    {stories}
+
 Bot keyboards
 -------------
 

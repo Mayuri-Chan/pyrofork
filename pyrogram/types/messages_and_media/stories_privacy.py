@@ -1,0 +1,47 @@
+#  Pyrofork - Telegram MTProto API Client Library for Python
+#  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
+#
+#  This file is part of Pyrofork.
+#
+#  Pyrofork is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU Lesser General Public License as published
+#  by the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  Pyrofork is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU Lesser General Public License for more details.
+#
+#  You should have received a copy of the GNU Lesser General Public License
+#  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
+
+from pyrogram import enums, raw
+from ..object import Object
+
+class StoriesPrivacy(Object):
+    """A story privacy.
+
+    Parameters:
+        type (:obj:`~pyrogram.enums.StoriesPrivacy`):
+            Story privacy type.
+    """
+
+    def __init__(
+        self, *,
+        type: "enums.StoriesPrivacy"
+    ):
+        super().__init__()
+        self.type = type
+
+    def write(self):
+        if self.type == enums.StoriesPrivacy.PUBLIC:
+            return raw.types.InputPrivacyValueAllowAll().write()
+        if self.type == enums.StoriesPrivacy.CLOSE_FRIENDS:
+            return raw.types.InputPrivacyValueAllowCloseFriends().write()
+        if self.type == enums.StoriesPrivacy.CONTACTS:
+            return raw.types.InputPrivacyValueAllowContacts().write()
+        if self.type == enums.StoriesPrivacy.NO_CONTACTS:
+            return raw.types.InputPrivacyValueDisallowContacts().write()
+        if self.type == enums.StoriesPrivacy.PRIVATE:
+            return raw.types.InputPrivacyValueDisallowAll().write()

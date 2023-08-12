@@ -60,6 +60,19 @@ Messages
 
     {messages}
 
+Stories
+-------
+
+.. autosummary::
+    :nosignatures:
+
+    {stories}
+
+.. toctree::
+    :hidden:
+
+    {stories}
+
 Chats
 -----
 

@@ -268,6 +268,14 @@ def pyrogram_api():
             get_default_emoji_statuses
             set_emoji_status
         """,
+        stories="""
+        Stories
+            delete_stories
+            edit_story
+            export_story_link
+            get_stories
+            send_story
+        """,
         stickers="""
         Stickers
             add_sticker_to_set
@@ -450,6 +458,12 @@ def pyrogram_api():
             GeneralTopicHidden
             GeneralTopicUnhidden
         """,
+        stories="""
+        Stories
+            Story
+            StoriesPrivacy
+            StoryViews
+        """,
         bot_keyboards="""
         Bot keyboards
             ReplyKeyboardMarkup
@@ -521,6 +535,7 @@ def pyrogram_api():
         InputMessageContent
             InputMessageContent
             InputReplyToMessage
+            InputReplyToStory
             InputTextMessageContent
         """,
         authorization="""
@@ -621,6 +636,27 @@ def pyrogram_api():
             User.unarchive
             User.block
             User.unblock
+        """,
+        story="""
+        Story
+            Story.delete
+            Story.edit
+            Story.edit_animation
+            Story.edit_caption
+            Story.edit_photo
+            Story.edit_privacy
+            Story.edit_video
+            Story.export_link
+            Story.reply_text
+            Story.reply_animation
+            Story.reply_audio
+            Story.reply_cached_media
+            Story.reply_media_group
+            Story.reply_photo
+            Story.reply_sticker
+            Story.reply_video
+            Story.reply_video_note
+            Story.reply_voice
         """,
         callback_query="""
         Callback Query

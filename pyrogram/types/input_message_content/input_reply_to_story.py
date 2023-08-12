@@ -1,5 +1,4 @@
 #  Pyrofork - Telegram MTProto API Client Library for Python
-#  Copyright (C) 2017-present Dan <https://github.com/delivrance>
 #  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
 #  This file is part of Pyrofork.
@@ -17,11 +16,34 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from .input_message_content import InputMessageContent
-from .input_reply_to_message import InputReplyToMessage
-from .input_reply_to_story import InputReplyToStory
-from .input_text_message_content import InputTextMessageContent
+from pyrogram import raw
+from ..object import Object
 
-__all__ = [
-    "InputMessageContent", "InputReplyToMessage", "InputReplyToStory", "InputTextMessageContent"
-]
+
+class InputReplyToStory(Object):
+    """Contains information about a target replied story.
+
+
+    Parameters:
+        user_id (:obj:`~pyrogram.raw.types.InputUser`):
+            An InputUser.
+
+        story_id (``int``):
+            Unique identifier for the target story.
+    """
+
+    def __init__(
+        self, *,
+        user_id: "raw.types.InputUser" = None,
+        story_id: int = None
+    ):
+        super().__init__()
+
+        self.user_id = user_id
+        self.story_id = story_id
+
+    def write(self):
+        return raw.types.InputReplyToStory(
+            user_id=self.user_id,
+            story_id=self.story_id
+        ).write()

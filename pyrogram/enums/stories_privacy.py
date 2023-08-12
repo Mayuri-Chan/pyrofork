@@ -1,5 +1,4 @@
 #  Pyrofork - Telegram MTProto API Client Library for Python
-#  Copyright (C) 2017-present Dan <https://github.com/delivrance>
 #  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
 #  This file is part of Pyrofork.
@@ -17,11 +16,25 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from .input_message_content import InputMessageContent
-from .input_reply_to_message import InputReplyToMessage
-from .input_reply_to_story import InputReplyToStory
-from .input_text_message_content import InputTextMessageContent
+from enum import auto
 
-__all__ = [
-    "InputMessageContent", "InputReplyToMessage", "InputReplyToStory", "InputTextMessageContent"
-]
+from .auto_name import AutoName
+
+
+class StoriesPrivacy(AutoName):
+    """Poll type enumeration used in :obj:`~pyrogram.types.Story`."""
+
+    PUBLIC = auto()
+    "Public stories"
+
+    CLOSE_FRIENDS = auto()
+    "Close_Friends stories"
+
+    CONTACTS = auto()
+    "Contacts only stories"
+
+    PRIVATE = auto()
+    "Private stories"
+
+    NO_CONTACTS = auto()
+    "Hide stories from contacts"

@@ -29,6 +29,7 @@ from .next_code_type import NextCodeType
 from .parse_mode import ParseMode
 from .poll_type import PollType
 from .sent_code_type import SentCodeType
+from .stories_privacy import StoriesPrivacy
 from .user_status import UserStatus
 
 __all__ = [
@@ -44,6 +45,7 @@ __all__ = [
     'NextCodeType', 
     'ParseMode', 
     'PollType', 
-    'SentCodeType', 
+    'SentCodeType',
+    "StoriesPrivacy",
     'UserStatus'
 ]

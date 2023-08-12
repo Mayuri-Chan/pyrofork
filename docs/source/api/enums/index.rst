@@ -27,6 +27,7 @@ to apply only a valid value among the expected ones.
     SentCodeType
     NextCodeType
     UserStatus
+    StoriesPrivacy
 
 .. toctree::
     :hidden:
@@ -45,3 +46,4 @@ to apply only a valid value among the expected ones.
     SentCodeType
     NextCodeType
     UserStatus
+    StoriesPrivacy

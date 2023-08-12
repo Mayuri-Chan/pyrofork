@@ -1,5 +1,4 @@
 #  Pyrofork - Telegram MTProto API Client Library for Python
-#  Copyright (C) 2017-present Dan <https://github.com/delivrance>
 #  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
 #  This file is part of Pyrofork.
@@ -17,11 +16,29 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from .input_message_content import InputMessageContent
-from .input_reply_to_message import InputReplyToMessage
-from .input_reply_to_story import InputReplyToStory
-from .input_text_message_content import InputTextMessageContent
+from pyrogram import raw
+from typing import List
+from ..object import Object
 
-__all__ = [
-    "InputMessageContent", "InputReplyToMessage", "InputReplyToStory", "InputTextMessageContent"
-]
+class ExportedStoryLink(Object):
+    """Contains information about a story viewers.
+
+
+    Parameters:
+        link (``str``):
+            The link of the story.
+    """
+
+    def __init__(
+            self, *,
+            link: str
+    ):
+        super().__init__()
+
+        self.link = link
+
+    @staticmethod
+    def _parse(exportedstorylink: "raw.types.ExportedStoryLink") -> "ExportedStoryLink":
+        return ExportedStoryLink(
+            link=getattr(exportedstorylink,"link", None)
+        )
