@@ -47,6 +47,7 @@ class SendMediaGroup:
         disable_notification: bool = None,
         message_thread_id: int = None,
         reply_to_message_id: int = None,
+        reply_to_story_id: int = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
     ) -> List["types.Message"]:
@@ -73,6 +74,9 @@ class SendMediaGroup:
 
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
+            
+            reply_to_story_id (``int``, *optional*):
+                Unique identifier for the target story.
 
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
@@ -102,6 +106,9 @@ class SendMediaGroup:
         reply_to = None
         if reply_to_message_id or message_thread_id:
             reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id)
+        if reply_to_story_id:
+            user_id = await self.resolve_peer(chat_id)
+            reply_to = types.InputReplyToStory(user_id=user_id, story_id=reply_to_story_id)
 
         for i in media:
             if isinstance(i, types.InputMediaPhoto):
