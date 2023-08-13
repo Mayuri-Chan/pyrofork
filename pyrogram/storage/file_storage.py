@@ -21,7 +21,6 @@ import os
 import sqlite3
 from pathlib import Path
 
-from . import sqlite
 from .sqlite_storage import SQLiteStorage
 
 log = logging.getLogger(__name__)
@@ -35,36 +34,39 @@ class FileStorage(SQLiteStorage):
 
         self.database = workdir / (self.name + self.FILE_EXTENSION)
 
-    async def update(self):
-        version = await self.version()
+    def update(self):
+        version = self.version()
 
         if version == 1:
-            await self.conn.execute("DELETE FROM peers")
+            with self.lock, self.conn:
+                self.conn.execute("DELETE FROM peers")
 
             version += 1
 
         if version == 2:
-            await self.conn.execute("ALTER TABLE sessions ADD api_id INTEGER")
+            with self.lock, self.conn:
+                self.conn.execute("ALTER TABLE sessions ADD api_id INTEGER")
 
             version += 1
 
-        await self.version(version)
+        self.version(version)
 
     async def open(self):
         path = self.database
         file_exists = path.is_file()
 
-        self.conn = sqlite.AsyncSqlite(database=str(path), timeout=1, check_same_thread=False)
+        self.conn = sqlite3.connect(str(path), timeout=1, check_same_thread=False)
 
         if not file_exists:
-            await self.create()
+            self.create()
         else:
-            await self.update()
+            self.update()
 
-        try:  # Python 3.6.0 (exactly this version) is bugged and won't successfully execute the vacuum
-            await self.conn.execute("VACUUM")
-        except sqlite3.OperationalError:
-            pass
+        with self.conn:
+            try:  # Python 3.6.0 (exactly this version) is bugged and won't successfully execute the vacuum
+                self.conn.execute("VACUUM")
+            except sqlite3.OperationalError:
+                pass
 
     async def delete(self):
         os.remove(self.database)
