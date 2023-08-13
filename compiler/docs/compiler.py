@@ -459,6 +459,7 @@ def pyrogram_api():
         stories="""
         Stories
             Story
+            StoriesPrivacy
             StoryViews
         """,
         bot_keyboards="""
