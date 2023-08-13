@@ -95,6 +95,10 @@ class Client(Methods):
             Pass True to connect to Telegram using IPv6.
             Defaults to False (IPv4).
 
+        alt_port (``bool``, *optional*):
+            Pass True to connect to Telegram using alternative port (5222).
+            Defaults to False (443).
+
         proxy (``dict``, *optional*):
             The Proxy settings as dict.
             E.g.: *dict(scheme="socks5", hostname="11.22.33.44", port=1234, username="user", password="pass")*.
@@ -205,6 +209,7 @@ class Client(Methods):
         system_version: str = SYSTEM_VERSION,
         lang_code: str = LANG_CODE,
         ipv6: bool = False,
+        alt_port: bool = False,
         proxy: dict = None,
         test_mode: bool = False,
         bot_token: str = None,
@@ -234,6 +239,7 @@ class Client(Methods):
         self.system_version = system_version
         self.lang_code = lang_code
         self.ipv6 = ipv6
+        self.alt_port = alt_port
         self.proxy = proxy
         self.test_mode = test_mode
         self.bot_token = bot_token

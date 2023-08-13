@@ -60,7 +60,7 @@ class DataCenter:
         4: "2001:067c:04e8:f004:0000:0000:0000:000b"
     }
 
-    def __new__(cls, dc_id: int, test_mode: bool, ipv6: bool, media: bool) -> Tuple[str, int]:
+    def __new__(cls, dc_id: int, test_mode: bool, ipv6: bool, alt_port: bool, media: bool) -> Tuple[str, int]:
         if test_mode:
             if ipv6:
                 ip = cls.TEST_IPV6[dc_id]
@@ -79,5 +79,4 @@ class DataCenter:
                     ip = cls.PROD_MEDIA.get(dc_id, cls.PROD[dc_id])
                 else:
                     ip = cls.PROD[dc_id]
-
-            return ip, 443
+            return ip, 5222 if alt_port else 443
