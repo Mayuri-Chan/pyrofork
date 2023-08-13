@@ -106,6 +106,7 @@ class Session:
                 self.dc_id,
                 self.test_mode,
                 self.client.ipv6,
+                self.client.alt_port,
                 self.client.proxy,
                 self.is_media
             )
