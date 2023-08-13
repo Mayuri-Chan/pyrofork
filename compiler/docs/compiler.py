@@ -267,6 +267,10 @@ def pyrogram_api():
             get_default_emoji_statuses
             set_emoji_status
         """,
+        stories="""
+        Stories
+            get_stories
+        """,
         stickers="""
         Stickers
             add_sticker_to_set
