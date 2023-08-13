@@ -452,6 +452,11 @@ def pyrogram_api():
             GeneralTopicHidden
             GeneralTopicUnhidden
         """,
+        stories="""
+        Stories
+            Story
+            StoryViews
+        """,
         bot_keyboards="""
         Bot keyboards
             ReplyKeyboardMarkup
