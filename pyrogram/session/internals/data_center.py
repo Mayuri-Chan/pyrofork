@@ -80,4 +80,4 @@ class DataCenter:
                 else:
                     ip = cls.PROD[dc_id]
 
-            return ip, 5222
+            return ip, 443
