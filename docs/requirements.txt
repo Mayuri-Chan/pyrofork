@@ -4,4 +4,4 @@ sphinx-rtd-dark-mode==1.2.4
 sphinx_copybutton==0.5.2
 sphinx-autobuild==2021.3.14
 tgcrypto==1.2.5
-tornado>=6.3.2 # not directly required, pinned by Snyk to avoid a vulnerability
+tornado>=6.3.3 # not directly required, pinned by Snyk to avoid a vulnerability
