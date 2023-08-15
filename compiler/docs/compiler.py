@@ -270,6 +270,7 @@ def pyrogram_api():
         stories="""
         Stories
             get_stories
+            send_story
         """,
         stickers="""
         Stickers

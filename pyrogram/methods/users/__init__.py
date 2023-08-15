@@ -25,6 +25,7 @@ from .get_default_emoji_statuses import GetDefaultEmojiStatuses
 from .get_me import GetMe
 from .get_stories import GetStories
 from .get_users import GetUsers
+from .send_story import SendStory
 from .set_emoji_status import SetEmojiStatus
 from .set_profile_photo import SetProfilePhoto
 from .set_username import SetUsername
@@ -46,6 +47,7 @@ class Users(
     UnblockUser,
     UpdateProfile,
     GetDefaultEmojiStatuses,
-    SetEmojiStatus
+    SetEmojiStatus,
+    SendStory
 ):
     pass
