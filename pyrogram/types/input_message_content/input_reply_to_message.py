@@ -46,7 +46,7 @@ class InputReplyToMessage(Object):
     def write(self):
         reply_to_msg_id = None
         top_msg_id = None
-        if self.reply_to_message_id or self.reply_to_message_id:
+        if self.reply_to_message_id or self.message_thread_id:
             if self.message_thread_id:
                 if not self.reply_to_message_id:
                     reply_to_msg_id = self.message_thread_id
