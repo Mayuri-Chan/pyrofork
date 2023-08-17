@@ -639,6 +639,27 @@ def pyrogram_api():
             User.block
             User.unblock
         """,
+        story="""
+        Story
+            Story.delete
+            Story.edit
+            Story.edit_animation
+            Story.edit_caption
+            Story.edit_photo
+            Story.edit_privary
+            Story.edit_video
+            Story.export_link
+            Story.reply_text
+            Story.reply_animation
+            Story.reply_audio
+            Story.reply_cached_media
+            Story.reply_media_group
+            Story.reply_photo
+            Story.reply_sticker
+            Story.reply_video
+            Story.reply_video_note
+            Story.reply_voice
+        """,
         callback_query="""
         Callback Query
             CallbackQuery.answer
