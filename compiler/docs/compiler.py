@@ -269,7 +269,7 @@ def pyrogram_api():
         """,
         stories="""
         Stories
-            delete_story
+            delete_stories
             edit_story
             export_story_link
             get_stories
@@ -646,7 +646,7 @@ def pyrogram_api():
             Story.edit_animation
             Story.edit_caption
             Story.edit_photo
-            Story.edit_privary
+            Story.edit_privacy
             Story.edit_video
             Story.export_link
             Story.reply_text

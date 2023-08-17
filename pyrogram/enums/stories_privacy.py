@@ -22,7 +22,7 @@ from .auto_name import AutoName
 
 
 class StoriesPrivacy(AutoName):
-    """Poll type enumeration used in :obj:`~pyrogram.types.Stories`."""
+    """Poll type enumeration used in :obj:`~pyrogram.types.Story`."""
 
     PUBLIC = auto()
     "Public stories"

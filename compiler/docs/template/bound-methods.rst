@@ -36,6 +36,19 @@ Message
 
     {message_toctree}
 
+Story
+-----
+
+.. hlist::
+    :columns: 3
+
+    {story_hlist}
+
+.. toctree::
+    :hidden:
+
+    {story_toctree}
+
 Chat
 ----
 

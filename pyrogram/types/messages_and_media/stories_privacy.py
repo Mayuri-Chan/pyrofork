@@ -23,7 +23,7 @@ class StoriesPrivacy(Object):
     """A story privacy.
 
     Parameters:
-        type (:obj:`~pyrogram.enums.StoriesPrivary`):
+        type (:obj:`~pyrogram.enums.StoriesPrivacy`):
             Story privacy type.
     """
 
