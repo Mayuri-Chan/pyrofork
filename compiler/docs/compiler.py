@@ -269,6 +269,7 @@ def pyrogram_api():
         """,
         stories="""
         Stories
+            delete_story
             edit_story
             get_stories
             send_story

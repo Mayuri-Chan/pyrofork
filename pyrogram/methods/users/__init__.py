@@ -18,6 +18,7 @@
 
 from .block_user import BlockUser
 from .delete_profile_photos import DeleteProfilePhotos
+from .delete_stories import DeleteStories
 from .edit_story import EditStory
 from .get_chat_photos import GetChatPhotos
 from .get_chat_photos_count import GetChatPhotosCount
@@ -36,6 +37,7 @@ from .update_profile import UpdateProfile
 
 class Users(
     BlockUser,
+    DeleteStories,
     EditStory,
     GetCommonChats,
     GetChatPhotos,
