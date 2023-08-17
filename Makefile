@@ -14,6 +14,10 @@ venv:
 	$(PYTHON) -m pip install -U -r requirements.txt -r dev-requirements.txt
 	@echo "Created venv with $$($(PYTHON) --version)"
 
+clean-docs:
+	$(RM) docs/build
+	$(RM) docs/source/api/bound-methods docs/source/api/methods docs/source/api/types docs/source/telegram
+
 clean-build:
 	$(RM) *.egg-info build dist
 
