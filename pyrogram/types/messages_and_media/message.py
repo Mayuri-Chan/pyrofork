@@ -1,20 +1,21 @@
-#  Pyrogram - Telegram MTProto API Client Library for Python
+#  Pyrofork - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
+#  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
-#  This file is part of Pyrogram.
+#  This file is part of Pyrofork.
 #
-#  Pyrogram is free software: you can redistribute it and/or modify
+#  Pyrofork is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published
 #  by the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  Pyrogram is distributed in the hope that it will be useful,
+#  Pyrofork is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU Lesser General Public License for more details.
 #
 #  You should have received a copy of the GNU Lesser General Public License
-#  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
+#  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
 from datetime import datetime
@@ -207,6 +208,9 @@ class Message(Object, Update):
             New members that were added to the group or supergroup and information about them
             (the bot itself may be one of these members).
 
+        chat_joined_by_request (:obj:`~pyrogram.types.ChatJoinedByRequest`, *optional*):
+            New members chat join request has been approved in group or supergroup.
+
         left_chat_member (:obj:`~pyrogram.types.User`, *optional*):
             A member was removed from the group, information about them (this member may be the bot itself).
 
@@ -356,6 +360,7 @@ class Message(Object, Update):
         poll: "types.Poll" = None,
         dice: "types.Dice" = None,
         new_chat_members: List["types.User"] = None,
+        chat_joined_by_request: "types.ChatJoinedByRequest" = None,
         left_chat_member: "types.User" = None,
         new_chat_title: str = None,
         new_chat_photo: "types.Photo" = None,
@@ -433,6 +438,7 @@ class Message(Object, Update):
         self.poll = poll
         self.dice = dice
         self.new_chat_members = new_chat_members
+        self.chat_joined_by_request = chat_joined_by_request
         self.left_chat_member = left_chat_member
         self.new_chat_title = new_chat_title
         self.new_chat_photo = new_chat_photo
@@ -494,6 +500,7 @@ class Message(Object, Update):
             action = message.action
 
             new_chat_members = None
+            chat_joined_by_request = None
             left_chat_member = None
             new_chat_title = None
             delete_chat_photo = None
@@ -516,6 +523,9 @@ class Message(Object, Update):
             elif isinstance(action, raw.types.MessageActionChatJoinedByLink):
                 new_chat_members = [types.User._parse(client, users[utils.get_raw_peer_id(message.from_id)])]
                 service_type = enums.MessageServiceType.NEW_CHAT_MEMBERS
+            elif isinstance(action, raw.types.MessageActionChatJoinedByRequest):
+                chat_joined_by_request = types.ChatJoinedByRequest()
+                service_type = enums.MessageServiceType.CHAT_JOINED_BY_REQUEST
             elif isinstance(action, raw.types.MessageActionChatDeleteUser):
                 left_chat_member = types.User._parse(client, users[action.user_id])
                 service_type = enums.MessageServiceType.LEFT_CHAT_MEMBERS
@@ -568,6 +578,7 @@ class Message(Object, Update):
                 sender_chat=sender_chat,
                 service=service_type,
                 new_chat_members=new_chat_members,
+                chat_joined_by_request=chat_joined_by_request,
                 left_chat_member=left_chat_member,
                 new_chat_title=new_chat_title,
                 new_chat_photo=new_chat_photo,
