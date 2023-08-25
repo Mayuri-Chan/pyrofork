@@ -41,6 +41,7 @@ from .voice import Voice
 from .web_app_data import WebAppData
 from .web_page import WebPage
 from .message_reactions import MessageReactions
+from .message_story import MessageStory
 from .story import Story
 from .story_views import StoryViews
 from .exported_story_link import ExportedStoryLink
@@ -48,5 +49,5 @@ from .exported_story_link import ExportedStoryLink
 __all__ = [
     "Animation", "Audio", "Contact", "Document", "Game", "Location", "Message", "MessageEntity", "Photo", "Thumbnail",
     "StrippedThumbnail", "Poll", "PollOption", "Sticker", "StickerSet", "Venue", "Video", "VideoNote", "Voice", "WebPage", "Dice",
-    "Reaction", "WebAppData", "MessageReactions", "Story", "StoryViews", "StoriesPrivacy", "ExportedStoryLink"
+    "Reaction", "WebAppData", "MessageReactions", "MessageStory", "Story", "StoryViews", "StoriesPrivacy", "ExportedStoryLink"
 ]
