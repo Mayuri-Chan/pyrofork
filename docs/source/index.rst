@@ -1,4 +1,4 @@
-Welcome to Pyrofork
+Welcome to PyroFork
 ===================
 
 .. raw:: html
@@ -21,7 +21,7 @@ Welcome to Pyrofork
 
 .. code-block:: python
 
-    from pyrogram import Client, filters
+    from pyrofork import Client, filters
 
     app = Client("my_account")
 
