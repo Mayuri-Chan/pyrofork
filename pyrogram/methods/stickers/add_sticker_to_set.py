@@ -18,11 +18,11 @@
 
 import os
 import re
-from typing import Union
 
 import pyrogram
 from pyrogram import raw
 from pyrogram import types
+from pyrogram.file_id import FileId
 
 class AddStickerToSet:
     async def add_sticker_to_set(
