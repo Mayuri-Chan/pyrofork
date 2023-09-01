@@ -182,7 +182,7 @@ class Message(Object, Update):
         game (:obj:`~pyrogram.types.Game`, *optional*):
             Message is a game, information about the game.
 
-        story (:obj:`~pyrogram.types.MessageStory`):
+        story (:obj:`~pyrogram.types.MessageStory`, *optional*):
             Message is a forwarded story, information about the forwarded story.
 
         video (:obj:`~pyrogram.types.Video`, *optional*):

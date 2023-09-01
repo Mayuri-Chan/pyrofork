@@ -442,6 +442,7 @@ def pyrogram_api():
             Sticker
             StickerSet
             Game
+            MessageStory
             WebPage
             Poll
             PollOption
