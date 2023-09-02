@@ -114,6 +114,7 @@ class EditStory:
         # TODO: MediaArea
 
         media = None
+        privacy_rules = None
 
         if privacy:
             privacy_rules = [types.StoriesPrivacy(type=privacy)]
