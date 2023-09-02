@@ -273,6 +273,7 @@ def pyrogram_api():
             delete_stories
             edit_story
             export_story_link
+            get_all_stories
             get_stories
             get_stories_history
             get_user_stories

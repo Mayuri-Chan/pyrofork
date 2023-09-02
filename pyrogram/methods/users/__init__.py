@@ -26,6 +26,7 @@ from .get_chat_photos_count import GetChatPhotosCount
 from .get_common_chats import GetCommonChats
 from .get_default_emoji_statuses import GetDefaultEmojiStatuses
 from .get_me import GetMe
+from .get_all_stories import GetAllStories
 from .get_stories import GetStories
 from .get_stories_history import GetUserStoriesHistory
 from .get_user_stories import GetUserStories
@@ -49,6 +50,7 @@ class Users(
     DeleteProfilePhotos,
     GetUsers,
     GetMe,
+    GetAllStories,
     GetStories,
     GetUserStoriesHistory,
     GetUserStories,
