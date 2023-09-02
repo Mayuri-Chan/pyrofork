@@ -27,6 +27,7 @@ from .get_common_chats import GetCommonChats
 from .get_default_emoji_statuses import GetDefaultEmojiStatuses
 from .get_me import GetMe
 from .get_stories import GetStories
+from .get_stories_history import GetUserStoriesHistory
 from .get_user_stories import GetUserStories
 from .get_users import GetUsers
 from .send_story import SendStory
@@ -49,6 +50,7 @@ class Users(
     GetUsers,
     GetMe,
     GetStories,
+    GetUserStoriesHistory,
     GetUserStories,
     SetUsername,
     GetChatPhotosCount,

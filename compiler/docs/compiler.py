@@ -274,6 +274,7 @@ def pyrogram_api():
             edit_story
             export_story_link
             get_stories
+            get_stories_history
             get_user_stories
             send_story
         """,
