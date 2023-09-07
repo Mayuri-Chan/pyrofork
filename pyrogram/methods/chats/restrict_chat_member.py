@@ -84,16 +84,23 @@ class RestrictChatMember:
                     until_date=utils.datetime_to_timestamp(until_date),
                     send_messages=not permissions.can_send_messages,
                     send_media=not permissions.can_send_media_messages,
-                    send_stickers=not permissions.can_send_other_messages,
-                    send_gifs=not permissions.can_send_other_messages,
-                    send_games=not permissions.can_send_other_messages,
-                    send_inline=not permissions.can_send_other_messages,
                     embed_links=not permissions.can_add_web_page_previews,
                     send_polls=not permissions.can_send_polls,
                     change_info=not permissions.can_change_info,
                     invite_users=not permissions.can_invite_users,
                     pin_messages=not permissions.can_pin_messages,
                     manage_topics=not permissions.can_manage_topics,
+                    send_audios=not permissions.can_send_audios,
+                    send_docs=not permissions.can_send_docs,
+                    send_games=not permissions.can_send_games,
+                    send_gifs=not permissions.can_send_gifs,
+                    send_inline=not permissions.can_send_inline,
+                    send_photos=not permissions.can_send_photos,
+                    send_plain=not permissions.can_send_plain,
+                    send_roundvideos=not permissions.can_send_roundvideos,
+                    send_stickers=not permissions.can_send_stickers,
+                    send_videos=not permissions.can_send_videos,
+                    send_voices=not permissions.can_send_voices
                 )
             )
         )

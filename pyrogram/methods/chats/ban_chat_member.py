@@ -88,7 +88,8 @@ class BanChatMember:
                         send_gifs=True,
                         send_games=True,
                         send_inline=True,
-                        embed_links=True
+                        embed_links=True,
+                        manage_topics=True,
                     )
                 )
             )
