@@ -647,7 +647,7 @@ class Message(Object, Update):
                     forum_topic_closed = types.ForumTopicClosed()
                     service_type = enums.MessageServiceType.FORUM_TOPIC_CLOSED
                 else:
-                    if hasattr(action, "hidden"):
+                    if hasattr(action, "hidden") and action.hidden is not None:
                         general_topic_unhidden = types.GeneralTopicUnhidden()
                         service_type = enums.MessageServiceType.GENERAL_TOPIC_UNHIDDEN
                     else:
