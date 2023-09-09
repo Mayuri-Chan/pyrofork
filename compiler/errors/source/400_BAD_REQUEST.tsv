@@ -321,6 +321,7 @@ TMP_PASSWORD_INVALID	The temporary password is invalid
 TOKEN_INVALID	The provided token is invalid
 TOPIC_CLOSED	The topic was closed
 TOPIC_DELETED	The topic was deleted
+TOPIC_NOT_MODIFIED	The topic was not modified
 TRANSCRIPTION_FAILED	Telegram is having internal problems. Please try again later to transcribe the audio.
 TTL_DAYS_INVALID	The provided TTL days is invalid
 TTL_MEDIA_INVALID	The media does not support self-destruction
