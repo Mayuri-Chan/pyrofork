@@ -745,6 +745,67 @@ linked_channel = create(linked_channel_filter)
 
 # endregion
 
+# region forum_topic_closed_filter
+async def forum_topic_closed_filter(_, __, m: Message):
+    return bool(m.forum_topic_closed)
+
+forum_topic_closed = create(forum_topic_closed_filter)
+"""Filter service message for closed forum topics"""
+
+
+# endregion
+
+# region forum_topic_created_filter
+async def forum_topic_created_filter(_, __, m: Message):
+    return bool(m.forum_topic_created)
+
+forum_topic_created = create(forum_topic_created_filter)
+"""Filter service message for created forum topics"""
+
+
+# endregion
+
+# region forum_topic_edited_filter
+async def forum_topic_edited_filter(_, __, m: Message):
+    return bool(m.forum_topic_edited)
+
+forum_topic_edited = create(forum_topic_edited_filter)
+"""Filter service message for edited forum topics"""
+
+
+# endregion
+
+
+# region forum_topic_reopened_filter
+async def forum_topic_reopened_filter(_, __, m: Message):
+    return bool(m.forum_topic_reopened)
+
+forum_topic_reopened = create(forum_topic_reopened_filter)
+"""Filter service message for reopened forum topics"""
+
+
+# endregion
+
+# region general_topic_hidden_filter
+async def general_topic_hidden_filter(_, __, m: Message):
+    return bool(m.general_topic_hidden)
+
+general_forum_topic_hidden = create(general_topic_hidden_filter)
+
+"""Filter service message for hidden general forum topics"""
+
+
+# endregion
+
+# region general_topic_unhidden_filter
+async def general_topic_unhidden_filter(_, __, m: Message):
+    return bool(m.general_topic_unhidden)
+
+general_forum_topic_unhidden = create(general_topic_unhidden_filter)
+"""Filter service message for unhidden general forum topics"""
+
+
+# endregion
 
 # region command_filter
 def command(commands: Union[str, List[str]], prefixes: Union[str, List[str]] = "/", case_sensitive: bool = False):
