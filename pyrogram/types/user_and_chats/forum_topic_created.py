@@ -25,6 +25,9 @@ class ForumTopicCreated(Object):
 
 
     Parameters:
+        id (``Integer``):
+            Id of the topic
+
         title (``String``):
             Name of the topic.
 
@@ -37,22 +40,25 @@ class ForumTopicCreated(Object):
 
     def __init__(
         self, *,
+        id: int,
         title: str,
         icon_color: int,
         icon_emoji_id: int = None
     ):
         super().__init__()
 
+        self.id = id
         self.title = title
         self.icon_color = icon_color
         self.icon_emoji_id = icon_emoji_id
 
     @staticmethod
-    def _parse(action: "raw.types.MessageActionTopicCreate") -> "ForumTopicCreated":
+    def _parse(message: "raw.base.Message") -> "ForumTopicCreated":
 
 
         return ForumTopicCreated(
-            title=getattr(action,"title", None),
-            icon_color=getattr(action,"icon_color", None),
-            icon_emoji_id=getattr(action,"icon_emoji_id", None)
+            id=getattr(message, "id", None),
+            title=getattr(message.action,"title", None),
+            icon_color=getattr(message.action,"icon_color", None),
+            icon_emoji_id=getattr(message.action,"icon_emoji_id", None)
         )

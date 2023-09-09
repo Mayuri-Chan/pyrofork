@@ -64,4 +64,4 @@ class CreateForumTopic:
             )
         )
 
-        return types.ForumTopicCreated._parse(r.updates[1].message.action)
+        return types.ForumTopicCreated._parse(r.updates[1].message)

@@ -634,7 +634,7 @@ class Message(Object, Update):
                     user_shared = action.peer.user_id
                     service_type = enums.MessageServiceType.UserShared
             elif isinstance(action, raw.types.MessageActionTopicCreate):
-                forum_topic_created = types.ForumTopicCreated._parse(action)
+                forum_topic_created = types.ForumTopicCreated._parse(message)
                 service_type = enums.MessageServiceType.FORUM_TOPIC_CREATED
             elif isinstance(action, raw.types.MessageActionTopicEdit):
                 if action.title:
