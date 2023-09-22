@@ -111,6 +111,12 @@ class Message(Object, Update):
         reply_to_message_id (``int``, *optional*):
             The id of the message which this message directly replied to.
 
+        reply_to_story_id (``int``, *optional*):
+            The id of the story which this message directly replied to.
+
+        reply_to_story_user_id (``int``, *optional*):
+            The id of the story sender which this message directly replied to.
+
         reply_to_top_message_id (``int``, *optional*):
             The id of the first message which started this message thread.
 
@@ -368,6 +374,8 @@ class Message(Object, Update):
         forward_date: datetime = None,
         is_topic_message: bool = None,
         reply_to_message_id: int = None,
+        reply_to_story_id: int = None,
+        reply_to_story_user_id: int = None,
         reply_to_top_message_id: int = None,
         reply_to_message: "Message" = None,
         mentioned: bool = None,
@@ -458,6 +466,8 @@ class Message(Object, Update):
         self.forward_date = forward_date
         self.is_topic_message = is_topic_message
         self.reply_to_message_id = reply_to_message_id
+        self.reply_to_story_id = reply_to_story_id
+        self.reply_to_story_user_id = reply_to_story_user_id
         self.reply_to_top_message_id = reply_to_top_message_id
         self.reply_to_message = reply_to_message
         self.mentioned = mentioned
@@ -967,26 +977,30 @@ class Message(Object, Update):
             )
 
             if message.reply_to:
-                if message.reply_to.forum_topic:
-                    if message.reply_to.reply_to_top_id:
-                        thread_id = message.reply_to.reply_to_top_id
+                if isinstance(message.reply_to, raw.types.MessageReplyHeader):
+                    if message.reply_to.forum_topic:
+                        if message.reply_to.reply_to_top_id:
+                            thread_id = message.reply_to.reply_to_top_id
+                            parsed_message.reply_to_message_id = message.reply_to.reply_to_msg_id
+                        else:
+                            thread_id = message.reply_to.reply_to_msg_id
+                        parsed_message.message_thread_id = thread_id
+                        parsed_message.is_topic_message = True
+                        if topics:
+                            parsed_message.topics = types.ForumTopic._parse(topics[thread_id])
+                        else:
+                            try:
+                                msg = await client.get_messages(parsed_message.chat.id,message.id)
+                                if getattr(msg, "topics"):
+                                    parsed_message.topics = msg.topics
+                            except Exception:
+                                pass
+                    else:
                         parsed_message.reply_to_message_id = message.reply_to.reply_to_msg_id
-                    else:
-                        thread_id = message.reply_to.reply_to_msg_id
-                    parsed_message.message_thread_id = thread_id
-                    parsed_message.is_topic_message = True
-                    if topics:
-                        parsed_message.topics = types.ForumTopic._parse(topics[thread_id])
-                    else:
-                        try:
-                            msg = await client.get_messages(parsed_message.chat.id,message.id)
-                            if getattr(msg, "topics"):
-                                parsed_message.topics = msg.topics
-                        except Exception:
-                            pass
+                        parsed_message.reply_to_top_message_id = message.reply_to.reply_to_top_id
                 else:
-                    parsed_message.reply_to_message_id = message.reply_to.reply_to_msg_id
-                    parsed_message.reply_to_top_message_id = message.reply_to.reply_to_top_id
+                    parsed_message.reply_to_story_id = message.reply_to.story_id
+                    parsed_message.reply_to_story_user_id = message.reply_to.user_id
 
                 if replies:
                     try:
