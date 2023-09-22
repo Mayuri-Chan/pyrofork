@@ -16,10 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Optional, List
-
-import pyrogram
-from pyrogram import raw, types
+from pyrogram import raw
 from ..object import Object
 
 
@@ -27,28 +24,31 @@ class MessageStory(Object):
     """Contains information about a forwarded story.
 
     Parameters:
-        user_id (``int``):
-            Unique user identifier of story sender.
+        from_id (``int``):
+            Unique user/channel identifier of story sender.
 
         story_id (``int``):
             Unique story identifier.
-
     """
 
     def __init__(
         self,
         *,
-        user_id: int,
+        from_id: int,
         story_id: int
     ):
         super().__init__()
 
-        self.user_id = user_id
+        self.from_id = from_id
         self.story_id = story_id
 
     @staticmethod
     def _parse(message_story: "raw.types.MessageMediaStory") -> "MessageStory":
+        if isinstance(message_story.peer, raw.types.PeerChannel):
+            from_id = message_story.peer.channel_id
+        else:
+            from_id = message_story.peer.user_id
         return MessageStory(
-            user_id=message_story.user_id,
+            from_id=from_id,
             story_id=message_story.id
         )
