@@ -51,7 +51,6 @@ class GetAllStories:
 
         r = await self.invoke(rpc, sleep_threshold=-1)
 
-        for user_story in r.user_stories:
-            user_id = user_story.user_id
-            for story in user_story.stories:
-                yield await types.Story._parse(self, story, user_id)
+        for peer_story in r.peer_stories:
+            for story in peer_story.stories:
+                yield await types.Story._parse(self, story, peer_story.peer)

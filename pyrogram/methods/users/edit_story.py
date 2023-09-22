@@ -31,6 +31,7 @@ class EditStory:
     async def edit_story(
         self: "pyrogram.Client",
         story_id: int,
+        channel_id: int = None,
         privacy: "enums.StoriesPrivacy" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
@@ -50,6 +51,9 @@ class EditStory:
         Parameters:
             story_id (``int``):
                 Unique identifier (int) of the target story.
+            
+            channel_id (``int``, *optional*):
+                Unique identifier (int) of the target channel.
 
             animation (``str`` | ``BinaryIO``, *optional*):
                 New story Animation.
@@ -112,6 +116,11 @@ class EditStory:
         """
 
         # TODO: MediaArea
+
+        if channel_id:
+            peer = await self.resolve_peer(channel_id)
+        else:
+            peer = await self.resolve_peer("me")
 
         media = None
         privacy_rules = None
@@ -232,10 +241,11 @@ class EditStory:
         r = await self.invoke(
             raw.functions.stories.EditStory(
                 id=story_id,
+                peer=peer,
                 media=media,
                 privacy_rules=privacy_rules,
                 caption=text,
                 entities=entities
             )
         )
-        return await types.Story._parse(self, r.updates[0].story, r.updates[0].user_id)
+        return await types.Story._parse(self, r.updates[0].story, r.updates[0].peer)

@@ -29,6 +29,7 @@ class DeleteStories:
     async def delete_stories(
         self: "pyrogram.Client",
         story_ids: Union[int, Iterable[int]],
+        channel_id: int = None
     ) -> bool:
         """Delete one or more story by using story identifiers.
 
@@ -38,6 +39,9 @@ class DeleteStories:
             story_ids (``int`` | Iterable of ``int``):
                 Pass a single story identifier or an iterable of story ids (as integers) to get the content of the
                 story themselves.
+
+            channel_id (``int``, *optional*):
+                Unique identifier (int) of the target channel.
 
         Returns:
             `bool`: On success, a True is returned.
@@ -54,10 +58,15 @@ class DeleteStories:
 
         is_iterable = not isinstance(story_ids, int)
         ids = list(story_ids) if is_iterable else [story_ids]
+        
+        if channel_id:
+            peer = await self.resolve_peer(channel_id)
+        else:
+            peer = await self.resolve_peer("me")
 
         try:
             await self.invoke(
-                raw.functions.stories.DeleteStories(id=ids)
+                raw.functions.stories.DeleteStories(peer=peer,id=ids)
             )
         except Exception as e:
             print(e)

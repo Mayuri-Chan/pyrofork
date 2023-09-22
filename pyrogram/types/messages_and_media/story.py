@@ -33,6 +33,9 @@ class Story(Object, Update):
 
         from_user (:obj:`~pyrogram.types.User`, *optional*):
             Sender of the story.
+        
+        sender_chat (:obj:`~pyrogram.types.Chat`, *optional*):
+            Sender of the story. If the story is from channel.
 
         date (:py:obj:`~datetime.datetime`, *optional*):
             Date the story was sent.
@@ -92,7 +95,8 @@ class Story(Object, Update):
         *,
         client: "pyrogram.Client" = None,
         id: int,
-        from_user: "types.User",
+        from_user: "types.User" = None,
+        sender_chat: "types.Chat" = None,
         date: datetime,
         expire_date: datetime,
         media: "enums.MessageMediaType",
@@ -114,6 +118,7 @@ class Story(Object, Update):
 
         self.id = id
         self.from_user = from_user
+        self.sender_chat = sender_chat
         self.date = date
         self.expire_date = expire_date
         self.media = media
@@ -135,13 +140,15 @@ class Story(Object, Update):
     async def _parse(
         client: "pyrogram.Client",
         stories: raw.base.StoryItem,
-        user_id: int
+        peer: Union["raw.types.PeerChannel", "raw.types.PeerUser"]
     ) -> "Story":
         entities = [types.MessageEntity._parse(client, entity, {}) for entity in stories.entities]
         entities = types.List(filter(lambda x: x is not None, entities))
         animation = None
         photo = None
         video = None
+        from_user = None
+        sender_chat = None
         if stories.media:
             if isinstance(stories.media, raw.types.MessageMediaPhoto):
                 photo = types.Photo._parse(client, stories.media.photo, stories.media.ttl_seconds)
@@ -164,11 +171,17 @@ class Story(Object, Update):
                         media_type = None
             else:
                 media_type = None
-        from_user = await client.get_users(user_id)
+        if isinstance(peer, raw.types.PeerChannel):
+            sender_chat = await client.get_chat(peer.channel_id)
+        elif isinstance(peer, raw.types.InputPeerSelf):
+            from_user = client.me
+        else:
+            from_user = await client.get_users(peer.user_id)
 
         return Story(
             id=stories.id,
             from_user=from_user,
+            sender_chat=sender_chat,
             date=utils.timestamp_to_datetime(stories.date),
             expire_date=utils.timestamp_to_datetime(stories.expire_date),
             media=media_type,
@@ -260,7 +273,7 @@ class Story(Object, Update):
             reply_to_story_id = self.id
 
         return await self._client.send_message(
-            chat_id=self.from_user.id,
+            chat_id=self.from_user.id if self.from_user else self.sender_chat.id,
             text=text,
             parse_mode=parse_mode,
             entities=entities,
@@ -399,7 +412,7 @@ class Story(Object, Update):
             reply_to_story_id = self.id
 
         return await self._client.send_animation(
-            chat_id=self.from_user.id,
+            chat_id=self.from_user.id if self.from_user else self.sender_chat.id,
             animation=animation,
             caption=caption,
             parse_mode=parse_mode,
@@ -538,7 +551,7 @@ class Story(Object, Update):
             reply_to_story_id = self.id
 
         return await self._client.send_audio(
-            chat_id=self.from_user.id,
+            chat_id=self.from_user.id if self.from_user else self.sender_chat.id,
             audio=audio,
             caption=caption,
             parse_mode=parse_mode,
@@ -623,7 +636,7 @@ class Story(Object, Update):
             reply_to_story_id = self.id
 
         return await self._client.send_cached_media(
-            chat_id=self.from_user.id,
+            chat_id=self.from_user.id if self.from_user else self.sender_chat.id,
             file_id=file_id,
             caption=caption,
             parse_mode=parse_mode,
@@ -685,7 +698,7 @@ class Story(Object, Update):
             reply_to_story_id = self.id
 
         return await self._client.send_media_group(
-            chat_id=self.chat.id,
+            chat_id=self.from_user.id if self.from_user else self.sender_chat.id,
             media=media,
             disable_notification=disable_notification,
             reply_to_story_id=reply_to_story_id
@@ -797,7 +810,7 @@ class Story(Object, Update):
             reply_to_story_id = self.id
 
         return await self._client.send_photo(
-            chat_id=self.chat.id,
+            chat_id=self.from_user.id if self.from_user else self.sender_chat.id,
             photo=photo,
             caption=caption,
             parse_mode=parse_mode,
@@ -895,7 +908,7 @@ class Story(Object, Update):
             reply_to_story_id = self.id
 
         return await self._client.send_sticker(
-            chat_id=self.chat.id,
+            chat_id=self.from_user.id if self.from_user else self.sender_chat.id,
             sticker=sticker,
             disable_notification=disable_notification,
             reply_to_story_id=reply_to_story_id,
@@ -1038,7 +1051,7 @@ class Story(Object, Update):
             reply_to_story_id = self.id
 
         return await self._client.send_video(
-            chat_id=self.chat.id,
+            chat_id=self.from_user.id if self.from_user else self.sender_chat.id,
             video=video,
             caption=caption,
             parse_mode=parse_mode,
@@ -1156,7 +1169,7 @@ class Story(Object, Update):
             reply_to_story_id = self.id
 
         return await self._client.send_video_note(
-            chat_id=self.chat.id,
+            chat_id=self.from_user.id if self.from_user else self.sender_chat.id,
             video_note=video_note,
             duration=duration,
             length=length,
@@ -1268,7 +1281,7 @@ class Story(Object, Update):
             reply_to_story_id = self.id
 
         return await self._client.send_voice(
-            chat_id=self.chat.id,
+            chat_id=self.from_user.id if self.from_user else self.sender_chat.id,
             voice=voice,
             caption=caption,
             parse_mode=parse_mode,
@@ -1303,7 +1316,10 @@ class Story(Object, Update):
         Raises:
             RPCError: In case of a Telegram RPC error.
         """
-        return await self._client.delete_stories(story_ids=self.id)
+        return await self._client.delete_stories(
+            channel_id=self.sender_chat.id if self.sender_chat else None,
+            story_ids=self.id
+        )
 
     async def edit_animation(
         self,
@@ -1336,6 +1352,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
+            channel_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             animation=animation
         )
@@ -1392,7 +1409,8 @@ class Story(Object, Update):
                 New story video.
                 Pass a file_id as string to send a video that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a video from the Internet,
-                pass a file path as string to upload a new video that exists on your local machine, or
+                pass a file path as string to upload a 
+            channel=self.sender_chat.id if self.sender_chat else None,new video that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
             privacy (:obj:`~pyrogram.enums.StoriesPrivacy`, *optional*):
@@ -1427,6 +1445,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
+            channel_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             privacy=privacy,
             allowed_chats=allowed_chats,
@@ -1452,9 +1471,7 @@ class Story(Object, Update):
         Use as a shortcut for:
 
         .. code-block:: python
-
-            await client.edit_story(
-                story_id=story.id,
+            channel=self.sender_chat.id if self.sender_chat else None,
                 caption="hello"
             )
 
@@ -1481,6 +1498,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
+            channel_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             caption=caption,
             parse_mode=parse_mode,
@@ -1518,6 +1536,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
+            channel_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             photo=photo
         )
@@ -1569,6 +1588,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
+            channel_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             privacy=privacy,
             allowed_chats=allowed_chats,
@@ -1608,6 +1628,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
+            channel_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             video=video
         )
@@ -1635,4 +1656,4 @@ class Story(Object, Update):
         Raises:
             RPCError: In case of a Telegram RPC error.
         """
-        return await self._client.export_story_link(user_id=self.from_user.id, story_id=self.id)
+        return await self._client.export_story_link(from_id=self.from_user.id if self.from_user else self.sender_chat.id, story_id=self.id)

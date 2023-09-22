@@ -28,6 +28,7 @@ log = logging.getLogger(__name__)
 class GetUserStoriesHistory:
     async def get_stories_history(
         self: "pyrogram.Client",
+        channel_id: int = None,
         limit: int = 0,
         offset_id: int = 0
     ) -> Optional[AsyncGenerator["types.Story", None]]:
@@ -36,6 +37,9 @@ class GetUserStoriesHistory:
         .. include:: /_includes/usable-by/users.rst
 
         Parameters:
+            channel_id (``int``, *optional*):
+                Unique identifier (int) of the target channel.
+
             limit (``int``, *optional*):
                 Limits the number of stories to be retrieved.
                 By default, no limit is applied and all stories are returned.
@@ -56,10 +60,15 @@ class GetUserStoriesHistory:
         Raises:
             ValueError: In case of invalid arguments.
         """
+        
+        if channel_id:
+            peer = await self.resolve_peer(channel_id)
+        else:
+            peer = await self.resolve_peer("me")
 
-        rpc = raw.functions.stories.GetStoriesArchive(offset_id=offset_id, limit=limit)
+        rpc = raw.functions.stories.GetStoriesArchive(peer=peer, offset_id=offset_id, limit=limit)
 
         r = await self.invoke(rpc, sleep_threshold=-1)
 
         for story in r.stories:
-            yield await types.Story._parse(self, story, self.me.id)
+            yield await types.Story._parse(self, story, peer)

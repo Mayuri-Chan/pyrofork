@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 class GetStories:
     async def get_stories(
         self: "pyrogram.Client",
-        user_id: Union[int, str],
+        from_id: Union[int, str],
         story_ids: Union[int, Iterable[int]],
     ) -> Union["types.Story", List["types.Story"]]:
         """Get one or more story from an user by using story identifiers.
@@ -36,8 +36,8 @@ class GetStories:
         .. include:: /_includes/usable-by/users.rst
 
         Parameters:
-            user_id (``int`` | ``str``):
-                Unique identifier (int) or username (str) of the target user.
+            from_id (``int`` | ``str``):
+                Unique identifier (int) or username (str) of the target user/channel.
                 For your personal story you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
@@ -53,24 +53,24 @@ class GetStories:
             .. code-block:: python
 
                 # Get one story
-                await app.get_stories(user_id, 12345)
+                await app.get_stories(from_id, 12345)
 
                 # Get more than one story (list of stories)
-                await app.get_stories(user_id, [12345, 12346])
+                await app.get_stories(from_id, [12345, 12346])
 
         Raises:
             ValueError: In case of invalid arguments.
         """
 
-        peer = await self.resolve_peer(user_id)
+        peer = await self.resolve_peer(from_id)
 
         is_iterable = not isinstance(story_ids, int)
         ids = list(story_ids) if is_iterable else [story_ids]
 
-        rpc = raw.functions.stories.GetStoriesByID(user_id=peer, id=ids)
+        rpc = raw.functions.stories.GetStoriesByID(peer=peer, id=ids)
 
         r = await self.invoke(rpc, sleep_threshold=-1)
 
         if is_iterable:
-            return types.List([await types.Story._parse(self, story, user_id) for story in r.stories])
-        return await types.Story._parse(self, r.stories[0], user_id)
+            return types.List([await types.Story._parse(self, story, peer) for story in r.stories])
+        return await types.Story._parse(self, r.stories[0], peer)

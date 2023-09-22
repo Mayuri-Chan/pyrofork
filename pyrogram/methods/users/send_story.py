@@ -30,6 +30,7 @@ class SendStory:
 
     async def send_story(
         self: "pyrogram.Client",
+        channel_id: int = None,
         privacy: "enums.StoriesPrivacy" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
@@ -52,6 +53,9 @@ class SendStory:
         Note: You must pass one of following paramater *animation*, *photo*, *video*
 
         Parameters:
+            channel_id (``int``, *optional*):
+                Unique identifier (int) of the target channel.
+
             animation (``str`` | ``BinaryIO``, *optional*):
                 Animation to send.
                 Pass a file_id as string to send a animation that exists on the Telegram servers,
@@ -125,6 +129,11 @@ class SendStory:
             ValueError: In case of invalid arguments.
         """
         # TODO: media_areas
+
+        if channel_id:
+            peer = await self.resolve_peer(channel_id)
+        else:
+            peer = await self.resolve_peer("me")
 
         if privacy:
             privacy_rules = [types.StoriesPrivacy(type=privacy)]
@@ -243,6 +252,7 @@ class SendStory:
 
         r = await self.invoke(
             raw.functions.stories.SendStory(
+                peer=peer,
                 media=media,
                 privacy_rules=privacy_rules,
                 random_id=self.rnd_id(),
@@ -253,4 +263,4 @@ class SendStory:
                 period=period
             )
         )
-        return await types.Story._parse(self, r.updates[0].story, r.updates[0].user_id)
+        return await types.Story._parse(self, r.updates[0].story, r.updates[0].peer)

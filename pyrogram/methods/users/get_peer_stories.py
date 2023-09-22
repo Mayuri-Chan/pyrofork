@@ -25,18 +25,18 @@ from pyrogram import types
 
 log = logging.getLogger(__name__)
 
-class GetUserStories:
-    async def get_user_stories(
+class GetPeerStories:
+    async def get_peer_stories(
         self: "pyrogram.Client",
-        user_id: Union[int, str]
+        from_id: Union[int, str]
     ) -> Optional[AsyncGenerator["types.Story", None]]:
-        """Get all active stories from an user by using user identifiers.
+        """Get all active stories from an user/channel by using user identifiers.
 
         .. include:: /_includes/usable-by/users.rst
 
         Parameters:
-            user_id (``int`` | ``str``):
-                Unique identifier (int) or username (str) of the target user.
+            from_id (``int`` | ``str``):
+                Unique identifier (int) or username (str) of the target user/channel.
                 For your personal story you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
@@ -46,20 +46,20 @@ class GetUserStories:
         Example:
             .. code-block:: python
 
-                # Get all active story from spesific user
-                async for story in app.get_user_stories(user_id):
+                # Get all active story from spesific user/channel
+                async for story in app.get_peer_stories(from_id):
                     print(story)
 
         Raises:
             ValueError: In case of invalid arguments.
         """
 
-        peer = await self.resolve_peer(user_id)
+        peer = await self.resolve_peer(from_id)
 
 
-        rpc = raw.functions.stories.GetUserStories(user_id=peer)
+        rpc = raw.functions.stories.GetPeerStories(peer=peer)
 
         r = await self.invoke(rpc, sleep_threshold=-1)
 
         for story in r.stories.stories:
-            yield await types.Story._parse(self, story, user_id)
+            yield await types.Story._parse(self, story, peer)

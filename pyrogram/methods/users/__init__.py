@@ -29,7 +29,7 @@ from .get_me import GetMe
 from .get_all_stories import GetAllStories
 from .get_stories import GetStories
 from .get_stories_history import GetUserStoriesHistory
-from .get_user_stories import GetUserStories
+from .get_peer_stories import GetPeerStories
 from .get_users import GetUsers
 from .send_story import SendStory
 from .set_emoji_status import SetEmojiStatus
@@ -53,7 +53,7 @@ class Users(
     GetAllStories,
     GetStories,
     GetUserStoriesHistory,
-    GetUserStories,
+    GetPeerStories,
     SetUsername,
     GetChatPhotosCount,
     UnblockUser,

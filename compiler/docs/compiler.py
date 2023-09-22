@@ -276,7 +276,7 @@ def pyrogram_api():
             get_all_stories
             get_stories
             get_stories_history
-            get_user_stories
+            get_peer_stories
             send_story
         """,
         stickers="""
