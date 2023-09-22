@@ -124,6 +124,9 @@ class Message(Object, Update):
             For replies, the original message. Note that the Message object in this field will not contain
             further reply_to_message fields even if it itself is a reply.
 
+        reply_to_story (:obj:`~pyrogram.types.Story`, *optional*):
+            For replies, the original story.
+
         mentioned (``bool``, *optional*):
             The message contains a mention.
 
@@ -378,6 +381,7 @@ class Message(Object, Update):
         reply_to_story_user_id: int = None,
         reply_to_top_message_id: int = None,
         reply_to_message: "Message" = None,
+        reply_to_story: "types.Story" = None,
         mentioned: bool = None,
         empty: bool = None,
         service: "enums.MessageServiceType" = None,
@@ -470,6 +474,7 @@ class Message(Object, Update):
         self.reply_to_story_user_id = reply_to_story_user_id
         self.reply_to_top_message_id = reply_to_top_message_id
         self.reply_to_message = reply_to_message
+        self.reply_to_story = reply_to_story
         self.mentioned = mentioned
         self.empty = empty
         self.service = service
@@ -1003,20 +1008,31 @@ class Message(Object, Update):
                     parsed_message.reply_to_story_user_id = message.reply_to.user_id
 
                 if replies:
-                    try:
-                        key = (parsed_message.chat.id, parsed_message.reply_to_message_id)
-                        reply_to_message = client.message_cache[key]
+                    if parsed_message.reply_to_message_id:
+                        try:
+                            key = (parsed_message.chat.id, parsed_message.reply_to_message_id)
+                            reply_to_message = client.message_cache[key]
 
-                        if not reply_to_message:
-                            reply_to_message = await client.get_messages(
-                                parsed_message.chat.id,
-                                reply_to_message_ids=message.id,
-                                replies=replies - 1
+                            if not reply_to_message:
+                                reply_to_message = await client.get_messages(
+                                    parsed_message.chat.id,
+                                    reply_to_message_ids=message.id,
+                                    replies=replies - 1
+                                )
+                            if reply_to_message and not reply_to_message.forum_topic_created:
+                                parsed_message.reply_to_message = reply_to_message
+                        except MessageIdsEmpty:
+                            pass
+                    elif parsed_message.reply_to_story_id:
+                        try:
+                            reply_to_story = await client.get_stories(
+                                parsed_message.reply_to_story_user_id,
+                                parsed_message.reply_to_story_id
                             )
-                        if reply_to_message and not reply_to_message.forum_topic_created:
-                            parsed_message.reply_to_message = reply_to_message
-                    except MessageIdsEmpty:
-                        pass
+                        except Exception:
+                            pass
+                        else:
+                            parsed_message.reply_to_story = reply_to_story
 
             if not parsed_message.poll:  # Do not cache poll messages
                 client.message_cache[(parsed_message.chat.id, parsed_message.id)] = parsed_message
