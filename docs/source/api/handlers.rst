@@ -43,6 +43,7 @@ Index
     - :class:`ChosenInlineResultHandler`
     - :class:`ChatMemberUpdatedHandler`
     - :class:`UserStatusHandler`
+    - :class:`StoryHandler`
     - :class:`PollHandler`
     - :class:`DisconnectHandler`
     - :class:`RawUpdateHandler`
@@ -61,6 +62,7 @@ Details
 .. autoclass:: ChosenInlineResultHandler()
 .. autoclass:: ChatMemberUpdatedHandler()
 .. autoclass:: UserStatusHandler()
+.. autoclass:: StoryHandler()
 .. autoclass:: PollHandler()
 .. autoclass:: DisconnectHandler()
 .. autoclass:: RawUpdateHandler()
