@@ -468,6 +468,8 @@ def pyrogram_api():
         stories="""
         Stories
             Story
+            StoryDeleted
+            StorySkipped
             StoriesPrivacy
             StoryViews
         """,

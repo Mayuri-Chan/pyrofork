@@ -142,63 +142,68 @@ class Story(Object, Update):
         stories: raw.base.StoryItem,
         peer: Union["raw.types.PeerChannel", "raw.types.PeerUser"]
     ) -> "Story":
-        entities = [types.MessageEntity._parse(client, entity, {}) for entity in stories.entities]
-        entities = types.List(filter(lambda x: x is not None, entities))
-        animation = None
-        photo = None
-        video = None
-        from_user = None
-        sender_chat = None
-        if stories.media:
-            if isinstance(stories.media, raw.types.MessageMediaPhoto):
-                photo = types.Photo._parse(client, stories.media.photo, stories.media.ttl_seconds)
-                media_type = enums.MessageMediaType.PHOTO
-            elif isinstance(stories.media, raw.types.MessageMediaDocument):
-                doc = stories.media.document
+        if isinstance(stories, raw.types.StoryItem):
+            entities = [types.MessageEntity._parse(client, entity, {}) for entity in stories.entities]
+            entities = types.List(filter(lambda x: x is not None, entities))
+            animation = None
+            photo = None
+            video = None
+            from_user = None
+            sender_chat = None
+            if stories.media:
+                if isinstance(stories.media, raw.types.MessageMediaPhoto):
+                    photo = types.Photo._parse(client, stories.media.photo, stories.media.ttl_seconds)
+                    media_type = enums.MessageMediaType.PHOTO
+                elif isinstance(stories.media, raw.types.MessageMediaDocument):
+                    doc = stories.media.document
 
-                if isinstance(doc, raw.types.Document):
-                    attributes = {type(i): i for i in doc.attributes}
+                    if isinstance(doc, raw.types.Document):
+                        attributes = {type(i): i for i in doc.attributes}
 
-                    if raw.types.DocumentAttributeAnimated in attributes:
-                        video_attributes = attributes.get(raw.types.DocumentAttributeVideo, None)
-                        animation = types.Animation._parse(client, doc, video_attributes, None)
-                        media_type = enums.MessageMediaType.ANIMATION
-                    elif raw.types.DocumentAttributeVideo in attributes:
-                        video_attributes = attributes.get(raw.types.DocumentAttributeVideo, None)
-                        video = types.Video._parse(client, doc, video_attributes, None, stories.media.ttl_seconds)
-                        media_type = enums.MessageMediaType.VIDEO
-                    else:
-                        media_type = None
+                        if raw.types.DocumentAttributeAnimated in attributes:
+                            video_attributes = attributes.get(raw.types.DocumentAttributeVideo, None)
+                            animation = types.Animation._parse(client, doc, video_attributes, None)
+                            media_type = enums.MessageMediaType.ANIMATION
+                        elif raw.types.DocumentAttributeVideo in attributes:
+                            video_attributes = attributes.get(raw.types.DocumentAttributeVideo, None)
+                            video = types.Video._parse(client, doc, video_attributes, None, stories.media.ttl_seconds)
+                            media_type = enums.MessageMediaType.VIDEO
+                        else:
+                            media_type = None
+                else:
+                    media_type = None
+            if isinstance(peer, raw.types.PeerChannel):
+                sender_chat = await client.get_chat(peer.channel_id)
+            elif isinstance(peer, raw.types.InputPeerSelf):
+                from_user = client.me
             else:
-                media_type = None
-        if isinstance(peer, raw.types.PeerChannel):
-            sender_chat = await client.get_chat(peer.channel_id)
-        elif isinstance(peer, raw.types.InputPeerSelf):
-            from_user = client.me
-        else:
-            from_user = await client.get_users(peer.user_id)
+                from_user = await client.get_users(peer.user_id)
 
-        return Story(
-            id=stories.id,
-            from_user=from_user,
-            sender_chat=sender_chat,
-            date=utils.timestamp_to_datetime(stories.date),
-            expire_date=utils.timestamp_to_datetime(stories.expire_date),
-            media=media_type,
-            has_protected_content=stories.noforwards,
-            animation=animation,
-            photo=photo,
-            video=video,
-            edited=stories.edited,
-            pinned=stories.pinned,
-            public=stories.public,
-            close_friends=stories.close_friends,
-            contacts=stories.contacts,
-            selected_contacts=stories.selected_contacts,
-            caption=stories.caption,
-            caption_entities=entities or None,
-            views=types.StoryViews._parse(stories.views)
-        )
+            return Story(
+                id=stories.id,
+                from_user=from_user,
+                sender_chat=sender_chat,
+                date=utils.timestamp_to_datetime(stories.date),
+                expire_date=utils.timestamp_to_datetime(stories.expire_date),
+                media=media_type,
+                has_protected_content=stories.noforwards,
+                animation=animation,
+                photo=photo,
+                video=video,
+                edited=stories.edited,
+                pinned=stories.pinned,
+                public=stories.public,
+                close_friends=stories.close_friends,
+                contacts=stories.contacts,
+                selected_contacts=stories.selected_contacts,
+                caption=stories.caption,
+                caption_entities=entities or None,
+                views=types.StoryViews._parse(stories.views)
+            )
+        if isinstance(stories, raw.types.StoryItemSkipped):
+            return await types.StorySkipped()._parse(client, stories, peer)
+        if isinstance(stories, raw.types.StoryItemDeleted):
+            return await types.StoryDeleted()._parse(client, stories, peer)
 
     async def reply_text(
         self,
