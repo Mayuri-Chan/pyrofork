@@ -18,9 +18,8 @@
 
 import pyrogram
 
-from datetime import datetime
-from pyrogram import enums, raw, types, utils
-from typing import BinaryIO, Callable, List, Optional, Union
+from pyrogram import raw, types
+from typing import Union
 from ..object import Object
 from ..update import Update
 
@@ -49,6 +48,8 @@ class StoryDeleted(Object, Update):
         super().__init__(client)
 
         self.id = id
+        self.from_user = from_user
+        self.sender_chat = sender_chat
 
     async def _parse(
         client: "pyrogram.Client",
@@ -67,5 +68,6 @@ class StoryDeleted(Object, Update):
         return StoryDeleted(
             id=stories.id,
             from_user=from_user,
-            sender_chat=sender_chat
+            sender_chat=sender_chat,
+            client=client
         )

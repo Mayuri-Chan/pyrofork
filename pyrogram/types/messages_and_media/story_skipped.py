@@ -19,8 +19,8 @@
 import pyrogram
 
 from datetime import datetime
-from pyrogram import enums, raw, types, utils
-from typing import BinaryIO, Callable, List, Optional, Union
+from pyrogram import raw, types, utils
+from typing import Union
 from ..object import Object
 from ..update import Update
 
@@ -47,8 +47,6 @@ class StorySkipped(Object, Update):
            True, if the Story is shared with close_friends only.
     """
 
-    # TODO: Add Privacy
-
     def __init__(
         self,
         *,
@@ -63,6 +61,8 @@ class StorySkipped(Object, Update):
         super().__init__(client)
 
         self.id = id
+        self.from_user = from_user
+        self.sender_chat = sender_chat
         self.date = date
         self.expire_date = expire_date
         self.close_friends = close_friends
@@ -87,5 +87,6 @@ class StorySkipped(Object, Update):
             sender_chat=sender_chat,
             date=utils.timestamp_to_datetime(stories.date),
             expire_date=utils.timestamp_to_datetime(stories.expire_date),
-            close_friends=stories.close_friends
+            close_friends=stories.close_friends,
+            client=client
         )
