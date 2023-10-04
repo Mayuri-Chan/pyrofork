@@ -31,7 +31,7 @@ class SendStory:
     async def send_story(
         self: "pyrogram.Client",
         channel_id: int = None,
-        privacy: "enums.StoriesPrivacy" = None,
+        privacy: "enums.StoriesPrivacyRules" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
         allowed_chats: List[int] = None,
@@ -77,9 +77,9 @@ class SendStory:
                 pass a file path as string to upload a new video that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
-            privacy (:obj:`~pyrogram.enums.StoriesPrivacy`, *optional*):
+            privacy (:obj:`~pyrogram.enums.StoriesPrivacyRules`, *optional*):
                 Story privacy.
-                Defaults to :obj:`~pyrogram.enums.StoriesPrivacy.PUBLIC`
+                Defaults to :obj:`~pyrogram.enums.StoriesPrivacyRules.PUBLIC`
 
             allowed_chats (List of ``int``, *optional*):
                 List of chat_id which participant allowed to view the story.
@@ -136,9 +136,9 @@ class SendStory:
             peer = await self.resolve_peer("me")
 
         if privacy:
-            privacy_rules = [types.StoriesPrivacy(type=privacy)]
+            privacy_rules = [types.StoriesPrivacyRules(type=privacy)]
         else:
-            privacy_rules = [types.StoriesPrivacy(type=enums.StoriesPrivacy.PUBLIC)]
+            privacy_rules = [types.StoriesPrivacyRules(type=enums.StoriesPrivacyRules.PUBLIC)]
 
         if animation:
             if isinstance(animation, str):

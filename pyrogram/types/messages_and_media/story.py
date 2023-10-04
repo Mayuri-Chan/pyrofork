@@ -1364,7 +1364,7 @@ class Story(Object, Update):
 
     async def edit(
         self,
-        privacy: "enums.StoriesPrivacy" = None,
+        privacy: "enums.StoriesPrivacyRules" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
         allowed_chats: List[int] = None,
@@ -1418,7 +1418,7 @@ class Story(Object, Update):
             channel=self.sender_chat.id if self.sender_chat else None,new video that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
-            privacy (:obj:`~pyrogram.enums.StoriesPrivacy`, *optional*):
+            privacy (:obj:`~pyrogram.enums.StoriesPrivacyRules`, *optional*):
                 Story privacy.
 
             allowed_chats (List of ``int``, *optional*):
@@ -1548,7 +1548,7 @@ class Story(Object, Update):
 
     async def edit_privacy(
         self,
-        privacy: "enums.StoriesPrivacy" = None,
+        privacy: "enums.StoriesPrivacyRules" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
         allowed_chats: List[int] = None,
@@ -1562,16 +1562,16 @@ class Story(Object, Update):
 
             await client.edit_story(
                 story_id=story.id,
-                privacy=enums.StoriesPrivacy.PUBLIC
+                privacy=enums.StoriesPrivacyRules.PUBLIC
             )
 
         Example:
             .. code-block:: python
 
-                await story.edit_privacy(enums.StoriesPrivacy.PUBLIC)
+                await story.edit_privacy(enums.StoriesPrivacyRules.PUBLIC)
 
         Parameters:
-            privacy (:obj:`~pyrogram.enums.StoriesPrivacy`, *optional*):
+            privacy (:obj:`~pyrogram.enums.StoriesPrivacyRules`, *optional*):
                 Story privacy.
 
             allowed_chats (List of ``int``, *optional*):

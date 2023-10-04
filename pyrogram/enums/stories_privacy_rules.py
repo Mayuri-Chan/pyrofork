@@ -21,8 +21,8 @@ from enum import auto
 from .auto_name import AutoName
 
 
-class StoriesPrivacy(AutoName):
-    """Poll type enumeration used in :obj:`~pyrogram.types.Story`."""
+class StoriesPrivacyRules(AutoName):
+    """Stories privacy rules type enumeration used in :obj:`~pyrogram.method.SendStory`."""
 
     PUBLIC = auto()
     "Public stories"

@@ -32,7 +32,7 @@ class EditStory:
         self: "pyrogram.Client",
         story_id: int,
         channel_id: int = None,
-        privacy: "enums.StoriesPrivacy" = None,
+        privacy: "enums.StoriesPrivacyRules" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
         allowed_chats: List[int] = None,
@@ -76,7 +76,7 @@ class EditStory:
                 pass a file path as string to upload a new video that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
-            privacy (:obj:`~pyrogram.enums.StoriesPrivacy`, *optional*):
+            privacy (:obj:`~pyrogram.enums.StoriesPrivacyRules`, *optional*):
                 Story privacy.
 
             allowed_chats (List of ``int``, *optional*):
@@ -126,7 +126,7 @@ class EditStory:
         privacy_rules = None
 
         if privacy:
-            privacy_rules = [types.StoriesPrivacy(type=privacy)]
+            privacy_rules = [types.StoriesPrivacyRules(type=privacy)]
 
         if animation:
             if isinstance(animation, str):
