@@ -28,6 +28,7 @@ to apply only a valid value among the expected ones.
     NextCodeType
     UserStatus
     StoriesPrivacyRules
+    StoryPrivacy
 
 .. toctree::
     :hidden:
@@ -47,3 +48,4 @@ to apply only a valid value among the expected ones.
     NextCodeType
     UserStatus
     StoriesPrivacyRules
+    StoryPrivacy

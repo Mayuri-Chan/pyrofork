@@ -86,9 +86,24 @@ class Story(Object, Update):
 
         views (:obj:`~pyrogram.types.StoryViews`, *optional*):
             Stories views.
+
+        privacy (:obj:`~pyrogram.enums.StoryPrivacy`, *optional*):
+            Story privacy.
+
+        allowed_chats (List of ``int``, *optional*):
+            List of chat_id which participant allowed to view the story.
+
+        denied_chats (List of ``int``, *optional*):
+            List of chat_id which participant denied to view the story.
+
+        allowed_users (List of ``int``, *optional*):
+            List of user_id whos allowed to view the story.
+
+        denied_users (List of ``int``, *optional*):
+            List of user_id whos denied to view the story.
     """
 
-    # TODO: Add Privacy
+    # TODO: Add Media Areas
 
     def __init__(
         self,
@@ -112,7 +127,12 @@ class Story(Object, Update):
         selected_contacts: bool = None,
         caption: str = None,
         caption_entities: List["types.MessageEntity"] = None,
-        views: "types.StoryViews" = None
+        views: "types.StoryViews" = None,
+        privacy: "enums.StoryPrivacy" = None,
+        allowed_users: List[int] = None,
+        denied_users: List[int] = None,
+        allowed_chats: List[int] = None,
+        denied_chats: List[int] = None
     ):
         super().__init__(client)
 
@@ -135,6 +155,11 @@ class Story(Object, Update):
         self.caption = caption
         self.caption_entities = caption_entities
         self.views = views
+        self.privay = privacy
+        self.allowed_users = allowed_users
+        self.denied_users = denied_users
+        self.allowed_chats = allowed_chats
+        self.denied_chats = denied_chats
 
     @staticmethod
     async def _parse(
@@ -153,6 +178,11 @@ class Story(Object, Update):
         video = None
         from_user = None
         sender_chat = None
+        privacy = None
+        allowed_chats = None
+        allowed_users = None
+        denied_chats = None
+        denied_users = None
         if stories.media:
             if isinstance(stories.media, raw.types.MessageMediaPhoto):
                 photo = types.Photo._parse(client, stories.media.photo, stories.media.ttl_seconds)
@@ -181,6 +211,30 @@ class Story(Object, Update):
             from_user = client.me
         else:
             from_user = await client.get_users(peer.user_id)
+        
+        for priv in stories.privacy:
+            if isinstance(priv, raw.types.PrivacyValueAllowAll):
+                privacy = enums.StoryPrivacy.PUBLIC
+            elif isinstance(priv, raw.types.PrivacyValueAllowCloseFriends):
+                privacy = enums.StoryPrivacy.CLOSE_FRIENDS
+            elif isinstance(priv, raw.types.PrivacyValueAllowContacts):
+                privacy = enums.StoryPrivacy.CONTACTS
+            elif isinstance(priv, raw.types.PrivacyValueDisallowAll):
+                privacy = enums.StoryPrivacy.PRIVATE
+            elif isinstance(priv, raw.types.PrivacyValueDisallowContacts):
+                privacy = enums.StoryPrivacy.NO_CONTACTS
+            if isinstance(priv, raw.types.PrivacyValueAllowChatParticipants):
+                allowed_chats = []
+                for chat in priv.chats:
+                    allowed_chats.append(f"-100{chat}")
+            if isinstance(priv, raw.types.PrivacyValueDisallowChatParticipants):
+                denied_chats = []
+                for chat in priv.chats:
+                    denied_chats.append(f"-100{chat}")
+            if isinstance(priv, raw.types.PrivacyValueAllowUsers):
+                allowed_users = priv.users
+            if isinstance(priv, raw.types.PrivacyValueDisallowUsers):
+                denied_users = priv.users
 
         return Story(
             id=stories.id,
@@ -202,6 +256,11 @@ class Story(Object, Update):
             caption=stories.caption,
             caption_entities=entities or None,
             views=types.StoryViews._parse(stories.views),
+            privacy=privacy,
+            allowed_chats=allowed_chats,
+            denied_chats=denied_chats,
+            allowed_users=allowed_users,
+            denied_users=denied_users,
             client=client
         )
 

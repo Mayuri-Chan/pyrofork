@@ -30,6 +30,7 @@ from .parse_mode import ParseMode
 from .poll_type import PollType
 from .sent_code_type import SentCodeType
 from .stories_privacy_rules import StoriesPrivacyRules
+from .story_privacy import StoryPrivacy
 from .user_status import UserStatus
 
 __all__ = [
@@ -47,5 +48,6 @@ __all__ = [
     'PollType', 
     'SentCodeType',
     "StoriesPrivacyRules",
+    "StoryPrivacy",
     'UserStatus'
 ]
