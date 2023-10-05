@@ -90,12 +90,6 @@ class Story(Object, Update):
         privacy (:obj:`~pyrogram.enums.StoryPrivacy`, *optional*):
             Story privacy.
 
-        allowed_chats (List of ``int``, *optional*):
-            List of chat_id which participant allowed to view the story.
-
-        denied_chats (List of ``int``, *optional*):
-            List of chat_id which participant denied to view the story.
-
         allowed_users (List of ``int``, *optional*):
             List of user_id whos allowed to view the story.
 
@@ -103,7 +97,7 @@ class Story(Object, Update):
             List of user_id whos denied to view the story.
     """
 
-    # TODO: Add Media Areas
+    # TODO: Add Media Areas, fix Allowed Chats
 
     def __init__(
         self,
@@ -131,8 +125,8 @@ class Story(Object, Update):
         privacy: "enums.StoryPrivacy" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
-        allowed_chats: List[int] = None,
-        denied_chats: List[int] = None
+        #allowed_chats: List[int] = None,
+        #denied_chats: List[int] = None
     ):
         super().__init__(client)
 
@@ -158,8 +152,8 @@ class Story(Object, Update):
         self.privay = privacy
         self.allowed_users = allowed_users
         self.denied_users = denied_users
-        self.allowed_chats = allowed_chats
-        self.denied_chats = denied_chats
+        #self.allowed_chats = allowed_chats
+        #self.denied_chats = denied_chats
 
     @staticmethod
     async def _parse(
@@ -179,9 +173,9 @@ class Story(Object, Update):
         from_user = None
         sender_chat = None
         privacy = None
-        allowed_chats = None
+        #allowed_chats = None
         allowed_users = None
-        denied_chats = None
+        #denied_chats = None
         denied_users = None
         if stories.media:
             if isinstance(stories.media, raw.types.MessageMediaPhoto):
@@ -223,14 +217,15 @@ class Story(Object, Update):
                 privacy = enums.StoryPrivacy.PRIVATE
             elif isinstance(priv, raw.types.PrivacyValueDisallowContacts):
                 privacy = enums.StoryPrivacy.NO_CONTACTS
-            if isinstance(priv, raw.types.PrivacyValueAllowChatParticipants):
-                allowed_chats = []
-                for chat in priv.chats:
-                    allowed_chats.append(f"-100{chat}")
-            if isinstance(priv, raw.types.PrivacyValueDisallowChatParticipants):
-                denied_chats = []
-                for chat in priv.chats:
-                    denied_chats.append(f"-100{chat}")
+
+            '''
+            if allowed_chats and len(allowed_chats) > 0:
+                chats = [int(str(chat_id)[3:]) if str(chat_id).startswith("-100") else chat_id for chat_id in allowed_chats]
+                privacy_rules.append(raw.types.InputPrivacyValueAllowChatParticipants(chats=chats))
+            if denied_chats and len(denied_chats) > 0:
+                chats = [int(str(chat_id)[3:]) if str(chat_id).startswith("-100") else chat_id for chat_id in denied_chats]
+                privacy_rules.append(raw.types.InputPrivacyValueDisallowChatParticipants(chats=chats))
+            '''
             if isinstance(priv, raw.types.PrivacyValueAllowUsers):
                 allowed_users = priv.users
             if isinstance(priv, raw.types.PrivacyValueDisallowUsers):
@@ -257,8 +252,8 @@ class Story(Object, Update):
             caption_entities=entities or None,
             views=types.StoryViews._parse(stories.views),
             privacy=privacy,
-            allowed_chats=allowed_chats,
-            denied_chats=denied_chats,
+            #allowed_chats=allowed_chats,
+            #denied_chats=denied_chats,
             allowed_users=allowed_users,
             denied_users=denied_users,
             client=client
@@ -1426,8 +1421,8 @@ class Story(Object, Update):
         privacy: "enums.StoriesPrivacyRules" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
-        allowed_chats: List[int] = None,
-        denied_chats: List[int] = None,
+        #allowed_chats: List[int] = None,
+        #denied_chats: List[int] = None,
         animation: str = None,
         photo: str = None,
         video: str = None,
@@ -1480,12 +1475,6 @@ class Story(Object, Update):
             privacy (:obj:`~pyrogram.enums.StoriesPrivacyRules`, *optional*):
                 Story privacy.
 
-            allowed_chats (List of ``int``, *optional*):
-                List of chat_id which participant allowed to view the story.
-
-            denied_chats (List of ``int``, *optional*):
-                List of chat_id which participant denied to view the story.
-
             allowed_users (List of ``int``, *optional*):
                 List of user_id whos allowed to view the story.
 
@@ -1512,8 +1501,8 @@ class Story(Object, Update):
             channel_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             privacy=privacy,
-            allowed_chats=allowed_chats,
-            denied_chats=denied_chats,
+            #allowed_chats=allowed_chats,
+            #denied_chats=denied_chats,
             allowed_users=allowed_users,
             denied_users=denied_users,
             animation=animation,
@@ -1610,8 +1599,8 @@ class Story(Object, Update):
         privacy: "enums.StoriesPrivacyRules" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
-        allowed_chats: List[int] = None,
-        denied_chats: List[int] = None
+        #allowed_chats: List[int] = None,
+        #denied_chats: List[int] = None
     ) -> "types.Story":
         """Bound method *edit_privacy* of :obj:`~pyrogram.types.Story`.
 
@@ -1633,12 +1622,6 @@ class Story(Object, Update):
             privacy (:obj:`~pyrogram.enums.StoriesPrivacyRules`, *optional*):
                 Story privacy.
 
-            allowed_chats (List of ``int``, *optional*):
-                List of chat_id which participant allowed to view the story.
-
-            denied_chats (List of ``int``, *optional*):
-                List of chat_id which participant denied to view the story.
-
             allowed_users (List of ``int``, *optional*):
                 List of user_id whos allowed to view the story.
 
@@ -1655,8 +1638,8 @@ class Story(Object, Update):
             channel_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             privacy=privacy,
-            allowed_chats=allowed_chats,
-            denied_chats=denied_chats,
+            #allowed_chats=allowed_chats,
+            #denied_chats=denied_chats,
             allowed_users=allowed_users,
             denied_users=denied_users
         )

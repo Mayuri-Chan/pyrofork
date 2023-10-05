@@ -34,8 +34,8 @@ class SendStory:
         privacy: "enums.StoriesPrivacyRules" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
-        allowed_chats: List[int] = None,
-        denied_chats: List[int] = None,
+        #allowed_chats: List[int] = None,
+        #denied_chats: List[int] = None,
         animation: str = None,
         photo: str = None,
         video: str = None,
@@ -80,12 +80,6 @@ class SendStory:
             privacy (:obj:`~pyrogram.enums.StoriesPrivacyRules`, *optional*):
                 Story privacy.
                 Defaults to :obj:`~pyrogram.enums.StoriesPrivacyRules.PUBLIC`
-
-            allowed_chats (List of ``int``, *optional*):
-                List of chat_id which participant allowed to view the story.
-
-            denied_chats (List of ``int``, *optional*):
-                List of chat_id which participant denied to view the story.
 
             allowed_users (List of ``int``, *optional*):
                 List of user_id whos allowed to view the story.
@@ -237,12 +231,14 @@ class SendStory:
         
         text, entities = self._split(**await utils.parse_text_entities(self, caption, parse_mode, caption_entities))
 
+        '''
         if allowed_chats and len(allowed_chats) > 0:
             chats = [await self.resolve_peer(chat_id) for chat_id in allowed_chats]
             privacy_rules.append(raw.types.InputPrivacyValueAllowChatParticipants(chats=chats))
         if denied_chats and len(denied_chats) > 0:
             chats = [await self.resolve_peer(chat_id) for chat_id in denied_chats]
             privacy_rules.append(raw.types.InputPrivacyValueDisallowChatParticipants(chats=chats))
+        '''
         if allowed_users and len(allowed_users) > 0:
             users = [await self.resolve_peer(user_id) for user_id in allowed_users]
             privacy_rules.append(raw.types.InputPrivacyValueAllowUsers(users=users))
