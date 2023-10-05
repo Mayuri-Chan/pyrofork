@@ -470,7 +470,7 @@ def pyrogram_api():
             Story
             StoryDeleted
             StorySkipped
-            StoriesPrivacy
+            StoriesPrivacyRules
             StoryViews
         """,
         bot_keyboards="""
