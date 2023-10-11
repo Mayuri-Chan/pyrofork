@@ -65,6 +65,8 @@ class SetChatPermissions:
                 )
         """
 
+        old_permissions = (await self.get_chat(chat_id)).permissions
+
         r = await self.invoke(
             raw.functions.messages.EditChatDefaultBannedRights(
                 peer=await self.resolve_peer(chat_id),
@@ -72,23 +74,23 @@ class SetChatPermissions:
                     until_date=0,
                     send_messages=not permissions.can_send_messages if permissions.can_send_messages is not None else None,
                     send_media=not permissions.can_send_media_messages if permissions.can_send_media_messages is not None else None,
-                    embed_links=not permissions.can_add_web_page_previews if permissions.can_add_web_page_previews is not None else None,
-                    send_polls=not permissions.can_send_polls if permissions.can_send_polls is not None else None,
-                    change_info=not permissions.can_change_info if permissions.can_change_info is not None else None,
-                    invite_users=not permissions.can_invite_users if permissions.can_invite_users is not None else None,
-                    pin_messages=not permissions.can_pin_messages if permissions.can_pin_messages is not None else None,
-                    manage_topics=not permissions.can_manage_topics if permissions.can_manage_topics is not None else None,
-                    send_audios=not permissions.can_send_audios if permissions.can_send_audios is not None else None,
-                    send_docs=not permissions.can_send_docs if permissions.can_send_docs is not None else None,
-                    send_games=not permissions.can_send_games if permissions.can_send_games is not None else None,
-                    send_gifs=not permissions.can_send_gifs if permissions.can_send_gifs is not None else None,
-                    send_inline=not permissions.can_send_inline if permissions.can_send_inline is not None else None,
-                    send_photos=not permissions.can_send_photos if permissions.can_send_photos is not None else None,
-                    send_plain=not permissions.can_send_plain if permissions.can_send_plain is not None else None,
-                    send_roundvideos=not permissions.can_send_roundvideos if permissions.can_send_roundvideos is not None else None,
-                    send_stickers=not permissions.can_send_stickers if permissions.can_send_stickers is not None else None,
-                    send_videos=not permissions.can_send_videos if permissions.can_send_videos is not None else None,
-                    send_voices=not permissions.can_send_voices if permissions.can_send_voices is not None else None
+                    embed_links=not permissions.can_add_web_page_previews if permissions.can_add_web_page_previews is not None else not old_permissions.can_add_web_page_previews,
+                    send_polls=not permissions.can_send_polls if permissions.can_send_polls is not None else not old_permissions.can_send_polls,
+                    change_info=not permissions.can_change_info if permissions.can_change_info is not None else not old_permissions.can_change_info,
+                    invite_users=not permissions.can_invite_users if permissions.can_invite_users is not None else not old_permissions.can_invite_users,
+                    pin_messages=not permissions.can_pin_messages if permissions.can_pin_messages is not None else not old_permissions.can_pin_messages,
+                    manage_topics=not permissions.can_manage_topics if permissions.can_manage_topics is not None else not old_permissions.can_manage_topics,
+                    send_audios=not permissions.can_send_audios if permissions.can_send_audios is not None else not old_permissions.can_send_audios,
+                    send_docs=not permissions.can_send_docs if permissions.can_send_docs is not None else not old_permissions.can_send_docs,
+                    send_games=not permissions.can_send_games if permissions.can_send_games is not None else not old_permissions.can_send_games,
+                    send_gifs=not permissions.can_send_gifs if permissions.can_send_gifs is not None else not old_permissions.can_send_gifs,
+                    send_inline=not permissions.can_send_inline if permissions.can_send_inline is not None else not old_permissions.can_send_inline,
+                    send_photos=not permissions.can_send_photos if permissions.can_send_photos is not None else not old_permissions.can_send_photos,
+                    send_plain=not permissions.can_send_plain if permissions.can_send_plain is not None else not old_permissions.can_send_plain,
+                    send_roundvideos=not permissions.can_send_roundvideos if permissions.can_send_roundvideos is not None else not old_permissions.can_send_roundvideos,
+                    send_stickers=not permissions.can_send_stickers if permissions.can_send_stickers is not None else not old_permissions.can_send_stickers,
+                    send_videos=not permissions.can_send_videos if permissions.can_send_videos is not None else not old_permissions.can_send_videos,
+                    send_voices=not permissions.can_send_voices if permissions.can_send_voices is not None else not old_permissions.can_send_voices
                 )
             )
         )
