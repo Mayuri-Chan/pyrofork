@@ -25,6 +25,9 @@ class ChatPermissions(Object):
     """Describes actions that a non-administrator user is allowed to take in a chat.
 
     Parameters:
+        all_perms (``bool``, *optional*):
+            True, if all permissions are allowed.
+
         can_send_messages (``bool``, *optional*):
             True, if the user is allowed to send text messages, contacts, locations and venues.
 
@@ -92,6 +95,7 @@ class ChatPermissions(Object):
     def __init__(
         self,
         *,
+        all_perms: bool = None,
         can_send_messages: bool = None,  # Text, contacts, locations and venues
         can_send_media_messages: bool = None,  # Audio files, documents, photos, videos, video notes and voice notes
         can_send_polls: bool = None,
@@ -114,6 +118,7 @@ class ChatPermissions(Object):
     ):
         super().__init__(None)
 
+        self.all_perms = all_perms
         self.can_send_messages = can_send_messages
         self.can_send_media_messages = can_send_media_messages
         self.can_send_polls = can_send_polls
@@ -137,7 +142,53 @@ class ChatPermissions(Object):
     @staticmethod
     def _parse(denied_permissions: "raw.base.ChatBannedRights") -> "ChatPermissions":
         if isinstance(denied_permissions, raw.types.ChatBannedRights):
+            all_permissions = None
+            all_params = [
+                denied_permissions.send_messages,
+                denied_permissions.send_media,
+                denied_permissions.embed_links,
+                denied_permissions.send_polls,
+                denied_permissions.change_info,
+                denied_permissions.invite_users,
+                denied_permissions.pin_messages,
+                denied_permissions.send_audios,
+                denied_permissions.send_docs,
+                denied_permissions.send_games,
+                denied_permissions.send_gifs,
+                denied_permissions.send_inline,
+                denied_permissions.send_photos,
+                denied_permissions.send_plain,
+                denied_permissions.send_roundvideos,
+                denied_permissions.send_stickers,
+                denied_permissions.send_videos,
+                denied_permissions.send_voices
+            ]
+            all_params_not = [
+                not denied_permissions.send_messages,
+                not denied_permissions.send_media,
+                not denied_permissions.embed_links,
+                not denied_permissions.send_polls,
+                not denied_permissions.change_info,
+                not denied_permissions.invite_users,
+                not denied_permissions.pin_messages,
+                not denied_permissions.send_audios,
+                not denied_permissions.send_docs,
+                not denied_permissions.send_games,
+                not denied_permissions.send_gifs,
+                not denied_permissions.send_inline,
+                not denied_permissions.send_photos,
+                not denied_permissions.send_plain,
+                not denied_permissions.send_roundvideos,
+                not denied_permissions.send_stickers,
+                not denied_permissions.send_videos,
+                not denied_permissions.send_voices
+            ]
+            if all(all_params):
+                all_permissions = False
+            elif all(all_params_not):
+                all_permissions = True
             return ChatPermissions(
+                all_perms=all_permissions,
                 can_send_messages=not denied_permissions.send_messages,
                 can_send_media_messages=not denied_permissions.send_media,
                 can_add_web_page_previews=not denied_permissions.embed_links,
