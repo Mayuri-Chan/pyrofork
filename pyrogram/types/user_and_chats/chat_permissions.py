@@ -139,7 +139,8 @@ class ChatPermissions(Object):
         self.can_send_videos = can_send_videos
         self.can_send_voices = can_send_voices
         if (
-            can_send_messages is None
+            all_perms is None
+            and can_send_messages is None
             and can_send_media_messages is None
             and can_send_polls is None
             and can_add_web_page_previews is None

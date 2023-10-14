@@ -70,7 +70,6 @@ class SetChatPermissions:
             send_docs=None
             send_games=None
             send_gifs=None
-            send_inline=None
             send_photos=None
             send_plain=None
             send_roundvideos=None
@@ -99,8 +98,8 @@ class SetChatPermissions:
                 send_inline=True
         else:
             old_permissions = (await self.get_chat(chat_id)).permissions
-            send_messages=not permissions.can_send_messages if permissions.can_send_messages is not None else None
-            send_media=not permissions.can_send_media_messages if permissions.can_send_media_messages is not None else None
+            send_messages = None
+            send_media = None
             embed_links=not permissions.can_add_web_page_previews if permissions.can_add_web_page_previews is not None else not old_permissions.can_add_web_page_previews
             send_polls=not permissions.can_send_polls if permissions.can_send_polls is not None else not old_permissions.can_send_polls
             change_info=not permissions.can_change_info if permissions.can_change_info is not None else not old_permissions.can_change_info
@@ -118,6 +117,40 @@ class SetChatPermissions:
             send_stickers=not permissions.can_send_stickers if permissions.can_send_stickers is not None else not old_permissions.can_send_stickers
             send_videos=not permissions.can_send_videos if permissions.can_send_videos is not None else not old_permissions.can_send_videos
             send_voices=not permissions.can_send_voices if permissions.can_send_voices is not None else not old_permissions.can_send_voices
+            if permissions.can_send_messages is not None:
+                if permissions.can_send_messages:
+                    send_plain = False
+                else:
+                    send_plain = True
+                if permissions.can_send_media_messages is None:
+                    permissions.can_send_media_messages = old_permissions.can_send_media_messages
+            if permissions.can_send_media_messages is not None:
+                if permissions.can_send_media_messages:
+                    embed_links = False
+                    send_audios = False
+                    send_docs = False
+                    send_games = False
+                    send_gifs = False
+                    send_inline = False
+                    send_photos = False
+                    send_polls = False
+                    send_roundvideos = False
+                    send_stickers = False
+                    send_videos = False
+                    send_voices = False
+                else:
+                    embed_links = True
+                    send_audios = True
+                    send_docs = True
+                    send_games = True
+                    send_gifs = True
+                    send_inline = True
+                    send_photos = True
+                    send_polls = True
+                    send_roundvideos = True
+                    send_stickers = True
+                    send_videos = True
+                    send_voices = True
 
         r = await self.invoke(
             raw.functions.messages.EditChatDefaultBannedRights(
