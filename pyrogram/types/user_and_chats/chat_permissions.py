@@ -138,6 +138,28 @@ class ChatPermissions(Object):
         self.can_send_stickers = can_send_stickers
         self.can_send_videos = can_send_videos
         self.can_send_voices = can_send_voices
+        if (
+            can_send_messages is None
+            and can_send_media_messages is None
+            and can_send_polls is None
+            and can_add_web_page_previews is None
+            and can_change_info is None
+            and can_invite_users is None
+            and can_pin_messages is None
+            and can_manage_topics is None
+            and can_send_audios is None
+            and can_send_docs is None
+            and can_send_games is None
+            and can_send_gifs is None
+            and can_send_inline is None
+            and can_send_photos is None
+            and can_send_plain is None
+            and can_send_roundvideos is None
+            and can_send_stickers is None
+            and can_send_videos is None
+            and can_send_voices is None
+        ):
+            self.all_perms = False
 
     @staticmethod
     def _parse(denied_permissions: "raw.base.ChatBannedRights") -> "ChatPermissions":

@@ -98,6 +98,7 @@ class SetChatPermissions:
                 manage_topics=True
                 send_inline=True
         else:
+            old_permissions = (await self.get_chat(chat_id)).permissions
             send_messages=not permissions.can_send_messages if permissions.can_send_messages is not None else None
             send_media=not permissions.can_send_media_messages if permissions.can_send_media_messages is not None else None
             embed_links=not permissions.can_add_web_page_previews if permissions.can_add_web_page_previews is not None else not old_permissions.can_add_web_page_previews
@@ -117,8 +118,6 @@ class SetChatPermissions:
             send_stickers=not permissions.can_send_stickers if permissions.can_send_stickers is not None else not old_permissions.can_send_stickers
             send_videos=not permissions.can_send_videos if permissions.can_send_videos is not None else not old_permissions.can_send_videos
             send_voices=not permissions.can_send_voices if permissions.can_send_voices is not None else not old_permissions.can_send_voices
-
-        old_permissions = (await self.get_chat(chat_id)).permissions
 
         r = await self.invoke(
             raw.functions.messages.EditChatDefaultBannedRights(
