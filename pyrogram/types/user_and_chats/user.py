@@ -229,12 +229,16 @@ class User(Object, Update):
     def _parse(client, user: "raw.base.User") -> Optional["User"]:
         if user is None or isinstance(user, raw.types.UserEmpty):
             return None
+        user_name = user.username
         active_usernames = getattr(user, "usernames", [])
         usernames = None
         if len(active_usernames) >= 1:
             usernames = []
             for username in active_usernames:
-                usernames.append(types.Username._parse(username))
+                if username.editable:
+                    user_name = username.username
+                else:
+                    usernames.append(types.Username._parse(username))
 
         return User(
             id=user.id,
@@ -252,7 +256,7 @@ class User(Object, Update):
             first_name=user.first_name,
             last_name=user.last_name,
             **User._parse_status(user.status, user.bot),
-            username=user.username,
+            username=user_name,
             usernames=usernames,
             language_code=user.lang_code,
             emoji_status=types.EmojiStatus._parse(client, user.emoji_status),

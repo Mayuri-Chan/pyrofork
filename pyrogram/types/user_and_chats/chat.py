@@ -268,12 +268,16 @@ class Chat(Object):
     def _parse_channel_chat(client, channel: raw.types.Channel) -> "Chat":
         peer_id = utils.get_channel_id(channel.id)
         restriction_reason = getattr(channel, "restriction_reason", [])
+        user_name = getattr(channel, "username", None)
         active_usernames = getattr(channel, "usernames", [])
         usernames = None
         if len(active_usernames) >= 1:
             usernames = []
             for username in active_usernames:
-                usernames.append(types.Username._parse(username))
+                if username.editable:
+                    user_name = username.username
+                else:
+                    usernames.append(types.Username._parse(username))
 
         return Chat(
             id=peer_id,
@@ -285,7 +289,7 @@ class Chat(Object):
             is_fake=getattr(channel, "fake", None),
             is_forum=getattr(channel, "forum", None),
             title=channel.title,
-            username=getattr(channel, "username", None),
+            username=user_name,
             usernames=usernames,
             photo=types.ChatPhoto._parse(client, getattr(channel, "photo", None), peer_id,
                                          getattr(channel, "access_hash", 0)),
