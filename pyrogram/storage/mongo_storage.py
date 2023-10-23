@@ -56,6 +56,7 @@ class MongoStorage(Storage):
         self.database = database
         self._peer = database['peers']
         self._session = database['session']
+        self._usernames = database['usernames']
         self._remove_peers = remove_peers
 
     async def open(self):
@@ -121,6 +122,24 @@ class MongoStorage(Storage):
             bulk
         )
 
+    async def update_usernames(self, usernames: List[Tuple[int, str]]):
+        s = int(time.time())
+        bulk = [
+            UpdateOne(
+                {'_id': i[1]},
+                {'$set': {
+                    'peer_id': i[0],
+                    'last_update_on': s
+                }},
+                upsert=True
+            ) for i in usernames
+        ]
+        if not bulk:
+            return
+        await self._usernames.bulk_write(
+            bulk
+        )
+
     async def get_peer_by_id(self, peer_id: int):
         # id, access_hash, type
         r = await self._peer.find_one({'_id': peer_id}, {'_id': 1, 'access_hash': 1, 'type': 1})
@@ -134,7 +153,14 @@ class MongoStorage(Storage):
                                       {'_id': 1, 'access_hash': 1, 'type': 1, 'last_update_on': 1})
 
         if r is None:
-            raise KeyError(f"Username not found: {username}")
+            r2 = await self._usernames.find_one({'_id': username},
+                                          {'peer_id': 1, 'last_update_on': 1})
+            if r2 is None:
+                raise KeyError(f"Username not found: {username}")
+            r = await self._peer.find_one({'_id': r2['peer_id']},
+                                          {'_id': 1, 'access_hash': 1, 'type': 1, 'last_update_on': 1})
+            if r is None:
+                raise KeyError(f"Username not found: {username}")
 
         if abs(time.time() - r['last_update_on']) > self.USERNAME_TTL:
             raise KeyError(f"Username expired: {username}")

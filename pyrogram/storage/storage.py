@@ -47,6 +47,9 @@ class Storage:
     async def update_peers(self, peers: List[Tuple[int, int, str, str, str]]):
         raise NotImplementedError
 
+    async def update_usernames(self, usernames: List[Tuple[int, str]]):
+        raise NotImplementedError
+
     async def get_peer_by_id(self, peer_id: int):
         raise NotImplementedError
 
