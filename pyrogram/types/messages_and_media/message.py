@@ -640,10 +640,10 @@ class Message(Object, Update):
                 service_type = enums.MessageServiceType.NEW_CHAT_PHOTO
             elif isinstance(action, raw.types.MessageActionRequestedPeer):
                 if isinstance(action.peer, raw.types.PeerChannel):
-                    channel_shared = int(f"-100{action.peer.channel_id}")
+                    channel_shared = utils.get_channel_id(utils.get_raw_peer_id(action.peer))
                     service_type = enums.MessageServiceType.ChannelShared
                 elif isinstance(action.peer, raw.types.PeerChat):
-                    channel_shared = int(f"-100{action.peer.chat_id}")
+                    channel_shared = utils.get_channel_id(utils.get_raw_peer_id(action.peer))
                     service_type = enums.MessageServiceType.ChannelShared
                 elif isinstance(action.peer, raw.types.PeerUser):
                     user_shared = action.peer.user_id

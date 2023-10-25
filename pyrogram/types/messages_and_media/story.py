@@ -199,8 +199,8 @@ class Story(Object, Update):
                         media_type = None
             else:
                 media_type = None
-        if isinstance(peer, raw.types.PeerChannel):
-            sender_chat = await client.get_chat(peer.channel_id)
+        if isinstance(peer, raw.types.PeerChannel) or isinstance(peer, raw.types.InputPeerChannel):
+            sender_chat = await client.get_chat(utils.get_channel_id(peer.channel_id))
         elif isinstance(peer, raw.types.InputPeerSelf):
             from_user = client.me
         else:
