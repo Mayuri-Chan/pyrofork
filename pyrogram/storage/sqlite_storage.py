@@ -132,6 +132,9 @@ class SQLiteStorage(Storage):
             peers
         )
 
+    async def update_usernames(self, usernames: List[Tuple[int, str]]):
+        pass
+
     async def get_peer_by_id(self, peer_id: int):
         r = self.conn.execute(
             "SELECT id, access_hash, type FROM peers WHERE id = ?",
