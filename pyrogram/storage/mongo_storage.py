@@ -4,7 +4,7 @@ import time
 from typing import List, Tuple, Any
 
 from .dummy_client import DummyMongoClient
-from pymongo import MongoClient, UpdateOne
+from pymongo import MongoClient, UpdateOne, DeleteMany
 from pyrogram.storage.storage import Storage
 from pyrogram.storage.sqlite_storage import get_input_peer
 
@@ -124,6 +124,11 @@ class MongoStorage(Storage):
 
     async def update_usernames(self, usernames: List[Tuple[int, str]]):
         s = int(time.time())
+        bulk_delete = [
+            DeleteMany(
+                {'peer_id': i[0]}
+            ) for i in usernames
+        ]
         bulk = [
             UpdateOne(
                 {'_id': i[1]},
@@ -136,6 +141,9 @@ class MongoStorage(Storage):
         ]
         if not bulk:
             return
+        await self._usernames.bulk_write(
+            bulk_delete
+        )
         await self._usernames.bulk_write(
             bulk
         )
