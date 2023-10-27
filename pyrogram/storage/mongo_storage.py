@@ -165,6 +165,8 @@ class MongoStorage(Storage):
                                           {'peer_id': 1, 'last_update_on': 1})
             if r2 is None:
                 raise KeyError(f"Username not found: {username}")
+            if abs(time.time() - r2['last_update_on']) > self.USERNAME_TTL:
+                raise KeyError(f"Username expired: {username}")
             r = await self._peer.find_one({'_id': r2['peer_id']},
                                           {'_id': 1, 'access_hash': 1, 'type': 1, 'last_update_on': 1})
             if r is None:
