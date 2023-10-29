@@ -36,6 +36,7 @@ class SendContact:
         disable_notification: bool = None,
         message_thread_id: int = None,
         reply_to_message_id: int = None,
+        quote_text: str = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
         reply_markup: Union[
@@ -78,6 +79,10 @@ class SendContact:
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            quote_text (``str``, *optional*):
+                Text to quote.
+                for reply_to_message only.
+
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
 
@@ -99,7 +104,7 @@ class SendContact:
 
         reply_to = None
         if reply_to_message_id or message_thread_id:
-            reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id)
+            reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id, quote_text=quote_text)
 
         r = await self.invoke(
             raw.functions.messages.SendMedia(

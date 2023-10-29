@@ -45,6 +45,7 @@ class SendPoll:
         protect_content: bool = None,
         message_thread_id: int = None,
         reply_to_message_id: int = None,
+        quote_text: str = None,
         schedule_date: datetime = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -123,6 +124,10 @@ class SendPoll:
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            quote_text (``str``, *optional*):
+                Text to quote.
+                for reply_to_message only.
+
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
 
@@ -141,7 +146,7 @@ class SendPoll:
 
         reply_to = None
         if reply_to_message_id or message_thread_id:
-            reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id)
+            reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id, quote_text=quote_text)
 
         solution, solution_entities = (await utils.parse_text_entities(
             self, explanation, explanation_parse_mode, explanation_entities
