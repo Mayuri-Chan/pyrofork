@@ -61,6 +61,7 @@ from .send_venue import SendVenue
 from .send_video import SendVideo
 from .send_video_note import SendVideoNote
 from .send_voice import SendVoice
+from .send_web_page import SendWebPage
 from .stop_poll import StopPoll
 from .stream_media import StreamMedia
 from .vote_poll import VotePoll
@@ -89,6 +90,7 @@ class Messages(
     SendVideo,
     SendVideoNote,
     SendVoice,
+    SendWebPage,
     SendPoll,
     VotePoll,
     StopPoll,
