@@ -617,6 +617,7 @@ def pyrogram_api():
             Message.reply_video
             Message.reply_video_note
             Message.reply_voice
+            Message.reply_web_page
             Message.get_media_group
             Message.react
         """,

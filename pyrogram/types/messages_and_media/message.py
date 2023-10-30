@@ -1157,6 +1157,7 @@ class Message(Object, Update):
         Raises:
             RPCError: In case of a Telegram RPC error.
         """
+
         if quote is None:
             quote = self.chat.type != enums.ChatType.PRIVATE
 
@@ -3143,6 +3144,118 @@ class Message(Object, Update):
             reply_markup=reply_markup,
             progress=progress,
             progress_args=progress_args
+        )
+    async def reply_web_page(
+        self,
+        url: str,
+        text: str = "",
+        quote: bool = None,
+        parse_mode: Optional["enums.ParseMode"] = None,
+        entities: List["types.MessageEntity"] = None,
+        large_media: bool = None,
+        invert_media: bool = None,
+        disable_notification: bool = None,
+        reply_to_message_id: int = None,
+        quote_text: str = None,
+        schedule_date: datetime = None,
+        protect_content: bool = None,
+        reply_markup=None
+    ) -> "Message":
+        """Bound method *reply_web_page* of :obj:`~pyrogram.types.Message`.
+
+        Use as a shortcut for:
+
+        .. code-block:: python
+
+            await client.send_web_page(
+                chat_id=message.chat.id,
+                url="https://github.com/Mayuri-Chan/pyrofork",
+                reply_to_message_id=message.id
+            )
+
+        Example:
+            .. code-block:: python
+
+                await message.reply_web_page("https://github.com/Mayuri-Chan/pyrofork")
+
+        Parameters:
+            url (``str``):
+                Link that will be previewed.
+
+            text (``str``):
+                Text of the message to be sent.
+
+            quote (``bool``, *optional*):
+                If ``True``, the message will be sent as a reply to this message.
+                If *reply_to_message_id* is passed, this parameter will be ignored.
+                Defaults to ``True`` in group chats and ``False`` in private chats.
+
+            parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
+                By default, texts are parsed using both Markdown and HTML styles.
+                You can combine both syntaxes together.
+
+            entities (List of :obj:`~pyrogram.types.MessageEntity`):
+                List of special entities that appear in message text, which can be specified instead of *parse_mode*.
+
+            large_media (``bool``, *optional*):
+                Make web page preview image larger.
+
+            invert_media (``bool``, *optional*):
+                Move web page preview to above the message.
+
+            disable_notification (``bool``, *optional*):
+                Sends the message silently.
+                Users will receive a notification with no sound.
+
+            reply_to_message_id (``int``, *optional*):
+                If the message is a reply, ID of the original message.
+
+            quote_text (``str``, *optional*):
+                Text to quote.
+                for reply_to_message only.
+
+            schedule_date (:py:obj:`~datetime.datetime`, *optional*):
+                Date when the message will be automatically sent.
+
+            protect_content (``bool``, *optional*):
+                Protects the contents of the sent message from forwarding and saving.
+
+            reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
+                Additional interface options. An object for an inline keyboard, custom reply keyboard,
+                instructions to remove reply keyboard or to force a reply from the user.
+
+        Returns:
+            On success, the sent Message is returned.
+
+        Raises:
+            RPCError: In case of a Telegram RPC error.
+        """
+
+        if quote is None:
+            quote = self.chat.type != enums.ChatType.PRIVATE
+
+        if reply_to_message_id is None and quote:
+            reply_to_message_id = self.id
+
+        message_thread_id = None
+        if self.message_thread_id:
+            message_thread_id = self.message_thread_id
+
+        return await self._client.send_web_page(
+            chat_id=self.chat.id,
+            url=url,
+            text=text,
+            parse_mode=parse_mode,
+            entities=entities,
+            large_media=large_media,
+            invert_media=invert_media,
+            disable_notification=disable_notification,
+            message_thread_id=message_thread_id,
+            reply_to_message_id=reply_to_message_id,
+            quote_text=quote_text,
+            schedule_date=schedule_date,
+            protect_content=protect_content,
+            reply_markup=reply_markup
         )
 
     async def edit_text(
