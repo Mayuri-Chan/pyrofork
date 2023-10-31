@@ -94,6 +94,6 @@ latex_elements = {
 
 html_css_files = [
     "css/my.css",
-    "https://docs.pyrogram.org/_static/css/custom.css",
-    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css",
+    "css/custom.css",
+    "css/all.min.css",
 ]
