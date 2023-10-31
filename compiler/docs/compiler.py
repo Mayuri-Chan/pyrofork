@@ -448,6 +448,8 @@ def pyrogram_api():
             Game
             MessageStory
             WebPage
+            WebPageEmpty
+            WebPagePreview
             Poll
             PollOption
             Dice

@@ -63,6 +63,9 @@ class MessageMediaType(AutoName):
     WEB_PAGE = auto()
     "Web page media"
 
+    WEB_PAGE_PREVIEW = auto()
+    "Web page preview media"
+
     DICE = auto()
     "Dice media"
 

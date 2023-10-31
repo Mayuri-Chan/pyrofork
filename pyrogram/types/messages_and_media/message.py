@@ -203,6 +203,9 @@ class Message(Object, Update):
         video_note (:obj:`~pyrogram.types.VideoNote`, *optional*):
             Message is a video note, information about the video message.
 
+        web_page_preview (:obj:`pyrogram.types.WebPagePreview`, *optional*):
+            Message is a web page preview, information about the web page preview message.
+
         caption (``str``, *optional*):
             Caption for the audio, document, photo, video or voice, 0-1024 characters.
             If the message contains caption entities (bold, italic, ...) you can access *caption.markdown* or
@@ -406,6 +409,7 @@ class Message(Object, Update):
         video: "types.Video" = None,
         voice: "types.Voice" = None,
         video_note: "types.VideoNote" = None,
+        web_page_preview: "types.WebPagePreview" = None,
         caption: Str = None,
         contact: "types.Contact" = None,
         location: "types.Location" = None,
@@ -499,6 +503,7 @@ class Message(Object, Update):
         self.video = video
         self.voice = voice
         self.video_note = video_note
+        self.web_page_preview = web_page_preview
         self.caption = caption
         self.contact = contact
         self.location = location
@@ -806,6 +811,7 @@ class Message(Object, Update):
             animation = None
             video = None
             video_note = None
+            web_page_preview = None
             sticker = None
             document = None
             web_page = None
@@ -882,6 +888,9 @@ class Message(Object, Update):
                     if isinstance(media.webpage, raw.types.WebPage):
                         web_page = types.WebPage._parse(client, media.webpage)
                         media_type = enums.MessageMediaType.WEB_PAGE
+                    elif isinstance(media.webpage, raw.types.WebPageEmpty):
+                        web_page_preview = types.WebPagePreview._parse(media, message.invert_media)
+                        media_type = enums.MessageMediaType.WEB_PAGE_PREVIEW
                     else:
                         media = None
                 elif isinstance(media, raw.types.MessageMediaPoll):
@@ -967,6 +976,7 @@ class Message(Object, Update):
                 story=story,
                 video=video,
                 video_note=video_note,
+                web_page_preview=web_page_preview,
                 sticker=sticker,
                 document=document,
                 web_page=web_page,
