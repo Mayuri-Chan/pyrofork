@@ -17,7 +17,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-import re
 from datetime import datetime
 from typing import Union, List, Optional
 
@@ -34,8 +33,6 @@ class SendMessage:
         parse_mode: Optional["enums.ParseMode"] = None,
         entities: List["types.MessageEntity"] = None,
         disable_web_page_preview: bool = None,
-        web_page_large_media: bool = None,
-        web_page_invert_media: bool = None,
         disable_notification: bool = None,
         message_thread_id: int = None,
         reply_to_message_id: int = None,
@@ -72,12 +69,6 @@ class SendMessage:
 
             disable_web_page_preview (``bool``, *optional*):
                 Disables link previews for links in this message.
-
-            web_page_large_media (``bool``, *optional*):
-                Make web page preview image larger.
-
-            web_page_invert_media (``bool``, *optional*):
-                Move web page preview to above the message.
 
             disable_notification (``bool``, *optional*):
                 Sends the message silently.
@@ -147,59 +138,27 @@ class SendMessage:
 
         message, entities = (await utils.parse_text_entities(self, text, parse_mode, entities)).values()
 
-        sent = False
         reply_to = None
         if reply_to_message_id or message_thread_id:
             reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id, quote_text=quote_text)
         if reply_to_story_id:
             user_id = await self.resolve_peer(chat_id)
             reply_to = types.InputReplyToStory(user_id=user_id, story_id=reply_to_story_id)
-        
-        if not disable_web_page_preview:
-            url_reg = r"((http|https):\/\/)?(www.)?(?!.*(ftp|http|https|www.))[a-zA-Z0-9_-]+(\.[a-zA-Z]+)+((\/)[\w#]+)*(\/\w+\?[a-zA-Z0-9_]+=\w+(&[a-zA-Z0-9_]+=\w+)*)?\/?[^\s]+"
-            links = re.finditer(url_reg, message)
-            for link in links:
-                try:
-                    media = raw.types.InputMediaWebPage(
-                        url=link.group(0),
-                        force_large_media=web_page_large_media,
-                        force_small_media=not web_page_large_media
-                    )
-                    r = await self.invoke(
-                        raw.functions.messages.SendMedia(
-                            peer=await self.resolve_peer(chat_id),
-                            silent=disable_notification or None,
-                            reply_to=reply_to,
-                            random_id=self.rnd_id(),
-                            schedule_date=utils.datetime_to_timestamp(schedule_date),
-                            reply_markup=await reply_markup.write(self) if reply_markup else None,
-                            message=message,
-                            media=media,
-                            invert_media=web_page_invert_media,
-                            entities=entities,
-                            noforwards=protect_content
-                        )
-                    )
-                except Exception:
-                    pass
-                else:
-                    sent = True
-                    break
-        if disable_web_page_preview or not sent:
-            r = await self.invoke(
-                raw.functions.messages.SendMessage(
-                    peer=await self.resolve_peer(chat_id),
-                    no_webpage=disable_web_page_preview or None,
-                    silent=disable_notification or None,
-                    reply_to=reply_to,
-                    random_id=self.rnd_id(),
-                    schedule_date=utils.datetime_to_timestamp(schedule_date),
-                    reply_markup=await reply_markup.write(self) if reply_markup else None,
-                    message=message,
-                    entities=entities,
-                    noforwards=protect_content
-                )
+
+        r = await self.invoke(
+            raw.functions.messages.SendMessage(
+                peer=await self.resolve_peer(chat_id),
+                no_webpage=disable_web_page_preview or None,
+                silent=disable_notification or None,
+                reply_to=reply_to,
+                random_id=self.rnd_id(),
+                schedule_date=utils.datetime_to_timestamp(schedule_date),
+                reply_markup=await reply_markup.write(self) if reply_markup else None,
+                message=message,
+                entities=entities,
+                noforwards=protect_content
             )
+        )
 
         if isinstance(r, raw.types.UpdateShortSentMessage):
             peer = await self.resolve_peer(chat_id)
