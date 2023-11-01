@@ -221,9 +221,6 @@ class Message(Object, Update):
         venue (:obj:`~pyrogram.types.Venue`, *optional*):
             Message is a venue, information about the venue.
 
-        web_page (:obj:`~pyrogram.types.WebPage`, *optional*):
-            Message was sent with a webpage preview.
-
         poll (:obj:`~pyrogram.types.Poll`, *optional*):
             Message is a native poll, information about the poll.
 
@@ -414,7 +411,6 @@ class Message(Object, Update):
         contact: "types.Contact" = None,
         location: "types.Location" = None,
         venue: "types.Venue" = None,
-        web_page: "types.WebPage" = None,
         poll: "types.Poll" = None,
         dice: "types.Dice" = None,
         new_chat_members: List["types.User"] = None,
@@ -508,7 +504,6 @@ class Message(Object, Update):
         self.contact = contact
         self.location = location
         self.venue = venue
-        self.web_page = web_page
         self.poll = poll
         self.dice = dice
         self.new_chat_members = new_chat_members
@@ -814,7 +809,6 @@ class Message(Object, Update):
             web_page_preview = None
             sticker = None
             document = None
-            web_page = None
             poll = None
             dice = None
 
@@ -885,11 +879,8 @@ class Message(Object, Update):
                             document = types.Document._parse(client, doc, file_name)
                             media_type = enums.MessageMediaType.DOCUMENT
                 elif isinstance(media, raw.types.MessageMediaWebPage):
-                    if isinstance(media.webpage, raw.types.WebPage):
-                        web_page = types.WebPage._parse(client, media.webpage)
-                        media_type = enums.MessageMediaType.WEB_PAGE
-                    elif isinstance(media.webpage, raw.types.WebPageEmpty):
-                        web_page_preview = types.WebPagePreview._parse(media, message.invert_media)
+                    if isinstance(media.webpage, Union[raw.types.WebPage, raw.types.WebPageEmpty]):
+                        web_page_preview = types.WebPagePreview._parse(client, media, message.invert_media)
                         media_type = enums.MessageMediaType.WEB_PAGE_PREVIEW
                     else:
                         media = None
@@ -931,22 +922,22 @@ class Message(Object, Update):
                 sender_chat=sender_chat,
                 text=(
                     Str(message.message).init(entities) or None
-                    if media is None or web_page is not None
+                    if media is None
                     else None
                 ),
                 caption=(
                     Str(message.message).init(entities) or None
-                    if media is not None and web_page is None
+                    if media is not None
                     else None
                 ),
                 entities=(
                     entities or None
-                    if media is None or web_page is not None
+                    if media is None
                     else None
                 ),
                 caption_entities=(
                     entities or None
-                    if media is not None and web_page is None
+                    if media is not None
                     else None
                 ),
                 author_signature=message.post_author,
@@ -979,7 +970,6 @@ class Message(Object, Update):
                 web_page_preview=web_page_preview,
                 sticker=sticker,
                 document=document,
-                web_page=web_page,
                 poll=poll,
                 dice=dice,
                 views=message.views,

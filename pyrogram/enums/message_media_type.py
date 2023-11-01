@@ -60,9 +60,6 @@ class MessageMediaType(AutoName):
     POLL = auto()
     "Poll media"
 
-    WEB_PAGE = auto()
-    "Web page media"
-
     WEB_PAGE_PREVIEW = auto()
     "Web page preview media"
 
