@@ -3615,7 +3615,7 @@ class Message(Object, Update):
                 text=self.text,
                 entities=self.entities,
                 parse_mode=enums.ParseMode.DISABLED,
-                disable_web_page_preview=not self.web_page,
+                disable_web_page_preview=not self.web_page_preview,
                 disable_notification=disable_notification,
                 message_thread_id=message_thread_id,
                 reply_to_message_id=reply_to_message_id,
