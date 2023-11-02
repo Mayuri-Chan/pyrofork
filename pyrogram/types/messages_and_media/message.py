@@ -3624,6 +3624,7 @@ class Message(Object, Update):
                 disable_notification=disable_notification,
                 message_thread_id=message_thread_id,
                 reply_to_message_id=reply_to_message_id,
+                quote_text=quote_text,
                 schedule_date=schedule_date,
                 protect_content=protect_content,
                 reply_markup=self.reply_markup if reply_markup is object else reply_markup
@@ -3717,6 +3718,7 @@ class Message(Object, Update):
                     invert_media=self.web_page_preview.invert_media,
                     disable_notification=disable_notification,
                     message_thread_id=message_thread_id,
+                    reply_to_message_id=reply_to_message_id,
                     quote_text=quote_text,
                     schedule_date=schedule_date,
                     protect_content=protect_content,
