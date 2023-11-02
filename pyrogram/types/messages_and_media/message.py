@@ -3701,6 +3701,21 @@ class Message(Object, Update):
                     disable_notification=disable_notification,
                     message_thread_id=message_thread_id
                 )
+            elif self.web_page_preview:
+                return await self._client.send_web_page(
+                    chat_id,
+                    url=self.web_page_preview.webpage.url,
+                    text=self.caption,
+                    entities=self.entities,
+                    parse_mode=enums.ParseMode.DISABLED,
+                    large_media=self.web_page_preview.force_large_media if self.web_page_preview.force_large_media else self.web_page_preview.force_small_media,
+                    invert_media=self.web_page_preview.invert_media,
+                    disable_notification=disable_notification,
+                    message_thread_id=message_thread_id,
+                    schedule_date=schedule_date,
+                    protect_content=protect_content,
+                    reply_markup=self.reply_markup if reply_markup is object else reply_markup
+                )
             else:
                 raise ValueError("Unknown media type")
 
