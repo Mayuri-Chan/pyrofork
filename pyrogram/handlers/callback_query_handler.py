@@ -99,7 +99,7 @@ class CallbackQueryHandler(Handler):
         )
 
         handler_does_match = (
-            await self.filters(client, query) if callable(self.filters) else True
+            self.filters(client, query) if callable(self.filters) else True
         )
 
         data = self.compose_data_identifier(query)
