@@ -98,9 +98,15 @@ class CallbackQueryHandler(Handler):
             client, query
         )
 
-        handler_does_match = (
-            await self.filters(client, query) if callable(self.filters) else True
-        )
+        if callable(self.filters):
+            if iscoroutinefunction(self.filters.__call__):
+                handler_does_match = await self.filters(client, query)
+            else:
+                handler_does_match = await client.loop.run_in_executor(
+                    None, self.filters, client, query
+                )
+        else:
+            handler_does_match = True
 
         data = self.compose_data_identifier(query)
 
