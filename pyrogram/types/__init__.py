@@ -26,3 +26,4 @@ from .messages_and_media import *
 from .object import Object
 from .update import *
 from .user_and_chats import *
+from .pyromod import *

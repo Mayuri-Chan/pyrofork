@@ -65,6 +65,8 @@ from .send_web_page import SendWebPage
 from .stop_poll import StopPoll
 from .stream_media import StreamMedia
 from .vote_poll import VotePoll
+from .wait_for_message import WaitForMessage
+from .wait_for_callback_query import WaitForCallbackQuery
 
 
 class Messages(
@@ -116,6 +118,8 @@ class Messages(
     GetDiscussionReplies,
     GetDiscussionRepliesCount,
     StreamMedia,
-    GetCustomEmojiStickers
+    GetCustomEmojiStickers,
+    WaitForMessage,
+    WaitForCallbackQuery
 ):
     pass

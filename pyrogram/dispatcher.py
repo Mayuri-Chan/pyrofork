@@ -26,7 +26,7 @@ import pyrogram
 from pyrogram import utils
 from pyrogram.handlers import (
     CallbackQueryHandler, MessageHandler, EditedMessageHandler, DeletedMessagesHandler,
-    UserStatusHandler, RawUpdateHandler, InlineQueryHandler, PollHandler,
+    UserStatusHandler, RawUpdateHandler, InlineQueryHandler, PollHandler, ConversationHandler,
     ChosenInlineResultHandler, ChatMemberUpdatedHandler, ChatJoinRequestHandler, StoryHandler
 )
 from pyrogram.raw.types import (
@@ -64,6 +64,9 @@ class Dispatcher:
 
         self.updates_queue = asyncio.Queue()
         self.groups = OrderedDict()
+
+        self.conversation_handler = ConversationHandler()
+        self.groups[0] = [self.conversation_handler]
 
         async def message_parser(update, users, chats):
             return (

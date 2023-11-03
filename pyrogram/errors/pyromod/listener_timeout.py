@@ -1,0 +1,2 @@
+class ListenerTimeout(Exception):
+    pass
