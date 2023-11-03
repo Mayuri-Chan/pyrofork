@@ -51,10 +51,11 @@ from pyrogram.handlers.handler import Handler
 from pyrogram.methods import Methods
 from pyrogram.session import Auth, Session
 from pyrogram.storage import FileStorage, MemoryStorage, MongoStorage, Storage
-from pyrogram.types import User, TermsOfService
-from pyrogram.utils import ainput
+from pyrogram.types import User, TermsOfService, ListenerTypes, Identifier, Listener
+from pyrogram.utils import ainput, PyromodConfig
 from .dispatcher import Dispatcher
 from .file_id import FileId, FileType, ThumbnailSource
+from .filters import Filter
 from .mime_types import mime_types
 from .parser import Parser
 from .session.internals import MsgId
@@ -316,7 +317,7 @@ class Client(Methods):
         self.updates_watchdog_task = None
         self.updates_watchdog_event = asyncio.Event()
         self.last_update_time = datetime.now()
-
+        self.listeners = {listener_type: [] for listener_type in ListenerTypes}
         self.loop = asyncio.get_event_loop()
 
     def __enter__(self):
@@ -348,6 +349,140 @@ class Client(Methods):
 
             if datetime.now() - self.last_update_time > timedelta(seconds=self.UPDATES_WATCHDOG_INTERVAL):
                 await self.invoke(raw.functions.updates.GetState())
+
+    async def listen(
+        self,
+        filters: Optional[Filter] = None,
+        listener_type: ListenerTypes = ListenerTypes.MESSAGE,
+        timeout: Optional[int] = None,
+        unallowed_click_alert: bool = True,
+        chat_id: int = None,
+        user_id: int = None,
+        message_id: int = None,
+        inline_message_id: str = None,
+    ):
+        pattern = Identifier(
+            from_user_id=user_id,
+            chat_id=chat_id,
+            message_id=message_id,
+            inline_message_id=inline_message_id,
+        )
+
+        loop = asyncio.get_event_loop()
+        future = loop.create_future()
+        future.add_done_callback(
+            lambda f: self.stop_listening(
+                listener_type,
+                user_id=user_id,
+                chat_id=chat_id,
+                message_id=message_id,
+                inline_message_id=inline_message_id,
+            )
+        )
+
+        listener = Listener(
+            future=future,
+            filters=filters,
+            unallowed_click_alert=unallowed_click_alert,
+            identifier=pattern,
+            listener_type=listener_type,
+        )
+
+        self.listeners[listener_type].append(listener)
+
+        try:
+            return await asyncio.wait_for(future, timeout)
+        except asyncio.exceptions.TimeoutError:
+            if callable(PyromodConfig.timeout_handler):
+                PyromodConfig.timeout_handler(pattern, listener, timeout)
+            elif PyromodConfig.throw_exceptions:
+                raise ListenerTimeout(timeout)
+
+    async def ask(
+        self,
+        chat_id: int,
+        text: str,
+        filters: Optional[Filter] = None,
+        listener_type: ListenerTypes = ListenerTypes.MESSAGE,
+        timeout: Optional[int] = None,
+        unallowed_click_alert: bool = True,
+        user_id: int = None,
+        message_id: int = None,
+        inline_message_id: str = None,
+        *args,
+        **kwargs,
+    ):
+        sent_message = None
+        if text.strip() != "":
+            sent_message = await self.send_message(chat_id, text, *args, **kwargs)
+
+        response = await self.listen(
+            filters=filters,
+            listener_type=listener_type,
+            timeout=timeout,
+            unallowed_click_alert=unallowed_click_alert,
+            chat_id=chat_id,
+            user_id=user_id,
+            message_id=message_id,
+            inline_message_id=inline_message_id,
+        )
+        if response:
+            response.sent_message = sent_message
+
+        return response
+
+    def get_matching_listener(
+        self, pattern: Identifier, listener_type: ListenerTypes
+    ) -> Optional[Listener]:
+        matching = []
+        for listener in self.listeners[listener_type]:
+            if listener.identifier.matches(pattern):
+                matching.append(listener)
+
+        # in case of multiple matching listeners, the most specific should be returned
+        def count_populated_attributes(listener_item: Listener):
+            return listener_item.identifier.count_populated()
+
+        return max(matching, key=count_populated_attributes, default=None)
+
+    def remove_listener(self, listener: Listener):
+        self.listeners[listener.listener_type].remove(listener)
+
+    def get_many_matching_listeners(
+        self, pattern: Identifier, listener_type: ListenerTypes
+    ) -> List[Listener]:
+        listeners = []
+        for listener in self.listeners[listener_type]:
+            if listener.identifier.matches(pattern):
+                listeners.append(listener)
+        return listeners
+
+    def stop_listening(
+        self,
+        listener_type: ListenerTypes = ListenerTypes.MESSAGE,
+        chat_id: int = None,
+        user_id: int = None,
+        message_id: int = None,
+        inline_message_id: str = None,
+    ):
+        pattern = Identifier(
+            from_user_id=user_id,
+            chat_id=chat_id,
+            message_id=message_id,
+            inline_message_id=inline_message_id,
+        )
+        listeners = self.get_many_matching_listeners(pattern, listener_type)
+
+        for listener in listeners:
+            self.remove_listener(listener)
+
+            if listener.future.done():
+                return
+
+            if callable(PyromodConfig.stopped_handler):
+                PyromodConfig.stopped_handler(pattern, listener)
+            elif PyromodConfig.throw_exceptions:
+                listener.future.set_exception(ListenerStopped())
 
     async def authorize(self) -> User:
         if self.bot_token:

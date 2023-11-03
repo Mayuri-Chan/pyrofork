@@ -1,0 +1,2 @@
+class ListenerStopped(Exception):
+    pass
