@@ -922,22 +922,22 @@ class Message(Object, Update):
                 sender_chat=sender_chat,
                 text=(
                     Str(message.message).init(entities) or None
-                    if media is None
+                    if media is None or web_page_preview is not None
                     else None
                 ),
                 caption=(
                     Str(message.message).init(entities) or None
-                    if media is not None
+                    if media is not None and web_page_preview is None
                     else None
                 ),
                 entities=(
                     entities or None
-                    if media is None
+                    if media is None or web_page_preview is not None
                     else None
                 ),
                 caption_entities=(
                     entities or None
-                    if media is not None
+                    if media is not None and web_page_preview is None
                     else None
                 ),
                 author_signature=message.post_author,
