@@ -50,7 +50,13 @@ from pyrogram.errors import (
 from pyrogram.handlers.handler import Handler
 from pyrogram.methods import Methods
 from pyrogram.session import Auth, Session
-from pyrogram.storage import FileStorage, MemoryStorage, MongoStorage, Storage
+from pyrogram.storage import FileStorage, MemoryStorage, Storage
+try:
+    import pymongo
+except Exception:
+    pass
+else:
+    from pyrogram.storage import MongoStorage
 from pyrogram.types import User, TermsOfService
 from pyrogram.utils import ainput
 from .dispatcher import Dispatcher
@@ -129,7 +135,7 @@ class Client(Methods):
         mongodb (``dict``, *optional*):
             Mongodb config as dict, e.g.: *dict(connection=async_pymongo.AsyncClient("mongodb://..."), remove_peers=False)*.
             Only applicable for new sessions.
-        
+
         storage (:obj:`~pyrogram.storage.Storage`, *optional*):
             Custom session storage.
 
@@ -281,7 +287,16 @@ class Client(Methods):
         elif self.in_memory:
             self.storage = MemoryStorage(self.name)
         elif self.mongodb:
-            self.storage = MongoStorage(self.name, **self.mongodb)
+            try:
+                import pymongo
+            except Exception:
+                log.warning(
+                    "pymongo is missing! "
+                    "Using MemoryStorage as session storage"
+                )
+                self.storage = MemoryStorage(self.name)
+            else:
+                self.storage = MongoStorage(self.name, **self.mongodb)
         else:
             self.storage = FileStorage(self.name, self.workdir)
 
