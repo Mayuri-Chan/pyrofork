@@ -879,7 +879,7 @@ class Message(Object, Update):
                             document = types.Document._parse(client, doc, file_name)
                             media_type = enums.MessageMediaType.DOCUMENT
                 elif isinstance(media, raw.types.MessageMediaWebPage):
-                    if isinstance(media.webpage, Union[raw.types.WebPage, raw.types.WebPageEmpty]):
+                    if isinstance(media.webpage, raw.types.WebPage) or isinstance(media.webpage, raw.types.WebPageEmpty):
                         web_page_preview = types.WebPagePreview._parse(client, media, message.invert_media)
                         media_type = enums.MessageMediaType.WEB_PAGE_PREVIEW
                     else:
