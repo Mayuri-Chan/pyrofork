@@ -12,7 +12,7 @@ Get Pyrofork Real Fast
     If you need a cloud server to host your applications, try Hetzner Cloud. You can sign up with
     `this link <https://hetzner.cloud/?ref=9CyT92gZEINU>`_ to get €20 in cloud credits.
 
-1. Install Pyrofork with ``pip3 install -U pyrogram``.
+1. Install Pyrofork with ``pip3 install -U pyrofork``.
 
 2. Get your own Telegram API key from https://my.telegram.org/apps.
 
