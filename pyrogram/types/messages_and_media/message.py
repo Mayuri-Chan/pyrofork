@@ -191,6 +191,9 @@ class Message(Object, Update):
         game (:obj:`~pyrogram.types.Game`, *optional*):
             Message is a game, information about the game.
 
+        giveaway (:obj:`~pyrogram.types.Giveaway`, *optional*):
+            Message is a giveaway, information about the giveaway.
+
         story (:obj:`~pyrogram.types.MessageStory`, *optional*):
             Message is a forwarded story, information about the forwarded story.
 
@@ -402,6 +405,7 @@ class Message(Object, Update):
         sticker: "types.Sticker" = None,
         animation: "types.Animation" = None,
         game: "types.Game" = None,
+        giveaway: "types.Giveaway" = None,
         story: "types.MessageStory" = None,
         video: "types.Video" = None,
         voice: "types.Voice" = None,
@@ -495,6 +499,7 @@ class Message(Object, Update):
         self.sticker = sticker
         self.animation = animation
         self.game = game
+        self.giveaway = giveaway
         self.story = story
         self.video = video
         self.voice = voice
@@ -800,6 +805,7 @@ class Message(Object, Update):
             contact = None
             venue = None
             game = None
+            giveaway = None
             story = None
             audio = None
             voice = None
@@ -833,6 +839,9 @@ class Message(Object, Update):
                 elif isinstance(media, raw.types.MessageMediaGame):
                     game = types.Game._parse(client, message)
                     media_type = enums.MessageMediaType.GAME
+                elif isinstance(media, raw.types.MessageMediaGiveaway):
+                    giveaway = types.Giveaway._parse(client, message)
+                    media_type = enums.MessageMediaType.GIVEAWAY
                 elif isinstance(media, raw.types.MessageMediaStory):
                     story = types.MessageStory._parse(media)
                     media_type = enums.MessageMediaType.STORY
@@ -964,6 +973,7 @@ class Message(Object, Update):
                 voice=voice,
                 animation=animation,
                 game=game,
+                giveaway=giveaway,
                 story=story,
                 video=video,
                 video_note=video_note,
