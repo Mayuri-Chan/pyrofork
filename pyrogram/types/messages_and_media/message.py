@@ -869,7 +869,7 @@ class Message(Object, Update):
                     game = types.Game._parse(client, message)
                     media_type = enums.MessageMediaType.GAME
                 elif isinstance(media, raw.types.MessageMediaGiveaway):
-                    giveaway = types.Giveaway._parse(client, message)
+                    giveaway = await types.Giveaway._parse(client, message)
                     media_type = enums.MessageMediaType.GIVEAWAY
                 elif isinstance(media, raw.types.MessageMediaStory):
                     story = types.MessageStory._parse(media)
