@@ -36,6 +36,7 @@ class SendContact:
         disable_notification: bool = None,
         message_thread_id: int = None,
         reply_to_message_id: int = None,
+        reply_to_chat_id: int = None,
         quote_text: str = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
@@ -79,6 +80,10 @@ class SendContact:
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_to_chat_id (``int``, *optional*):
+                Unique identifier for the origin chat.
+                for reply to message from another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -103,8 +108,16 @@ class SendContact:
         """
 
         reply_to = None
+        reply_to_chat = None
         if reply_to_message_id or message_thread_id:
-            reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id, quote_text=quote_text)
+            if reply_to_chat_id is not None:
+                reply_to_chat = await self.resolve_peer(reply_to_chat_id)
+            reply_to = types.InputReplyToMessage(
+                reply_to_message_id=reply_to_message_id,
+                message_thread_id=message_thread_id,
+                reply_to_chat=reply_to_chat,
+                quote_text=quote_text
+            )
 
         r = await self.invoke(
             raw.functions.messages.SendMedia(

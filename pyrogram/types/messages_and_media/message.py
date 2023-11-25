@@ -1097,6 +1097,7 @@ class Message(Object, Update):
         disable_web_page_preview: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
@@ -1147,6 +1148,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -1178,8 +1183,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_message(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             text=text,
             parse_mode=parse_mode,
             entities=entities,
@@ -1187,6 +1198,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             schedule_date=schedule_date,
             protect_content=protect_content,
@@ -1216,6 +1228,7 @@ class Message(Object, Update):
             "types.ForceReply"
         ] = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         progress: Callable = None,
         progress_args: tuple = ()
@@ -1287,6 +1300,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -1335,8 +1352,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_animation(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             animation=animation,
             caption=caption,
             parse_mode=parse_mode,
@@ -1350,6 +1373,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             reply_markup=reply_markup,
             progress=progress,
@@ -1370,6 +1394,7 @@ class Message(Object, Update):
         file_name: str = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -1444,6 +1469,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -1492,8 +1521,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_audio(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             audio=audio,
             caption=caption,
             parse_mode=parse_mode,
@@ -1506,6 +1541,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             reply_markup=reply_markup,
             progress=progress,
@@ -1521,6 +1557,7 @@ class Message(Object, Update):
         caption_entities: List["types.MessageEntity"] = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -1572,6 +1609,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -1596,8 +1637,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_cached_media(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             file_id=file_id,
             caption=caption,
             parse_mode=parse_mode,
@@ -1605,6 +1652,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             reply_markup=reply_markup
         )
@@ -1655,6 +1703,7 @@ class Message(Object, Update):
         vcard: str = "",
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -1705,6 +1754,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -1729,8 +1782,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_contact(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             phone_number=phone_number,
             first_name=first_name,
             last_name=last_name,
@@ -1738,6 +1797,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             reply_markup=reply_markup
         )
@@ -1754,6 +1814,7 @@ class Message(Object, Update):
         force_document: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         schedule_date: datetime = None,
         reply_markup: Union[
@@ -1825,6 +1886,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -1876,8 +1941,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_document(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             document=document,
             thumb=thumb,
             caption=caption,
@@ -1888,6 +1959,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             schedule_date=schedule_date,
             reply_markup=reply_markup,
@@ -2051,6 +2123,7 @@ class Message(Object, Update):
         quote: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -2095,6 +2168,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -2119,13 +2196,20 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_location(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             latitude=latitude,
             longitude=longitude,
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             reply_markup=reply_markup
         )
@@ -2141,6 +2225,7 @@ class Message(Object, Update):
         quote: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None
     ) -> List["types.Message"]:
         """Bound method *reply_media_group* of :obj:`~pyrogram.types.Message`.
@@ -2177,6 +2262,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -2198,12 +2287,19 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_media_group(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             media=media,
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text
         )
 
@@ -2218,6 +2314,7 @@ class Message(Object, Update):
         ttl_seconds: int = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -2281,6 +2378,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -2329,8 +2430,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_photo(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             photo=photo,
             caption=caption,
             parse_mode=parse_mode,
@@ -2340,6 +2447,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             reply_markup=reply_markup,
             progress=progress,
@@ -2364,6 +2472,7 @@ class Message(Object, Update):
         disable_notification: bool = None,
         protect_content: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         schedule_date: datetime = None,
         reply_markup: Union[
@@ -2452,6 +2561,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -2479,8 +2592,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_poll(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             question=question,
             options=options,
             is_anonymous=is_anonymous,
@@ -2497,6 +2616,7 @@ class Message(Object, Update):
             protect_content=protect_content,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             schedule_date=schedule_date,
             reply_markup=reply_markup
@@ -2508,6 +2628,7 @@ class Message(Object, Update):
         quote: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -2552,6 +2673,10 @@ class Message(Object, Update):
 
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
+
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
 
             quote_text (``str``, *optional*):
                 Text to quote.
@@ -2601,12 +2726,19 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_sticker(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             sticker=sticker,
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             reply_markup=reply_markup,
             progress=progress,
@@ -2624,6 +2756,7 @@ class Message(Object, Update):
         foursquare_type: str = "",
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -2683,6 +2816,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -2707,8 +2844,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_venue(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             latitude=latitude,
             longitude=longitude,
             title=title,
@@ -2718,6 +2861,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             reply_markup=reply_markup
         )
@@ -2739,6 +2883,7 @@ class Message(Object, Update):
         supports_streaming: bool = True,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -2824,6 +2969,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -2872,8 +3021,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_video(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             video=video,
             caption=caption,
             parse_mode=parse_mode,
@@ -2889,6 +3044,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             reply_markup=reply_markup,
             progress=progress,
@@ -2904,6 +3060,7 @@ class Message(Object, Update):
         thumb: Union[str, BinaryIO] = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -2961,6 +3118,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -3009,8 +3170,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_video_note(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             video_note=video_note,
             duration=duration,
             length=length,
@@ -3018,6 +3185,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             reply_markup=reply_markup,
             progress=progress,
@@ -3034,6 +3202,7 @@ class Message(Object, Update):
         duration: int = 0,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -3092,6 +3261,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -3140,8 +3313,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_voice(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             voice=voice,
             caption=caption,
             parse_mode=parse_mode,
@@ -3150,6 +3329,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             reply_markup=reply_markup,
             progress=progress,
@@ -3166,6 +3346,7 @@ class Message(Object, Update):
         invert_media: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
+        reply_in_chat_id: int = None,
         quote_text: str = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
@@ -3220,6 +3401,10 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_in_chat_id (``int``, *optional*):
+                Unique identifier of target chat.
+                for reply message in another chat.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -3251,8 +3436,14 @@ class Message(Object, Update):
         if self.message_thread_id:
             message_thread_id = self.message_thread_id
 
+        chat_id = self.chat.id
+        reply_to_chat_id = None
+        if reply_in_chat_id is not None:
+            chat_id = reply_in_chat_id
+            reply_to_chat_id = self.chat.id
+
         return await self._client.send_web_page(
-            chat_id=self.chat.id,
+            chat_id=chat_id,
             url=url,
             text=text,
             parse_mode=parse_mode,
@@ -3262,6 +3453,7 @@ class Message(Object, Update):
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,
+            reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             schedule_date=schedule_date,
             protect_content=protect_content,

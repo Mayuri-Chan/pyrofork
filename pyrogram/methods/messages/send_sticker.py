@@ -40,6 +40,7 @@ class SendSticker:
         message_thread_id: int = None,
         reply_to_message_id: int = None,
         reply_to_story_id: int = None,
+        reply_to_chat_id: int = None,
         quote_text: str = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
@@ -82,6 +83,10 @@ class SendSticker:
             
             reply_to_story_id (``int``, *optional*):
                 Unique identifier for the target story.
+
+            reply_to_chat_id (``int``, *optional*):
+                Unique identifier for the origin chat.
+                for reply to message from another chat.
 
             quote_text (``str``, *optional*):
                 Text to quote.
@@ -136,8 +141,16 @@ class SendSticker:
         file = None
 
         reply_to = None
+        reply_to_chat = None
         if reply_to_message_id or message_thread_id:
-            reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id, quote_text=quote_text)
+            if reply_to_chat_id is not None:
+                reply_to_chat = await self.resolve_peer(reply_to_chat_id)
+            reply_to = types.InputReplyToMessage(
+                reply_to_message_id=reply_to_message_id,
+                message_thread_id=message_thread_id,
+                reply_to_chat=reply_to_chat,
+                quote_text=quote_text
+            )
         if reply_to_story_id:
             user_id = await self.resolve_peer(chat_id)
             reply_to = types.InputReplyToStory(user_id=user_id, story_id=reply_to_story_id)
