@@ -130,6 +130,8 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.HTML` to the *parse_mode* 
         code block
     </pre>
 
+    <blockquote>Quoted text</blockquote>
+
 **Example**:
 
 .. code-block:: python
@@ -150,6 +152,7 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.HTML` to the *parse_mode* 
             "for i in range(10):\n"
             "    print(i)"
             "</pre>"
+            "<blockquote>quote</blockquote>"
         ),
         parse_mode=enums.ParseMode.HTML
     )
