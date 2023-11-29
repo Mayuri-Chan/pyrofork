@@ -443,6 +443,7 @@ def pyrogram_api():
             PeerUser
             PeerChannel
             BotInfo
+            ChatColor
         """,
         messages_media="""
         Messages & Media

@@ -70,6 +70,7 @@ CHAT_TOO_BIG	The chat is too big for this action
 CODE_EMPTY	The provided code is empty
 CODE_HASH_INVALID	The provided code hash invalid
 CODE_INVALID	The provided code is invalid (i.e. from email)
+COLOR_INVALID	The provided color is invalid
 CONNECTION_API_ID_INVALID	The provided API id is invalid
 CONNECTION_APP_VERSION_EMPTY	App version is empty
 CONNECTION_DEVICE_MODEL_EMPTY	The device model is empty
@@ -136,7 +137,8 @@ GAME_BOT_INVALID	You cannot send that game with the current bot
 GEO_POINT_INVALID	Invalid geo point provided
 GIF_CONTENT_TYPE_INVALID	GIF content-type invalid
 GIF_ID_INVALID	The provided gif/animation id is invalid
-GRAPH_INVALID_RELOAD	Invalid graph token provided, please reload the stats and provide the updated token
+GIFT_SLUG_EXPIRED	The gift slug is expired
+GRAPH_INVALID_RELOAD	Invalid graph token provided,
 GRAPH_OUTDATED_RELOAD	The graph data is outdated
 GROUPCALL_SSRC_DUPLICATE_MUCH	Too many group call synchronization source duplicates
 GROUPED_MEDIA_INVALID	The album contains invalid media

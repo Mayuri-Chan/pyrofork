@@ -154,11 +154,11 @@ class User(Object, Update):
             ``user.mention("another name")`` for a custom name. To choose a different style
             ("html" or "md"/"markdown") use ``user.mention(style="md")``.
 
-        color (``int``, *optional*)
-            Chat color.
-            
-        background_emoji_id (``int``, *optional*)
-            Chat background emoji id.
+        reply_color (:obj:`~pyrogram.types.ChatColor`, *optional*)
+            Chat reply color.
+
+        profile_color (:obj:`~pyrogram.types.ChatColor`, *optional*)
+            Chat profile color.
     """
 
     def __init__(
@@ -190,8 +190,8 @@ class User(Object, Update):
         phone_number: str = None,
         photo: "types.ChatPhoto" = None,
         restrictions: List["types.Restriction"] = None,
-        color: int = None,
-        background_emoji_id: int = None
+        reply_color: "types.ChatColor" = None,
+        profile_color: "types.ChatColor" = None
     ):
         super().__init__(client)
 
@@ -220,8 +220,8 @@ class User(Object, Update):
         self.phone_number = phone_number
         self.photo = photo
         self.restrictions = restrictions
-        self.color = color
-        self.background_emoji_id = background_emoji_id
+        self.reply_color = reply_color
+        self.profile_color = profile_color
 
     @property
     def full_name(self) -> str:
@@ -274,8 +274,8 @@ class User(Object, Update):
             phone_number=user.phone,
             photo=types.ChatPhoto._parse(client, user.photo, user.id, user.access_hash),
             restrictions=types.List([types.Restriction._parse(r) for r in user.restriction_reason]) or None,
-            color=getattr(user, "color", None),
-            background_emoji_id=getattr(user, "background_emoji_id", None),
+            reply_color=types.ChatColor._parse(getattr(user, "color", None)),
+            profile_color=types.ChatColor._parse_profile_color(getattr(user, "profile_color", None)),
             client=client
         )
 

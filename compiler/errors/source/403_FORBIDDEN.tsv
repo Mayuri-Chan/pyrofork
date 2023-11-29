@@ -4,6 +4,7 @@ CHANNEL_PUBLIC_GROUP_NA	The channel/supergroup is not available
 CHAT_ADMIN_INVITE_REQUIRED	You don't have rights to invite other users
 CHAT_ADMIN_REQUIRED	The method requires chat admin privileges
 CHAT_FORBIDDEN	You cannot write in this chat
+CHAT_GUEST_SEND_FORBIDDEN	You need to join the discussion group before commentingr
 EDIT_BOT_INVITE_FORBIDDEN	Bots' chat invite links can't be edited
 INLINE_BOT_REQUIRED	The action must be performed through an inline bot callback
 MESSAGE_AUTHOR_REQUIRED	You are not the author of this message
