@@ -1715,3 +1715,88 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.export_story_link(from_id=self.from_user.id if self.from_user else self.sender_chat.id, story_id=self.id)
+
+    async def forward(
+        self,
+        channel_id: int = None,
+        privacy: "enums.StoriesPrivacyRules" = None,
+        allowed_users: List[int] = None,
+        denied_users: List[int] = None,
+        #allowed_chats: List[int] = None,
+        #denied_chats: List[int] = None,
+        pinned: bool = None,
+        protect_content: bool = None,
+        caption: str = None,
+        parse_mode: "enums.ParseMode" = None,
+        caption_entities: List["types.MessageEntity"] = None,
+        period: int = None
+    ):
+        """Bound method *forward* of :obj:`~pyrogram.types.Message`.
+
+        Use as a shortcut for:
+
+        .. code-block:: python
+
+            await client.forward_story(
+                from_chat_id='wulan17',
+                from_story_id=1,
+                caption='Hello guys.'
+            )
+
+        Parameters:
+            channel_id (``int``, *optional*):
+                Unique identifier (int) of the target channel.
+                If you want to forward story to a channel.
+
+            privacy (:obj:`~pyrogram.enums.StoriesPrivacyRules`, *optional*):
+                Story privacy.
+                Defaults to :obj:`~pyrogram.enums.StoriesPrivacyRules.PUBLIC`
+
+            allowed_users (List of ``int``, *optional*):
+                List of user_id whos allowed to view the story.
+
+            denied_users (List of ``int``, *optional*):
+                List of user_id whos denied to view the story.
+
+            pinned (``bool``, *optional*):
+                if True, the story will be pinned.
+                default to False.
+
+            protect_content (``bool``, *optional*):
+                Protects the contents of the sent story from forwarding and saving.
+                default to False.
+
+            caption (``str``, *optional*):
+                Story caption, 0-1024 characters.
+
+            parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
+                By default, texts are parsed using both Markdown and HTML styles.
+                You can combine both syntaxes together.
+
+            caption_entities (List of :obj:`~pyrogram.types.MessageEntity`):
+                List of special entities that appear in the caption, which can be specified instead of *parse_mode*.
+
+            period (``int``, *optional*):
+                How long the story will posted, in secs.
+                only for premium users.
+
+        Returns:
+            :obj:`~pyrogram.types.Story` a single story is returned.
+
+        Raises:
+            ValueError: In case of invalid arguments.
+        """
+        return await self._client.send_story(
+            channel_id=channel_id,
+            privacy=privacy,
+            allowed_users=allowed_users,
+            denied_users=denied_users,
+            pinned=pinned,
+            protect_content=protect_content,
+            caption=caption,
+            caption_entities=caption_entities,
+            parse_mode=parse_mode,
+            period=period,
+            forward_from_chat_id=self.from_user.id if self.from_user is not None else self.sender_chat.id,
+            forward_from_story_id=self.id
+        )

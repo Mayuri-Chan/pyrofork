@@ -663,6 +663,7 @@ def pyrogram_api():
             Story.edit_privacy
             Story.edit_video
             Story.export_link
+            Story.forward
             Story.reply_text
             Story.reply_animation
             Story.reply_audio
