@@ -18,7 +18,7 @@
 
 import os
 import re
-from typing import List
+from typing import List, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -44,7 +44,9 @@ class SendStory:
         caption: str = None,
         parse_mode: "enums.ParseMode" = None,
         caption_entities: List["types.MessageEntity"] = None,
-        period: int = None
+        period: int = None,
+        forward_from_chat_id: Union[int, str] = None,
+        forward_from_story_id: int = None
     ) -> "types.Story":
         """Send new story.
 
@@ -227,7 +229,8 @@ class SendStory:
                     ]
                 )
         else:
-            raise ValueError("You need to pass one of the following parameter animation/photo/video!")
+            if forward_from_chat_id is None:
+                raise ValueError("You need to pass one of the following parameter animation/photo/video/forward_from_chat_id!")
         
         text, entities = self._split(**await utils.parse_text_entities(self, caption, parse_mode, caption_entities))
 
@@ -246,6 +249,12 @@ class SendStory:
             users = [await self.resolve_peer(user_id) for user_id in denied_users]
             privacy_rules.append(raw.types.InputPrivacyValueDisallowUsers(users=users))
 
+        if forward_from_chat_id is not None:
+            forward_from_chat = await self.resolve_peer(forward_from_chat_id)
+            media = raw.types.InputMediaEmpty()
+            if forward_from_story_id is None:
+                raise ValueError("You need to pass forward_from_story_id to forward story!")
+
         r = await self.invoke(
             raw.functions.stories.SendStory(
                 peer=peer,
@@ -256,7 +265,10 @@ class SendStory:
                 noforwards=protect_content,
                 caption=text,
                 entities=entities,
-                period=period
+                period=period,
+                fwd_from_id=forward_from_chat,
+                fwd_from_story=forward_from_story_id if forward_from_chat_id is not None else None,
+                fwd_modified=True if forward_from_chat_id is not None and caption is not None else False
             )
         )
         return await types.Story._parse(self, r.updates[0].story, r.updates[0].peer)
