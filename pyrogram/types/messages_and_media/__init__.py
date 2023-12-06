@@ -47,6 +47,7 @@ from .message_reactions import MessageReactions
 from .message_story import MessageStory
 from .story import Story
 from .story_deleted import StoryDeleted
+from .story_forward_header import StoryForwardHeader
 from .story_skipped import StorySkipped
 from .story_views import StoryViews
 from .exported_story_link import ExportedStoryLink
@@ -54,5 +55,5 @@ from .exported_story_link import ExportedStoryLink
 __all__ = [
     "Animation", "Audio", "Contact", "Document", "Game", "Giveaway", "Location", "Message", "MessageEntity", "Photo", "Thumbnail",
     "StrippedThumbnail", "Poll", "PollOption", "Sticker", "StickerSet", "Venue", "Video", "VideoNote", "Voice", "WebPage", "WebPageEmpty", "WebPagePreview", "Dice",
-    "Reaction", "WebAppData", "MessageReactions", "MessageStory", "Story", "StoryDeleted", "StorySkipped", "StoryViews", "StoriesPrivacyRules", "ExportedStoryLink"
+    "Reaction", "WebAppData", "MessageReactions", "MessageStory", "Story", "StoryDeleted", "StorySkipped", "StoryViews", "StoryForwardHeader", "StoriesPrivacyRules", "ExportedStoryLink"
 ]

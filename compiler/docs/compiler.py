@@ -473,6 +473,7 @@ def pyrogram_api():
         Stories
             Story
             StoryDeleted
+            StoryForwardHeader
             StorySkipped
             StoriesPrivacyRules
             StoryViews

@@ -87,6 +87,10 @@ class Story(Object, Update):
         views (:obj:`~pyrogram.types.StoryViews`, *optional*):
             Stories views.
 
+        forward_from (:obj:`~pyrogram.types.StoryForwardHeader`, *optional*):
+            Story is a forwarded story.
+            Information about the original story.
+
         privacy (:obj:`~pyrogram.enums.StoryPrivacy`, *optional*):
             Story privacy.
 
@@ -123,6 +127,7 @@ class Story(Object, Update):
         caption_entities: List["types.MessageEntity"] = None,
         views: "types.StoryViews" = None,
         privacy: "enums.StoryPrivacy" = None,
+        forward_from: "types.StoryForwardHeader" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
         #allowed_chats: List[int] = None,
@@ -150,6 +155,7 @@ class Story(Object, Update):
         self.caption_entities = caption_entities
         self.views = views
         self.privay = privacy
+        self.forward_from = forward_from
         self.allowed_users = allowed_users
         self.denied_users = denied_users
         #self.allowed_chats = allowed_chats
@@ -173,6 +179,7 @@ class Story(Object, Update):
         from_user = None
         sender_chat = None
         privacy = None
+        forward_from = None
         #allowed_chats = None
         allowed_users = None
         #denied_chats = None
@@ -205,7 +212,7 @@ class Story(Object, Update):
             from_user = client.me
         else:
             from_user = await client.get_users(peer.user_id)
-        
+
         for priv in stories.privacy:
             if isinstance(priv, raw.types.PrivacyValueAllowAll):
                 privacy = enums.StoryPrivacy.PUBLIC
@@ -231,6 +238,9 @@ class Story(Object, Update):
             if isinstance(priv, raw.types.PrivacyValueDisallowUsers):
                 denied_users = priv.users
 
+        if stories.fwd_from is not None:
+            forward_from = await types.StoryForwardHeader._parse(client, stories.fwd_from)
+
         return Story(
             id=stories.id,
             from_user=from_user,
@@ -252,6 +262,7 @@ class Story(Object, Update):
             caption_entities=entities or None,
             views=types.StoryViews._parse(stories.views),
             privacy=privacy,
+            forward_from=forward_from,
             #allowed_chats=allowed_chats,
             #denied_chats=denied_chats,
             allowed_users=allowed_users,
