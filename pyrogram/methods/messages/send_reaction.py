@@ -26,7 +26,8 @@ class SendReaction:
     async def send_reaction(
         self: "pyrogram.Client",
         chat_id: Union[int, str],
-        message_id: int,
+        message_id: int = None,
+        story_id: int = None,
         emoji: str = "",
         big: bool = False
     ) -> bool:
@@ -38,8 +39,11 @@ class SendReaction:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
 
-            message_id (``int``):
+            message_id (``int``, *optional*):
                 Identifier of the message.
+
+            story_id (``int``, *optional*):
+                Identifier of the story.
 
             emoji (``str``, *optional*):
                 Reaction emoji.
@@ -48,6 +52,7 @@ class SendReaction:
             big (``bool``, *optional*):
                 Pass True to show a bigger and longer reaction.
                 Defaults to False.
+                for message reaction only.
 
         Returns:
             ``bool``: On success, True is returned.
@@ -56,18 +61,30 @@ class SendReaction:
             .. code-block:: python
 
                 # Send a reaction
-                await app.send_reaction(chat_id, message_id, "🔥")
+                await app.send_reaction(chat_id, message_id=message_id, emoji="🔥")
+                await app.send_reaction(chat_id, story_id=story_id, emoji="🔥")
 
                 # Retract a reaction
-                await app.send_reaction(chat_id, message_id)
+                await app.send_reaction(chat_id, message_id=message_id)
+                await app.send_reaction(chat_id, story_id=story_id)
         """
-        await self.invoke(
-            raw.functions.messages.SendReaction(
-                peer=await self.resolve_peer(chat_id),
-                msg_id=message_id,
-                reaction=[raw.types.ReactionEmoji(emoticon=emoji)] if emoji else None,
-                big=big
+        if message_id is not None:
+            await self.invoke(
+                raw.functions.messages.SendReaction(
+                    peer=await self.resolve_peer(chat_id),
+                    msg_id=message_id,
+                    reaction=[raw.types.ReactionEmoji(emoticon=emoji)] if emoji else None,
+                    big=big
+                )
             )
-        )
-
+        elif story_id is not None:
+            await self.invoke(
+                raw.functions.stories.SendReaction(
+                    peer=await self.resolve_peer(chat_id),
+                    story_id=story_id,
+                    reaction=raw.types.ReactionEmoji(emoticon=emoji) if emoji else None
+                )
+            )
+        else:
+            raise ValueError("You need to pass one of message_id/story_id!")
         return True
