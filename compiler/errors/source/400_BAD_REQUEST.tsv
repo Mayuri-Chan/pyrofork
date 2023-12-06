@@ -372,3 +372,6 @@ WEBPAGE_MEDIA_EMPTY	The URL doesn't contain any valid media
 YOU_BLOCKED_USER	You blocked this user
 STORIES_NEVER_CREATED	You have never created any stories
 MEDIA_FILE_INVALID	The provided media file is invalid
+CHANNEL_FORUM_MISSING	
+TTL_PERIOD_INVALID	TTL_PERIOD_INVALID
+BOOSTS_REQUIRED	Channel required more boost to upload a story
