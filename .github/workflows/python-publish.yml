@@ -30,12 +30,12 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install build twine
+        pip install -e '.[dev]'
     - name: Build package
-      run: python -m build
+      run: hatch build
     - name: Publish package
       env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        HATCH_INDEX_USER: __token__
+        HATCH_INDEX_AUTH: ${{ secrets.PYPI_API_TOKEN }}
       run: |
-        twine upload dist/*
+        hatch publish

@@ -6,7 +6,7 @@ make clean
 make clean-docs
 make venv
 make api
-"$VENV"/bin/pip install -r docs/requirements.txt
+"$VENV"/bin/pip install -e '.[docs]'
 cd compiler/docs && "$VENV"/bin/python compiler.py
 cd ../..
 "$VENV"/bin/sphinx-build -b html "docs/source" "docs/build/html" -j auto

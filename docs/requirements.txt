@@ -1,7 +1,0 @@
-sphinx
-sphinx_rtd_theme==2.0.0
-sphinx-rtd-dark-mode
-sphinx_copybutton
-sphinx-autobuild
-tgcrypto
-tornado>=6.3.3 # not directly required, pinned by Snyk to avoid a vulnerability
