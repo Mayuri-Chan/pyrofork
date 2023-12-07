@@ -11,8 +11,9 @@ cd compiler/docs && "$VENV"/bin/python compiler.py
 cd ../..
 "$VENV"/bin/sphinx-build -b html "docs/source" "docs/build/html" -j auto
 git clone https://wulan17:"$DOCS_KEY"@github.com/Mayuri-Chan/pyrofork-docs.git
-cp -r docs/build/html/* pyrofork-docs
 cd pyrofork-docs
+rm -rf _includes api genindex.html intro py-modindex.html sitemap.xml support.html topics _static faq index.html objects.inv searchindex.js start telegram
+cp -r ../docs/build/html/* .
 git config --local user.name "Mayuri-Chan"
 git config --local user.email "mayuri@mayuri.my.id"
 git add --all
