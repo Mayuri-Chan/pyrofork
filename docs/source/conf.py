@@ -40,7 +40,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
     "sphinx_copybutton",
-    "sphinx_rtd_dark_mode"
+    "sphinx_immaterial"
 ]
 
 intersphinx_mapping = {
@@ -64,17 +64,37 @@ copybutton_prompt_text = "$ "
 suppress_warnings = ["image.not_readable"]
 
 html_title = "Pyrofork Documentation"
-html_theme = "sphinx_rtd_theme"
+html_theme = "sphinx_immaterial"
 html_static_path = ["../resources/static","_static"]
 html_show_sourcelink = True
 html_show_copyright = False
 html_theme_options = {
-    "canonical_url": "https://pyrofork.mayuri.my.id/",
-    "collapse_navigation": True,
-    "sticky_navigation": False,
-    "logo_only": True,
-    "display_version": False,
-    "style_external_links": True
+    "icon": {
+        "repo": "fontawesome/brands/github",
+        "edit": "material/file-edit-outline",
+    },
+    "site_url": "https://pyrofork.mayuri.my.id/",
+    "repo_url": "https://github.com/Mayuri-Chan/pyrofork/",
+    "repo_name": "pyrofork",
+    "globaltoc_collapse": True,
+    "features": [
+        "navigation.expand",
+        "navigation.tabs",
+        "navigation.sections",
+        "navigation.top",
+        "search.share",
+        "toc.follow",
+        "toc.sticky",
+        "content.tabs.link",
+        "announce.dismiss",
+    ],
+    "palette": [
+        {
+            "media": "(prefers-color-scheme: dark)",
+            "scheme": "slate"
+        }
+    ],
+    "toc_title_is_page_title": True
 }
 
 html_logo = "../resources/static/img/pyrogram.png"
@@ -93,7 +113,6 @@ latex_elements = {
 }
 
 html_css_files = [
-    "css/my.css",
     "css/custom.css",
     "css/all.min.css",
 ]

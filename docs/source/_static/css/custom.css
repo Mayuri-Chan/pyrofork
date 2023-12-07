@@ -1,1 +1,15 @@
-@import url("https://docs.pyrogram.org/_static/css/custom.css");
+body{
+    --color-green: darkgreen;
+    --color-red: darkred;
+}
+
+.usable-by {
+    border: 1px ;
+    border-radius: .2em;
+    padding: 2px 5px;
+    background-color: #1a1c1e;
+}
+
+a {
+    text-decoration: none;
+}

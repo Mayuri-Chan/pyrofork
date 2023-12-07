@@ -59,8 +59,7 @@ dev = [
 
 docs = [
     "sphinx",
-    "sphinx_rtd_theme==2.0.0",
-    "sphinx-rtd-dark-mode",
+    "sphinx-immaterial==0.11.9",
     "sphinx_copybutton",
     "sphinx-autobuild",
     "tornado>=6.3.3"
