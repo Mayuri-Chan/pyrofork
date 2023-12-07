@@ -6,7 +6,7 @@ authors = [{ name = "wulan17", email = "mayuri@mayuri.my.id" }]
 dependencies = ["pyaes==1.6.1", "pysocks==1.7.1", "pymediainfo-pyrofork>=6.0.1,<7.0.0"]
 readme = "README.md"
 license = "LGPL-3.0-or-later"
-requires-python = "~=3.7"
+requires-python = "~=3.8"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -15,11 +15,11 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: Implementation",
     "Programming Language :: Python :: Implementation :: CPython",
     "Programming Language :: Python :: Implementation :: PyPy",
@@ -67,7 +67,7 @@ docs = [
 
 speedup = [
     "tgcrypto>=1.2.5",
-    "uvloop>=0.18.0"
+    "uvloop>=0.19.0"
 ]
 
 [tool.hatch.metadata]
