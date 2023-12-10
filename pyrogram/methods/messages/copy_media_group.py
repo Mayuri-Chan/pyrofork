@@ -66,7 +66,7 @@ class CopyMediaGroup:
                 If a ``string`` is passed, it becomes a caption only for the first media.
                 If a list of ``string`` passed, each element becomes caption for each media element.
                 You can pass ``None`` in list to keep the original caption (see examples below).
-                
+
             disable_notification (``bool``, *optional*):
                 Sends the message silently.
                 Users will receive a notification with no sound.
