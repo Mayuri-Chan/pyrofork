@@ -5,8 +5,7 @@ Welcome to Pyrofork
 
     <div align="center">
         <a href="/">
-            <div class="pyrogram-logo-index"><img src="_static/pyrogram.png" alt="Pyrofork"></div>
-            <div class="pyrogram-text pyrogram-text-index">Pyrofork</div>
+            <h1 class="pyrogram-text pyrogram-text-index">PyroFork</h1>
         </a>
     </div>
 
@@ -16,6 +15,14 @@ Welcome to Pyrofork
         <br>
         <a href="https://github.com/Mayuri-Chan/pyrofork">
             Development
+        </a>
+        •
+        <a href="https://github.com/Mayuri-Chan/pyrofork/issues">
+            Issue
+        </a>
+        •
+        <a href="https://t.me/MayuriChanChat">
+            Support Chat
         </a>
     </p>
 
@@ -85,7 +92,6 @@ Meta
 
     - :doc:`Pyrofork FAQ <faq/index>`: Answers to common Pyrofork questions.
     - :doc:`Support Pyrofork <support>`: Ways to show your appreciation.
-    - :doc:`Release Notes <releases/index>`: Release notes for Pyrofork releases.
 
 .. toctree::
     :hidden:
