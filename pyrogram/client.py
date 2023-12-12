@@ -45,7 +45,7 @@ from pyrogram.errors import CDNFileHashMismatch
 from pyrogram.errors import (
     SessionPasswordNeeded,
     VolumeLocNotFound, ChannelPrivate,
-    BadRequest
+    BadRequest, ListenerTimeout,
 )
 from pyrogram.handlers.handler import Handler
 from pyrogram.methods import Methods
