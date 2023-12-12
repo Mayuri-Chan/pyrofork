@@ -10,6 +10,15 @@ body{
     background-color: #1a1c1e;
 }
 
-a {
+a .pre{
+    color:lightgrey;
+}
+
+.md-main a {
+    text-decoration: underline;
+    color:lightgrey;
+}
+
+.md-sidebar a {
     text-decoration: none;
 }
