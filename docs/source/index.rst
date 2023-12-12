@@ -21,7 +21,7 @@ Welcome to Pyrofork
             Issue
         </a>
         •
-        <a href="https://t.me/MayuriChanChat">
+        <a href="https://t.me/MayuriChan_Chat">
             Support Chat
         </a>
     </p>
