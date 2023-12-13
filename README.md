@@ -8,6 +8,14 @@
     <a href="https://pyrofork.mayuri.my.id">
         Documentation
     </a>
+    •
+    <a href="https://github.com/Mayuri-Chan/pyrofork/issues">
+        Issues
+    </a>
+    •
+    <a href="https://t.me/MayuriChan_Chat">
+        Support Chat
+    </a>
 </p>
 
 ## Pyrofork

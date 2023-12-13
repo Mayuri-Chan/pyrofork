@@ -18,7 +18,7 @@ Welcome to Pyrofork
         </a>
         •
         <a href="https://github.com/Mayuri-Chan/pyrofork/issues">
-            Issue
+            Issues
         </a>
         •
         <a href="https://t.me/MayuriChan_Chat">
