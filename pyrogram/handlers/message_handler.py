@@ -19,7 +19,7 @@ from inspect import iscoroutinefunction
 from typing import Callable
 import pyrogram
 
-from pyrogram.types import ListenerTypes, Message, Identifier
+from pyrogram.types import Message, Identifier
 
 from .handler import Handler
 
@@ -73,7 +73,7 @@ class MessageHandler(Handler):
             from_user_id=[from_user_id, from_user_username],
         )
 
-        listener = client.get_listener_matching_with_data(data, ListenerTypes.MESSAGE)
+        listener = client.get_listener_matching_with_data(data, pyrogram.enums.ListenerTypes.MESSAGE)
 
         listener_does_match = False
 

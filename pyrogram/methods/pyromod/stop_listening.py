@@ -20,12 +20,12 @@
 import pyrogram
 
 from typing import List, Union
-from pyrogram.types import ListenerTypes, Identifier
+from pyrogram.types import Identifier
 
 class StopListening:
     async def stop_listening(
         self: "pyrogram.Client",
-        listener_type: ListenerTypes = ListenerTypes.MESSAGE,
+        listener_type: "pyrogram.enums.ListenerTypes" = pyrogram.enums.ListenerTypes.MESSAGE,
         chat_id: Union[Union[int, str], List[Union[int, str]]] = None,
         user_id: Union[Union[int, str], List[Union[int, str]]] = None,
         message_id: Union[int, List[int]] = None,
@@ -38,7 +38,7 @@ class StopListening:
         Uses :meth:`~pyrogram.Client.get_many_listeners_matching_with_identifier_pattern`.
 
         Parameters:
-            listener_type (:obj:`~pyrogram.types.ListenerTypes`, *optional*):
+            listener_type (:obj:`~pyrogram.enums.ListenerTypes`, *optional*):
                 The type of listener to stop listening for.
                 Default to Message.
 

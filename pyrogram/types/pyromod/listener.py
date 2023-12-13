@@ -24,8 +24,6 @@ from typing import Callable
 import pyrogram
 
 from .identifier import Identifier
-from .listener_types import ListenerTypes
-
 
 @dataclass
 class Listener:
@@ -33,7 +31,7 @@ class Listener:
     It enables you to wait for specific events like messages or callback queries and provides mechanisms for defining the conditions and filters that trigger these listeners.
 
     Parameters:
-        listener_type (:obj:`~pyrogram.types.ListenerTypes`):
+        listener_type (:obj:`~pyrogram.enums.ListenerTypes`):
             The type of listener that specifies the event you want to listen for.
             It can be either a “message” or a “callback_query.”
 
@@ -55,7 +53,7 @@ class Listener:
         callback (``Callable``, *optional*):
             The callback to call when the listener is fulfilled.
     """
-    listener_type: ListenerTypes
+    listener_type: pyrogram.enums.ListenerTypes
     filters: "pyrogram.filters.Filter"
     unallowed_click_alert: bool
     identifier: Identifier

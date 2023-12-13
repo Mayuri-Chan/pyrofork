@@ -24,14 +24,14 @@ import pyrogram
 from pyrogram.errors import ListenerTimeout
 from pyrogram.filters import Filter
 from typing import List, Optional, Union
-from pyrogram.types import ListenerTypes, Identifier, Listener
+from pyrogram.types import Identifier, Listener
 from pyrogram.utils import PyromodConfig
 
 class Listen:
     async def listen(
         self: "pyrogram.Client",
         filters: Optional[Filter] = None,
-        listener_type: ListenerTypes = ListenerTypes.MESSAGE,
+        listener_type: "pyrogram.enums.ListenerTypes" = pyrogram.enums.ListenerTypes.MESSAGE,
         timeout: Optional[int] = None,
         unallowed_click_alert: bool = True,
         chat_id: Union[Union[int, str], List[Union[int, str]]] = None,
@@ -59,7 +59,7 @@ class Listen:
             filters (:obj:`~pyrogram.filters`, *optional*):
                 A filter to check the incoming message against.
 
-            listener_type (:obj:`~pyrogram.types.ListenerTypes`, *optional*):
+            listener_type (:obj:`~pyrogram.enums.ListenerTypes`, *optional*):
                 The type of listener to listen for.
                 Default to Message.
 

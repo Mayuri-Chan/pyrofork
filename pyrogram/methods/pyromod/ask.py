@@ -21,7 +21,6 @@ import pyrogram
 
 from pyrogram.filters import Filter
 from typing import List, Optional, Union
-from pyrogram.types import ListenerTypes
 
 class Ask:
     async def ask(
@@ -29,7 +28,7 @@ class Ask:
         chat_id: Union[Union[int, str], List[Union[int, str]]],
         text: str,
         filters: Optional[Filter] = None,
-        listener_type: ListenerTypes = ListenerTypes.MESSAGE,
+        listener_type: "pyrogram.enums.ListenerTypes" = pyrogram.enums.ListenerTypes.MESSAGE,
         timeout: Optional[int] = None,
         unallowed_click_alert: bool = True,
         user_id: Union[Union[int, str], List[Union[int, str]]] = None,
@@ -61,7 +60,7 @@ class Ask:
             filters (:obj:`~pyrogram.filters`, *optional*):
                 A filter to check the incoming message against.
 
-            listener_type (:obj:`~pyrogram.types.ListenerTypes`, *optional*):
+            listener_type (:obj:`~pyrogram.enums.ListenerTypes`, *optional*):
                 The type of listener to listen for.
                 Default to Message.
 

@@ -20,13 +20,13 @@
 import pyrogram
 
 from typing import List
-from pyrogram.types import ListenerTypes, Identifier, Listener
+from pyrogram.types import Identifier, Listener
 
 class GetManyListenersMatchingWithIdentifierPattern:
     def get_many_listeners_matching_with_identifier_pattern(
         self: "pyrogram.Client",
         pattern: Identifier,
-        listener_type: ListenerTypes,
+        listener_type: "pyrogram.enums.ListenerTypes",
     ) -> List[Listener]:
         """Gets multiple listener that matches the given identifier pattern.
 
@@ -40,7 +40,7 @@ class GetManyListenersMatchingWithIdentifierPattern:
             pattern (:obj:`~pyrogram.types.Identifier`):
                 The Identifier to match agains.
 
-            listener_type (:obj:`~pyrogram.types.ListenerTypes`):
+            listener_type (:obj:`~pyrogram.enums.ListenerTypes`):
                 The type of listener to get.
 
         Returns:

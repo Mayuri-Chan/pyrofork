@@ -575,7 +575,7 @@ class Message(Object, Update):
 
         return await self._client.listen(
             (self.chat.id, from_user_id, self.id),
-            listener_type=types.ListenerTypes.CALLBACK_QUERY,
+            listener_type=pyrogram.enums.ListenerTypes.CALLBACK_QUERY,
             timeout=timeout,
             filters=filters,
             unallowed_click_alert=alert,

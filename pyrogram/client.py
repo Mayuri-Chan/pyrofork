@@ -45,7 +45,7 @@ from pyrogram.errors import CDNFileHashMismatch
 from pyrogram.errors import (
     SessionPasswordNeeded,
     VolumeLocNotFound, ChannelPrivate,
-    BadRequest, ListenerTimeout,
+    BadRequest
 )
 from pyrogram.handlers.handler import Handler
 from pyrogram.methods import Methods
@@ -57,7 +57,7 @@ except Exception:
     pass
 else:
     from pyrogram.storage import MongoStorage
-from pyrogram.types import User, TermsOfService, ListenerTypes
+from pyrogram.types import User, TermsOfService
 from pyrogram.utils import ainput
 from .dispatcher import Dispatcher
 from .file_id import FileId, FileType, ThumbnailSource
@@ -332,7 +332,7 @@ class Client(Methods):
         self.updates_watchdog_task = None
         self.updates_watchdog_event = asyncio.Event()
         self.last_update_time = datetime.now()
-        self.listeners = {listener_type: [] for listener_type in ListenerTypes}
+        self.listeners = {listener_type: [] for listener_type in pyrogram.enums.ListenerTypes}
         self.loop = asyncio.get_event_loop()
 
     def __enter__(self):

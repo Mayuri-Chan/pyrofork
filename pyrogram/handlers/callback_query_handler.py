@@ -22,7 +22,7 @@ from typing import Callable, Tuple
 import pyrogram
 
 from pyrogram.utils import PyromodConfig
-from pyrogram.types import ListenerTypes, CallbackQuery, Identifier, Listener
+from pyrogram.types import CallbackQuery, Identifier, Listener
 
 from .handler import Handler
 
@@ -99,7 +99,7 @@ class CallbackQueryHandler(Handler):
         data = self.compose_data_identifier(query)
 
         listener = client.get_listener_matching_with_data(
-            data, ListenerTypes.CALLBACK_QUERY
+            data, pyrogram.enums.ListenerTypes.CALLBACK_QUERY
         )
 
         listener_does_match = False
