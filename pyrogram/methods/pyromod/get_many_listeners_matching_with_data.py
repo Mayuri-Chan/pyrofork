@@ -28,12 +28,19 @@ class GetManyListenersMatchingWithData:
         data: Identifier,
         listener_type: ListenerTypes,
     ) -> List[Listener]:
-        """
-        Same of :meth:`pyromod.types.Client.get_listener_matching_with_data` but returns a list of listeners instead of one.
+        """Gets multiple listener that matches the given data.
 
-        :param data: Same as :meth:`pyromod.types.Client.get_listener_matching_with_data`.
-        :param listener_type: Same as :meth:`pyromod.types.Client.get_listener_matching_with_data`.
-        :return: A list of listeners that match the given data.
+        .. include:: /_includes/usable-by/users-bots.rst
+
+        Parameters:
+            data (:obj:`~pyrogram.types.Identifier`):
+                The Identifier to match agains.
+
+            listener_type (:obj:`~pyrogram.types.ListenerTypes`):
+                The type of listener to get.
+
+        Returns:
+            List of :obj:`~pyrogram.types.Listener`: On success, a list of Listener is returned.
         """
         listeners = []
         for listener in self.listeners[listener_type]:

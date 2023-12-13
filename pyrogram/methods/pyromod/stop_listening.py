@@ -31,16 +31,28 @@ class StopListening:
         message_id: Union[int, List[int]] = None,
         inline_message_id: Union[str, List[str]] = None,
     ):
-        """
-        Stops all listeners that match the given identifier pattern.
-        Uses :meth:`pyromod.types.Client.get_many_listeners_matching_with_identifier_pattern`.
+        """Stops all listeners that match the given identifier pattern.
 
-        :param listener_type: The type of listener to stop. Must be a value from :class:`pyromod.types.ListenerTypes`.
-        :param chat_id: The chat_id to match against.
-        :param user_id: The user_id to match against.
-        :param message_id: The message_id to match against.
-        :param inline_message_id: The inline_message_id to match against.
-        :return: ``void``
+        .. include:: /_includes/usable-by/users-bots.rst
+
+        Uses :meth:`~pyrogram.Client.get_many_listeners_matching_with_identifier_pattern`.
+
+        Parameters:
+            listener_type (:obj:`~pyrogram.types.ListenerTypes`, *optional*):
+                The type of listener to stop listening for.
+                Default to Message.
+
+            chat_id (``int`` | ``str`` | Iterable of ``int`` | Iterable of ``str``, *optional*):
+                Unique identifier (int) or username (str) of the target chat.
+
+            user_id (``int`` | ``str`` | Iterable of ``int`` | Iterable of ``str``, *optional*):
+                The user ID to stop listening for.
+
+            message_id (``int``, *optional*):
+                The message ID to stop listening for.
+
+            inline_message_id (``str``, *optional*):
+                The inline message ID to stop listening for.
         """
         pattern = Identifier(
             from_user_id=user_id,

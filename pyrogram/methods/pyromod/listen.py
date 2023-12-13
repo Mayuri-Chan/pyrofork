@@ -39,19 +39,52 @@ class Listen:
         message_id: Union[int, List[int]] = None,
         inline_message_id: Union[str, List[str]] = None,
     ):
-        """
-        Creates a listener and waits for it to be fulfilled.
+        """Listen for a message, callback query, etc.
 
-        :param filters: A filter to check if the listener should be fulfilled.
-        :param listener_type: The type of listener to create. Defaults to :attr:`pyromod.types.ListenerTypes.MESSAGE`.
-        :param timeout: The maximum amount of time to wait for the listener to be fulfilled. Defaults to ``None``.
-        :param unallowed_click_alert: Whether to alert the user if they click on a button that is not intended for them. Defaults to ``True``.
-        :param chat_id: The chat ID(s) to listen for. Defaults to ``None``.
-        :param user_id: The user ID(s) to listen for. Defaults to ``None``.
-        :param message_id: The message ID(s) to listen for. Defaults to ``None``.
-        :param inline_message_id: The inline message ID(s) to listen for. Defaults to ``None``.
-        :return: The Message or CallbackQuery that fulfilled the listener.
+        Message:
+
+        .. include:: /_includes/usable-by/users-bots.rst
+
+        CallbackQuery:
+
+        .. include:: /_includes/usable-by/bots.rst
+
+        Parameters:
+            chat_id (``int`` | ``str`` | Iterable of ``int`` | Iterable of ``str``, *optional*):
+                Unique identifier (int) or username (str) of the target chat.
+
+            user_id (``int`` | ``str`` | Iterable of ``int`` | Iterable of ``str``, *optional*):
+                The user ID to listen for.
+
+            filters (:obj:`~pyrogram.filters`, *optional*):
+                A filter to check the incoming message against.
+
+            listener_type (:obj:`~pyrogram.types.ListenerTypes`, *optional*):
+                The type of listener to listen for.
+                Default to Message.
+
+            timeout (``int``, *optional*):
+                The maximum amount of time to wait for a message.
+
+            unallowed_click_alert (``bool``, *optional*):
+                Whether to alert the user if they click a button that doesn’t match the filters.
+                Default to True.
+
+            message_id (``int``, *optional*):
+                The message ID to listen for.
+
+            inline_message_id (``str``, *optional*):
+                The inline message ID to listen for.
+
+        Returns:
+            :obj:`~pyrogram.types.Message` | :obj:`~pyrogram.types.CallbackQuery`: On success, a message/callbackquery is returned.
+
+        Example:
+            .. code-block:: python
+
+                await app.listen(chat_id)
         """
+
         pattern = Identifier(
             from_user_id=user_id,
             chat_id=chat_id,

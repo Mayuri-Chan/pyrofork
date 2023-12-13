@@ -25,11 +25,13 @@ class RemoveListener:
         self: "pyrogram.Client",
         listener: Listener
     ):
-        """
-        Removes a listener from the :meth:`pyromod.types.Client.listeners` dictionary.
+        """Removes a listener from the :meth:`~pyrogram.Client.listeners` dictionary.
 
-        :param listener: The listener to remove.
-        :return: ``void``
+        .. include:: /_includes/usable-by/users-bots.rst
+
+        Parameters:
+            listener (:obj:`~pyrogram.types.Listener`):
+                The listener to remove.
         """
         try:
             self.listeners[listener.listener_type].remove(listener)

@@ -38,22 +38,50 @@ class Ask:
         *args,
         **kwargs,
     ):
-        """
-        Sends a message and waits for a response.
+        """Send a message then listen for a message, callback query, etc.
 
-        :param chat_id: The chat ID(s) to wait for a message from. The first chat ID will be used to send the message.
-        :param text: The text to send.
-        :param filters: Same as :meth:`pyromod.types.Client.listen`.
-        :param listener_type: Same as :meth:`pyromod.types.Client.listen`.
-        :param timeout: Same as :meth:`pyromod.types.Client.listen`.
-        :param unallowed_click_alert: Same as :meth:`pyromod.types.Client.listen`.
-        :param user_id: Same as :meth:`pyromod.types.Client.listen`.
-        :param message_id: Same as :meth:`pyromod.types.Client.listen`.
-        :param inline_message_id: Same as :meth:`pyromod.types.Client.listen`.
-        :param args: Additional arguments to pass to :meth:`pyrogram.Client.send_message`.
-        :param kwargs: Additional keyword arguments to pass to :meth:`pyrogram.Client.send_message`.
-        :return:
-            Same as :meth:`pyromod.types.Client.listen`. The sent message is returned as the attribute ``sent_message``.
+        Message:
+
+        .. include:: /_includes/usable-by/users-bots.rst
+
+        CallbackQuery:
+
+        .. include:: /_includes/usable-by/bots.rst
+
+        Parameters:
+            chat_id (``int`` | ``str`` | Iterable of ``int`` | Iterable of ``str``):
+                Unique identifier (int) or username (str) of the target chat.
+
+            text (``str``):
+                Text of the message to be sent.
+
+            user_id (``int`` | ``str`` | Iterable of ``int`` | Iterable of ``str``, *optional*):
+                The user ID to listen for.
+
+            filters (:obj:`~pyrogram.filters`, *optional*):
+                A filter to check the incoming message against.
+
+            listener_type (:obj:`~pyrogram.types.ListenerTypes`, *optional*):
+                The type of listener to listen for.
+                Default to Message.
+
+            timeout (``int``, *optional*):
+                The maximum amount of time to wait for a message.
+
+            unallowed_click_alert (``bool``, *optional*):
+                Whether to alert the user if they click a button that doesn’t match the filters.
+                Default to True.
+
+            inline_message_id (``str``, *optional*):
+                The inline message ID to listen for.
+
+        Returns:
+            :obj:`~pyrogram.types.Message` | :obj:`~pyrogram.types.CallbackQuery`: On success, a message/callbackquery is returned.
+
+        Example:
+            .. code-block:: python
+
+                await app.ask(chat_id, "Tell me your name:")
         """
         sent_message = None
         if text.strip() != "":

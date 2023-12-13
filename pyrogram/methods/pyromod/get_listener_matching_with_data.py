@@ -28,12 +28,19 @@ class GetListenerMatchingWithData:
         data: Identifier,
         listener_type: ListenerTypes
     ) -> Optional[Listener]:
-        """
-        Gets a listener that matches the given data.
+        """Gets a listener that matches the given data.
 
-        :param data: A :class:`pyromod.types.Identifier` to match against.
-        :param listener_type: The type of listener to get. Must be a value from :class:`pyromod.types.ListenerTypes`.
-        :return: The listener that matches the given data or ``None`` if no listener matches.
+        .. include:: /_includes/usable-by/users-bots.rst
+
+        Parameters:
+            data (:obj:`~pyrogram.types.Identifier`):
+                The Identifier to match agains.
+
+            listener_type (:obj:`~pyrogram.types.ListenerTypes`):
+                The type of listener to get.
+
+        Returns:
+            :obj:`~pyrogram.types.Listener`: On success, a Listener is returned.
         """
         matching = []
         for listener in self.listeners[listener_type]:

@@ -35,18 +35,36 @@ class RegisterNextStepHandler:
         message_id: Union[int, List[int]] = None,
         inline_message_id: Union[str, List[str]] = None,
     ):
-        """
-        Registers a listener with a callback to be called when the listener is fulfilled.
+        """Registers a listener with a callback to be called when the listener is fulfilled.
 
-        :param callback: The callback to call when the listener is fulfilled.
-        :param filters: Same as :meth:`pyromod.types.Client.listen`.
-        :param listener_type: Same as :meth:`pyromod.types.Client.listen`.
-        :param unallowed_click_alert: Same as :meth:`pyromod.types.Client.listen`.
-        :param chat_id: Same as :meth:`pyromod.types.Client.listen`.
-        :param user_id: Same as :meth:`pyromod.types.Client.listen`.
-        :param message_id: Same as :meth:`pyromod.types.Client.listen`.
-        :param inline_message_id: Same as :meth:`pyromod.types.Client.listen`.
-        :return: ``void``
+        .. include:: /_includes/usable-by/users-bots.rst
+
+        Parameters:
+            callback (``Callable``):
+                The callback to call when the listener is fulfilled.
+
+            user_id (``int`` | ``str`` | Iterable of ``int`` | Iterable of ``str``, *optional*):
+                The user ID to listen for.
+
+            filters (:obj:`~pyrogram.filters`, *optional*):
+                A filter to check the incoming message against.
+
+            listener_type (:obj:`~pyrogram.types.ListenerTypes`, *optional*):
+                The type of listener to listen for.
+                Default to Message.
+
+            timeout (``int``, *optional*):
+                The maximum amount of time to wait for a message.
+
+            unallowed_click_alert (``bool``, *optional*):
+                Whether to alert the user if they click a button that doesn’t match the filters.
+                Default to True.
+
+            message_id (``int``, *optional*):
+                The message ID to listen for.
+
+            inline_message_id (``str``, *optional*):
+                The inline message ID to listen for.
         """
         pattern = Identifier(
             from_user_id=user_id,

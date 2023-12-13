@@ -29,12 +29,16 @@ class StopListener:
         self: "pyrogram.Client",
         listener: Listener
     ):
-        """
-        Stops a listener, calling stopped_handler if applicable or raising ListenerStopped if throw_exceptions is True.
+        """Stops a listener, calling stopped_handler if applicable or raising ListenerStopped if throw_exceptions is True.
 
-        :param listener: The :class:`pyromod.types.Listener` to stop.
-        :return: ``void``
-        :raises ListenerStopped: If throw_exceptions is True.
+        .. include:: /_includes/usable-by/users-bots.rst
+
+        Parameters:
+            listener (:obj:`~pyrogram.types.Listener`):
+                The listener to remove.
+
+        Raises:
+            ListenerStopped: If throw_exceptions is True.
         """
         self.remove_listener(listener)
 

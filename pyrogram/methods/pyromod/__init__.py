@@ -26,6 +26,8 @@ from .register_next_step_handler import RegisterNextStepHandler
 from .remove_listerner import RemoveListener
 from .stop_listener import StopListener
 from .stop_listening import StopListening
+from .wait_for_callback_query import WaitForCallbackQuery
+from .wait_for_message import WaitForMessage
 
 class Pyromod(
     Ask,
@@ -37,6 +39,8 @@ class Pyromod(
     RegisterNextStepHandler,
     RemoveListener,
     StopListener,
-    StopListening
+    StopListening,
+    WaitForCallbackQuery,
+    WaitForMessage
 ):
     pass

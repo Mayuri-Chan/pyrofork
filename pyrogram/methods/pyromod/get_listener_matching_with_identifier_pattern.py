@@ -28,16 +28,23 @@ class GetListenerMatchingWithIdentifierPattern:
         pattern: Identifier,
         listener_type: ListenerTypes
     ) -> Optional[Listener]:
-        """
-        Gets a listener that matches the given identifier pattern.
+        """Gets a listener that matches the given identifier pattern.
 
-        The difference from :meth:`pyromod.types.Client.get_listener_matching_with_data` is that this method
+        .. include:: /_includes/usable-by/users-bots.rst
+
+        The difference from :meth:`~pyrogram.Client.get_listener_matching_with_data` is that this method
         intends to get a listener by passing partial info of the listener identifier, while the other method
         intends to get a listener by passing the full info of the update data, which the listener should match with.
 
-        :param pattern: A :class:`pyromod.types.Identifier` to match against.
-        :param listener_type: The type of listener to get. Must be a value from :class:`pyromod.types.ListenerTypes`.
-        :return: The listener that matches the given identifier pattern or ``None`` if no listener matches.
+        Parameters:
+            pattern (:obj:`~pyrogram.types.Identifier`):
+                The Identifier to match agains.
+
+            listener_type (:obj:`~pyrogram.types.ListenerTypes`):
+                The type of listener to get.
+
+        Returns:
+            :obj:`~pyrogram.types.Listener`: On success, a Listener is returned.
         """
         matching = []
         for listener in self.listeners[listener_type]:

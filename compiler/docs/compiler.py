@@ -147,6 +147,21 @@ def pyrogram_api():
             export_session_string
             set_parse_mode
         """,
+        conversation="""
+        Conversation
+            ask
+            listen
+            get_listener_matching_with_data
+            get_listener_matching_with_identifier_pattern
+            get_many_listeners_matching_with_data
+            get_many_listeners_matching_with_identifier_pattern
+            register_next_step_handler
+            remove_listener
+            stop_listener
+            stop_listening
+            wait_for_callback_query
+            wait_for_message
+        """,
         messages="""
         Messages
             send_message
@@ -479,6 +494,12 @@ def pyrogram_api():
             StoriesPrivacyRules
             StoryViews
         """,
+        pyromod="""
+        Pyromod
+            Identifier
+            Listener
+            ListenerTypes
+        """,
         bot_keyboards="""
         Bot keyboards
             ReplyKeyboardMarkup
@@ -591,6 +612,7 @@ def pyrogram_api():
     categories = dict(
         message="""
         Message
+            Message.ask
             Message.click
             Message.delete
             Message.download
@@ -625,9 +647,13 @@ def pyrogram_api():
             Message.reply_web_page
             Message.get_media_group
             Message.react
+            Message.wait_for_click
         """,
         chat="""
         Chat
+            Chat.ask
+            Chat.listen
+            Chat.stop_listening
             Chat.archive
             Chat.unarchive
             Chat.set_title
@@ -648,6 +674,9 @@ def pyrogram_api():
         """,
         user="""
         User
+            User.ask
+            User.listen
+            User.stop_listening
             User.archive
             User.unarchive
             User.block
