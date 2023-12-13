@@ -27,7 +27,7 @@ class WebPagePreview(Object):
     """A web page preview.
 
     Parameters:
-        webpage (:obj:`~pyrogram.types.WebPageEmpty` | :obj:`~pyrogram.types.WebPage):
+        webpage (:obj:`~pyrogram.types.WebPageEmpty` | :obj:`~pyrogram.types.WebPage`):
             Web Page Information.
 
         force_large_media (``bool``, *optional*):

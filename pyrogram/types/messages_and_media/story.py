@@ -1479,8 +1479,7 @@ class Story(Object, Update):
                 New story video.
                 Pass a file_id as string to send a video that exists on the Telegram servers,
                 pass an HTTP URL as a string for Telegram to get a video from the Internet,
-                pass a file path as string to upload a 
-            channel=self.sender_chat.id if self.sender_chat else None,new video that exists on your local machine, or
+                pass a file path as string to upload a new video that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
 
             privacy (:obj:`~pyrogram.enums.StoriesPrivacyRules`, *optional*):
@@ -1535,7 +1534,9 @@ class Story(Object, Update):
         Use as a shortcut for:
 
         .. code-block:: python
-            channel=self.sender_chat.id if self.sender_chat else None,
+
+            await c.edit_story(
+                channel=chat_id,
                 caption="hello"
             )
 
