@@ -89,11 +89,4 @@ exclude = [
 
 [tool.hatch.build.targets.wheel]
 ignore-vcs = true
-exclude = [
-    "compiler",
-    "docs",
-    "tests",
-    "venv",
-    "hatch_build.py"
-]
-package = ["pyrogram"]
+packages = ["pyrogram"]
