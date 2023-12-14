@@ -40,21 +40,29 @@ class WaitForCallbackQuery:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+
             filters (:obj:`Filters`):
                 Pass one or more filters to allow only a subset of callback queries to be passed
                 in your callback function.
+
             timeout (``int``, *optional*):
                 Timeout in seconds.
+
         Returns:
             :obj:`~pyrogram.types.CallbackQuery`: On success, the callback query is returned.
+
         Raises:
             asyncio.TimeoutError: In case callback query not received within the timeout.
+
         Example:
             .. code-block:: python
+
                 # Simple example
                 callback_query = app.wait_for_callback_query(chat_id)
+
                 # Example with filter
                 callback_query = app.wait_for_callback_query(chat_id, filters=filters.user(user_id))
+
                 # Example with timeout
                 callback_query = app.wait_for_callback_query(chat_id, timeout=60)
         """

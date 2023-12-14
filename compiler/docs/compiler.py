@@ -498,7 +498,6 @@ def pyrogram_api():
         Pyromod
             Identifier
             Listener
-            ListenerTypes
         """,
         bot_keyboards="""
         Bot keyboards

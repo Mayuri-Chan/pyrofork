@@ -39,21 +39,29 @@ class WaitForMessage:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+
             filters (:obj:`Filters`):
                 Pass one or more filters to allow only a subset of callback queries to be passed
                 in your callback function.
+
             timeout (``int``, *optional*):
                 Timeout in seconds.
+
         Returns:
             :obj:`~pyrogram.types.Message`: On success, the reply message is returned.
+
         Raises:
             asyncio.TimeoutError: In case message not received within the timeout.
+
         Example:
             .. code-block:: python
+
                 # Simple example
                 reply_message = app.wait_for_message(chat_id)
+
                 # Example with filter
                 reply_message = app.wait_for_message(chat_id, filters=filters.text)
+
                 # Example with timeout
                 reply_message = app.wait_for_message(chat_id, timeout=60)
         """

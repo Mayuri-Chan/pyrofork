@@ -18,6 +18,7 @@ to apply only a valid value among the expected ones.
     ChatMemberStatus
     ChatMembersFilter
     ChatType
+    ListenerTypes
     MessageEntityType
     MessageMediaType
     MessageServiceType
@@ -38,6 +39,7 @@ to apply only a valid value among the expected ones.
     ChatMemberStatus
     ChatMembersFilter
     ChatType
+    ListenerTypes
     MessageEntityType
     MessageMediaType
     MessageServiceType
