@@ -147,6 +147,9 @@ class Message(Object, Update):
         edit_date (:py:obj:`~datetime.datetime`, *optional*):
             Date the message was last edited.
 
+        edit_hide (``bool``, *optional*):
+            True, if the message is edited by react.
+
         media_group_id (``str``, *optional*):
             The unique identifier of a media message group this message belongs to.
 
@@ -390,6 +393,7 @@ class Message(Object, Update):
         service: "enums.MessageServiceType" = None,
         scheduled: bool = None,
         from_scheduled: bool = None,
+        edit_hide: bool = None,
         media: "enums.MessageMediaType" = None,
         edit_date: datetime = None,
         media_group_id: str = None,
@@ -486,6 +490,7 @@ class Message(Object, Update):
         self.from_scheduled = from_scheduled
         self.media = media
         self.edit_date = edit_date
+        self.edit_hide = edit_hide
         self.media_group_id = media_group_id
         self.author_signature = author_signature
         self.has_protected_content = has_protected_content
@@ -1001,6 +1006,7 @@ class Message(Object, Update):
                 scheduled=is_scheduled,
                 from_scheduled=message.from_scheduled,
                 media=media_type,
+                edit_hide=message.edit_hide,
                 edit_date=utils.timestamp_to_datetime(message.edit_date),
                 media_group_id=message.grouped_id,
                 photo=photo,
