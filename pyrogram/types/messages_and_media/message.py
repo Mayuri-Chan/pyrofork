@@ -148,7 +148,8 @@ class Message(Object, Update):
             Date the message was last edited.
 
         edit_hide (``bool``, *optional*):
-            True, if the message is edited by react.
+            The message shown as not modified.
+            A message can be not modified in case it has received a reaction.
 
         media_group_id (``str``, *optional*):
             The unique identifier of a media message group this message belongs to.
