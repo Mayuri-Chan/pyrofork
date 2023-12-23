@@ -143,6 +143,12 @@ class Chat(Object):
         usernames (List of :obj:`~pyrogram.types.Username`, *optional*):
             List of all chat (fragment) usernames; for private chats, supergroups and channels.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
+
+        color (``int``, *optional*)
+            Chat color.
+
+        background_emoji_id (``int``, *optional*)
+            Chat background emoji id.
     """
 
     def __init__(
@@ -179,7 +185,9 @@ class Chat(Object):
         linked_chat: "types.Chat" = None,
         send_as_chat: "types.Chat" = None,
         available_reactions: Optional["types.ChatReactions"] = None,
-        usernames: List["types.Username"] = None
+        usernames: List["types.Username"] = None,
+        color: int = None,
+        background_emoji_id: int = None
     ):
         super().__init__(client)
 
@@ -214,6 +222,8 @@ class Chat(Object):
         self.send_as_chat = send_as_chat
         self.available_reactions = available_reactions
         self.usernames = usernames
+        self.color = color
+        self.background_emoji_id = background_emoji_id
 
     @property
     def full_name(self) -> str:
@@ -237,6 +247,8 @@ class Chat(Object):
             photo=types.ChatPhoto._parse(client, user.photo, peer_id, user.access_hash),
             restrictions=types.List([types.Restriction._parse(r) for r in user.restriction_reason]) or None,
             dc_id=getattr(getattr(user, "photo", None), "dc_id", None),
+            color=getattr(user, "color", None),
+            background_emoji_id=getattr(user, "background_emoji_id", None),
             client=client
         )
 
@@ -298,6 +310,8 @@ class Chat(Object):
             members_count=getattr(channel, "participants_count", None),
             dc_id=getattr(getattr(channel, "photo", None), "dc_id", None),
             has_protected_content=getattr(channel, "noforwards", None),
+            color=getattr(channel, "color", None),
+            background_emoji_id=getattr(channel, "background_emoji_id", None),
             client=client
         )
 
