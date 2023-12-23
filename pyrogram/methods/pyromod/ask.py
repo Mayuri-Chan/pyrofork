@@ -83,7 +83,7 @@ class Ask:
                 await app.ask(chat_id, "Tell me your name:")
         """
         sent_message = None
-        if text.strip() != "":
+        if text and isinstance(text, str):
             chat_to_ask = chat_id[0] if isinstance(chat_id, list) else chat_id
             sent_message = await self.send_message(chat_to_ask, text, *args, **kwargs)
 

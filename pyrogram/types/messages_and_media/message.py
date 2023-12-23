@@ -579,10 +579,9 @@ class Message(Object, Update):
         message_id = getattr(self, "id", getattr(self, "message_id", None))
 
         return await self._client.listen(
-            (self.chat.id, from_user_id, self.id),
-            listener_type=pyrogram.enums.ListenerTypes.CALLBACK_QUERY,
-            timeout=timeout,
             filters=filters,
+            timeout=timeout,
+            listener_type=pyrogram.enums.ListenerTypes.CALLBACK_QUERY,
             unallowed_click_alert=alert,
             chat_id=self.chat.id,
             user_id=from_user_id,
