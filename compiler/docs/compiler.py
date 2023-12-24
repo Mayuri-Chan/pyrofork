@@ -494,6 +494,9 @@ def pyrogram_api():
             StorySkipped
             StoriesPrivacyRules
             StoryViews
+            MediaArea
+            MediaAreaChannelPost
+            MediaAreaCoordinates
         """,
         pyromod="""
         Pyromod

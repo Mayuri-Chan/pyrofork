@@ -99,9 +99,12 @@ class Story(Object, Update):
 
         denied_users (List of ``int``, *optional*):
             List of user_id whos denied to view the story.
+
+        media_areas (List of :obj:`~pyrogram.types.MediaArea`, *optional*):
+            List of :obj:`~pyrogram.types.MediaArea` object in story.
     """
 
-    # TODO: Add Media Areas, fix Allowed Chats
+    # TODO: fix Allowed Chats
 
     def __init__(
         self,
@@ -130,6 +133,7 @@ class Story(Object, Update):
         forward_from: "types.StoryForwardHeader" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
+        media_areas: List["types.MediaArea"] = None
         #allowed_chats: List[int] = None,
         #denied_chats: List[int] = None
     ):
@@ -158,6 +162,7 @@ class Story(Object, Update):
         self.forward_from = forward_from
         self.allowed_users = allowed_users
         self.denied_users = denied_users
+        self.media_areas = media_areas
         #self.allowed_chats = allowed_chats
         #self.denied_chats = denied_chats
 
@@ -241,6 +246,12 @@ class Story(Object, Update):
         if stories.fwd_from is not None:
             forward_from = await types.StoryForwardHeader._parse(client, stories.fwd_from)
 
+        if stories.media_areas is not None and len(stories.media_areas) > 0:
+            media_areas = [
+                await types.MediaArea._parse(client, media_area)
+                for media_area in stories.media_areas
+            ]
+
         return Story(
             id=stories.id,
             from_user=from_user,
@@ -267,6 +278,7 @@ class Story(Object, Update):
             #denied_chats=denied_chats,
             allowed_users=allowed_users,
             denied_users=denied_users,
+            media_areas=media_areas,
             client=client
         )
 
