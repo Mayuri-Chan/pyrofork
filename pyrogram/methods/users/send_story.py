@@ -46,7 +46,8 @@ class SendStory:
         caption_entities: List["types.MessageEntity"] = None,
         period: int = None,
         forward_from_chat_id: Union[int, str] = None,
-        forward_from_story_id: int = None
+        forward_from_story_id: int = None,
+        media_areas: List["types.InputMediaArea"] = None
     ) -> "types.Story":
         """Send new story.
 
@@ -111,6 +112,17 @@ class SendStory:
                 How long the story will posted, in secs.
                 only for premium users.
 
+            media_areas (List of :obj:`~pyrogram.types.InputMediaArea`):
+                List of media area object to be included in story.
+
+            forward_from_chat_id (``int`` | ``str``, *optional):
+                Unique identifier (int) or username (str) of the source chat where the original story was sent.
+                For your personal story you can simply use "me" or "self".
+                For a contact that exists in your Telegram address book you can use his phone number (str).
+ 
+            forward_from_story_id (``int``, *optional*):
+                Single story id.
+
         Returns:
             :obj:`~pyrogram.types.Story` a single story is returned.
 
@@ -124,7 +136,6 @@ class SendStory:
         Raises:
             ValueError: In case of invalid arguments.
         """
-        # TODO: media_areas
 
         if channel_id:
             peer = await self.resolve_peer(channel_id)
@@ -249,6 +260,7 @@ class SendStory:
             users = [await self.resolve_peer(user_id) for user_id in denied_users]
             privacy_rules.append(raw.types.InputPrivacyValueDisallowUsers(users=users))
 
+        forward_from_chat = None
         if forward_from_chat_id is not None:
             forward_from_chat = await self.resolve_peer(forward_from_chat_id)
             media = raw.types.InputMediaEmpty()
@@ -268,7 +280,11 @@ class SendStory:
                 period=period,
                 fwd_from_id=forward_from_chat,
                 fwd_from_story=forward_from_story_id if forward_from_chat_id is not None else None,
-                fwd_modified=True if forward_from_chat_id is not None and caption is not None else False
+                fwd_modified=True if forward_from_chat_id is not None and caption is not None else False,
+                media_areas=[
+                    await media_area.write(self)
+                    for media_area in media_areas
+                ]
             )
         )
         return await types.Story._parse(self, r.updates[0].story, r.updates[0].peer)

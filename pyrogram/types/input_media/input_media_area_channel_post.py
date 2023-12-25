@@ -18,53 +18,41 @@
 
 import pyrogram
 
-from pyrogram import raw, types, utils
+from pyrogram import raw, types
 
-from .media_area import MediaArea
+from .input_media_area import InputMediaArea
 
-class MediaAreaChannelPost(MediaArea):
+from typing import Union
+
+class InputMediaAreaChannelPost(InputMediaArea):
     """A channel post media area.
 
     Parameters:
         coordinates (:obj:`~pyrogram.types.MediaAreaCoordinates`):
             Media area coordinates.
 
-        chat (:obj:`~pyrogram.types.Chat`):
-            Information about origin channel.
+        chat_id (``int`` | ``str``):
+            Unique identifier (int) or username (str) of the target channel.
 
         message_id (``int``):
-            The channel post message id.
+            A single message id.
     """
 
     def __init__(
         self,
         coordinates: "types.MediaAreaCoordinates",
-        chat: "types.Chat",
+        chat_id: Union[int, str],
         message_id: int
     ):
         super().__init__(coordinates=coordinates)
 
         self.coordinates = coordinates
-        self.chat = chat
+        self.chat_id = chat_id
         self.message_id = message_id
 
-    async def _parse(
-        client: "pyrogram.Client",
-        media_area: "raw.types.MediaAreaChannelPost"
-    ) -> "MediaAreaChannelPost":
-        channel_id = utils.get_channel_id(media_area.channel_id)
-        chat = types.Chat._parse_chat(
-            client,
-            (
-                await client.invoke(
-                    raw.functions.channels.GetChannels(
-                        id=[await client.resolve_peer(channel_id)]
-                    )
-                )
-            ).chats[0]
-        )
-        return MediaAreaChannelPost(
-            coordinates=types.MediaAreaCoordinates._parse(media_area.coordinates),
-            chat=chat,
-            message_id=media_area.msg_id
+    async def write(self, client: "pyrogram.Client"):
+        return raw.types.InputMediaAreaChannelPost(
+            coordinates=self.coordinates,
+            channel=await client.resolve_peer(self.chat_id),
+            msg_id=self.message_id
         )

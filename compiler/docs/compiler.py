@@ -497,6 +497,8 @@ def pyrogram_api():
             MediaArea
             MediaAreaChannelPost
             MediaAreaCoordinates
+            InputMediaArea
+            InputMediaAreaChannelPost
         """,
         pyromod="""
         Pyromod

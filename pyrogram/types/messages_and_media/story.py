@@ -1451,7 +1451,8 @@ class Story(Object, Update):
         video: str = None,
         caption: str = None,
         parse_mode: "enums.ParseMode" = None,
-        caption_entities: List["types.MessageEntity"] = None
+        caption_entities: List["types.MessageEntity"] = None,
+        media_areas: List["types.InputMediaArea"] = None
     ) -> "types.Story":
         """Bound method *edit* of :obj:`~pyrogram.types.Story`.
 
@@ -1513,6 +1514,9 @@ class Story(Object, Update):
             caption_entities (List of :obj:`~pyrogram.types.MessageEntity`):
                 List of special entities that appear in the caption, which can be specified instead of *parse_mode*.
 
+            media_areas (List of :obj:`~pyrogram.types.InputMediaArea`):
+                List of media area object to be included in story.
+
         Returns:
             On success, the edited :obj:`~pyrogram.types.Story` is returned.
 
@@ -1532,7 +1536,8 @@ class Story(Object, Update):
             video=video,
             caption=caption,
             parse_mode=parse_mode,
-            caption_entities=caption_entities
+            caption_entities=caption_entities,
+            media_areas=media_areas
         )
 
     async def edit_caption(

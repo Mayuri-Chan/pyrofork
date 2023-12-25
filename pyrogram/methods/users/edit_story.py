@@ -42,7 +42,8 @@ class EditStory:
         video: str = None,
         caption: str = None,
         parse_mode: "enums.ParseMode" = None,
-        caption_entities: List["types.MessageEntity"] = None
+        caption_entities: List["types.MessageEntity"] = None,
+        media_areas: List["types.InputMediaArea"] = None
     ) -> "types.Story":
         """Edit story.
 
@@ -95,6 +96,9 @@ class EditStory:
             caption_entities (List of :obj:`~pyrogram.types.MessageEntity`):
                 List of special entities that appear in the caption, which can be specified instead of *parse_mode*.
 
+            media_areas (List of :obj:`~pyrogram.types.InputMediaArea`):
+                List of media area object to be included in story.
+
         Returns:
             :obj:`~pyrogram.types.Story` a single story is returned.
 
@@ -108,8 +112,6 @@ class EditStory:
         Raises:
             ValueError: In case of invalid arguments.
         """
-
-        # TODO: MediaArea
 
         if channel_id:
             peer = await self.resolve_peer(channel_id)
@@ -241,7 +243,11 @@ class EditStory:
                 media=media,
                 privacy_rules=privacy_rules,
                 caption=text,
-                entities=entities
+                entities=entities,
+                media_areas=[
+                    await media_area.write(self)
+                    for media_area in media_areas
+                ]
             )
         )
         return await types.Story._parse(self, r.updates[0].story, r.updates[0].peer)

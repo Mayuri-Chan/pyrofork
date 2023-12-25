@@ -24,29 +24,29 @@ class MediaAreaCoordinates(Object):
     """A coordinates of media area.
 
     Parameters:
-        x (``float``):
+        x (``float``, *optional*):
             X position of media area.
 
-        y (``float``):
+        y (``float``, *optional*):
             Y position of media area.
 
-        width (``float``):
+        width (``float``, *optional*):
             Media area width.
 
-        height (``float``):
+        height (``float``, *optional*):
             Media area height.
 
-        rotation (``float``):
+        rotation (``float``, *optional*):
             Media area rotation.
     """
 
     def __init__(
         self,
-        x: float,
-        y: float,
-        width: float,
-        height: float,
-        rotation: float
+        x: float = None,
+        y: float = None,
+        width: float = None,
+        height: float = None,
+        rotation: float = None
     ):
         super().__init__()
 
@@ -66,3 +66,12 @@ class MediaAreaCoordinates(Object):
             height=media_area_cordinates.h,
             rotation=media_area_cordinates.rotation
         )
+
+    def write(self):
+        return raw.types.MediaAreaCoordinates(
+            x=self.x or 51.596797943115, # value from official android apps
+            y=self.y or 51.580257415771, # value from official android apps
+            w=self.width or 69.867012023926, # value from official android apps
+            h=self.height or 75.783416748047, # value from official android apps
+            rotation=self.rotation or 0.0 # value from official android apps
+        ).write()
