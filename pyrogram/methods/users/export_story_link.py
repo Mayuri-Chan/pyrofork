@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 class ExportStoryLink:
     async def export_story_link(
         self: "pyrogram.Client",
-        from_id: Union[int, str],
+        chat_id: Union[int, str],
         story_id: int,
     ) -> types.ExportedStoryLink:
         """Get one story link from an user by using story identifiers.
@@ -36,7 +36,7 @@ class ExportStoryLink:
         .. include:: /_includes/usable-by/users.rst
 
         Parameters:
-            from_id (``int`` | ``str``):
+            chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target user/channel.
                 For your personal story you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
@@ -51,13 +51,13 @@ class ExportStoryLink:
             .. code-block:: python
 
                 # Get story link
-                await app.export_story_link(from_id, 12345)
+                await app.export_story_link(chat_id, 12345)
 
         Raises:
             ValueError: In case of invalid arguments.
         """
 
-        peer = await self.resolve_peer(from_id)
+        peer = await self.resolve_peer(chat_id)
 
         rpc = raw.functions.stories.ExportStoryLink(peer=peer, id=story_id)
 

@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 class GetUserStoriesHistory:
     async def get_stories_history(
         self: "pyrogram.Client",
-        channel_id: int = None,
+        chat_id: int = None,
         limit: int = 0,
         offset_id: int = 0
     ) -> Optional[AsyncGenerator["types.Story", None]]:
@@ -37,7 +37,7 @@ class GetUserStoriesHistory:
         .. include:: /_includes/usable-by/users.rst
 
         Parameters:
-            channel_id (``int``, *optional*):
+            chat_id (``int``, *optional*):
                 Unique identifier (int) of the target channel.
 
             limit (``int``, *optional*):
@@ -61,8 +61,8 @@ class GetUserStoriesHistory:
             ValueError: In case of invalid arguments.
         """
         
-        if channel_id:
-            peer = await self.resolve_peer(channel_id)
+        if chat_id:
+            peer = await self.resolve_peer(chat_id)
         else:
             peer = await self.resolve_peer("me")
 

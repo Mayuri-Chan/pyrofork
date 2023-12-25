@@ -30,7 +30,7 @@ class SendStory:
 
     async def send_story(
         self: "pyrogram.Client",
-        channel_id: int = None,
+        chat_id: int = None,
         privacy: "enums.StoriesPrivacyRules" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
@@ -56,7 +56,7 @@ class SendStory:
         Note: You must pass one of following paramater *animation*, *photo*, *video*
 
         Parameters:
-            channel_id (``int``, *optional*):
+            chat_id (``int``, *optional*):
                 Unique identifier (int) of the target channel.
 
             animation (``str`` | ``BinaryIO``, *optional*):
@@ -137,8 +137,8 @@ class SendStory:
             ValueError: In case of invalid arguments.
         """
 
-        if channel_id:
-            peer = await self.resolve_peer(channel_id)
+        if chat_id:
+            peer = await self.resolve_peer(chat_id)
         else:
             peer = await self.resolve_peer("me")
 

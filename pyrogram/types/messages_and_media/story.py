@@ -246,6 +246,7 @@ class Story(Object, Update):
         if stories.fwd_from is not None:
             forward_from = await types.StoryForwardHeader._parse(client, stories.fwd_from)
 
+        media_areas = None
         if stories.media_areas is not None and len(stories.media_areas) > 0:
             media_areas = [
                 await types.MediaArea._parse(client, media_area)
@@ -1399,7 +1400,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.delete_stories(
-            channel_id=self.sender_chat.id if self.sender_chat else None,
+            chat_id=self.sender_chat.id if self.sender_chat else None,
             story_ids=self.id
         )
 
@@ -1434,7 +1435,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
-            channel_id=self.sender_chat.id if self.sender_chat else None,
+            chat_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             animation=animation
         )
@@ -1524,7 +1525,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
-            channel_id=self.sender_chat.id if self.sender_chat else None,
+            chat_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             privacy=privacy,
             #allowed_chats=allowed_chats,
@@ -1580,7 +1581,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
-            channel_id=self.sender_chat.id if self.sender_chat else None,
+            chat_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             caption=caption,
             parse_mode=parse_mode,
@@ -1618,7 +1619,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
-            channel_id=self.sender_chat.id if self.sender_chat else None,
+            chat_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             photo=photo
         )
@@ -1664,7 +1665,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
-            channel_id=self.sender_chat.id if self.sender_chat else None,
+            chat_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             privacy=privacy,
             #allowed_chats=allowed_chats,
@@ -1704,7 +1705,7 @@ class Story(Object, Update):
             RPCError: In case of a Telegram RPC error.
         """
         return await self._client.edit_story(
-            channel_id=self.sender_chat.id if self.sender_chat else None,
+            chat_id=self.sender_chat.id if self.sender_chat else None,
             story_id=self.id,
             video=video
         )
@@ -1732,11 +1733,11 @@ class Story(Object, Update):
         Raises:
             RPCError: In case of a Telegram RPC error.
         """
-        return await self._client.export_story_link(from_id=self.from_user.id if self.from_user else self.sender_chat.id, story_id=self.id)
+        return await self._client.export_story_link(chat_id=self.from_user.id if self.from_user else self.sender_chat.id, story_id=self.id)
 
     async def forward(
         self,
-        channel_id: int = None,
+        chat_id: int = None,
         privacy: "enums.StoriesPrivacyRules" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
@@ -1762,7 +1763,7 @@ class Story(Object, Update):
             )
 
         Parameters:
-            channel_id (``int``, *optional*):
+            chat_id (``int``, *optional*):
                 Unique identifier (int) of the target channel.
                 If you want to forward story to a channel.
 
@@ -1805,7 +1806,7 @@ class Story(Object, Update):
             ValueError: In case of invalid arguments.
         """
         return await self._client.send_story(
-            channel_id=channel_id,
+            chat_id=chat_id,
             privacy=privacy,
             allowed_users=allowed_users,
             denied_users=denied_users,

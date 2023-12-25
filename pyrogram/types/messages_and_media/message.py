@@ -198,7 +198,7 @@ class Message(Object, Update):
         giveaway (:obj:`~pyrogram.types.Giveaway`, *optional*):
             Message is a giveaway, information about the giveaway.
 
-        story (:obj:`~pyrogram.types.MessageStory`, *optional*):
+        story (:obj:`~pyrogram.types.MessageStory` | :obj:`~pyrogram.types.Story`, *optional*):
             Message is a forwarded story, information about the forwarded story.
 
         video (:obj:`~pyrogram.types.Video`, *optional*):
@@ -411,7 +411,7 @@ class Message(Object, Update):
         animation: "types.Animation" = None,
         game: "types.Game" = None,
         giveaway: "types.Giveaway" = None,
-        story: "types.MessageStory" = None,
+        story: Union["types.MessageStory", "types.Story"] = None,
         video: "types.Video" = None,
         voice: "types.Voice" = None,
         video_note: "types.VideoNote" = None,
@@ -886,7 +886,7 @@ class Message(Object, Update):
                     giveaway = await types.Giveaway._parse(client, message)
                     media_type = enums.MessageMediaType.GIVEAWAY
                 elif isinstance(media, raw.types.MessageMediaStory):
-                    story = types.MessageStory._parse(media)
+                    story = await types.MessageStory._parse(client, media)
                     media_type = enums.MessageMediaType.STORY
                 elif isinstance(media, raw.types.MessageMediaDocument):
                     doc = media.document

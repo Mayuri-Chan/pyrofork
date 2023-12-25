@@ -29,7 +29,7 @@ class ForwardStory:
         self: "pyrogram.Client",
         from_chat_id: Union[int, str],
         from_story_id: int,
-        channel_id: int = None,
+        chat_id: int = None,
         privacy: "enums.StoriesPrivacyRules" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
@@ -55,7 +55,7 @@ class ForwardStory:
             from_story_id (``int``):
                 Unique identifier of original story.
 
-            channel_id (``int``, *optional*):
+            chat_id (``int``, *optional*):
                 Unique identifier (int) of the target channel.
                 If you want to forward story to a channel.
 
@@ -105,7 +105,7 @@ class ForwardStory:
         """
         
         return await self.send_story(
-            channel_id=channel_id,
+            chat_id=chat_id,
             privacy=privacy,
             allowed_users=allowed_users,
             denied_users=denied_users,

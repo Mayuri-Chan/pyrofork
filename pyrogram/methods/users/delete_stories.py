@@ -29,7 +29,7 @@ class DeleteStories:
     async def delete_stories(
         self: "pyrogram.Client",
         story_ids: Union[int, Iterable[int]],
-        channel_id: int = None
+        chat_id: int = None
     ) -> bool:
         """Delete one or more story by using story identifiers.
 
@@ -40,7 +40,7 @@ class DeleteStories:
                 Pass a single story identifier or an iterable of story ids (as integers) to get the content of the
                 story themselves.
 
-            channel_id (``int``, *optional*):
+            chat_id (``int``, *optional*):
                 Unique identifier (int) of the target channel.
 
         Returns:
@@ -59,8 +59,8 @@ class DeleteStories:
         is_iterable = not isinstance(story_ids, int)
         ids = list(story_ids) if is_iterable else [story_ids]
         
-        if channel_id:
-            peer = await self.resolve_peer(channel_id)
+        if chat_id:
+            peer = await self.resolve_peer(chat_id)
         else:
             peer = await self.resolve_peer("me")
 
