@@ -210,7 +210,7 @@ class Message(Object, Update):
         video_note (:obj:`~pyrogram.types.VideoNote`, *optional*):
             Message is a video note, information about the video message.
 
-        web_page_preview (:obj:`pyrogram.types.WebPagePreview`, *optional*):
+        web_page_preview (:obj:`~pyrogram.types.WebPagePreview`, *optional*):
             Message is a web page preview, information about the web page preview message.
 
         caption (``str``, *optional*):
