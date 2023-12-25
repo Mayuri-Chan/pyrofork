@@ -158,7 +158,7 @@ class Story(Object, Update):
         self.caption = caption
         self.caption_entities = caption_entities
         self.views = views
-        self.privay = privacy
+        self.privacy = privacy
         self.forward_from = forward_from
         self.allowed_users = allowed_users
         self.denied_users = denied_users
