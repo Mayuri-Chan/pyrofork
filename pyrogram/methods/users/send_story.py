@@ -284,7 +284,7 @@ class SendStory:
                 media_areas=[
                     await media_area.write(self)
                     for media_area in media_areas
-                ]
+                ] if media_areas is not None else None
             )
         )
         return await types.Story._parse(self, r.updates[0].story, r.updates[0].peer)
