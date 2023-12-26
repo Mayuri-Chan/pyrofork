@@ -30,7 +30,7 @@ class Giveaway(Object):
     """A giveaway.
 
     Parameters:
-        channels (List of :obj:`~pyrogram.types.Chat`):
+        chats (List of :obj:`~pyrogram.types.Chat`):
             List of channel(s) which host the giveaway.
 
         quantity (``int``):
@@ -45,7 +45,7 @@ class Giveaway(Object):
         new_subscribers (``bool``):
             True, if the giveaway only for new subscribers.
 
-        countries_iso2 (List of ``str``, *optional*):
+        allowed_countries (List of ``str``, *optional*):
             List of ISO country codes which eligible to join the giveaway.
 
         private_channel_ids (List of ``int``, *optional*):
@@ -56,51 +56,51 @@ class Giveaway(Object):
         self,
         *,
         client: "pyrogram.Client" = None,
-        channels: List["types.Chat"],
+        chats: List["types.Chat"],
         quantity: int,
         months: int,
         expire_date: datetime,
         new_subscribers : bool,
-        countries_iso2: List[str] = None,
+        allowed_countries: List[str] = None,
         private_channel_ids: List[int] = None
     ):
         super().__init__(client)
 
-        self.channels = channels
+        self.chats = chats
         self.quantity = quantity
         self.months = months
         self.expire_date = expire_date
         self.new_subscribers = new_subscribers
-        self.countries_iso2 = countries_iso2
+        self.allowed_countries = allowed_countries
         self.private_channel_ids = private_channel_ids
 
     @staticmethod
     async def _parse(client, message: "raw.types.Message") -> "Giveaway":
         giveaway: "raw.types.MessageMediaGiveaway" = message.media
-        channels = []
+        chats = []
         private_ids = []
-        for raw_channel_id in giveaway.channels:
-            channel_id = utils.get_channel_id(raw_channel_id)
+        for raw_chat_id in giveaway.channels:
+            chat_id = utils.get_channel_id(raw_chat_id)
             try:
                 chat = await client.invoke(
                     raw.functions.channels.GetChannels(
-                        id=[await client.resolve_peer(channel_id)]
+                        id=[await client.resolve_peer(chat_id)]
                     )
                 )
             except FloodWait as e:
                 await asyncio.sleep(e.value)
             except Exception:
-                private_ids.append(channel_id)
+                private_ids.append(chat_id)
             else:
-                channels.append(types.Chat._parse_chat(client, chat.chats[0]))
+                chats.append(types.Chat._parse_chat(client, chat.chats[0]))
 
         return Giveaway(
-            channels=channels,
+            chats=chats,
             quantity=giveaway.quantity,
             months=giveaway.months,
             expire_date=utils.timestamp_to_datetime(giveaway.until_date),
             new_subscribers=giveaway.only_new_subscribers,
-            countries_iso2=giveaway.countries_iso2 if len(giveaway.countries_iso2) > 0 else None,
+            allowed_countries=giveaway.countries_iso2 if len(giveaway.countries_iso2) > 0 else None,
             private_channel_ids=private_ids if len(private_ids) > 0 else None,
             client=client
         )

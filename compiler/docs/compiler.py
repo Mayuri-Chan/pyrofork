@@ -464,6 +464,7 @@ def pyrogram_api():
             StickerSet
             Game
             Giveaway
+            GiveawayResult
             MessageStory
             WebPage
             WebPageEmpty

@@ -23,6 +23,7 @@ from .dice import Dice
 from .document import Document
 from .game import Game
 from .giveaway import Giveaway
+from .giveaway_result import GiveawayResult
 from .location import Location
 from .media_area import MediaArea
 from .media_area_channel_post import MediaAreaChannelPost
@@ -56,7 +57,7 @@ from .story_views import StoryViews
 from .exported_story_link import ExportedStoryLink
 
 __all__ = [
-    "Animation", "Audio", "Contact", "Document", "Game", "Giveaway", "Location", "MediaArea", "MediaAreaChannelPost", "MediaAreaCoordinates", "Message", "MessageEntity", "Photo", "Thumbnail",
+    "Animation", "Audio", "Contact", "Document", "Game", "Giveaway", "GiveawayResult", "Location", "MediaArea", "MediaAreaChannelPost", "MediaAreaCoordinates", "Message", "MessageEntity", "Photo", "Thumbnail",
     "StrippedThumbnail", "Poll", "PollOption", "Sticker", "StickerSet", "Venue", "Video", "VideoNote", "Voice", "WebPage", "WebPageEmpty", "WebPagePreview", "Dice",
     "Reaction", "WebAppData", "MessageReactions", "MessageStory", "Story", "StoryDeleted", "StorySkipped", "StoryViews", "StoryForwardHeader", "StoriesPrivacyRules", "ExportedStoryLink"
 ]

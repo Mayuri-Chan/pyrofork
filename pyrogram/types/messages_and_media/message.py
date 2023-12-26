@@ -198,6 +198,9 @@ class Message(Object, Update):
         giveaway (:obj:`~pyrogram.types.Giveaway`, *optional*):
             Message is a giveaway, information about the giveaway.
 
+        giveaway_result (:obj:`~pyrogram.types.GiveawayResult`, *optional*):
+            Message is a giveaway result, information about the giveaway result.
+
         story (:obj:`~pyrogram.types.MessageStory` | :obj:`~pyrogram.types.Story`, *optional*):
             Message is a forwarded story, information about the forwarded story.
 
@@ -411,6 +414,7 @@ class Message(Object, Update):
         animation: "types.Animation" = None,
         game: "types.Game" = None,
         giveaway: "types.Giveaway" = None,
+        giveaway_result: "types.GiveawayResult" = None,
         story: Union["types.MessageStory", "types.Story"] = None,
         video: "types.Video" = None,
         voice: "types.Voice" = None,
@@ -506,6 +510,7 @@ class Message(Object, Update):
         self.animation = animation
         self.game = game
         self.giveaway = giveaway
+        self.giveaway_result = giveaway_result
         self.story = story
         self.video = video
         self.voice = voice
@@ -849,6 +854,7 @@ class Message(Object, Update):
             venue = None
             game = None
             giveaway = None
+            giveaway_result = None
             story = None
             audio = None
             voice = None
@@ -885,6 +891,9 @@ class Message(Object, Update):
                 elif isinstance(media, raw.types.MessageMediaGiveaway):
                     giveaway = await types.Giveaway._parse(client, message)
                     media_type = enums.MessageMediaType.GIVEAWAY
+                elif isinstance(media, raw.types.MessageMediaGiveawayResults):
+                    giveaway_result = await types.GiveawayResult._parse(client, message)
+                    media_type = enums.MessageMediaType.GIVEAWAY_RESULT
                 elif isinstance(media, raw.types.MessageMediaStory):
                     story = await types.MessageStory._parse(client, media)
                     media_type = enums.MessageMediaType.STORY
@@ -1018,6 +1027,7 @@ class Message(Object, Update):
                 animation=animation,
                 game=game,
                 giveaway=giveaway,
+                giveaway_result=giveaway_result,
                 story=story,
                 video=video,
                 video_note=video_note,

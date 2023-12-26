@@ -72,5 +72,8 @@ class MessageMediaType(AutoName):
     GIVEAWAY = auto()
     "Giveaway media"
 
+    GIVEAWAY_RESULT = auto()
+    "Giveaway result media"
+
     STORY = auto()
     "Forwarded story media"
