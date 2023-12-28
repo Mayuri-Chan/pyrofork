@@ -99,3 +99,6 @@ class MessageServiceType(AutoName):
 
     WEB_APP_DATA = auto()
     "Web app data"
+
+    GIVEAWAY_RESULT = auto()
+    "Giveaway Result"

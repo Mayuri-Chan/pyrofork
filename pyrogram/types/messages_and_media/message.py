@@ -655,6 +655,7 @@ class Message(Object, Update):
             video_chat_ended = None
             video_chat_members_invited = None
             web_app_data = None
+            giveaway_result = None
 
             service_type = None
 
@@ -737,7 +738,9 @@ class Message(Object, Update):
             elif isinstance(action, raw.types.MessageActionWebViewDataSentMe):
                 web_app_data = types.WebAppData._parse(action)
                 service_type = enums.MessageServiceType.WEB_APP_DATA
-
+            elif isinstance(action, raw.types.MessageActionGiveawayResults):
+                giveaway_result = await types.GiveawayResult._parse(client, action, True)
+                service_type = enums.MessageServiceType.GIVEAWAY_RESULT
             from_user = types.User._parse(client, users.get(user_id, None))
             sender_chat = types.Chat._parse(client, message, users, chats, is_chat=False) if not from_user else None
 
@@ -774,6 +777,7 @@ class Message(Object, Update):
                 video_chat_ended=video_chat_ended,
                 video_chat_members_invited=video_chat_members_invited,
                 web_app_data=web_app_data,
+                giveaway_result=giveaway_result,
                 client=client
                 # TODO: supergroup_chat_created
             )
@@ -892,7 +896,7 @@ class Message(Object, Update):
                     giveaway = await types.Giveaway._parse(client, message)
                     media_type = enums.MessageMediaType.GIVEAWAY
                 elif isinstance(media, raw.types.MessageMediaGiveawayResults):
-                    giveaway_result = await types.GiveawayResult._parse(client, message)
+                    giveaway_result = await types.GiveawayResult._parse(client, message.media)
                     media_type = enums.MessageMediaType.GIVEAWAY_RESULT
                 elif isinstance(media, raw.types.MessageMediaStory):
                     story = await types.MessageStory._parse(client, media)
