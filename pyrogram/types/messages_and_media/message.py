@@ -340,6 +340,9 @@ class Message(Object, Update):
         general_topic_unhidden (:obj:`~pyrogram.types.GeneralTopicUnhidden`, *optional*):
             Service message: forum general topic unhidden
 
+        giveaway_launcheded (:obj:`~pyrogram.types.GiveawayLaunched`, *optional*):
+            Service message: giveaway launched.
+
         video_chat_scheduled (:obj:`~pyrogram.types.VideoChatScheduled`, *optional*):
             Service message: voice chat scheduled.
 
@@ -453,6 +456,7 @@ class Message(Object, Update):
         forum_topic_edited: "types.ForumTopicEdited" = None,
         general_topic_hidden: "types.GeneralTopicHidden" = None,
         general_topic_unhidden: "types.GeneralTopicUnhidden" = None,
+        giveaway_launched: "types.GiveawayLauncheded" = None,
         video_chat_scheduled: "types.VideoChatScheduled" = None,
         video_chat_started: "types.VideoChatStarted" = None,
         video_chat_ended: "types.VideoChatEnded" = None,
@@ -550,6 +554,7 @@ class Message(Object, Update):
         self.forum_topic_edited = forum_topic_edited
         self.general_topic_hidden = general_topic_hidden
         self.general_topic_unhidden = general_topic_unhidden
+        self.giveaway_launched = giveaway_launched
         self.video_chat_scheduled = video_chat_scheduled
         self.video_chat_started = video_chat_started
         self.video_chat_ended = video_chat_ended
@@ -655,6 +660,7 @@ class Message(Object, Update):
             video_chat_ended = None
             video_chat_members_invited = None
             web_app_data = None
+            giveaway_launched = None
             giveaway_result = None
 
             service_type = None
@@ -738,6 +744,9 @@ class Message(Object, Update):
             elif isinstance(action, raw.types.MessageActionWebViewDataSentMe):
                 web_app_data = types.WebAppData._parse(action)
                 service_type = enums.MessageServiceType.WEB_APP_DATA
+            elif isinstance(action, raw.types.MessageActionGiveawayLaunch):
+                giveaway_launched = types.GiveawayLaunched()
+                service_type = enums.MessageServiceType.GIVEAWAY_LAUNCHED
             elif isinstance(action, raw.types.MessageActionGiveawayResults):
                 giveaway_result = await types.GiveawayResult._parse(client, action, True)
                 service_type = enums.MessageServiceType.GIVEAWAY_RESULT
@@ -777,6 +786,7 @@ class Message(Object, Update):
                 video_chat_ended=video_chat_ended,
                 video_chat_members_invited=video_chat_members_invited,
                 web_app_data=web_app_data,
+                giveaway_launched=giveaway_launched,
                 giveaway_result=giveaway_result,
                 client=client
                 # TODO: supergroup_chat_created
