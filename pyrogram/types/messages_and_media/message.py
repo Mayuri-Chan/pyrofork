@@ -456,7 +456,7 @@ class Message(Object, Update):
         forum_topic_edited: "types.ForumTopicEdited" = None,
         general_topic_hidden: "types.GeneralTopicHidden" = None,
         general_topic_unhidden: "types.GeneralTopicUnhidden" = None,
-        giveaway_launched: "types.GiveawayLauncheded" = None,
+        giveaway_launched: "types.GiveawayLaunched" = None,
         video_chat_scheduled: "types.VideoChatScheduled" = None,
         video_chat_started: "types.VideoChatStarted" = None,
         video_chat_ended: "types.VideoChatEnded" = None,
