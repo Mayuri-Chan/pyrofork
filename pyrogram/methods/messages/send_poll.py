@@ -18,7 +18,7 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Union, List
+from typing import Union, List, Optional
 
 import pyrogram
 from pyrogram import raw, utils
@@ -47,6 +47,8 @@ class SendPoll:
         reply_to_message_id: int = None,
         reply_to_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
+        parse_mode: Optional["enums.ParseMode"] = None,
         schedule_date: datetime = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -133,6 +135,15 @@ class SendPoll:
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
+            parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
+                By default, quote_text are parsed using both Markdown and HTML styles.
+                You can combine both syntaxes together.
+                For quote_text.
+
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
 
@@ -155,7 +166,9 @@ class SendPoll:
             reply_to_message_id=reply_to_message_id,
             message_thread_id=message_thread_id,
             reply_to_chat_id=reply_to_chat_id,
-            quote_text=quote_text
+            quote_text=quote_text,
+            quote_entities=quote_entities,
+            parse_mode=parse_mode
         )
 
         solution, solution_entities = (await utils.parse_text_entities(

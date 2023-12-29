@@ -52,6 +52,7 @@ class SendAnimation:
         reply_to_story_id: int = None,
         reply_to_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
         reply_markup: Union[
@@ -138,6 +139,10 @@ class SendAnimation:
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
 
@@ -202,7 +207,9 @@ class SendAnimation:
             reply_to_story_id=reply_to_story_id,
             message_thread_id=message_thread_id,
             reply_to_chat_id=reply_to_chat_id,
-            quote_text=quote_text
+            quote_text=quote_text,
+            quote_entities=quote_entities,
+            parse_mode=parse_mode
         )
 
         try:

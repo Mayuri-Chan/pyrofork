@@ -1174,6 +1174,7 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
         reply_markup=None
@@ -1231,6 +1232,10 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
 
@@ -1275,6 +1280,7 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
             schedule_date=schedule_date,
             protect_content=protect_content,
             reply_markup=reply_markup
@@ -1305,6 +1311,7 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         progress: Callable = None,
         progress_args: tuple = ()
     ) -> "Message":
@@ -1383,6 +1390,10 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -1450,6 +1461,7 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
             reply_markup=reply_markup,
             progress=progress,
             progress_args=progress_args
@@ -1471,6 +1483,7 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -1552,6 +1565,10 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -1618,6 +1635,7 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
             reply_markup=reply_markup,
             progress=progress,
             progress_args=progress_args
@@ -1634,6 +1652,7 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -1692,6 +1711,10 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -1729,6 +1752,7 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
             reply_markup=reply_markup
         )
 
@@ -1780,6 +1804,8 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
+        parse_mode: Optional["enums.ParseMode"] = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -1837,6 +1863,15 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
+            parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
+                By default, quote_text are parsed using both Markdown and HTML styles.
+                You can combine both syntaxes together.
+                For quote_text.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -1874,6 +1909,8 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
+            parse_mode=parse_mode,
             reply_markup=reply_markup
         )
 
@@ -1891,6 +1928,7 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         schedule_date: datetime = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -1968,6 +2006,10 @@ class Message(Object, Update):
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
+
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
             
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
@@ -2036,6 +2078,7 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
             schedule_date=schedule_date,
             reply_markup=reply_markup,
             progress=progress,
@@ -2123,7 +2166,9 @@ class Message(Object, Update):
         quote: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        quote_text: str = None
+        quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
+        parse_mode: Optional["enums.ParseMode"] = None
     ) -> "Message":
         """Bound method *reply_inline_bot_result* of :obj:`~pyrogram.types.Message`.
 
@@ -2165,6 +2210,10 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
         Returns:
             On success, the sent Message is returned.
 
@@ -2200,6 +2249,8 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
+        parse_mode: Optional["enums.ParseMode"] = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -2251,6 +2302,15 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
+            parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
+                By default, quote_text are parsed using both Markdown and HTML styles.
+                You can combine both syntaxes together.
+                For quote_text.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -2286,6 +2346,8 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
+            parse_mode=parse_mode,
             reply_markup=reply_markup
         )
 
@@ -2301,7 +2363,9 @@ class Message(Object, Update):
         disable_notification: bool = None,
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
-        quote_text: str = None
+        quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
+        parse_mode: Optional["enums.ParseMode"] = None
     ) -> List["types.Message"]:
         """Bound method *reply_media_group* of :obj:`~pyrogram.types.Message`.
 
@@ -2343,6 +2407,10 @@ class Message(Object, Update):
 
             quote_text (``str``, *optional*):
                 Text to quote.
+                for reply_to_message only.
+
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
                 for reply_to_message only.
 
         Returns:
@@ -2391,6 +2459,7 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -2461,6 +2530,10 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -2524,6 +2597,7 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
             reply_markup=reply_markup,
             progress=progress,
             progress_args=progress_args
@@ -2549,6 +2623,8 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
+        parse_mode: Optional["enums.ParseMode"] = None,
         schedule_date: datetime = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -2644,6 +2720,15 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
+            parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
+                By default, quote_text are parsed using both Markdown and HTML styles.
+                You can combine both syntaxes together.
+                For quote_text.
+
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
 
@@ -2693,6 +2778,8 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
+            parse_mode=parse_mode,
             schedule_date=schedule_date,
             reply_markup=reply_markup
         )
@@ -2705,6 +2792,8 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
+        parse_mode: Optional["enums.ParseMode"] = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -2756,6 +2845,15 @@ class Message(Object, Update):
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
+
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
+            parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
+                By default, quote_text are parsed using both Markdown and HTML styles.
+                You can combine both syntaxes together.
+                For quote_text.
 
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
@@ -2815,6 +2913,8 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
+            parse_mode=parse_mode,
             reply_markup=reply_markup,
             progress=progress,
             progress_args=progress_args
@@ -2833,6 +2933,8 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
+        parse_mode: Optional["enums.ParseMode"] = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -2899,6 +3001,15 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
+            parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
+                By default, quote_text are parsed using both Markdown and HTML styles.
+                You can combine both syntaxes together.
+                For quote_text.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -2938,6 +3049,8 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
+            parse_mode=parse_mode,
             reply_markup=reply_markup
         )
 
@@ -2960,6 +3073,7 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -3052,6 +3166,10 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -3121,6 +3239,7 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
             reply_markup=reply_markup,
             progress=progress,
             progress_args=progress_args
@@ -3137,6 +3256,8 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
+        parse_mode: Optional["enums.ParseMode"] = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -3201,6 +3322,10 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -3262,6 +3387,8 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
+            parse_mode=parse_mode,
             reply_markup=reply_markup,
             progress=progress,
             progress_args=progress_args
@@ -3279,6 +3406,7 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -3344,6 +3472,10 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -3406,6 +3538,7 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
             reply_markup=reply_markup,
             progress=progress,
             progress_args=progress_args
@@ -3423,6 +3556,7 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_in_chat_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
         reply_markup=None
@@ -3484,6 +3618,10 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
 
@@ -3530,6 +3668,7 @@ class Message(Object, Update):
             reply_to_message_id=reply_to_message_id,
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
+            quote_entities=quote_entities,
             schedule_date=schedule_date,
             protect_content=protect_content,
             reply_markup=reply_markup
@@ -3802,6 +3941,7 @@ class Message(Object, Update):
         disable_notification: bool = None,
         message_thread_id: int = None,
         quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         reply_to_message_id: int = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
@@ -3862,6 +4002,10 @@ class Message(Object, Update):
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
@@ -3902,6 +4046,7 @@ class Message(Object, Update):
                 message_thread_id=message_thread_id,
                 reply_to_message_id=reply_to_message_id,
                 quote_text=quote_text,
+            quote_entities=quote_entities,
                 schedule_date=schedule_date,
                 protect_content=protect_content,
                 reply_markup=self.reply_markup if reply_markup is object else reply_markup
@@ -3997,6 +4142,7 @@ class Message(Object, Update):
                     message_thread_id=message_thread_id,
                     reply_to_message_id=reply_to_message_id,
                     quote_text=quote_text,
+            quote_entities=quote_entities,
                     schedule_date=schedule_date,
                     protect_content=protect_content,
                     reply_markup=self.reply_markup if reply_markup is object else reply_markup

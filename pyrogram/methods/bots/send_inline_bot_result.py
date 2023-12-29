@@ -17,10 +17,10 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union
+from typing import List, Union, Optional
 
 import pyrogram
-from pyrogram import raw, types, utils
+from pyrogram import enums, raw, types, utils
 
 
 class SendInlineBotResult:
@@ -32,7 +32,9 @@ class SendInlineBotResult:
         disable_notification: bool = None,
         message_thread_id: int = None,
         reply_to_message_id: int = None,
-        quote_text: str = None
+        quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
+        parse_mode: Optional["enums.ParseMode"] = None
     ) -> "raw.base.Updates":
         """Send an inline bot result.
         Bot results can be retrieved using :meth:`~pyrogram.Client.get_inline_bot_results`
@@ -66,6 +68,15 @@ class SendInlineBotResult:
                 Text to quote.
                 for reply_to_message only.
 
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
+                for reply_to_message only.
+
+            parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
+                By default, quote_text are parsed using both Markdown and HTML styles.
+                You can combine both syntaxes together.
+                For quote_text.
+
         Returns:
             :obj:`~pyrogram.raw.base.Updates`: Currently, on success, a raw result is returned.
 
@@ -80,7 +91,9 @@ class SendInlineBotResult:
             chat_id=chat_id,
             reply_to_message_id=reply_to_message_id,
             message_thread_id=message_thread_id,
-            quote_text=quote_text
+            quote_text=quote_text,
+            quote_entities=quote_entities,
+            parse_mode=parse_mode
         )
 
         return await self.invoke(
