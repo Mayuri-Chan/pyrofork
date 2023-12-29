@@ -446,3 +446,31 @@ def datetime_to_timestamp(dt: Optional[datetime]) -> Optional[int]:
 async def run_sync(func: Callable[..., TypeVar("Result")], *args: Any, **kwargs: Any) -> TypeVar("Result"):
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, functools.partial(func, *args, **kwargs))
+
+async def get_reply_to(
+    client: "pyrogram.Client",
+    chat_id: Union[int,str] = None,
+    reply_to_message_id: int = None,
+    reply_to_story_id: int = None,
+    message_thread_id: int = None,
+    reply_to_chat_id: Union[int,str] = None,
+    quote_text: str = None
+):
+    reply_to = None
+    reply_to_chat = None
+    if reply_to_message_id or message_thread_id:
+        if reply_to_chat_id is not None:
+            reply_to_chat = await client.resolve_peer(reply_to_chat_id)
+        reply_to = types.InputReplyToMessage(
+            reply_to_message_id=reply_to_message_id,
+            message_thread_id=message_thread_id,
+            reply_to_chat=reply_to_chat,
+            quote_text=quote_text
+        )
+    if reply_to_story_id:
+        user_id = await client.resolve_peer(chat_id)
+        reply_to = types.InputReplyToStory(
+            user_id=user_id,
+            story_id=reply_to_story_id
+        )
+    return reply_to

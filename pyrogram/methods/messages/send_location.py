@@ -99,17 +99,14 @@ class SendLocation:
                 app.send_location("me", latitude, longitude)
         """
 
-        reply_to = None
-        reply_to_chat = None
-        if reply_to_message_id or message_thread_id:
-            if reply_to_chat_id is not None:
-                reply_to_chat = await self.resolve_peer(reply_to_chat_id)
-            reply_to = types.InputReplyToMessage(
-                reply_to_message_id=reply_to_message_id,
-                message_thread_id=message_thread_id,
-                reply_to_chat=reply_to_chat,
-                quote_text=quote_text
-            )
+        reply_to = await utils.get_reply_to(
+            client=self,
+            chat_id=chat_id,
+            reply_to_message_id=reply_to_message_id,
+            message_thread_id=message_thread_id,
+            reply_to_chat_id=reply_to_chat_id,
+            quote_text=quote_text
+        )
 
         r = await self.invoke(
             raw.functions.messages.SendMedia(
