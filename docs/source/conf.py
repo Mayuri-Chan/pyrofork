@@ -94,7 +94,12 @@ html_theme_options = {
             "scheme": "slate"
         }
     ],
-    "toc_title_is_page_title": True
+    "toc_title_is_page_title": True,
+    "version_dropdown": True,
+    "version_info": [
+        {"version": "main", "title": "main", "aliases": ["latest"]},
+        {"version": "staging", "title": "staging", "aliases": []},
+    ],
 }
 
 html_logo = "../resources/static/img/pyrogram.png"

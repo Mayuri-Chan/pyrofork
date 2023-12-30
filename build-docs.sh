@@ -12,8 +12,17 @@ cd ../..
 "$VENV"/bin/sphinx-build -b html "docs/source" "docs/build/html" -j auto
 git clone https://wulan17:"$DOCS_KEY"@github.com/Mayuri-Chan/pyrofork-docs.git
 cd pyrofork-docs
-rm -rf _includes api genindex.html intro py-modindex.html sitemap.xml support.html topics _static faq index.html objects.inv searchindex.js start telegram
-cp -r ../docs/build/html/* .
+if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
+    rm -rf _includes api genindex.html intro py-modindex.html sitemap.xml support.html topics _static faq index.html objects.inv searchindex.js start telegram main
+    cp -r ../docs/build/html/* .
+    mkdir main
+    cp -r ../docs/build/html/* main/
+else
+    mkdir -p staging
+    cd staging
+    rm -rf _includes api genindex.html intro py-modindex.html sitemap.xml support.html topics _static faq index.html objects.inv searchindex.js start telegram
+    cp -r ../../docs/build/html/* .
+fi
 git config --local user.name "Mayuri-Chan"
 git config --local user.email "mayuri@mayuri.my.id"
 git add --all
