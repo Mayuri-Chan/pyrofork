@@ -94,6 +94,9 @@ class PromoteChatMember:
                     add_admins=privileges.can_promote_members,
                     manage_call=privileges.can_manage_video_chats,
                     manage_topics=privileges.can_manage_topics,
+                    post_stories=privileges.can_post_stories,
+                    edit_stories=privileges.can_edit_stories,
+                    delete_stories=privileges.can_delete_stories,
                     other=privileges.can_manage_chat
                 ),
                 rank=rank or ""

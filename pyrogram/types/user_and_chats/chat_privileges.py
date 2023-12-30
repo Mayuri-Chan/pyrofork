@@ -67,6 +67,18 @@ class ChatPrivileges(Object):
             supergroups only.
             True, if the user is allowed to create, rename, close, and reopen forum topics.
 
+        can_post_stories (``bool``, *optional*):
+            Channels only.
+            True, if the administrator can post stories in the channel.
+
+        can_edit_stories (``bool``, *optional*):
+            Channels only.
+            True, if the administrator can edit stories in the channel.
+
+        can_delete_stories (``bool``, *optional*):
+            Channels only.
+            True, if the administrator can delete stories in the channel.
+
         is_anonymous (``bool``, *optional*):
             True, if the user's presence in the chat is hidden.
     """
@@ -85,6 +97,9 @@ class ChatPrivileges(Object):
         can_invite_users: bool = False,
         can_pin_messages: bool = False,  # Groups and supergroups only
         can_manage_topics: bool = False, # supergroups only.
+        can_post_stories: bool = False, # Channels only
+        can_edit_stories: bool = False, # Channels only
+        can_delete_stories: bool = False, # Channels only
         is_anonymous: bool = False
     ):
         super().__init__(None)
@@ -100,6 +115,9 @@ class ChatPrivileges(Object):
         self.can_invite_users: bool = can_invite_users
         self.can_pin_messages: bool = can_pin_messages
         self.can_manage_topics: bool = can_manage_topics
+        self.can_post_stories: bool = can_post_stories
+        self.can_edit_stories: bool = can_edit_stories
+        self.can_delete_stories: bool = can_delete_stories
         self.is_anonymous: bool = is_anonymous
 
     @staticmethod
@@ -116,5 +134,8 @@ class ChatPrivileges(Object):
             can_invite_users=admin_rights.invite_users,
             can_pin_messages=admin_rights.pin_messages,
             can_manage_topics=admin_rights.manage_topics,
+            can_post_stories=admin_rights.post_stories,
+            can_edit_stories=admin_rights.edit_stories,
+            can_delete_stories=admin_rights.delete_stories,
             is_anonymous=admin_rights.anonymous
         )
