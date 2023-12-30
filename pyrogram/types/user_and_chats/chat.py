@@ -61,12 +61,17 @@ class Chat(Object):
 
         is_participants_hidden (``bool``, *optional*):
             True, if the chat members are hidden.
+            Returned only in :meth:`~pyrogram.Client.get_chat`.
 
         is_join_request (``bool``, *optional*):
             True, if the admin need to approve member(s) join request.
 
         is_join_to_send (``bool``, *optional*):
             True, if only chat members allowed to send message in chat.
+
+        is_antispam (``bool``, *optional*):
+            True, if Aggressive Anti-Spam is enabled in chat.
+            Returned only in :meth:`~pyrogram.Client.get_chat`.
 
         title (``str``, *optional*):
             Title, for supergroups, channels and basic group chats.
@@ -173,6 +178,7 @@ class Chat(Object):
         is_participants_hidden: bool = None,
         is_join_request: bool = None,
         is_join_to_send: bool = None,
+        is_antispam: bool = None,
         title: str = None,
         username: str = None,
         first_name: str = None,
@@ -211,6 +217,7 @@ class Chat(Object):
         self.is_participants_hidden = is_participants_hidden
         self.is_join_request = is_join_request
         self.is_join_to_send = is_join_to_send
+        self.is_antispam = is_antispam
         self.title = title
         self.username = username
         self.first_name = first_name
@@ -389,6 +396,7 @@ class Chat(Object):
                 parsed_chat.can_set_sticker_set = full_chat.can_set_stickers
                 parsed_chat.sticker_set_name = getattr(full_chat.stickerset, "short_name", None)
                 parsed_chat.is_participants_hidden = full_chat.participants_hidden
+                parsed_chat.is_antispam = full_chat.antispam
 
                 linked_chat_raw = chats.get(full_chat.linked_chat_id, None)
 
