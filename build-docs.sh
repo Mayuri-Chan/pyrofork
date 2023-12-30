@@ -26,5 +26,5 @@ fi
 git config --local user.name "Mayuri-Chan"
 git config --local user.email "mayuri@mayuri.my.id"
 git add --all
-git commit -a -m "docs: Update docs $(date '+%Y-%m-%d | %H:%m:%S %p %Z')" --signoff
+git commit -a -m "docs: $(echo $GITHUB_REF | cut -d '/' -f 3): Update docs $(date '+%Y-%m-%d | %H:%m:%S %p %Z')" --signoff
 git push -u origin --all
