@@ -692,6 +692,7 @@ def pyrogram_api():
         story="""
         Story
             Story.delete
+            Story.download
             Story.edit
             Story.edit_animation
             Story.edit_caption
