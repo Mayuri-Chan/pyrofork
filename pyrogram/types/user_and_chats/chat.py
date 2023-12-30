@@ -62,6 +62,9 @@ class Chat(Object):
         is_participants_hidden (``bool``, *optional*):
             True, if the chat members are hidden.
 
+        is_join_request (``bool``, *optional*):
+            True, if the admin need to approve member(s) join request.
+
         title (``str``, *optional*):
             Title, for supergroups, channels and basic group chats.
 
@@ -165,6 +168,7 @@ class Chat(Object):
         is_support: bool = None,
         is_forum: bool = None,
         is_participants_hidden: bool = None,
+        is_join_request: bool = None,
         title: str = None,
         username: str = None,
         first_name: str = None,
@@ -201,6 +205,7 @@ class Chat(Object):
         self.is_support = is_support
         self.is_forum = is_forum
         self.is_participants_hidden = is_participants_hidden
+        self.is_join_request = is_join_request
         self.title = title
         self.username = username
         self.first_name = first_name
@@ -300,6 +305,7 @@ class Chat(Object):
             is_scam=getattr(channel, "scam", None),
             is_fake=getattr(channel, "fake", None),
             is_forum=getattr(channel, "forum", None),
+            is_join_request=getattr(channel, "join_request", None),
             title=channel.title,
             username=user_name,
             usernames=usernames,
