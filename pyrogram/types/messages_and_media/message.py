@@ -177,6 +177,12 @@ class Message(Object, Update):
             For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear
             in the caption.
 
+        quote_text (``str``, *optional*):
+            Quoted reply text.
+
+        quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+            For quote text, special entities like usernames, URLs, bot commands, etc. that appear in the quote text.
+
         audio (:obj:`~pyrogram.types.Audio`, *optional*):
             Message is an audio file, information about the file.
 
@@ -410,6 +416,8 @@ class Message(Object, Update):
         text: Str = None,
         entities: List["types.MessageEntity"] = None,
         caption_entities: List["types.MessageEntity"] = None,
+        quote_text: str = None,
+        quote_entities: List["types.MessageEntity"] = None,
         audio: "types.Audio" = None,
         document: "types.Document" = None,
         photo: "types.Photo" = None,
@@ -507,6 +515,8 @@ class Message(Object, Update):
         self.text = text
         self.entities = entities
         self.caption_entities = caption_entities
+        self.quote_text = quote_text
+        self.quote_entities = quote_entities
         self.audio = audio
         self.document = document
         self.photo = photo
@@ -1060,6 +1070,10 @@ class Message(Object, Update):
             )
 
             if message.reply_to:
+                parsed_message.quote_text = message.reply_to.quote_text
+                if len(message.reply_to.quote_entities) > 0:
+                    quote_entities = [types.MessageEntity._parse(client, entity, users) for entity in message.reply_to.quote_entities]
+                    parsed_message.quote_entities = types.List(filter(lambda x: x is not None, quote_entities))
                 if isinstance(message.reply_to, raw.types.MessageReplyHeader):
                     if message.reply_to.forum_topic:
                         if message.reply_to.reply_to_top_id:
