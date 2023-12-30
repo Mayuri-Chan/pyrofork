@@ -2,8 +2,9 @@ name: Build-docs
 
 on:
   push:
+    tags:
+    - "*"
     branches:
-    - main
     - staging
 
 jobs:
