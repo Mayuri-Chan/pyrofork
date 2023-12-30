@@ -13,10 +13,10 @@ cd ../..
 git clone https://wulan17:"$DOCS_KEY"@github.com/Mayuri-Chan/pyrofork-docs.git
 cd pyrofork-docs
 if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
-    rm -rf _includes api genindex.html intro py-modindex.html sitemap.xml support.html topics _static faq index.html objects.inv searchindex.js start telegram main
-    cp -r ../docs/build/html/* .
-    mkdir main
-    cp -r ../docs/build/html/* main/
+    mkdir -p main
+    cd main
+    rm -rf _includes api genindex.html intro py-modindex.html sitemap.xml support.html topics _static faq index.html objects.inv searchindex.js start telegram
+    cp -r ../../docs/build/html/* .
 else
     mkdir -p staging
     cd staging
