@@ -41,7 +41,8 @@ class RequestPeerTypeChat(Object):
         is_creator: bool=None,
         is_bot_participant: bool=None,
         is_username: bool=None,
-        is_forum: bool=None
+        is_forum: bool=None,
+        max: int=1
     ):
         super().__init__()
 
@@ -49,3 +50,4 @@ class RequestPeerTypeChat(Object):
         self.is_bot_participant = is_bot_participant
         self.is_username = is_username
         self.is_forum = is_forum
+        self.max = max

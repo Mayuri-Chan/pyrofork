@@ -322,10 +322,10 @@ class Message(Object, Update):
             E.g.: "/start 1 2 3" would produce ["start", "1", "2", "3"].
             Only applicable when using :obj:`~pyrogram.filters.command`.
 
-        channel_shared (``int``, *optional*):
+        chat_shared (List of ``int``, *optional*):
             Service message: chat/channel shared
 
-        user_shared (``int``, *optional*):
+        user_shared (List of ``int``, *optional*):
             Service message: user shared
 
         forum_topic_created (:obj:`~pyrogram.types.ForumTopicCreated`, *optional*):
@@ -456,8 +456,8 @@ class Message(Object, Update):
         outgoing: bool = None,
         matches: List[Match] = None,
         command: List[str] = None,
-        channel_shared: int = None,
-        user_shared: int = None,
+        chat_shared: List[int] = None,
+        user_shared: List[int] = None,
         forum_topic_created: "types.ForumTopicCreated" = None,
         forum_topic_closed: "types.ForumTopicClosed" = None,
         forum_topic_reopened: "types.ForumTopicReopened" = None,
@@ -556,7 +556,7 @@ class Message(Object, Update):
         self.matches = matches
         self.command = command
         self.reply_markup = reply_markup
-        self.channel_shared = channel_shared
+        self.chat_shared = chat_shared
         self.user_shared = user_shared
         self.forum_topic_created = forum_topic_created
         self.forum_topic_closed = forum_topic_closed
@@ -656,7 +656,7 @@ class Message(Object, Update):
             group_chat_created = None
             channel_chat_created = None
             new_chat_photo = None
-            channel_shared = None
+            chat_shared = None
             user_shared = None
             is_topic_message = None
             forum_topic_created = None
@@ -709,15 +709,18 @@ class Message(Object, Update):
                 new_chat_photo = types.Photo._parse(client, action.photo)
                 service_type = enums.MessageServiceType.NEW_CHAT_PHOTO
             elif isinstance(action, raw.types.MessageActionRequestedPeer):
-                if isinstance(action.peer, raw.types.PeerChannel):
-                    channel_shared = utils.get_channel_id(utils.get_raw_peer_id(action.peer))
-                    service_type = enums.MessageServiceType.ChannelShared
-                elif isinstance(action.peer, raw.types.PeerChat):
-                    channel_shared = utils.get_channel_id(utils.get_raw_peer_id(action.peer))
-                    service_type = enums.MessageServiceType.ChannelShared
-                elif isinstance(action.peer, raw.types.PeerUser):
-                    user_shared = action.peer.user_id
-                    service_type = enums.MessageServiceType.UserShared
+                chat_shared = []
+                user_shared = []
+                for peer in action.peers:
+                    if isinstance(peer, raw.types.PeerChannel):
+                        chat_shared.append(utils.get_channel_id(utils.get_raw_peer_id(peer)))
+                        service_type = enums.MessageServiceType.ChannelShared
+                    elif isinstance(peer, raw.types.PeerChat):
+                        chat_shared.append(utils.get_channel_id(utils.get_raw_peer_id(peer)))
+                        service_type = enums.MessageServiceType.ChannelShared
+                    elif isinstance(peer, raw.types.PeerUser):
+                        user_shared.append(peer.user_id)
+                        service_type = enums.MessageServiceType.UserShared
             elif isinstance(action, raw.types.MessageActionTopicCreate):
                 forum_topic_created = types.ForumTopicCreated._parse(message)
                 service_type = enums.MessageServiceType.FORUM_TOPIC_CREATED
@@ -782,8 +785,8 @@ class Message(Object, Update):
                 migrate_from_chat_id=-migrate_from_chat_id if migrate_from_chat_id else None,
                 group_chat_created=group_chat_created,
                 channel_chat_created=channel_chat_created,
-                channel_shared=channel_shared,
-                user_shared=user_shared,
+                chat_shared=chat_shared if chat_shared is not None and len(chat_shared) > 0 else None,
+                user_shared=user_shared if user_shared is not None and len(user_shared) > 0 else None,
                 is_topic_message=is_topic_message,
                 forum_topic_created=forum_topic_created,
                 forum_topic_closed=forum_topic_closed,
