@@ -1073,11 +1073,11 @@ class Message(Object, Update):
             )
 
             if message.reply_to:
-                parsed_message.quote_text = message.reply_to.quote_text
-                if len(message.reply_to.quote_entities) > 0:
-                    quote_entities = [types.MessageEntity._parse(client, entity, users) for entity in message.reply_to.quote_entities]
-                    parsed_message.quote_entities = types.List(filter(lambda x: x is not None, quote_entities))
                 if isinstance(message.reply_to, raw.types.MessageReplyHeader):
+                    parsed_message.quote_text = message.reply_to.quote_text
+                    if len(message.reply_to.quote_entities) > 0:
+                        quote_entities = [types.MessageEntity._parse(client, entity, users) for entity in message.reply_to.quote_entities]
+                        parsed_message.quote_entities = types.List(filter(lambda x: x is not None, quote_entities))
                     if message.reply_to.forum_topic:
                         if message.reply_to.reply_to_top_id:
                             thread_id = message.reply_to.reply_to_top_id
