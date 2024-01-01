@@ -1194,6 +1194,7 @@ class Message(Object, Update):
         quote_entities: List["types.MessageEntity"] = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
+        invert_media: bool = None,
         reply_markup=None
     ) -> "Message":
         """Bound method *reply_text* of :obj:`~pyrogram.types.Message`.
@@ -1259,6 +1260,9 @@ class Message(Object, Update):
             protect_content (``bool``, *optional*):
                 Protects the contents of the sent message from forwarding and saving.
 
+            invert_media (``bool``, *optional*):
+                Move web page preview to above the message.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -1300,6 +1304,7 @@ class Message(Object, Update):
             quote_entities=quote_entities,
             schedule_date=schedule_date,
             protect_content=protect_content,
+            invert_media=invert_media,
             reply_markup=reply_markup
         )
 
