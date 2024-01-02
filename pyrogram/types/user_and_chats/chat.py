@@ -88,6 +88,12 @@ class Chat(Object):
         photo (:obj:`~pyrogram.types.ChatPhoto`, *optional*):
             Chat photo. Suitable for downloads only.
 
+        stories (List of :obj:`~pyrogram.types.Story`, *optional*):
+            The list of chat's stories if available.
+
+        wallpaper (:obj:`~pyrogram.types.Document`, *optional*):
+            Chat wallpaper.
+
         bio (``str``, *optional*):
             Bio of the other party in a private chat.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
@@ -101,6 +107,9 @@ class Chat(Object):
             Note that this information is approximate; it is based on where Telegram stores the current chat photo.
             It is accurate only in case the owner has set the chat photo, otherwise the dc_id will be the one assigned
             to the administrator who set the current chat photo.
+
+        folder_id (``int``, *optional*):
+            The folder identifier where the chat is located.
 
         has_protected_content (``bool``, *optional*):
             True, if messages from the chat can't be forwarded to other chats.
@@ -155,10 +164,14 @@ class Chat(Object):
             List of all chat (fragment) usernames; for private chats, supergroups and channels.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
 
-        reply_color (:obj:`~pyrogram.types.ChatColor`, *optional*)
+        level (``int``, *optional*):
+            Channel boosts level.
+            For channel only.
+
+        reply_color (:obj:`~pyrogram.types.ChatColor`, *optional*):
             Chat reply color.
 
-        profile_color (:obj:`~pyrogram.types.ChatColor`, *optional*)
+        profile_color (:obj:`~pyrogram.types.ChatColor`, *optional*):
             Chat profile color.
     """
 
@@ -184,9 +197,12 @@ class Chat(Object):
         first_name: str = None,
         last_name: str = None,
         photo: "types.ChatPhoto" = None,
+        stories: List["types.Story"] = None,
+        wallpaper: "types.Document" = None,
         bio: str = None,
         description: str = None,
         dc_id: int = None,
+        folder_id: int = None,
         has_protected_content: bool = None,
         invite_link: str = None,
         pinned_message=None,
@@ -223,9 +239,12 @@ class Chat(Object):
         self.first_name = first_name
         self.last_name = last_name
         self.photo = photo
+        self.stories = stories
+        self.wallpaper = wallpaper
         self.bio = bio
         self.description = description
         self.dc_id = dc_id
+        self.folder_id = folder_id
         self.has_protected_content = has_protected_content
         self.invite_link = invite_link
         self.pinned_message = pinned_message
@@ -244,7 +263,7 @@ class Chat(Object):
 
     @property
     def full_name(self) -> str:
-        return " ".join(filter(None, [self.first_name, self.last_name])) or None
+        return " ".join(filter(None, [self.first_name, self.last_name])) or self.title or None
 
     @staticmethod
     def _parse_user_chat(client, user: raw.types.User) -> "Chat":
@@ -375,12 +394,27 @@ class Chat(Object):
 
             parsed_chat = Chat._parse_user_chat(client, users[full_user.id])
             parsed_chat.bio = full_user.about
+            parsed_chat.folder_id = getattr(full_user, "folder_id", None)
 
             if full_user.pinned_msg_id:
                 parsed_chat.pinned_message = await client.get_messages(
                     parsed_chat.id,
                     message_ids=full_user.pinned_msg_id
                 )
+
+            if getattr(full_user, "stories"):
+                peer_stories: raw.types.PeerStories = full_user.stories
+                parsed_chat.stories = types.List(
+                    [
+                        await types.Story._parse(
+                            client, story, peer_stories.peer
+                        )
+                        for story in peer_stories.stories
+                    ]
+                ) or None
+
+            if getattr(full_user, "wallpaper") and isinstance(full_user.wallpaper, raw.types.WallPaper):
+                parsed_chat.wallpaper = types.Document._parse(client, full_user.wallpaper.document, "wallpaper.jpg")
         else:
             full_chat = chat_full.full_chat
             chat_raw = chats[full_chat.id]
@@ -400,6 +434,7 @@ class Chat(Object):
                 parsed_chat.sticker_set_name = getattr(full_chat.stickerset, "short_name", None)
                 parsed_chat.is_participants_hidden = full_chat.participants_hidden
                 parsed_chat.is_antispam = full_chat.antispam
+                parsed_chat.folder_id = getattr(full_chat, "folder_id", None)
 
                 linked_chat_raw = chats.get(full_chat.linked_chat_id, None)
 
@@ -415,6 +450,20 @@ class Chat(Object):
                         send_as_raw = chats[default_send_as.channel_id]
 
                     parsed_chat.send_as_chat = Chat._parse_chat(client, send_as_raw)
+
+                if getattr(full_chat, "stories"):
+                    peer_stories: raw.types.PeerStories = full_chat.stories
+                    parsed_chat.stories = types.List(
+                        [
+                            await types.Story._parse(
+                                client, story, peer_stories.peer
+                            )
+                            for story in peer_stories.stories
+                        ]
+                    ) or None
+
+                if getattr(full_chat, "wallpaper") and isinstance(full_chat.wallpaper, raw.types.WallPaper):
+                    parsed_chat.wallpaper = types.Document._parse(client, full_chat.wallpaper.document, "wallpaper.jpg")
 
             if full_chat.pinned_msg_id:
                 parsed_chat.pinned_message = await client.get_messages(
