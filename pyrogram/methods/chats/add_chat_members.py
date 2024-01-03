@@ -35,12 +35,13 @@ class AddChatMembers:
 
         Parameters:
             chat_id (``int`` | ``str``):
-                The group, supergroup or channel id
+                The group, supergroup or channel id or chat/channel public link
 
             user_ids (``int`` | ``str`` | List of ``int`` or ``str``):
                 Users to add in the chat
                 You can pass an ID (int), username (str) or phone number (str).
                 Multiple users can be added by passing a list of IDs, usernames or phone numbers.
+                You can also use user profile link in form of *t.me/<username>* (str).
 
             forward_limit (``int``, *optional*):
                 How many of the latest messages you want to forward to the new members. Pass 0 to forward none of them.

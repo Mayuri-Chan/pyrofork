@@ -74,6 +74,7 @@ class SendVideo:
                 Unique identifier (int) or username (str) of the target chat.
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             video (``str`` | ``BinaryIO``):
                 Video to send.
@@ -140,6 +141,7 @@ class SendVideo:
             reply_to_chat_id (``int`` | ``str``, *optional*):
                 Unique identifier for the origin chat.
                 for reply to message from another chat.
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             quote_text (``str``, *optional*):
                 Text to quote.

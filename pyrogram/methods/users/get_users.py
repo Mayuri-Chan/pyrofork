@@ -38,6 +38,7 @@ class GetUsers:
             user_ids (``int`` | ``str`` | Iterable of ``int`` or ``str``):
                 A list of User identifiers (id or username) or a single user id/username.
                 For a contact that exists in your Telegram address book you can use his phone number (str).
+                You can also use user profile link in form of *t.me/<username>* (str).
 
         Returns:
             :obj:`~pyrogram.types.User` | List of :obj:`~pyrogram.types.User`: In case *user_ids* was not a list,

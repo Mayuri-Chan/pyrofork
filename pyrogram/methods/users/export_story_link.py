@@ -40,6 +40,7 @@ class ExportStoryLink:
                 Unique identifier (int) or username (str) of the target user/channel.
                 For your personal story you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
+                You can also use user profile/channel public link in form of *t.me/<username>* (str).
 
             story_id (``int``):
                 Pass a single story identifier of story (as integers).

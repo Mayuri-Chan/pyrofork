@@ -51,6 +51,7 @@ class ForwardStory:
                 Unique identifier (int) or username (str) of the target chat/user.
                 For your personal story you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
+                You can also use user profile/channel public link in form of *t.me/<username>* (str).
 
             from_story_id (``int``):
                 Unique identifier of original story.
@@ -58,6 +59,7 @@ class ForwardStory:
             chat_id (``int`` | ``str``, *optional*):
                 Unique identifier (int) or username (str) of the target channel.
                 If you want to forward story to a channel.
+                You can also use channel public link in form of *t.me/<username>* (str).
 
             privacy (:obj:`~pyrogram.enums.StoriesPrivacyRules`, *optional*):
                 Story privacy.

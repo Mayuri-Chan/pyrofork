@@ -42,6 +42,7 @@ class DeleteStories:
 
             chat_id (``int``, *optional*):
                 Unique identifier (int) or username (str) of the target channel.
+                You can also use channel public link in form of *t.me/<username>* (str).
 
         Returns:
             `bool`: On success, a True is returned.

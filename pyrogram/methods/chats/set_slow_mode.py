@@ -35,6 +35,7 @@ class SetSlowMode:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             seconds (``int`` | ``None``):
                 Seconds in which members will be able to send only one message per this interval.

@@ -39,9 +39,11 @@ class ApproveChatJoinRequest:
             chat_id (``int`` | ``str``):
                 Unique identifier for the target chat or username of the target channel/supergroup
                 (in the format @username).
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             user_id (``int``):
                 Unique identifier of the target user.
+                You can also use user profile link in form of *t.me/<username>* (str).
 
         Returns:
             ``bool``: True on success.

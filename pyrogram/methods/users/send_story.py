@@ -58,6 +58,7 @@ class SendStory:
         Parameters:
             chat_id (``int`` | ``str``, *optional*):
                 Unique identifier (int) or username (str) of the target channel.
+                You can also use channel public link in form of *t.me/<username>* (str).
 
             animation (``str`` | ``BinaryIO``, *optional*):
                 Animation to send.

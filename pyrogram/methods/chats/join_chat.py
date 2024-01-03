@@ -34,8 +34,8 @@ class JoinChat:
 
         Parameters:
             chat_id (``int`` | ``str``):
-                Unique identifier for the target chat in form of a *t.me/joinchat/* link, a username of the target
-                channel/supergroup (in the format @username) or a chat id of a linked chat (channel or supergroup).
+                Unique identifier for the target chat in form of a *t.me/joinchat/* or *t.me/<username>* link,
+                a username of the target channel/supergroup (in the format @username) or a chat id of a linked chat (channel or supergroup).
 
         Returns:
             :obj:`~pyrogram.types.Chat`: On success, a chat object is returned.

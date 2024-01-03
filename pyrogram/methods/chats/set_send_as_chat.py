@@ -37,9 +37,11 @@ class SetSendAsChat:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             send_as_chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the send_as chat.
+                You can also use chat public link in form of *t.me/<username>* (str).
 
         Returns:
             ``bool``: On success, true is returned

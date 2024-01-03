@@ -35,6 +35,7 @@ class GetChatMenuButton:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+                You can also use user profile/chat public link in form of *t.me/<username>* (str).
                 If not specified, default bot's menu button will be returned.
         """
 

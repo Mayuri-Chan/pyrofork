@@ -34,6 +34,7 @@ class CloseForumTopic:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             topic_id (``int``):
                 Unique identifier (int) of the target forum topic.

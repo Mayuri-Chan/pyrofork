@@ -39,6 +39,7 @@ class GetUserStoriesHistory:
         Parameters:
             chat_id (``int``, *optional*):
                 Unique identifier (int) of the target channel.
+                You can also use user profile/channel public link in form of *t.me/<username>* (str).
 
             limit (``int``, *optional*):
                 Limits the number of stories to be retrieved.

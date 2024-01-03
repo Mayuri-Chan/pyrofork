@@ -55,6 +55,7 @@ class EditStory:
             
             chat_id (``int``, *optional*):
                 Unique identifier (int) of the target channel.
+                You can also use channel public link in form of *t.me/<username>* (str).
 
             animation (``str`` | ``BinaryIO``, *optional*):
                 New story Animation.

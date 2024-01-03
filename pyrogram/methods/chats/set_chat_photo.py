@@ -46,6 +46,7 @@ class SetChatPhoto:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             photo (``str`` | ``BinaryIO``, *optional*):
                 New chat photo. You can pass a :obj:`~pyrogram.types.Photo` file_id, a file path to upload a new photo

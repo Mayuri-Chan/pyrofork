@@ -40,6 +40,7 @@ class GetStories:
                 Unique identifier (int) or username (str) of the target user/channel.
                 For your personal story you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
+                You can also use user profile/channel public link in form of *t.me/<username>* (str).
 
             story_ids (``int`` | Iterable of ``int``, *optional*):
                 Pass a single story identifier or an iterable of story ids (as integers) to get the content of the

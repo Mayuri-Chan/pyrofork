@@ -44,6 +44,7 @@ class EditChatInviteLink:
             chat_id (``int`` | ``str``):
                 Unique identifier for the target chat or username of the target channel/supergroup
                 (in the format @username).
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             invite_link (``str``):
                 The invite link to edit

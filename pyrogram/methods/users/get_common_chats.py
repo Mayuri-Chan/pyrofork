@@ -37,6 +37,7 @@ class GetCommonChats:
                 Unique identifier (int) or username (str) of the target chat.
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
+                You can also use user profile link in form of *t.me/<username>* (str).
 
         Returns:
             List of :obj:`~pyrogram.types.Chat`: On success, a list of the common chats is returned.

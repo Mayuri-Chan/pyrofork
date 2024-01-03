@@ -35,9 +35,11 @@ class DeleteUserHistory:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             user_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the user whose messages will be deleted.
+                You can also use user profile link in form of *t.me/<username>* (str).
 
         Returns:
             ``bool``: True on success, False otherwise.

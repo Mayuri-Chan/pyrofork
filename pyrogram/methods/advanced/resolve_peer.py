@@ -47,7 +47,7 @@ class ResolvePeer:
         Parameters:
             peer_id (``int`` | ``str``):
                 The peer id you want to extract the InputPeer from.
-                Can be a direct id (int), a username (str) or a phone number (str).
+                Can be a direct id (int), a username (str) or a phone number (str) or *t.me/<username>* link.
 
         Returns:
             ``InputPeer``: On success, the resolved peer id is returned in form of an InputPeer object.
@@ -66,6 +66,7 @@ class ResolvePeer:
                     return raw.types.InputPeerSelf()
 
                 peer_id = re.sub(r"[@+\s]", "", peer_id.lower())
+                peer_id = re.sub(r"https://t.me/", "", peer_id.lower())
 
                 try:
                     int(peer_id)

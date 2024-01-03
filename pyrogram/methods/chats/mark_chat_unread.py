@@ -34,6 +34,7 @@ class MarkChatUnread:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+                You can also use chat public link in form of *t.me/<username>* (str).
 
         Returns:
             ``bool``: On success, True is returned.

@@ -43,6 +43,7 @@ class GetChatEventLog:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             query (``str``, *optional*):
                 Search query to filter events based on text.

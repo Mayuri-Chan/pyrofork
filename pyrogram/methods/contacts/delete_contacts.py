@@ -34,6 +34,7 @@ class DeleteContacts:
         Parameters:
             user_ids (``int`` | ``str`` | List of ``int`` or ``str``):
                 A single user id/username or a list of user identifiers (id or username).
+                You can also use user profile link in form of *t.me/<username>* (str).
 
         Returns:
             :obj:`~pyrogram.types.User` | List of :obj:`~pyrogram.types.User` | ``None``: In case *user_ids* was an

@@ -39,6 +39,7 @@ class AddContact:
         Parameters:
             user_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target user.
+                You can also use user profile link in form of *t.me/<username>* (str).
 
             first_name (``str``):
                 User's first name.

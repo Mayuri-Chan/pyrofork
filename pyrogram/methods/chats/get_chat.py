@@ -39,8 +39,9 @@ class GetChat:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
-                Unique identifier for the target chat in form of a *t.me/joinchat/* link, identifier (int) or username
-                of the target channel/supergroup (in the format @username).
+                Unique identifier for the target chat in form of a *t.me/joinchat/* or *t.me/<username>* link link,
+                identifier (int) or username of the target channel/supergroup (in the format @username).
+                You can also use chat public link in form of *t.me/<username>* (str).
 
         Returns:
             :obj:`~pyrogram.types.Chat` | :obj:`~pyrogram.types.ChatPreview`: On success, if you've already joined the chat, a chat object is returned,

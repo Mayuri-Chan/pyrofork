@@ -37,6 +37,7 @@ class ReadChatHistory:
                 Unique identifier (int) or username (str) of the target chat.
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             max_id (``int``, *optional*):
                 The id of the last message you want to mark as read; all the messages before this one will be marked as

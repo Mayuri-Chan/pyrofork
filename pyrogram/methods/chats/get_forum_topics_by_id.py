@@ -41,6 +41,7 @@ class GetForumTopicsByID:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             topic_ids (``int`` | Iterable of ``int``, *optional*):
                 Pass a single topic identifier or an iterable of topic ids (as integers) to get the information of the

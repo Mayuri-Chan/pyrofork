@@ -46,10 +46,12 @@ class BanChatMember:
         Parameters:
             chat_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target chat.
+                You can also use chat public link in form of *t.me/<username>* (str).
 
             user_id (``int`` | ``str``):
                 Unique identifier (int) or username (str) of the target user.
                 For a contact that exists in your Telegram address book you can use his phone number (str).
+                You can also use user profile link in form of *t.me/<username>* (str).
 
             until_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the user will be unbanned.

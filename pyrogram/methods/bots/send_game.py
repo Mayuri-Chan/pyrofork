@@ -49,6 +49,7 @@ class SendGame:
                 Unique identifier (int) or username (str) of the target chat.
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
+                You can also use user profile/chat public link in form of *t.me/<username>* (str).
 
             game_short_name (``str``):
                 Short name of the game, serves as the unique identifier for the game. Set up your games via Botfather.

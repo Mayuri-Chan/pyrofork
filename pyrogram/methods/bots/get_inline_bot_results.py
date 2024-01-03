@@ -41,6 +41,7 @@ class GetInlineBotResults:
             bot (``int`` | ``str``):
                 Unique identifier of the inline bot you want to get results from. You can specify
                 a @username (str) or a bot ID (int).
+                You can also use bot profile link in form of *t.me/<username>* (str).
 
             query (``str``, *optional*):
                 Text of the query (up to 512 characters).
