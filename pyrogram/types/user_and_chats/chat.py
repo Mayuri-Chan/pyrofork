@@ -307,6 +307,9 @@ class Chat(Object):
                     user_name = username.username
                 else:
                     usernames.append(types.Username._parse(username))
+        if user_name is None and usernames is not None and len(usernames) > 0:
+            user_name = usernames[0].username
+            usernames.pop(0)
 
         return Chat(
             id=peer_id,
