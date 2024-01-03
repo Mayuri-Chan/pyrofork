@@ -38,7 +38,7 @@ class SendVenue:
         disable_notification: bool = None,
         message_thread_id: int = None,
         reply_to_message_id: int = None,
-        reply_to_chat_id: int = None,
+        reply_to_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         parse_mode: Optional["enums.ParseMode"] = None,
@@ -91,7 +91,7 @@ class SendVenue:
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message
 
-            reply_to_chat_id (``int``, *optional*):
+            reply_to_chat_id (``int`` | ``str``, *optional*):
                 Unique identifier for the origin chat.
                 for reply to message from another chat.
 

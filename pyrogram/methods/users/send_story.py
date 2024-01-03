@@ -30,7 +30,7 @@ class SendStory:
 
     async def send_story(
         self: "pyrogram.Client",
-        chat_id: int = None,
+        chat_id: Union[int,str] = None,
         privacy: "enums.StoriesPrivacyRules" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
@@ -56,8 +56,8 @@ class SendStory:
         Note: You must pass one of following paramater *animation*, *photo*, *video*
 
         Parameters:
-            chat_id (``int``, *optional*):
-                Unique identifier (int) of the target channel.
+            chat_id (``int`` | ``str``, *optional*):
+                Unique identifier (int) or username (str) of the target channel.
 
             animation (``str`` | ``BinaryIO``, *optional*):
                 Animation to send.

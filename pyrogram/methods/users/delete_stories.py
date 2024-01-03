@@ -29,7 +29,7 @@ class DeleteStories:
     async def delete_stories(
         self: "pyrogram.Client",
         story_ids: Union[int, Iterable[int]],
-        chat_id: int = None
+        chat_id: Union[int, str] = None
     ) -> bool:
         """Delete one or more story by using story identifiers.
 
@@ -41,7 +41,7 @@ class DeleteStories:
                 story themselves.
 
             chat_id (``int``, *optional*):
-                Unique identifier (int) of the target channel.
+                Unique identifier (int) or username (str) of the target channel.
 
         Returns:
             `bool`: On success, a True is returned.

@@ -1189,7 +1189,7 @@ class Message(Object, Update):
         disable_web_page_preview: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         schedule_date: datetime = None,
@@ -1242,9 +1242,9 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
-                Unique identifier of target chat.
-                for reply message in another chat.
+            reply_to_chat_id (``int`` | ``str``, *optional*):
+                Unique identifier for the origin chat.
+                for reply to message from another chat.
 
             quote_text (``str``, *optional*):
                 Text to quote.
@@ -1331,7 +1331,7 @@ class Message(Object, Update):
             "types.ForceReply"
         ] = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         progress: Callable = None,
@@ -1404,9 +1404,9 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
-                Unique identifier of target chat.
-                for reply message in another chat.
+            reply_to_chat_id (``int`` | ``str``, *optional*):
+                Unique identifier for the origin chat.
+                for reply to message from another chat.
 
             quote_text (``str``, *optional*):
                 Text to quote.
@@ -1503,7 +1503,7 @@ class Message(Object, Update):
         file_name: str = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         reply_markup: Union[
@@ -1579,7 +1579,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -1672,7 +1672,7 @@ class Message(Object, Update):
         caption_entities: List["types.MessageEntity"] = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         reply_markup: Union[
@@ -1725,7 +1725,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -1824,7 +1824,7 @@ class Message(Object, Update):
         vcard: str = "",
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         parse_mode: Optional["enums.ParseMode"] = None,
@@ -1877,7 +1877,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -1948,7 +1948,7 @@ class Message(Object, Update):
         force_document: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         schedule_date: datetime = None,
@@ -2021,7 +2021,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -2269,7 +2269,7 @@ class Message(Object, Update):
         quote: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         parse_mode: Optional["enums.ParseMode"] = None,
@@ -2316,7 +2316,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -2384,7 +2384,7 @@ class Message(Object, Update):
         quote: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         parse_mode: Optional["enums.ParseMode"] = None
@@ -2423,7 +2423,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -2479,7 +2479,7 @@ class Message(Object, Update):
         ttl_seconds: int = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         reply_markup: Union[
@@ -2544,7 +2544,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -2643,7 +2643,7 @@ class Message(Object, Update):
         disable_notification: bool = None,
         protect_content: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         parse_mode: Optional["enums.ParseMode"] = None,
@@ -2734,7 +2734,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -2812,7 +2812,7 @@ class Message(Object, Update):
         quote: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         parse_mode: Optional["enums.ParseMode"] = None,
@@ -2860,7 +2860,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -2953,7 +2953,7 @@ class Message(Object, Update):
         foursquare_type: str = "",
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         parse_mode: Optional["enums.ParseMode"] = None,
@@ -3015,7 +3015,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -3093,7 +3093,7 @@ class Message(Object, Update):
         supports_streaming: bool = True,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         reply_markup: Union[
@@ -3180,7 +3180,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -3276,7 +3276,7 @@ class Message(Object, Update):
         thumb: Union[str, BinaryIO] = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         parse_mode: Optional["enums.ParseMode"] = None,
@@ -3336,7 +3336,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -3426,7 +3426,7 @@ class Message(Object, Update):
         duration: int = 0,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         reply_markup: Union[
@@ -3486,7 +3486,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 
@@ -3576,7 +3576,7 @@ class Message(Object, Update):
         invert_media: bool = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
-        reply_in_chat_id: int = None,
+        reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         schedule_date: datetime = None,
@@ -3632,7 +3632,7 @@ class Message(Object, Update):
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
-            reply_in_chat_id (``int``, *optional*):
+            reply_in_chat_id: Union[int, str] = None,
                 Unique identifier of target chat.
                 for reply message in another chat.
 

@@ -50,7 +50,7 @@ class SendAnimation:
         message_thread_id: int = None,
         reply_to_message_id: int = None,
         reply_to_story_id: int = None,
-        reply_to_chat_id: int = None,
+        reply_to_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         schedule_date: datetime = None,
@@ -131,7 +131,7 @@ class SendAnimation:
             reply_to_story_id (``int``, *optional*):
                 Unique identifier for the target story.
 
-            reply_to_chat_id (``int``, *optional*):
+            reply_to_chat_id (``int`` | ``str``, *optional*):
                 Unique identifier for the origin chat.
                 for reply to message from another chat.
 

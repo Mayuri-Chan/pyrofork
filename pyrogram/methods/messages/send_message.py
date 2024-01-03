@@ -87,7 +87,7 @@ class SendMessage:
             reply_to_story_id (``int``, *optional*):
                 Unique identifier for the target story.
 
-            reply_to_chat_id (``int``, *optional*):
+            reply_to_chat_id (``int`` | ``str``, *optional*):
                 Unique identifier for the origin chat.
                 for reply to message from another chat.
 
