@@ -18,7 +18,7 @@
 
 import os
 import re
-from typing import List, Union
+from typing import BinaryIO, List, Union
 
 import pyrogram
 from pyrogram import enums, raw, types, utils
@@ -36,9 +36,9 @@ class SendStory:
         denied_users: List[int] = None,
         #allowed_chats: List[int] = None,
         #denied_chats: List[int] = None,
-        animation: str = None,
-        photo: str = None,
-        video: str = None,
+        photo: Union[str, BinaryIO] = None,
+        video: Union[str, BinaryIO] = None,
+        file_name: str = None,
         pinned: bool = None,
         protect_content: bool = None,
         caption: str = None,
@@ -60,13 +60,6 @@ class SendStory:
                 Unique identifier (int) or username (str) of the target channel.
                 You can also use channel public link in form of *t.me/<username>* (str).
 
-            animation (``str`` | ``BinaryIO``, *optional*):
-                Animation to send.
-                Pass a file_id as string to send a animation that exists on the Telegram servers,
-                pass an HTTP URL as a string for Telegram to get a animation from the Internet,
-                pass a file path as string to upload a new animation that exists on your local machine, or
-                pass a binary file-like object with its attribute ".name" set for in-memory uploads.
-
             photo (``str`` | ``BinaryIO``, *optional*):
                 Photo to send.
                 Pass a file_id as string to send a photo that exists on the Telegram servers,
@@ -80,6 +73,10 @@ class SendStory:
                 pass an HTTP URL as a string for Telegram to get a video from the Internet,
                 pass a file path as string to upload a new video that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
+
+            file_name (``str``, *optional*):
+                File name of the video sent.
+                Defaults to file's path basename.
 
             privacy (:obj:`~pyrogram.enums.StoriesPrivacyRules`, *optional*):
                 Story privacy.
@@ -148,45 +145,7 @@ class SendStory:
         else:
             privacy_rules = [types.StoriesPrivacyRules(type=enums.StoriesPrivacyRules.PUBLIC)]
 
-        if animation:
-            if isinstance(animation, str):
-                if os.path.isfile(animation):
-                    file = await self.save_file(animation)
-                    media = raw.types.InputMediaUploadedDocument(
-                        mime_type=self.guess_mime_type(animation) or "video/mp4",
-                        file=file,
-                        attributes=[
-                            raw.types.DocumentAttributeVideo(
-                                supports_streaming=True,
-                                duration=0,
-                                w=0,
-                                h=0
-                            ),
-                            raw.types.DocumentAttributeAnimated()
-                        ]
-                    )
-                elif re.match("^https?://", animation):
-                    media = raw.types.InputMediaDocumentExternal(
-                        url=animation
-                    )
-                else:
-                    media = utils.get_input_media_from_file_id(animation, FileType.ANIMATION)
-            else:
-                file = await self.save_file(animation)
-                media = raw.types.InputMediaUploadedDocument(
-                    mime_type=self.guess_mime_type(animation) or "video/mp4",
-                    file=file,
-                    attributes=[
-                        raw.types.DocumentAttributeVideo(
-                            supports_streaming=True,
-                            duration=0,
-                            w=0,
-                            h=0
-                        ),
-                        raw.types.DocumentAttributeAnimated()
-                    ]
-                )
-        elif photo:
+        if photo:
             if isinstance(photo, str):
                 if os.path.isfile(photo):
                     file = await self.save_file(photo)
@@ -225,11 +184,24 @@ class SendStory:
                         url=video
                     )
                 else:
-                    media = utils.get_input_media_from_file_id(video, FileType.VIDEO)
+                    video = await self.download_media(video, in_memory=True)
+                    file = await self.save_file(video)
+                    media = raw.types.InputMediaUploadedDocument(
+                        mime_type=self.guess_mime_type(file_name or video.name) or "video/mp4",
+                        file=file,
+                        attributes=[
+                            raw.types.DocumentAttributeVideo(
+                                supports_streaming=True,
+                                duration=0,
+                                w=0,
+                                h=0
+                            )
+                        ]
+                    )
             else:
                 file = await self.save_file(video)
                 media = raw.types.InputMediaUploadedDocument(
-                    mime_type=self.guess_mime_type(video) or "video/mp4",
+                    mime_type=self.guess_mime_type(file_name or video.name) or "video/mp4",
                     file=file,
                     attributes=[
                         raw.types.DocumentAttributeVideo(
