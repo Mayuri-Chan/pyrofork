@@ -214,7 +214,7 @@ class SendStory:
                 )
         else:
             if forward_from_chat_id is None:
-                raise ValueError("You need to pass one of the following parameter animation/photo/video/forward_from_chat_id!")
+                raise ValueError("You need to pass one of the following parameter photo/video/forward_from_chat_id!")
         
         text, entities = self._split(**await utils.parse_text_entities(self, caption, parse_mode, caption_entities))
 
