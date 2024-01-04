@@ -4159,7 +4159,7 @@ class Message(Object, Update):
                 return await self._client.send_web_page(
                     chat_id,
                     url=self.web_page_preview.webpage.url,
-                    text=self.caption,
+                    text=self.text,
                     entities=self.entities,
                     parse_mode=enums.ParseMode.DISABLED,
                     large_media=self.web_page_preview.force_large_media,
