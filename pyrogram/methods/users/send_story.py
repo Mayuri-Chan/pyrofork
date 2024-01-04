@@ -28,6 +28,25 @@ class SendStory:
     def _split(self, message, entities, *args, **kwargs):
         return message, entities
 
+    async def _upload_video(
+        self: "pyrogram.Client",
+        file_name: str,
+        video: Union[str, BinaryIO]
+    ):
+        file = await self.save_file(video)
+        return raw.types.InputMediaUploadedDocument(
+            mime_type=self.guess_mime_type(file_name or video.name) or "video/mp4",
+            file=file,
+            attributes=[
+                raw.types.DocumentAttributeVideo(
+                    supports_streaming=True,
+                    duration=0,
+                    w=0,
+                    h=0
+                )
+            ]
+        )
+
     async def send_story(
         self: "pyrogram.Client",
         chat_id: Union[int,str] = None,
@@ -185,33 +204,9 @@ class SendStory:
                     )
                 else:
                     video = await self.download_media(video, in_memory=True)
-                    file = await self.save_file(video)
-                    media = raw.types.InputMediaUploadedDocument(
-                        mime_type=self.guess_mime_type(file_name or video.name) or "video/mp4",
-                        file=file,
-                        attributes=[
-                            raw.types.DocumentAttributeVideo(
-                                supports_streaming=True,
-                                duration=0,
-                                w=0,
-                                h=0
-                            )
-                        ]
-                    )
+                    media = await self._upload_video(file_name,video)
             else:
-                file = await self.save_file(video)
-                media = raw.types.InputMediaUploadedDocument(
-                    mime_type=self.guess_mime_type(file_name or video.name) or "video/mp4",
-                    file=file,
-                    attributes=[
-                        raw.types.DocumentAttributeVideo(
-                            supports_streaming=True,
-                            duration=0,
-                            w=0,
-                            h=0
-                        )
-                    ]
-                )
+                media = await self._upload_video(file_name,video)
         else:
             if forward_from_chat_id is None:
                 raise ValueError("You need to pass one of the following parameter photo/video/forward_from_chat_id!")
