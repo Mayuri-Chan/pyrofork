@@ -1,6 +1,6 @@
 <p align="center">
-    <a href="https://github.com/Mayuri-Chan/pyrofok">
-        <img src="https://docs.pyrogram.org/_static/pyrogram.png" alt="Pyrofork" width="128">
+    <a href="https://github.com/eyMarv/pyrofork">
+        <img src="static/img/pyrofork.png" alt="Pyrofork" width="128">
     </a>
     <br>
     <b>Telegram MTProto API Framework for Python</b>
@@ -9,7 +9,7 @@
         Documentation
     </a>
     •
-    <a href="https://github.com/Mayuri-Chan/pyrofork/issues">
+    <a href="https://github.com/eyMarv/pyrofork/issues">
         Issues
     </a>
     •

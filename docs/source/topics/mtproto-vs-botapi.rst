@@ -37,7 +37,7 @@ special accounts that are authorized via tokens instead of phone numbers. The Bo
 main Telegram API, but runs on an intermediate server application that in turn communicates with the actual Telegram
 servers using MTProto.
 
-.. figure:: //_static/img/mtproto-vs-bot-api.png
+.. figure:: //static/img/mtproto-vs-bot-api.png
     :align: center
 
 .. _Bot API: https://core.telegram.org/bots/api

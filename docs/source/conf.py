@@ -29,8 +29,8 @@ from pygments.styles.friendly import FriendlyStyle
 FriendlyStyle.background_color = "#f3f2f1"
 
 project = "Pyrofork"
-copyright = f"2022-present, Mayuri-Chan"
-author = "Mayuri-Chan"
+copyright = f"2023-present, eyMarv + Mayuri-Chan"
+author = "eyMarv + Mayuri-Chan"
 
 version = ".".join(__version__.split(".")[:-1])
 
@@ -57,13 +57,17 @@ html_copy_source = False
 napoleon_use_rtype = False
 napoleon_use_param = False
 
-pygments_style = "friendly"
+# The name of the Pygments (syntax highlighting) style to use.
+pygments_style = "sphinx"
+
+# Decides the language used for syntax highlighting of code blocks.
+highlight_language = "python3"
 
 copybutton_prompt_text = "$ "
 
 suppress_warnings = ["image.not_readable"]
 
-html_title = "Pyrofork Documentation"
+html_title = f"Pyrofork Documentation v{__version__}"
 html_theme = "sphinx_immaterial"
 html_static_path = ["../resources/static","_static"]
 html_show_sourcelink = True
