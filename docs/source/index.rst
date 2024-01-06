@@ -13,11 +13,11 @@ Welcome to Pyrofork
         <b>Telegram MTProto API Framework for Python</b>
 
         <br>
-        <a href="https://github.com/Mayuri-Chan/pyrofork">
+        <a href="https://github.com/eyMarv/pyrofork">
             Development
         </a>
         •
-        <a href="https://github.com/Mayuri-Chan/pyrofork/issues">
+        <a href="https://github.com/eyMarv/pyrofork/issues">
             Issues
         </a>
         •

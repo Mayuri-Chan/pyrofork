@@ -23,6 +23,7 @@ import sys
 sys.path.insert(0, os.path.abspath("../.."))
 
 from pyrogram import __version__
+from pyrogram.raw.all import layer
 
 from pygments.styles.friendly import FriendlyStyle
 
@@ -32,8 +33,7 @@ project = "Pyrofork"
 copyright = f"2023-present, eyMarv + Mayuri-Chan"
 author = "eyMarv + Mayuri-Chan"
 
-version = ".".join(__version__.split(".")[:-1])
-
+version = ".".join(__version__.split(".")[:-1]) + " [" + str(layer) + "]"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
@@ -69,16 +69,34 @@ suppress_warnings = ["image.not_readable"]
 
 html_title = f"Pyrofork Documentation v{__version__}"
 html_theme = "sphinx_immaterial"
-html_static_path = ["../resources/static","_static"]
+html_static_path = [os.path.abspath("static")]
+print("ABSOLUTE PATH", os.path.abspath("static"))
+
 html_show_sourcelink = True
 html_show_copyright = False
+# Theme options are theme-specific and customize the look and feel of a theme
+# further. For a list of options available for each theme, see the documentation.
+html_theme_options = {
+    "navigation_with_keys": True,
+    "dark_css_variables": {
+        "admonition-title-font-size": "0.95rem",
+        "admonition-font-size": "0.92rem",
+    },
+    "light_css_variables": {
+        "admonition-title-font-size": "0.95rem",
+        "admonition-font-size": "0.92rem",
+    },
+    "light_logo": "hydrogram-light.png",
+    "dark_logo": "hydrogram-dark.png",
+}
+
 html_theme_options = {
     "icon": {
         "repo": "fontawesome/brands/github",
         "edit": "material/file-edit-outline",
     },
-    "site_url": "https://pyrofork.mayuri.my.id/",
-    "repo_url": "https://github.com/Mayuri-Chan/pyrofork/",
+    "site_url": "https://eyMarv.github.io/pyrofork-docs/",
+    "repo_url": "https://github.com/eyMarv/pyrofork/",
     "repo_name": "pyrofork",
     "globaltoc_collapse": True,
     "features": [
@@ -106,11 +124,11 @@ html_theme_options = {
     ],
 }
 
-html_logo = "../resources/static/img/pyrogram.png"
-html_favicon = "../resources/static/img/favicon.ico"
+html_logo = html_static_path[0] + "/img/pyrofork.png"
+html_favicon = html_static_path[0] + "/img/favicon.ico"
 
 latex_engine = "xelatex"
-latex_logo = "../resources/static/img/pyrogram.png"
+latex_logo = os.path.abspath("static/img/pyrofork.png")
 
 latex_elements = {
     "pointsize": "12pt",

@@ -1763,7 +1763,7 @@ class Story(Object, Update):
         .. code-block:: python
 
             await client.forward_story(
-                from_chat_id='wulan17',
+                from_chat_id='bsxcs',
                 from_story_id=1,
                 caption='Hello guys.'
             )

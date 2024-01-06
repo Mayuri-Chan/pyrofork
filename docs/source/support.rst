@@ -7,13 +7,13 @@ Support Pyrofork
 
     <div style="float: right; margin-bottom: 10px">
         <a class="github-button"
-           href="https://github.com/Mayuri-Chan/pyrofork"
+           href="https://github.com/eyMarv/pyrofork"
            data-color-scheme="no-preference: light; light: light; dark: dark;"
            data-icon="octicon-star" data-size="large" data-show-count="true"
            aria-label="Star Mayuri-Chan/pyrofork on GitHub">Star</a>
 
         <a class="github-button"
-           href="https://github.com/Mayuri-Chan/pyrofork/fork"
+           href="https://github.com/eyMarv/pyrofork/fork"
            data-color-scheme="no-preference: light; light: light; dark: dark;"
            data-icon="octicon-repo-forked" data-size="large"
            data-show-count="true" aria-label="Fork Mayuri-Chan/pyrofok on GitHub">Fork</a>

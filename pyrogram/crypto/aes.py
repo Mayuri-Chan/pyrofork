@@ -54,7 +54,7 @@ except ImportError:
     log.warning(
         "TgCrypto is missing! "
         "Pyrogram will work the same, but at a much slower speed. "
-        "More info: https://pyrofork.mayuri.my.id/topics/speedups"
+        "More info: https://eyMarv.github.io/pyrofork-docs/topics/speedups"
     )
 
 

@@ -14,26 +14,17 @@ We recommend using the latest versions of both Python 3 and pip.
 Install Pyrofork
 ----------------
 
--   The easiest way to install and upgrade Pyrofork to its latest stable version is by using **pip**:
+-   The easiest way to install and upgrade Pyrofork to its latest stable version:
 
     .. code-block:: text
 
-        $ pip3 install -U pyrofork
+        $ pip3 install -U git+https://github.com/eyMarv/pyrofork.git
 
 -   or, with :doc:`TgCrypto <../topics/speedups>` as extra requirement (recommended):
 
     .. code-block:: text
 
-        $ pip3 install -U pyrofork tgcrypto
-
-Bleeding Edge
--------------
-
-You can install the development version from the git ``master`` branch using this command:
-
-.. code-block:: text
-
-    $ pip3 install -U https://github.com/Mayuri-Chan/pyrofork/archive/master.zip
+        $ pip3 install -U git+https://github.com/eyMarv/pyrofork.git tgcrypto
 
 Verifying
 ---------
@@ -47,4 +38,4 @@ If no error shows up you are good to go.
     >>> pyrogram.__version__
     'x.y.z'
 
-.. _`Github repo`: http://github.com/Mayuri-Chan/pyrofork
+.. _`Github repo`: http://github.com/eyMarv/pyrofork
