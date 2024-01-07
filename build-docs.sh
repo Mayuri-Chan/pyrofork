@@ -16,7 +16,6 @@ mkdir -p main
 cd main
 rm -rf _includes api genindex.html intro py-modindex.html sitemap.xml support.html topics static faq index.html objects.inv searchindex.js start telegram
 cp -r ../../docs/build/html/* .
-fi
 git config --local user.name "eyMarv"
 git config --local user.email "eyMarv07@gmail.com"
 git add --all
