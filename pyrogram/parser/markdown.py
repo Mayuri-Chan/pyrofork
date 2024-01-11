@@ -17,6 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
+import logging
 import re
 from typing import Optional
 
@@ -32,6 +33,7 @@ STRIKE_DELIM = "~~"
 SPOILER_DELIM = "||"
 CODE_DELIM = "`"
 PRE_DELIM = "```"
+BLOCKQUOTE_DELIM = ">"
 
 MARKDOWN_RE = re.compile(r"({d})|\[(.+?)\]\((.+?)\)".format(
     d="|".join(
@@ -59,9 +61,39 @@ class Markdown:
     def __init__(self, client: Optional["pyrogram.Client"]):
         self.html = HTML(client)
 
+    def blockquote_parser(self, text):
+        text = re.sub(r'\n&gt;', '\n>', re.sub(r'^&gt;', '>', text))
+        lines = text.split('\n')
+        result = []
+
+        in_blockquote = False
+
+        for line in lines:
+            if line.startswith(BLOCKQUOTE_DELIM):
+                if not in_blockquote:
+                    line = re.sub(r'^> ', OPENING_TAG.format("blockquote"), line)
+                    line = re.sub(r'^>', OPENING_TAG.format("blockquote"), line)
+                    in_blockquote = True
+                    result.append(line.strip())
+                else:
+                    result.append(line[-1].strip())
+            else:
+                if in_blockquote:
+                    line = CLOSING_TAG.format("blockquote") + line
+                    in_blockquote = False
+                result.append(line.strip())
+
+        if in_blockquote:
+            line = result[len(result)-1] + CLOSING_TAG.format("blockquote")
+            result.pop(len(result)-1)
+            result.append(line)
+
+        return '\n'.join(result)
+
     async def parse(self, text: str, strict: bool = False):
         if strict:
             text = html.escape(text)
+        text = self.blockquote_parser(text)
 
         delims = set()
         is_fixed_width = False
@@ -141,7 +173,8 @@ class Markdown:
                 start_tag = f"{PRE_DELIM}{language}\n"
                 end_tag = f"\n{PRE_DELIM}"
             elif entity_type == MessageEntityType.BLOCKQUOTE:
-                start_tag = end_tag = PRE_DELIM
+                start_tag = BLOCKQUOTE_DELIM
+                end_tag = ""
             elif entity_type == MessageEntityType.SPOILER:
                 start_tag = end_tag = SPOILER_DELIM
             elif entity_type == MessageEntityType.TEXT_LINK:
