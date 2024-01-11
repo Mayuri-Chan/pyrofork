@@ -173,8 +173,21 @@ class Markdown:
                 start_tag = f"{PRE_DELIM}{language}\n"
                 end_tag = f"\n{PRE_DELIM}"
             elif entity_type == MessageEntityType.BLOCKQUOTE:
-                start_tag = BLOCKQUOTE_DELIM
+                start_tag = BLOCKQUOTE_DELIM + " "
                 end_tag = ""
+                blockquote_text = text[start:end]
+                lines = blockquote_text.split("\n")
+                last_length = 0
+                for line in lines:
+                    if len(line) == 0 and last_length == end:
+                        continue
+                    start_offset = start+last_length
+                    last_length = last_length+len(line)
+                    end_offset = start_offset+last_length
+                    entities_offsets.append((start_tag, start_offset,))
+                    entities_offsets.append((end_tag, end_offset,))
+                    last_length = last_length+1
+                continue
             elif entity_type == MessageEntityType.SPOILER:
                 start_tag = end_tag = SPOILER_DELIM
             elif entity_type == MessageEntityType.TEXT_LINK:
