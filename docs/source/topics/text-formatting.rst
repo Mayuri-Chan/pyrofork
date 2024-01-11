@@ -74,6 +74,8 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.ParseMode.MARKDOWN` to the
         code block
     ```
 
+    > Quoted text
+
 **Example**:
 
 .. code-block:: python
