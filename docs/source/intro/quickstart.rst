@@ -53,4 +53,4 @@ we have just done above.
 If you are feeling eager to continue you can take a shortcut to :doc:`../start/invoking` and come back
 later to learn some more details.
 
-.. _community: https://t.me/Pyrofork
+.. _community: https://t.me/MayuriChan-Chat
