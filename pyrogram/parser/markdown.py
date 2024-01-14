@@ -74,14 +74,14 @@ class Markdown:
                     line = re.sub(r'^> ', OPENING_TAG.format("blockquote"), line)
                     line = re.sub(r'^>', OPENING_TAG.format("blockquote"), line)
                     in_blockquote = True
-                    result.append(line.strip())
+                    result.append(line)
                 else:
-                    result.append(line[-1].strip())
+                    result.append(line[-1])
             else:
                 if in_blockquote:
                     line = CLOSING_TAG.format("blockquote") + line
                     in_blockquote = False
-                result.append(line.strip())
+                result.append(line)
 
         if in_blockquote:
             line = result[len(result)-1] + CLOSING_TAG.format("blockquote")
