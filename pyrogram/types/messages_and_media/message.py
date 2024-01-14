@@ -373,6 +373,12 @@ class Message(Object, Update):
 
         link (``str``, *property*):
             Generate a link to this message, only for groups and channels.
+
+        scheduled (``bool``, *optional*):
+            Message is a scheduled message and still in schedule.
+
+        from_scheduled (``bool``, *optional*):
+            Message is a scheduled message and has been sent.
     """
 
     # TODO: Add game missing field. Also invoice, successful_payment, connected_website
