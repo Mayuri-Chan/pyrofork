@@ -30,7 +30,7 @@ class SetChatProtectedContent:
     ) -> bool:
         """Set the chat protected content setting.
 
-        .. include:: /_includes/usable-by/users-bots.rst
+        .. include:: /_includes/usable-by/users.rst
 
         Parameters:
             chat_id (``int`` | ``str``):
