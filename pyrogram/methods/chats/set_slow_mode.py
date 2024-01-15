@@ -30,7 +30,7 @@ class SetSlowMode:
     ) -> bool:
         """Set the slow mode interval for a chat.
 
-        .. include:: /_includes/usable-by/users-bots.rst
+        .. include:: /_includes/usable-by/users.rst
 
         Parameters:
             chat_id (``int`` | ``str``):
