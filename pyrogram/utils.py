@@ -21,6 +21,7 @@ import asyncio
 import base64
 import functools
 import hashlib
+import re
 import os
 import struct
 from concurrent.futures.thread import ThreadPoolExecutor
@@ -529,3 +530,11 @@ async def get_reply_to(
             story_id=reply_to_story_id
         )
     return reply_to
+
+def get_first_url(text):
+    text = re.sub(r"^\s*(<[\w<>=\s\"]*>)\s*", r"\1", text)
+    text = re.sub(r"\s*(</[\w</>]*>)\s*$", r"\1", text)
+
+    matches = re.findall(r"(https?):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])", text)
+
+    return f"{matches[0][0]}://{matches[0][1]}{matches[0][2]}" if matches else None

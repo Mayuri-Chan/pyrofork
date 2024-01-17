@@ -28,7 +28,7 @@ class SendWebPage:
     async def send_web_page(
         self: "pyrogram.Client",
         chat_id: Union[int, str],
-        url: str,
+        url: str = None,
         text: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
         entities: List["types.MessageEntity"] = None,
@@ -53,7 +53,7 @@ class SendWebPage:
             "types.ForceReply"
         ] = None
     ) -> "types.Message":
-        """Send text Web Page Preview.
+        """Send Web Page Preview.
 
         .. include:: /_includes/usable-by/users-bots.rst
 
@@ -64,11 +64,12 @@ class SendWebPage:
                 For a contact that exists in your Telegram address book you can use his phone number (str).
                 You can also use chat public link in form of *t.me/<username>* (str).
 
-            url (``str``):
-                Link that will be previewed.
-
             text (``str``, *optional*):
                 Text of the message to be sent.
+
+            url (``str``, *optional*):
+                Link that will be previewed.
+                If url not specified, the first URL found in the text will be used.
 
             parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
                 By default, texts are parsed using both Markdown and HTML styles.
@@ -131,7 +132,7 @@ class SendWebPage:
                 instructions to remove reply keyboard or to force a reply from the user.
 
         Returns:
-            :obj:`~pyrogram.types.Message`: On success, the sent text message is returned.
+            :obj:`~pyrogram.types.Message`: On success, the sent message is returned.
 
         Example:
             .. code-block:: python
@@ -141,6 +142,18 @@ class SendWebPage:
         """
 
         message, entities = (await utils.parse_text_entities(self, text, parse_mode, entities)).values()
+        if not url:
+            if entities:
+                for entity in entities:
+                    if isinstance(entity, enums.MessageEntityType.URL):
+                        url = entity.url
+                        break
+
+                if not url:
+                    url = utils.get_first_url(message)
+
+        if not url:
+            raise ValueError("URL not specified")
 
         reply_to = await utils.get_reply_to(
             client=self,
