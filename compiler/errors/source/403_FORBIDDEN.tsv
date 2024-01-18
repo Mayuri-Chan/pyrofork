@@ -11,6 +11,7 @@ MESSAGE_AUTHOR_REQUIRED	You are not the author of this message
 MESSAGE_DELETE_FORBIDDEN	You don't have rights to delete messages in this chat, most likely because you are not the author of them
 POLL_VOTE_REQUIRED	Cast a vote in the poll before calling this method
 PREMIUM_ACCOUNT_REQUIRED	This action requires a premium account
+PRIVACY_PREMIUM_REQUIRED	The user has restricted from sending messages OR This action requires a premium account
 RIGHT_FORBIDDEN	You don't have enough rights for this action, or you tried to set one or more admin rights that can't be applied to this kind of chat (channel or supergroup)
 SENSITIVE_CHANGE_FORBIDDEN	Your sensitive content settings can't be changed at this time
 TAKEOUT_REQUIRED	The method must be invoked inside a takeout session
