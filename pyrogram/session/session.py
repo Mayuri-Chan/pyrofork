@@ -425,3 +425,4 @@ class Session:
                 return await self.invoke(query, retries - 1, timeout)
             except Exception as ex:
                 self.client.updates_invoke_error = ex
+                raise
