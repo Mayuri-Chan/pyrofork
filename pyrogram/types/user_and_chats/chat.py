@@ -134,6 +134,10 @@ class Chat(Object):
             Chat members count, for groups, supergroups and channels only.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
 
+        slow_mode_delay (``int``, *optional*):
+            For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user in seconds.
+            Returned only in :meth:`~pyrogram.Client.get_chat`.
+
         restrictions (List of :obj:`~pyrogram.types.Restriction`, *optional*):
             The list of reasons why this chat might be unavailable to some users.
             This field is available only in case *is_restricted* is True.
@@ -209,6 +213,7 @@ class Chat(Object):
         sticker_set_name: str = None,
         can_set_sticker_set: bool = None,
         members_count: int = None,
+        slow_mode_delay: int = None,
         restrictions: List["types.Restriction"] = None,
         permissions: "types.ChatPermissions" = None,
         distance: int = None,
@@ -251,6 +256,7 @@ class Chat(Object):
         self.sticker_set_name = sticker_set_name
         self.can_set_sticker_set = can_set_sticker_set
         self.members_count = members_count
+        self.slow_mode_delay = slow_mode_delay
         self.restrictions = restrictions
         self.permissions = permissions
         self.distance = distance
@@ -428,6 +434,7 @@ class Chat(Object):
             else:
                 parsed_chat = Chat._parse_channel_chat(client, chat_raw)
                 parsed_chat.members_count = full_chat.participants_count
+                parsed_chat.slow_mode_delay = getattr(full_chat, "slowmode_seconds", None)
                 parsed_chat.description = full_chat.about or None
                 # TODO: Add StickerSet type
                 parsed_chat.can_set_sticker_set = full_chat.can_set_stickers
