@@ -38,6 +38,8 @@ Index
     - :meth:`~Client.on_message`
     - :meth:`~Client.on_edited_message`
     - :meth:`~Client.on_callback_query`
+    - :meth:`~Client.on_message_reaction_updated`
+    - :meth:`~Client.on_message_reaction_count_updated`
     - :meth:`~Client.on_inline_query`
     - :meth:`~Client.on_chosen_inline_result`
     - :meth:`~Client.on_chat_member_updated`
@@ -58,6 +60,8 @@ Details
 .. autodecorator:: pyrogram.Client.on_message()
 .. autodecorator:: pyrogram.Client.on_edited_message()
 .. autodecorator:: pyrogram.Client.on_callback_query()
+.. autodecorator:: pyrogram.Client.on_message_reaction_updated()
+.. autodecorator:: pyrogram.Client.on_message_reaction_count_updated()
 .. autodecorator:: pyrogram.Client.on_inline_query()
 .. autodecorator:: pyrogram.Client.on_chosen_inline_result()
 .. autodecorator:: pyrogram.Client.on_chat_member_updated()

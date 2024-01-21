@@ -28,6 +28,7 @@ to apply only a valid value among the expected ones.
     SentCodeType
     NextCodeType
     UserStatus
+    ReactionType
     StoriesPrivacyRules
     StoryPrivacy
 
@@ -49,5 +50,6 @@ to apply only a valid value among the expected ones.
     SentCodeType
     NextCodeType
     UserStatus
+    ReactionType
     StoriesPrivacyRules
     StoryPrivacy

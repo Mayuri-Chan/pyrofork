@@ -62,8 +62,12 @@ class ChatReactions(Object):
         if isinstance(chat_reactions, raw.types.ChatReactionsSome):
             return ChatReactions(
                 client=client,
-                reactions=[types.Reaction._parse(client, reaction)
-                           for reaction in chat_reactions.reactions]
+                reactions=[
+                    types.ReactionType._parse(reaction)
+                    for reaction in chat_reactions.reactions
+                ]
             )
+        if isinstance(chat_reactions, raw.types.ChatReactionsNone):
+            return None
 
         return None

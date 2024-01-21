@@ -474,7 +474,10 @@ class Chat(Object):
             if isinstance(full_chat.exported_invite, raw.types.ChatInviteExported):
                 parsed_chat.invite_link = full_chat.exported_invite.link
 
-            parsed_chat.available_reactions = types.ChatReactions._parse(client, full_chat.available_reactions)
+            parsed_chat.available_reactions = types.ChatReactions._parse(
+                client,
+                full_chat.available_reactions
+            )
 
         return parsed_chat
 
