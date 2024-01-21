@@ -39,6 +39,8 @@ Index
     - :class:`EditedMessageHandler`
     - :class:`DeletedMessagesHandler`
     - :class:`CallbackQueryHandler`
+    - :class:`MessageReactionUpdatedHandler`
+    - :class:`MessageReactionCountUpdatedHandler`
     - :class:`InlineQueryHandler`
     - :class:`ChosenInlineResultHandler`
     - :class:`ChatMemberUpdatedHandler`
@@ -58,6 +60,8 @@ Details
 .. autoclass:: EditedMessageHandler()
 .. autoclass:: DeletedMessagesHandler()
 .. autoclass:: CallbackQueryHandler()
+.. autoclass:: MessageReactionUpdatedHandler()
+.. autoclass:: MessageReactionCountUpdatedHandler()
 .. autoclass:: InlineQueryHandler()
 .. autoclass:: ChosenInlineResultHandler()
 .. autoclass:: ChatMemberUpdatedHandler()

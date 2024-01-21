@@ -31,3 +31,5 @@ from .poll_handler import PollHandler
 from .raw_update_handler import RawUpdateHandler
 from .user_status_handler import UserStatusHandler
 from .story_handler import StoryHandler
+from .message_reaction_updated_handler import MessageReactionUpdatedHandler
+from .message_reaction_count_updated_handler import MessageReactionCountUpdatedHandler

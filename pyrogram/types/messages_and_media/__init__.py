@@ -34,7 +34,13 @@ from .message_entity import MessageEntity
 from .photo import Photo
 from .poll import Poll
 from .poll_option import PollOption
-from .reaction import Reaction
+from .reaction import (
+    Reaction,
+    ReactionType,
+    ReactionTypeEmoji,
+    ReactionTypeCustomEmoji,
+    ReactionCount
+)
 from .sticker import Sticker
 from .stickerset import StickerSet
 from .stories_privacy_rules import StoriesPrivacyRules
@@ -49,6 +55,8 @@ from .web_page import WebPage
 from .web_page_empty import WebPageEmpty
 from .web_page_preview import WebPagePreview
 from .message_reactions import MessageReactions
+from .message_reaction_updated import MessageReactionUpdated
+from .message_reaction_count_updated import MessageReactionCountUpdated
 from .message_story import MessageStory
 from .story import Story
 from .story_deleted import StoryDeleted
@@ -60,5 +68,5 @@ from .exported_story_link import ExportedStoryLink
 __all__ = [
     "Animation", "Audio", "Contact", "Document", "Game", "Giveaway", "GiveawayLaunched", "GiveawayResult", "Location", "MediaArea", "MediaAreaChannelPost", "MediaAreaCoordinates", "Message", "MessageEntity", "Photo", "Thumbnail",
     "StrippedThumbnail", "Poll", "PollOption", "Sticker", "StickerSet", "Venue", "Video", "VideoNote", "Voice", "WebPage", "WebPageEmpty", "WebPagePreview", "Dice",
-    "Reaction", "WebAppData", "MessageReactions", "MessageStory", "Story", "StoryDeleted", "StorySkipped", "StoryViews", "StoryForwardHeader", "StoriesPrivacyRules", "ExportedStoryLink"
+    "Reaction", "WebAppData", "MessageReactions", "ReactionCount", "ReactionType", "ReactionTypeEmoji", "ReactionTypeCustomEmoji", "MessageReactionUpdated", "MessageReactionCountUpdated", "MessageStory", "Story", "StoryDeleted", "StorySkipped", "StoryViews", "StoryForwardHeader", "StoriesPrivacyRules", "ExportedStoryLink"
 ]
