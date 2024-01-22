@@ -51,6 +51,8 @@ class MessageReactions(Object):
 
         return MessageReactions(
             client=client,
-            reactions=[types.Reaction._parse_count(client, reaction)
-                       for reaction in message_reactions.results]
+            reactions=[
+                types.Reaction._parse_count(client, reaction)
+                for reaction in message_reactions.results
+            ]
         )

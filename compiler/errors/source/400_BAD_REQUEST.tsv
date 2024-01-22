@@ -275,6 +275,7 @@ RESULTS_TOO_MUCH	The result contains too many items
 RESULT_ID_DUPLICATE	The result contains items with duplicated identifiers
 RESULT_ID_EMPTY	Result ID empty
 RESULT_ID_INVALID	The given result cannot be used to send the selection to the bot
+REACTIONS_TOO_MANY	Currently, non-premium users, can set up to one reaction per message
 RESULT_TYPE_INVALID	The result type is invalid
 REVOTE_NOT_ALLOWED	You cannot change your vote
 RSA_DECRYPT_FAILED	Internal RSA decryption failed

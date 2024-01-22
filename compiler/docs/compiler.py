@@ -487,6 +487,11 @@ def pyrogram_api():
             ForumTopicReopened
             GeneralTopicHidden
             GeneralTopicUnhidden
+            Reaction
+            ReactionCount
+            ReactionType
+            MessageReactionUpdated
+            MessageReactionCountUpdated
         """,
         stories="""
         Stories

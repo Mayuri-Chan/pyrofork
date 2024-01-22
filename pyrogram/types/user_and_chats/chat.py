@@ -69,6 +69,9 @@ class Chat(Object):
         is_join_to_send (``bool``, *optional*):
             True, if only chat members allowed to send message in chat.
 
+        is_slowmode_enabled (``bool``, *optional*):
+            True, if slowmode is enabled in chat.
+
         is_antispam (``bool``, *optional*):
             True, if Aggressive Anti-Spam is enabled in chat.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
@@ -134,6 +137,10 @@ class Chat(Object):
             Chat members count, for groups, supergroups and channels only.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
 
+        slow_mode_delay (``int``, *optional*):
+            For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user in seconds.
+            Returned only in :meth:`~pyrogram.Client.get_chat`.
+
         restrictions (List of :obj:`~pyrogram.types.Restriction`, *optional*):
             The list of reasons why this chat might be unavailable to some users.
             This field is available only in case *is_restricted* is True.
@@ -192,6 +199,7 @@ class Chat(Object):
         is_join_request: bool = None,
         is_join_to_send: bool = None,
         is_antispam: bool = None,
+        is_slowmode_enabled: bool = None,
         title: str = None,
         username: str = None,
         first_name: str = None,
@@ -209,6 +217,7 @@ class Chat(Object):
         sticker_set_name: str = None,
         can_set_sticker_set: bool = None,
         members_count: int = None,
+        slow_mode_delay: int = None,
         restrictions: List["types.Restriction"] = None,
         permissions: "types.ChatPermissions" = None,
         distance: int = None,
@@ -234,6 +243,7 @@ class Chat(Object):
         self.is_join_request = is_join_request
         self.is_join_to_send = is_join_to_send
         self.is_antispam = is_antispam
+        self.is_slowmode_enabled = is_slowmode_enabled
         self.title = title
         self.username = username
         self.first_name = first_name
@@ -251,6 +261,7 @@ class Chat(Object):
         self.sticker_set_name = sticker_set_name
         self.can_set_sticker_set = can_set_sticker_set
         self.members_count = members_count
+        self.slow_mode_delay = slow_mode_delay
         self.restrictions = restrictions
         self.permissions = permissions
         self.distance = distance
@@ -341,6 +352,7 @@ class Chat(Object):
             is_forum=getattr(channel, "forum", None),
             is_join_request=getattr(channel, "join_request", None),
             is_join_to_send=getattr(channel, "join_to_send", None),
+            is_slowmode_enabled=getattr(channel, "slowmode_enabled", None),
             title=channel.title,
             username=user_name,
             usernames=usernames,
@@ -428,6 +440,7 @@ class Chat(Object):
             else:
                 parsed_chat = Chat._parse_channel_chat(client, chat_raw)
                 parsed_chat.members_count = full_chat.participants_count
+                parsed_chat.slow_mode_delay = getattr(full_chat, "slowmode_seconds", None)
                 parsed_chat.description = full_chat.about or None
                 # TODO: Add StickerSet type
                 parsed_chat.can_set_sticker_set = full_chat.can_set_stickers
@@ -474,7 +487,10 @@ class Chat(Object):
             if isinstance(full_chat.exported_invite, raw.types.ChatInviteExported):
                 parsed_chat.invite_link = full_chat.exported_invite.link
 
-            parsed_chat.available_reactions = types.ChatReactions._parse(client, full_chat.available_reactions)
+            parsed_chat.available_reactions = types.ChatReactions._parse(
+                client,
+                full_chat.available_reactions
+            )
 
         return parsed_chat
 

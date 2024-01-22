@@ -4360,7 +4360,7 @@ class Message(Object, Update):
         else:
             await self.reply(button, quote=quote)
 
-    async def react(self, emoji: str = "", big: bool = False) -> bool:
+    async def react(self, emoji: str = "", big: bool = False, add_to_recent: bool = True) -> "types.MessageReactions":
         """Bound method *react* of :obj:`~pyrogram.types.Message`.
 
         Use as a shortcut for:
@@ -4386,9 +4386,13 @@ class Message(Object, Update):
             big (``bool``, *optional*):
                 Pass True to show a bigger and longer reaction.
                 Defaults to False.
+                
+            add_to_recent (``bool``, *optional*):
+                Pass True if the reaction should appear in the recently used reactions.
+                This option is applicable only for users.
 
         Returns:
-            ``bool``: On success, True is returned.
+            :obj: `~pyrogram.types.MessageReactions`: On success, True is returned.
 
         Raises:
             RPCError: In case of a Telegram RPC error.

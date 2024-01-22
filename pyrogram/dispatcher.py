@@ -25,9 +25,7 @@ from collections import OrderedDict
 import pyrogram
 from pyrogram import utils
 from pyrogram.handlers import (
-    CallbackQueryHandler, MessageHandler, EditedMessageHandler, DeletedMessagesHandler,
-    UserStatusHandler, RawUpdateHandler, InlineQueryHandler, PollHandler, ConversationHandler,
-    ChosenInlineResultHandler, ChatMemberUpdatedHandler, ChatJoinRequestHandler, StoryHandler
+  CallbackQueryHandler, MessageHandler, EditedMessageHandler, DeletedMessagesHandler, MessageReactionUpdatedHandler, MessageReactionCountUpdatedHandler, UserStatusHandler, RawUpdateHandler, InlineQueryHandler, PollHandler, ConversationHandler, ChosenInlineResultHandler, ChatMemberUpdatedHandler, ChatJoinRequestHandler, StoryHandler
 )
 from pyrogram.raw.types import (
     UpdateNewMessage, UpdateNewChannelMessage, UpdateNewScheduledMessage,
@@ -36,7 +34,9 @@ from pyrogram.raw.types import (
     UpdateBotCallbackQuery, UpdateInlineBotCallbackQuery,
     UpdateUserStatus, UpdateBotInlineQuery, UpdateMessagePoll,
     UpdateBotInlineSend, UpdateChatParticipant, UpdateChannelParticipant,
-    UpdateBotChatInviteRequester, UpdateStory
+    UpdateBotChatInviteRequester, UpdateStory,
+    UpdateBotMessageReaction,
+    UpdateBotMessageReactions
 )
 
 log = logging.getLogger(__name__)
@@ -54,6 +54,8 @@ class Dispatcher:
     CHOSEN_INLINE_RESULT_UPDATES = (UpdateBotInlineSend,)
     CHAT_JOIN_REQUEST_UPDATES = (UpdateBotChatInviteRequester,)
     NEW_STORY_UPDATES = (UpdateStory,)
+    MESSAGE_BOT_NA_REACTION_UPDATES = (UpdateBotMessageReaction,)
+    MESSAGE_BOT_A_REACTION_UPDATES = (UpdateBotMessageReactions,)
 
     def __init__(self, client: "pyrogram.Client"):
         self.client = client
@@ -137,6 +139,18 @@ class Dispatcher:
                 await pyrogram.types.Story._parse(self.client, update.story, update.peer),
                 StoryHandler
             )
+            
+        async def message_bot_na_reaction_parser(update, users, chats):
+            return (
+                pyrogram.types.MessageReactionUpdated._parse(self.client, update, users, chats),
+                MessageReactionUpdatedHandler
+            )
+
+        async def message_bot_a_reaction_parser(update, users, chats):
+            return (
+                pyrogram.types.MessageReactionCountUpdated._parse(self.client, update, users, chats),
+                MessageReactionCountUpdatedHandler
+            )
 
         self.update_parsers = {
             Dispatcher.NEW_MESSAGE_UPDATES: message_parser,
@@ -149,7 +163,9 @@ class Dispatcher:
             Dispatcher.CHOSEN_INLINE_RESULT_UPDATES: chosen_inline_result_parser,
             Dispatcher.CHAT_MEMBER_UPDATES: chat_member_updated_parser,
             Dispatcher.CHAT_JOIN_REQUEST_UPDATES: chat_join_request_parser,
-            Dispatcher.NEW_STORY_UPDATES: story_parser
+            Dispatcher.NEW_STORY_UPDATES: story_parser,
+            Dispatcher.MESSAGE_BOT_NA_REACTION_UPDATES: message_bot_na_reaction_parser,
+            Dispatcher.MESSAGE_BOT_A_REACTION_UPDATES: message_bot_a_reaction_parser
         }
 
         self.update_parsers = {key: value for key_tuple, value in self.update_parsers.items() for key in key_tuple}
