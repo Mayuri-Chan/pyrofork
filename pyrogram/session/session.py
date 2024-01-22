@@ -412,6 +412,7 @@ class Session:
                 await asyncio.sleep(amount)
             except (OSError, InternalServerError, ServiceUnavailable) as e:
                 if retries == 0:
+                    self.client.updates_invoke_error = e
                     raise e from None
 
                 (log.warning if retries < 2 else log.info)(
@@ -423,6 +424,6 @@ class Session:
                 await asyncio.sleep(0.5)
 
                 return await self.invoke(query, retries - 1, timeout)
-            except Exception as ex:
-                self.client.updates_invoke_error = ex
+            except Exception as e:
+                self.client.updates_invoke_error = e
                 raise
