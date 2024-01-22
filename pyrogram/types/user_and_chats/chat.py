@@ -69,6 +69,9 @@ class Chat(Object):
         is_join_to_send (``bool``, *optional*):
             True, if only chat members allowed to send message in chat.
 
+        is_slowmode_enabled (``bool``, *optional*):
+            True, if slowmode is enabled in chat.
+
         is_antispam (``bool``, *optional*):
             True, if Aggressive Anti-Spam is enabled in chat.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
@@ -196,6 +199,7 @@ class Chat(Object):
         is_join_request: bool = None,
         is_join_to_send: bool = None,
         is_antispam: bool = None,
+        is_slowmode_enabled: bool = None,
         title: str = None,
         username: str = None,
         first_name: str = None,
@@ -239,6 +243,7 @@ class Chat(Object):
         self.is_join_request = is_join_request
         self.is_join_to_send = is_join_to_send
         self.is_antispam = is_antispam
+        self.is_slowmode_enabled = is_slowmode_enabled
         self.title = title
         self.username = username
         self.first_name = first_name
@@ -347,6 +352,7 @@ class Chat(Object):
             is_forum=getattr(channel, "forum", None),
             is_join_request=getattr(channel, "join_request", None),
             is_join_to_send=getattr(channel, "join_to_send", None),
+            is_slowmode_enabled=getattr(channel, "slowmode_enabled", None),
             title=channel.title,
             username=user_name,
             usernames=usernames,
