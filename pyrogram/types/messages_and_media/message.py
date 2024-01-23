@@ -3288,6 +3288,8 @@ class Message(Object, Update):
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         parse_mode: Optional["enums.ParseMode"] = None,
+        protect_content: bool = None,
+        ttl_seconds: int = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -3356,6 +3358,14 @@ class Message(Object, Update):
                 List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
                 for reply_to_message only.
 
+            protect_content (``bool``, *optional*):
+                Protects the contents of the sent message from forwarding and saving.
+
+            ttl_seconds (``int``, *optional*):
+                Self-Destruct Timer.
+                If you set a timer, the video note will self-destruct in *ttl_seconds*
+                seconds after it was viewed.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -3418,6 +3428,8 @@ class Message(Object, Update):
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             quote_entities=quote_entities,
+            protect_content=protect_content,
+            ttl_seconds=ttl_seconds,
             parse_mode=parse_mode,
             reply_markup=reply_markup,
             progress=progress,
