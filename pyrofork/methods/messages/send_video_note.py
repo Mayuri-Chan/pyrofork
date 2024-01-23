@@ -49,6 +49,7 @@ class SendVideoNote:
         parse_mode: Optional["enums.ParseMode"] = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
+        ttl_seconds: int = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -126,6 +127,11 @@ class SendVideoNote:
             protect_content (``bool``, *optional*):
                 Protects the contents of the sent message from forwarding and saving.
 
+            ttl_seconds (``int``, *optional*):
+                Self-Destruct Timer.
+                If you set a timer, the video note will self-destruct in *ttl_seconds*
+                seconds after it was viewed.
+
             reply_markup (:obj:`~pyrofork.types.InlineKeyboardMarkup` | :obj:`~pyrofork.types.ReplyKeyboardMarkup` | :obj:`~pyrofork.types.ReplyKeyboardRemove` | :obj:`~pyrofork.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -165,6 +171,9 @@ class SendVideoNote:
 
                 # Set video note length
                 await app.send_video_note("me", "video_note.mp4", length=25)
+
+                # Send self-destructing video note
+                await app.send_voice("me", "video_note.mp4", ttl_seconds=(1 << 31) - 1)
         """
         file = None
 
@@ -196,7 +205,8 @@ class SendVideoNote:
                                 w=length,
                                 h=length
                             )
-                        ]
+                        ],
+                        ttl_seconds=ttl_seconds
                     )
                 else:
                     media = utils.get_input_media_from_file_id(video_note, FileType.VIDEO_NOTE)
