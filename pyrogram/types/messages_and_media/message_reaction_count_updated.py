@@ -82,7 +82,6 @@ class MessageReactionCountUpdated(Object, Update):
             date=utils.timestamp_to_datetime(update.date),
             reactions=[
                 types.ReactionCount._parse(
-                    client,
                     rt
                 ) for rt in update.reactions
             ]
