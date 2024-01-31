@@ -211,7 +211,7 @@ class Client(Methods):
     WORKDIR = PARENT_DIR
 
     # Interval of seconds in which the updates watchdog will kick in
-    UPDATES_WATCHDOG_INTERVAL = 5 * 60
+    UPDATES_WATCHDOG_INTERVAL = 15 * 60
 
     MAX_CONCURRENT_TRANSMISSIONS = 1
 
