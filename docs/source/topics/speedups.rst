@@ -52,7 +52,7 @@ Call ``uvloop.install()`` before calling ``asyncio.run()`` or ``app.run()``.
     import asyncio
     import uvloop
 
-    from pyrogram import Client
+    from pyrofork import Client
 
 
     async def main():
@@ -70,7 +70,7 @@ The ``uvloop.install()`` call also needs to be placed before creating a Client i
 .. code-block:: python
 
     import uvloop
-    from pyrogram import Client
+    from pyrofork import Client
 
     uvloop.install()
 

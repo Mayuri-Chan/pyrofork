@@ -1,7 +1,7 @@
 ChatAction
 ==========
 
-.. autoclass:: pyrogram.enums.ChatAction()
+.. autoclass:: pyrofork.enums.ChatAction()
     :members:
 
 .. raw:: html

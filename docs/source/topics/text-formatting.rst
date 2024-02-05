@@ -35,7 +35,7 @@ list of the basic styles currently supported by Pyrofork.
 - :strike:`strike`
 - :underline:`underline`
 - spoiler
-- `text URL <https://pyrogram.org>`_
+- `text URL <https://pyrofork.org>`_
 - `user text mention <tg://user?id=123456789>`_
 - ``inline fixed-width code``
 - .. code-block:: text
@@ -47,8 +47,8 @@ list of the basic styles currently supported by Pyrofork.
 Markdown Style
 --------------
 
-To strictly use this mode, pass :obj:`~pyrogram.enums.ParseMode.MARKDOWN` to the *parse_mode* parameter when using
-:meth:`~pyrogram.Client.send_message`. Use the following syntax in your message:
+To strictly use this mode, pass :obj:`~pyrofork.enums.ParseMode.MARKDOWN` to the *parse_mode* parameter when using
+:meth:`~pyrofork.Client.send_message`. Use the following syntax in your message:
 
 .. code-block:: text
 
@@ -62,7 +62,7 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.ParseMode.MARKDOWN` to the
 
     ||spoiler||
 
-    [text URL](https://pyrogram.org/)
+    [text URL](https://pyrofork.org/)
 
     [text user mention](tg://user?id=123456789)
 
@@ -80,7 +80,7 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.ParseMode.MARKDOWN` to the
 
 .. code-block:: python
 
-    from pyrogram import enums
+    from pyrofork import enums
 
     await app.send_message(
         "me",
@@ -90,7 +90,7 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.ParseMode.MARKDOWN` to the
             "--underline--, "
             "~~strike~~, "
             "||spoiler||, "
-            "[URL](https://pyrogram.org), "
+            "[URL](https://pyrofork.org), "
             "`code`, "
             "```"
             "for i in range(10):\n"
@@ -103,8 +103,8 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.ParseMode.MARKDOWN` to the
 HTML Style
 ----------
 
-To strictly use this mode, pass :obj:`~pyrogram.enums.HTML` to the *parse_mode* parameter when using
-:meth:`~pyrogram.Client.send_message`. The following tags are currently supported:
+To strictly use this mode, pass :obj:`~pyrofork.enums.HTML` to the *parse_mode* parameter when using
+:meth:`~pyrofork.Client.send_message`. The following tags are currently supported:
 
 .. code-block:: text
 
@@ -118,7 +118,7 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.HTML` to the *parse_mode* 
 
     <spoiler>spoiler</spoiler>
 
-    <a href="https://pyrogram.org/">text URL</a>
+    <a href="https://pyrofork.org/">text URL</a>
 
     <a href="tg://user?id=123456789">inline mention</a>
 
@@ -138,7 +138,7 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.HTML` to the *parse_mode* 
 
 .. code-block:: python
 
-    from pyrogram import enums
+    from pyrofork import enums
 
     await app.send_message(
         "me",
@@ -148,7 +148,7 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.HTML` to the *parse_mode* 
             "<u>underline</u>, "
             "<s>strike</s>, "
             "<spoiler>spoiler</spoiler>, "
-            "<a href=\"https://pyrogram.org/\">URL</a>, "
+            "<a href=\"https://pyrofork.org/\">URL</a>, "
             "<code>code</code>\n\n"
             "<pre>"
             "for i in range(10):\n"
@@ -193,11 +193,11 @@ Result:
     **bold**, *italic*
 
 If you don't like this behaviour you can always choose to only enable either Markdown or HTML in strict mode by passing
-:obj:`~pyrogram.enums.MARKDOWN` or :obj:`~pyrogram.enums.HTML` as argument to the *parse_mode* parameter.
+:obj:`~pyrofork.enums.MARKDOWN` or :obj:`~pyrofork.enums.HTML` as argument to the *parse_mode* parameter.
 
 .. code-block:: python
 
-    from pyrogram import enums
+    from pyrofork import enums
 
     await app.send_message("me", "**bold**, <i>italic</i>", parse_mode=enums.ParseMode.MARKDOWN)
     await app.send_message("me", "**bold**, <i>italic</i>", parse_mode=enums.ParseMode.HTML)
@@ -208,12 +208,12 @@ Result:
 
     \*\*bold**, *italic*
 
-In case you want to completely turn off the style parser, simply pass :obj:`~pyrogram.enums.DISABLED` to *parse_mode*.
+In case you want to completely turn off the style parser, simply pass :obj:`~pyrofork.enums.DISABLED` to *parse_mode*.
 The text will be sent as-is.
 
 .. code-block:: python
 
-    from pyrogram import enums
+    from pyrofork import enums
 
     await app.send_message("me", "**bold**, <i>italic</i>", parse_mode=enums.ParseMode.DISABLED)
 

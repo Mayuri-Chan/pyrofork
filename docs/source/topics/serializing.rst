@@ -35,12 +35,12 @@ For Machines - repr(obj)
 
 If you want to share or store objects for future references in a more compact way, you can use ``repr(obj)``. While
 still pretty much readable, this format is not intended for humans. The advantage of this format is that once you
-serialize your object, you can use ``eval()`` to get back the original structure; just make sure to ``import pyrogram``,
+serialize your object, you can use ``eval()`` to get back the original structure; just make sure to ``import pyrofork``,
 as the process requires the package to be in scope.
 
 .. code-block:: python
 
-    import pyrogram
+    import pyrofork
 
     ...
 

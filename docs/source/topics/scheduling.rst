@@ -27,7 +27,7 @@ Asynchronously
 
     from apscheduler.schedulers.asyncio import AsyncIOScheduler
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     app = Client("my_account")
 
@@ -49,7 +49,7 @@ Non-Asynchronously
 
     from apscheduler.schedulers.background import BackgroundScheduler
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     app = Client("my_account")
 

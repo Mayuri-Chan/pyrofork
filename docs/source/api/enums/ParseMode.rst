@@ -1,7 +1,7 @@
 ParseMode
 =========
 
-.. autoclass:: pyrogram.enums.ParseMode()
+.. autoclass:: pyrofork.enums.ParseMode()
     :members:
 
 .. raw:: html

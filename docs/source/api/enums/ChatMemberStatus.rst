@@ -1,7 +1,7 @@
 ChatMemberStatus
 ================
 
-.. autoclass:: pyrogram.enums.ChatMemberStatus()
+.. autoclass:: pyrofork.enums.ChatMemberStatus()
     :members:
 
 .. raw:: html

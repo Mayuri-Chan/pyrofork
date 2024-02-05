@@ -1,7 +1,7 @@
 PollType
 ========
 
-.. autoclass:: pyrogram.enums.PollType()
+.. autoclass:: pyrofork.enums.PollType()
     :members:
 
 .. raw:: html

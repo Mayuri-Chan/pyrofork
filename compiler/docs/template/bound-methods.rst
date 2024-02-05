@@ -7,7 +7,7 @@ some of the required arguments.
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     app = Client("my_account")
 
@@ -21,7 +21,7 @@ some of the required arguments.
 
 -----
 
-.. currentmodule:: pyrogram.types
+.. currentmodule:: pyrofork.types
 
 Message
 -------

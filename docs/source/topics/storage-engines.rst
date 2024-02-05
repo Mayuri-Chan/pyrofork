@@ -21,7 +21,7 @@ authorization process from scratch each time, Pyrofork needs to store the genera
 Different Storage Engines
 -------------------------
 
-Pyrofork offers two different types of storage engines: a **File Storage** and a **Memory Storage**.
+Pyrofork offers three different types of storage engines: a **File Storage**, a **Memory Storage** and a **Mongodb Storage**.
 These engines are well integrated in the framework and require a minimal effort to set up. Here's how they work:
 
 File Storage
@@ -32,11 +32,11 @@ The database will be saved to disk as a single portable file and is designed to 
 data whenever they are needed.
 
 To use this type of engine, simply pass any name of your choice to the ``name`` parameter of the
-:obj:`~pyrogram.Client` constructor, as usual:
+:obj:`~pyrofork.Client` constructor, as usual:
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     async with Client("my_account") as app:
         print(await app.get_me())
@@ -49,11 +49,11 @@ Memory Storage
 ^^^^^^^^^^^^^^
 
 In case you don't want to have any session file saved to disk, you can use an in-memory storage by passing True to the
-``in_memory`` parameter of the :obj:`~pyrogram.Client` constructor:
+``in_memory`` parameter of the :obj:`~pyrofork.Client` constructor:
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     async with Client("my_account", in_memory=True) as app:
         print(await app.get_me())
@@ -65,14 +65,14 @@ Mongodb Storage
 ^^^^^^^^^^^^^^^
 
 In case you want to have persistent session but you don't have persistent storage you can use mongodb storage by passing
-mongodb config as ``dict`` to the ``mongodb`` parameter of the :obj:`~pyrogram.Client` constructor:
+mongodb config as ``dict`` to the ``mongodb`` parameter of the :obj:`~pyrofork.Client` constructor:
 
 Using async_pymongo (Recommended for python3.9+):
 
 .. code-block:: python
 
     from async_pymongo import AsyncClient
-    from pyrogram import Client
+    from pyrofork import Client
 
     conn = AsyncClient("mongodb://...")
 
@@ -85,7 +85,7 @@ Using motor:
 .. code-block:: python
 
     from motor.motor_asyncio import AsyncIOMotorClient
-    from pyrogram import Client
+    from pyrofork import Client
 
     conn = AsyncIOMotorClient("mongodb://...")
 
@@ -93,17 +93,17 @@ Using motor:
         print(await app.get_me())
 
 This storage engine is backed by MongoDB, a session will be created and saved to mongodb database. Any subsequent client
-restart will make PyroFork search for a database named that way and the session database will be automatically loaded.
+restart will make Pyrofork search for a database named that way and the session database will be automatically loaded.
 
 Session Strings
 ---------------
 
 In case you want to use an in-memory storage, but also want to keep access to the session you created, call
-:meth:`~pyrogram.Client.export_session_string` anytime before stopping the client...
+:meth:`~pyrofork.Client.export_session_string` anytime before stopping the client...
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     async with Client("my_account", in_memory=True) as app:
         print(await app.export_session_string())
@@ -113,7 +113,7 @@ login using the same session; the storage used will still be in-memory:
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     session_string = "...ZnUIFD8jsjXTb8g_vpxx48k1zkov9sapD-tzjz-S4WZv70M..."
 

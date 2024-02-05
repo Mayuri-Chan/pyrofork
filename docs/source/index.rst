@@ -5,7 +5,7 @@ Welcome to Pyrofork
 
     <div align="center">
         <a href="/">
-            <h1 class="pyrogram-text pyrogram-text-index">PyroFork</h1>
+            <h1 class="pyrofork-text pyrofork-text-index">Pyrofork</h1>
         </a>
     </div>
 
@@ -28,7 +28,7 @@ Welcome to Pyrofork
 
 .. code-block:: python
 
-    from pyrogram import Client, filters
+    from pyrofork import Client, filters
 
     app = Client("my_account")
 

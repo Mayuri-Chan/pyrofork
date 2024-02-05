@@ -21,7 +21,7 @@ Get Pyrofork Real Fast
     .. code-block:: python
 
         import asyncio
-        from pyrogram import Client
+        from pyrofork import Client
 
         api_id = 12345
         api_hash = "0123456789abcdef0123456789abcdef"

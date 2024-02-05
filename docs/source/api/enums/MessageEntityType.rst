@@ -1,7 +1,7 @@
 MessageEntityType
 =================
 
-.. autoclass:: pyrogram.enums.MessageEntityType()
+.. autoclass:: pyrofork.enums.MessageEntityType()
     :members:
 
 .. raw:: html

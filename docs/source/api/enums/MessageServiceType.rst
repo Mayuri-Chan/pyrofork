@@ -1,7 +1,7 @@
 MessageServiceType
 ==================
 
-.. autoclass:: pyrogram.enums.MessageServiceType()
+.. autoclass:: pyrofork.enums.MessageServiceType()
     :members:
 
 .. raw:: html

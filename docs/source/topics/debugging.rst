@@ -30,8 +30,8 @@ Consider the following code:
     me = await app.get_users("me")
     print(me)  # User
 
-This will show a JSON representation of the object returned by :meth:`~pyrogram.Client.get_users`, which is a
-:class:`~pyrogram.types.User` instance, in this case. The output on your terminal will be something similar to this:
+This will show a JSON representation of the object returned by :meth:`~pyrofork.Client.get_users`, which is a
+:class:`~pyrofork.types.User` instance, in this case. The output on your terminal will be something similar to this:
 
 .. code-block:: json
 
@@ -96,14 +96,14 @@ error. The correct way to get the object type is by using the built-in function 
 
 .. code-block:: text
 
-    <class 'pyrogram.types.UserStatus'>
+    <class 'pyrofork.types.UserStatus'>
 
 And to check if an object is an instance of a given class, you use the built-in function ``isinstance()``:
 
 .. code-block:: python
     :name: this-py
 
-    from pyrogram.types import UserStatus
+    from pyrofork.types import UserStatus
 
     status = me.status
     print(isinstance(status, UserStatus))

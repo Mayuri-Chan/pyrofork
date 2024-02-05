@@ -1,7 +1,7 @@
 NextCodeType
 ============
 
-.. autoclass:: pyrogram.enums.NextCodeType()
+.. autoclass:: pyrofork.enums.NextCodeType()
     :members:
 
 .. raw:: html

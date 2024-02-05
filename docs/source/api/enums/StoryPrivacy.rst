@@ -1,7 +1,7 @@
 StoryPrivacy
 ============
 
-.. autoclass:: pyrogram.enums.StoryPrivacy()
+.. autoclass:: pyrofork.enums.StoryPrivacy()
     :members:
 
 .. raw:: html

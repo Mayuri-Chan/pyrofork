@@ -22,7 +22,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath("../.."))
 
-from pyrogram import __version__
+from pyrofork import __version__
 
 from pygments.styles.friendly import FriendlyStyle
 
@@ -102,11 +102,11 @@ html_theme_options = {
     ],
 }
 
-html_logo = "../resources/static/img/pyrogram.png"
+html_logo = "../resources/static/img/pyrofork.png"
 html_favicon = "../resources/static/img/favicon.ico"
 
 latex_engine = "xelatex"
-latex_logo = "../resources/static/img/pyrogram.png"
+latex_logo = "../resources/static/img/pyrofork.png"
 
 latex_elements = {
     "pointsize": "12pt",

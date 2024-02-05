@@ -5,7 +5,7 @@ This example shows how to get all the members of a chat.
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     # Target channel/supergroup
     TARGET = -100123456789

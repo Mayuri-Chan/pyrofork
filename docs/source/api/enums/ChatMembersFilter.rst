@@ -1,7 +1,7 @@
 ChatMembersFilter
 =================
 
-.. autoclass:: pyrogram.enums.ChatMembersFilter()
+.. autoclass:: pyrofork.enums.ChatMembersFilter()
     :members:
 
 .. raw:: html

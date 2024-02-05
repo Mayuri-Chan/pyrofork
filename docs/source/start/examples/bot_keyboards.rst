@@ -11,8 +11,8 @@ like send_audio(), send_document(), send_location(), etc...
 
 .. code-block:: python
 
-    from pyrogram import Client
-    from pyrogram.types import (ReplyKeyboardMarkup, InlineKeyboardMarkup,
+    from pyrofork import Client
+    from pyrofork.types import (ReplyKeyboardMarkup, InlineKeyboardMarkup,
                                 InlineKeyboardButton)
 
     # Create a client using your bot token
@@ -53,11 +53,11 @@ like send_audio(), send_document(), send_location(), etc...
                         [  # Second row
                             InlineKeyboardButton(  # Opens the inline interface
                                 "Choose chat",
-                                switch_inline_query="pyrogram"
+                                switch_inline_query="pyrofork"
                             ),
                             InlineKeyboardButton(  # Opens the inline interface in the current chat
                                 "Inline here",
-                                switch_inline_query_current_chat="pyrogram"
+                                switch_inline_query_current_chat="pyrofork"
                             )
                         ]
                     ]

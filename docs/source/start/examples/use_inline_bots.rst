@@ -5,7 +5,7 @@ This example shows how to query an inline bot (as user).
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     # Create a new Client
     app = Client("my_account")

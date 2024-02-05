@@ -6,7 +6,7 @@ Pyrofork errors all live inside the ``errors`` package:
 
 .. code-block:: python
 
-    from pyrogram import errors
+    from pyrofork import errors
 
 .. contents:: Contents
     :backlinks: none
@@ -23,7 +23,7 @@ This error is raised every time a method call against Telegram's API was unsucce
 
 .. code-block:: python
 
-    from pyrogram.errors import RPCError
+    from pyrofork.errors import RPCError
 
 .. warning::
 
@@ -38,7 +38,7 @@ provides categories of errors, which are named after the common HTTP errors and 
 
 .. code-block:: python
 
-    from pyrogram.errors import BadRequest, Forbidden, ...
+    from pyrofork.errors import BadRequest, Forbidden, ...
 
 -   :doc:`303 - SeeOther <../api/errors/see-other>`
 -   :doc:`400 - BadRequest <../api/errors/bad-request>`
@@ -56,7 +56,7 @@ issue. For example:
 
 .. code-block:: python
 
-    from pyrogram.errors import FloodWait
+    from pyrofork.errors import FloodWait
 
 These errors subclass directly from the category of errors they belong to, which in turn subclass from the father
 ``RPCError``, thus building a class of error hierarchy such as this:
@@ -91,7 +91,7 @@ The value is stored in the ``value`` attribute of the exception object:
 .. code-block:: python
 
     import asyncio
-    from pyrogram.errors import FloodWait
+    from pyrofork.errors import FloodWait
 
     ...
         try:

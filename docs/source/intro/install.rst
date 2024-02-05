@@ -43,8 +43,8 @@ If no error shows up you are good to go.
 
 .. parsed-literal::
 
-    >>> import pyrogram
-    >>> pyrogram.__version__
+    >>> import pyrofork
+    >>> pyrofork.__version__
     'x.y.z'
 
 .. _`Github repo`: http://github.com/Mayuri-Chan/pyrofork

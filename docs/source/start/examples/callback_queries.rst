@@ -6,7 +6,7 @@ It uses the @on_callback_query decorator to register a CallbackQueryHandler.
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     app = Client("my_bot", bot_token="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11")
 

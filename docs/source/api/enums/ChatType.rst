@@ -1,7 +1,7 @@
 ChatType
 ========
 
-.. autoclass:: pyrogram.enums.ChatType()
+.. autoclass:: pyrofork.enums.ChatType()
     :members:
 
 .. raw:: html

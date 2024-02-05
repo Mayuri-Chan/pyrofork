@@ -51,8 +51,8 @@ after importing your modules, like this:
 
     .. code-block:: python
 
-        from pyrogram import Client, filters
-        from pyrogram.handlers import MessageHandler
+        from pyrofork import Client, filters
+        from pyrofork.handlers import MessageHandler
 
         from handlers import echo, echo_reversed
 
@@ -72,8 +72,8 @@ after importing your modules, like this:
         app.run()
 
 This is already nice and doesn't add *too much* boilerplate code, but things can get boring still; you have to
-manually ``import``, manually :meth:`~pyrogram.Client.add_handler` and manually instantiate each
-:class:`~pyrogram.handlers.MessageHandler` object because you can't use decorators for your functions.
+manually ``import``, manually :meth:`~pyrofork.Client.add_handler` and manually instantiate each
+:class:`~pyrofork.handlers.MessageHandler` object because you can't use decorators for your functions.
 So, what if you could? Smart Plugins solve this issue by taking care of handlers registration automatically.
 
 Using Smart Plugins
@@ -100,7 +100,7 @@ Setting up your Pyrofork project to accommodate Smart Plugins is pretty straight
 
     .. code-block:: python
 
-        from pyrogram import Client, filters
+        from pyrofork import Client, filters
 
 
         @Client.on_message(filters.text & filters.private)
@@ -116,7 +116,7 @@ Setting up your Pyrofork project to accommodate Smart Plugins is pretty straight
 
     .. code-block:: python
 
-        from pyrogram import Client
+        from pyrofork import Client
 
         plugins = dict(root="plugins")
 
@@ -263,7 +263,7 @@ Unloading
 ^^^^^^^^^
 
 In order to unload a plugin, all you need to do is obtain a reference to it by importing the relevant module and call
-:meth:`~pyrogram.Client.remove_handler` Client's method with your function's *handler* instance:
+:meth:`~pyrofork.Client.remove_handler` Client's method with your function's *handler* instance:
 
 -   ``main.py``
 
@@ -290,7 +290,7 @@ Loading
 ^^^^^^^
 
 Similarly to the unloading process, in order to load again a previously unloaded plugin you do the same, but this time
-using :meth:`~pyrogram.Client.add_handler` instead. Example:
+using :meth:`~pyrofork.Client.add_handler` instead. Example:
 
 -   ``main.py``
 

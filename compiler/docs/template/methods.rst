@@ -1,13 +1,13 @@
 Available Methods
 =================
 
-This page is about Pyrofork methods. All the methods listed here are bound to a :class:`~pyrogram.Client` instance,
-except for :meth:`~pyrogram.idle()` and :meth:`~pyrogram.compose()`, which are special functions that can be found in
+This page is about Pyrofork methods. All the methods listed here are bound to a :class:`~pyrofork.Client` instance,
+except for :meth:`~pyrofork.idle()` and :meth:`~pyrofork.compose()`, which are special functions that can be found in
 the main package directly.
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     app = Client("my_account")
 
@@ -16,7 +16,7 @@ the main package directly.
 
 -----
 
-.. currentmodule:: pyrogram.Client
+.. currentmodule:: pyrofork.Client
 
 Utilities
 ---------
@@ -31,7 +31,7 @@ Utilities
 
     {utilities}
 
-.. currentmodule:: pyrogram
+.. currentmodule:: pyrofork
 
 .. autosummary::
     :nosignatures:
@@ -45,7 +45,7 @@ Utilities
     idle
     compose
 
-.. currentmodule:: pyrogram.Client
+.. currentmodule:: pyrofork.Client
 
 Conversation
 ------------

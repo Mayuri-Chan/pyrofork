@@ -8,7 +8,7 @@ It uses the ``@on_message`` decorator to register a ``MessageHandler`` and appli
 
 .. code-block:: python
 
-    from pyrogram import Client, filters
+    from pyrofork import Client, filters
 
     app = Client("my_account")
 

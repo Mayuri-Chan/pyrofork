@@ -5,7 +5,7 @@ This example demonstrates a basic API usage
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     # Create a new Client instance
     app = Client("my_account")

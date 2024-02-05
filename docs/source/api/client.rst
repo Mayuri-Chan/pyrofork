@@ -9,7 +9,7 @@ This page is about the Client class, which exposes high-level methods for an eas
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     app = Client("my_account")
 
@@ -21,4 +21,4 @@ This page is about the Client class, which exposes high-level methods for an eas
 Details
 -------
 
-.. autoclass:: pyrogram.Client()
+.. autoclass:: pyrofork.Client()

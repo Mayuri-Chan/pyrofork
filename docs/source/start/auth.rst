@@ -16,12 +16,12 @@ User Authorization
 
 In order to use the API, Telegram requires that users be authorized via their phone numbers.
 Pyrofork automatically manages this process, all you need to do is create an instance of the
-:class:`~pyrogram.Client` class by passing to it a ``name`` of your choice (e.g.: "my_account") and call
-the :meth:`~pyrogram.Client.run` method:
+:class:`~pyrofork.Client` class by passing to it a ``name`` of your choice (e.g.: "my_account") and call
+the :meth:`~pyrofork.Client.run` method:
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     api_id = 12345
     api_hash = "0123456789abcdef0123456789abcdef"
@@ -63,7 +63,7 @@ after the session name, which will be ``my_bot.session`` for the example below.
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     api_id = 12345
     api_hash = "0123456789abcdef0123456789abcdef"
@@ -87,7 +87,7 @@ after the session name, which will be ``my_bot.session`` for the example below.
 
     .. code-block:: python
 
-        from pyrogram import Client
+        from pyrofork import Client
 
         app = Client("my_account")
         app.run()

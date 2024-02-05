@@ -6,8 +6,8 @@ For a much more convenient way of registering callback functions have a look at 
 
 .. code-block:: python
 
-    from pyrogram import Client
-    from pyrogram.handlers import MessageHandler
+    from pyrofork import Client
+    from pyrofork.handlers import MessageHandler
 
     app = Client("my_account")
 
@@ -27,7 +27,7 @@ For a much more convenient way of registering callback functions have a look at 
 
 -----
 
-.. currentmodule:: pyrogram.handlers
+.. currentmodule:: pyrofork.handlers
 
 Index
 -----

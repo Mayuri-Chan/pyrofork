@@ -31,7 +31,7 @@ Pyrofork is being used inside the main function with its asynchronous interface.
 .. code-block:: python
 
     import asyncio
-    from pyrogram import Client
+    from pyrofork import Client
 
 
     async def main():
@@ -48,7 +48,7 @@ As you can see, the non-async example becomes less cluttered.
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     app = Client("my_account")
 
@@ -83,6 +83,6 @@ Pyrofork.
     import uvloop
     uvloop.install()
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     ...

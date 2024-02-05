@@ -1,7 +1,7 @@
 SentCodeType
 ============
 
-.. autoclass:: pyrogram.enums.SentCodeType()
+.. autoclass:: pyrofork.enums.SentCodeType()
     :members:
 
 .. raw:: html

@@ -5,7 +5,7 @@ This example shows how to get the full message history of a chat, starting from 
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     app = Client("my_account")
 

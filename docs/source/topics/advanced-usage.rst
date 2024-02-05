@@ -18,7 +18,7 @@ Telegram Raw API
 ----------------
 
 If you can't find a high-level method for your needs or if you want complete, low-level access to the whole
-Telegram API, you have to use the raw :mod:`~pyrogram.raw.functions` and :mod:`~pyrogram.raw.types`.
+Telegram API, you have to use the raw :mod:`~pyrofork.raw.functions` and :mod:`~pyrofork.raw.types`.
 
 As already hinted, raw functions and types can be less convenient. This section will therefore explain some pitfalls to
 take into consideration when working with the raw API.
@@ -34,11 +34,11 @@ Unlike the :doc:`methods <../api/methods/index>` found in Pyrofork's API, which 
 functions to be invoked from the raw Telegram API have a different way of usage.
 
 First of all, both :doc:`raw functions <../telegram/functions/index>` and :doc:`raw types <../telegram/types/index>`
-live in their respective packages (and sub-packages): ``pyrogram.raw.functions``, ``pyrogram.raw.types``. They all exist
+live in their respective packages (and sub-packages): ``pyrofork.raw.functions``, ``pyrofork.raw.types``. They all exist
 as Python classes, meaning you need to create an instance of each every time you need them and fill them in with the
 correct values using named arguments.
 
-Next, to actually invoke the raw function you have to use the :meth:`~pyrogram.Client.invoke` method provided by the
+Next, to actually invoke the raw function you have to use the :meth:`~pyrofork.Client.invoke` method provided by the
 Client class and pass the function object you created.
 
 Here's some examples:
@@ -47,8 +47,8 @@ Here's some examples:
 
     .. code-block:: python
 
-        from pyrogram import Client
-        from pyrogram.raw import functions
+        from pyrofork import Client
+        from pyrofork.raw import functions
 
         async with Client("my_account") as app:
             await app.invoke(
@@ -62,8 +62,8 @@ Here's some examples:
 
     .. code-block:: python
 
-        from pyrogram import Client
-        from pyrogram.raw import functions, types
+        from pyrofork import Client
+        from pyrofork.raw import functions, types
 
         async with Client("my_account") as app:
             # Set online status
@@ -76,8 +76,8 @@ Here's some examples:
 
     .. code-block:: python
 
-        from pyrogram import Client
-        from pyrogram.raw import functions, types
+        from pyrofork import Client
+        from pyrofork.raw import functions, types
 
         async with Client("my_account") as app:
             r = await app.invoke(
@@ -98,12 +98,12 @@ sending messages with IDs only thanks to cached access hashes.
 There are three different InputPeer types, one for each kind of Telegram entity.
 Whenever an InputPeer is needed you must pass one of these:
 
-- :class:`~pyrogram.raw.types.InputPeerUser` - Users
-- :class:`~pyrogram.raw.types.InputPeerChat` -  Basic Chats
-- :class:`~pyrogram.raw.types.InputPeerChannel` - Channels & Supergroups
+- :class:`~pyrofork.raw.types.InputPeerUser` - Users
+- :class:`~pyrofork.raw.types.InputPeerChat` -  Basic Chats
+- :class:`~pyrofork.raw.types.InputPeerChannel` - Channels & Supergroups
 
 But you don't necessarily have to manually instantiate each object because Pyrofork already provides
-:meth:`~pyrogram.Client.resolve_peer` as a convenience utility method that returns the correct InputPeer
+:meth:`~pyrofork.Client.resolve_peer` as a convenience utility method that returns the correct InputPeer
 by accepting a peer ID only.
 
 Another thing to take into consideration about chat IDs is the way they are represented: they are all integers and

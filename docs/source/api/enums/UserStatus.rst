@@ -1,7 +1,7 @@
 UserStatus
 ==========
 
-.. autoclass:: pyrogram.enums.UserStatus()
+.. autoclass:: pyrofork.enums.UserStatus()
     :members:
 
 .. raw:: html

@@ -6,6 +6,7 @@ on:
     - "*"
     branches:
     - staging
+    - dev/*
 
 jobs:
   build:

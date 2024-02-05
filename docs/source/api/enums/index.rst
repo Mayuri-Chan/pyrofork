@@ -8,7 +8,7 @@ to apply only a valid value among the expected ones.
 
 -----
 
-.. currentmodule:: pyrogram.enums
+.. currentmodule:: pyrofork.enums
 
 .. autosummary::
     :nosignatures:

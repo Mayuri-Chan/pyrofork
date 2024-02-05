@@ -10,7 +10,7 @@ The following shows how to catch the exception in your code and wait the require
 .. code-block:: python
 
   import asyncio
-  from pyrogram.errors import FloodWait
+  from pyrofork.errors import FloodWait
 
   ...
       try:

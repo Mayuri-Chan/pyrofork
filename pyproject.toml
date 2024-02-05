@@ -33,7 +33,7 @@ classifiers = [
 keywords = ["telegram chat messenger mtproto api client library python"]
 
 [tool.hatch.version]
-path = "pyrogram/__init__.py"
+path = "pyrofork/__init__.py"
 
 # Used to call hatch_build.py
 [tool.hatch.build.hooks.custom]
@@ -89,4 +89,4 @@ exclude = [
 
 [tool.hatch.build.targets.wheel]
 ignore-vcs = true
-packages = ["pyrogram"]
+packages = ["pyrofork"]

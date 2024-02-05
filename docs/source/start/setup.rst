@@ -32,7 +32,7 @@ Having the API key from the previous step in handy, we can now begin to configur
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     api_id = 12345
     api_hash = "0123456789abcdef0123456789abcdef"

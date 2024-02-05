@@ -6,7 +6,7 @@ body:
       label: Checklist
       description: Invalid, incomplete or inadequate issue reports may not be taken into consideration
       options:
-        - label: I am sure the error is coming from Pyrogram's code and not elsewhere
+        - label: I am sure the error is coming from Pyrofork's code and not elsewhere
           required: true
         - label: I have searched in the issue tracker for similar bug reports, including closed ones
           required: true
@@ -37,7 +37,7 @@ body:
       label: Code example
       description: Provide a [minimal, complete, consistently reproducible](https://stackoverflow.com/help/minimal-reproducible-example) and properly formatted example involving normal usages (if applicable)
       placeholder: |
-        from pyrogram import Client
+        from pyrofork import Client
         ...
       render: python
 

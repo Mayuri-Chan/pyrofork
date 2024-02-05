@@ -4,7 +4,7 @@ Using Filters
 So far we've seen :doc:`how to register a callback function <../start/updates>` that executes every time an update comes
 from the server, but there's much more than that to come.
 
-Here we'll discuss about :obj:`~pyrogram.filters`. Filters enable a fine-grain control over what kind of
+Here we'll discuss about :obj:`~pyrofork.filters`. Filters enable a fine-grain control over what kind of
 updates are allowed or not to be passed in your callback functions, based on their inner details.
 
 .. contents:: Contents
@@ -19,12 +19,12 @@ Single Filters
 
 Let's start right away with a simple example:
 
--   This example will show you how to **only** handle messages containing a :class:`~pyrogram.types.Sticker` object and
+-   This example will show you how to **only** handle messages containing a :class:`~pyrofork.types.Sticker` object and
     ignore any other message. Filters are passed as the first argument of the decorator:
 
     .. code-block:: python
 
-        from pyrogram import filters
+        from pyrofork import filters
 
 
         @app.on_message(filters.sticker)
@@ -36,8 +36,8 @@ Let's start right away with a simple example:
 
     .. code-block:: python
 
-        from pyrogram import filters
-        from pyrogram.handlers import MessageHandler
+        from pyrofork import filters
+        from pyrofork.handlers import MessageHandler
 
 
         async def my_handler(client, message):
@@ -76,7 +76,7 @@ Here are some examples:
 Advanced Filters
 ----------------
 
-Some filters, like :meth:`~pyrogram.filters.command` or :meth:`~pyrogram.filters.regex`
+Some filters, like :meth:`~pyrofork.filters.command` or :meth:`~pyrofork.filters.regex`
 can also accept arguments:
 
 -   Message is either a */start* or */help* **command**.
@@ -91,7 +91,7 @@ can also accept arguments:
 
     .. code-block:: python
 
-        @app.on_message(filters.regex("pyrogram"))
+        @app.on_message(filters.regex("pyrofork"))
         async def my_handler(client, message):
             print(message)
 
@@ -110,5 +110,5 @@ More handlers using different filters can also live together.
 
 
     @app.on_message(filters.chat("PyroforkChat"))
-    async def from_pyrogramchat(client, message):
+    async def from_pyroforkchat(client, message):
         print("New message in @PyroforkChat")

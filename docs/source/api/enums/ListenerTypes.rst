@@ -1,7 +1,7 @@
 ListenerTypes
 =============
 
-.. autoclass:: pyrogram.enums.ListenerTypes()
+.. autoclass:: pyrofork.enums.ListenerTypes()
     :members:
 
 .. raw:: html

@@ -3,12 +3,12 @@ Decorators
 
 Decorators are able to register callback functions for handling updates in a much easier and cleaner way compared to
 :doc:`Handlers <handlers>`; they do so by instantiating the correct handler and calling
-:meth:`~pyrogram.Client.add_handler` automatically. All you need to do is adding the decorators on top of your
+:meth:`~pyrofork.Client.add_handler` automatically. All you need to do is adding the decorators on top of your
 functions.
 
 .. code-block:: python
 
-    from pyrogram import Client
+    from pyrofork import Client
 
     app = Client("my_account")
 
@@ -27,7 +27,7 @@ functions.
 
 -----
 
-.. currentmodule:: pyrogram
+.. currentmodule:: pyrofork
 
 Index
 -----
@@ -57,18 +57,18 @@ Details
 -------
 
 .. Decorators
-.. autodecorator:: pyrogram.Client.on_message()
-.. autodecorator:: pyrogram.Client.on_edited_message()
-.. autodecorator:: pyrogram.Client.on_callback_query()
-.. autodecorator:: pyrogram.Client.on_message_reaction_updated()
-.. autodecorator:: pyrogram.Client.on_message_reaction_count_updated()
-.. autodecorator:: pyrogram.Client.on_inline_query()
-.. autodecorator:: pyrogram.Client.on_chosen_inline_result()
-.. autodecorator:: pyrogram.Client.on_chat_member_updated()
-.. autodecorator:: pyrogram.Client.on_chat_join_request()
-.. autodecorator:: pyrogram.Client.on_deleted_messages()
-.. autodecorator:: pyrogram.Client.on_user_status()
-.. autodecorator:: pyrogram.Client.on_story()
-.. autodecorator:: pyrogram.Client.on_poll()
-.. autodecorator:: pyrogram.Client.on_disconnect()
-.. autodecorator:: pyrogram.Client.on_raw_update()
+.. autodecorator:: pyrofork.Client.on_message()
+.. autodecorator:: pyrofork.Client.on_edited_message()
+.. autodecorator:: pyrofork.Client.on_callback_query()
+.. autodecorator:: pyrofork.Client.on_message_reaction_updated()
+.. autodecorator:: pyrofork.Client.on_message_reaction_count_updated()
+.. autodecorator:: pyrofork.Client.on_inline_query()
+.. autodecorator:: pyrofork.Client.on_chosen_inline_result()
+.. autodecorator:: pyrofork.Client.on_chat_member_updated()
+.. autodecorator:: pyrofork.Client.on_chat_join_request()
+.. autodecorator:: pyrofork.Client.on_deleted_messages()
+.. autodecorator:: pyrofork.Client.on_user_status()
+.. autodecorator:: pyrofork.Client.on_story()
+.. autodecorator:: pyrofork.Client.on_poll()
+.. autodecorator:: pyrofork.Client.on_disconnect()
+.. autodecorator:: pyrofork.Client.on_raw_update()

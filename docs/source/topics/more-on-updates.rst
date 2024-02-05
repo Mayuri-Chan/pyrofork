@@ -51,7 +51,7 @@ Or, if you want ``just_text`` to be executed *before* ``text_or_sticker`` (note 
     async def just_text(client, message):
         print("Just Text")
 
-With :meth:`~pyrogram.Client.add_handler` (without decorators) the same can be achieved with:
+With :meth:`~pyrofork.Client.add_handler` (without decorators) the same can be achieved with:
 
 .. code-block:: python
 
@@ -128,7 +128,7 @@ Example with ``raise StopPropagation``:
 
 .. code-block:: python
 
-    from pyrogram import StopPropagation
+    from pyrofork import StopPropagation
 
     @app.on_message(filters.private)
     async def _(client, message):
@@ -197,7 +197,7 @@ Example with ``raise ContinuePropagation``:
 
 .. code-block:: python
 
-    from pyrogram import ContinuePropagation
+    from pyrofork import ContinuePropagation
 
     @app.on_message(filters.private)
     async def _(client, message):

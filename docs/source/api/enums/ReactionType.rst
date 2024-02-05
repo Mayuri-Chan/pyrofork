@@ -1,7 +1,7 @@
 ReactionType
 ============
 
-.. autoclass:: pyrogram.enums.ReactionType()
+.. autoclass:: pyrofork.enums.ReactionType()
     :members:
 
 .. raw:: html

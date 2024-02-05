@@ -6,7 +6,7 @@ to make it only work for specific messages in a specific chat.
 
 .. code-block:: python
 
-    from pyrogram import Client, emoji, filters
+    from pyrofork import Client, emoji, filters
 
     # Target chat. Can also be a list of multiple chat ids/usernames
     TARGET = -100123456789

@@ -1,13 +1,13 @@
 RPC Errors
 ==========
 
-All Pyrofork API errors live inside the ``errors`` sub-package: ``pyrogram.errors``.
+All Pyrofork API errors live inside the ``errors`` sub-package: ``pyrofork.errors``.
 The errors ids listed here are shown as *UPPER_SNAKE_CASE*, but the actual exception names to import from Pyrofork
 follow the usual *PascalCase* convention.
 
 .. code-block:: python
 
-    from pyrogram.errors import FloodWait
+    from pyrofork.errors import FloodWait
 
     try:
         ...
