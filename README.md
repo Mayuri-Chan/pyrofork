@@ -5,6 +5,10 @@
     <br>
     <b>Telegram MTProto API Framework for Python</b>
     <br>
+    <a href="https://github.com/Mayuri-Chan">
+        Homepage
+    </a>
+    •
     <a href="https://pyrofork.mayuri.my.id">
         Documentation
     </a>
@@ -15,6 +19,10 @@
     •
     <a href="https://t.me/MayuriChan_Chat">
         Support Chat
+    </a>
+    •
+    <a href="https://t.me/wulan17">
+        News/Releases
     </a>
 </p>
 
