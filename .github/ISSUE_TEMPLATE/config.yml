@@ -1,8 +1,8 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Ask Pyrogram related questions
-    url: https://stackoverflow.com/questions/tagged/pyrogram
-    about: This place is only for reporting issues about Pyrogram. You can ask questions at StackOverflow.
-  - name: Join the Telegram channel
-    url: https://t.me/pyrogram
-    about: Join the official channel and stay tuned for news, updates and announcements.
+  - name: Ask Pyrofork related questions
+    url: https://stackoverflow.com/questions/tagged/pyrofork
+    about: This place is only for reporting issues about Pyrofork. You can ask questions at StackOverflow.
+  - name: Join the Telegram Chat
+    url: https://t.me/MayuriChan_Chat
+    about: Join the official Chat and stay tuned for news, updates and announcements.

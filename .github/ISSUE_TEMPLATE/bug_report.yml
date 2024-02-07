@@ -6,11 +6,11 @@ body:
       label: Checklist
       description: Invalid, incomplete or inadequate issue reports may not be taken into consideration
       options:
-        - label: I am sure the error is coming from Pyrogram's code and not elsewhere
+        - label: I am sure the error is coming from Pyrofork's code and not elsewhere
           required: true
         - label: I have searched in the issue tracker for similar bug reports, including closed ones
           required: true
-        - label: I ran `pip3 install -U https://github.com/Mayuri-Chan/pyrofork/archive/master.zip` and reproduced the issue using the latest development version
+        - label: I ran `pip3 install -U git+https://github.com/Mayuri-Chan/pyrofork` and reproduced the issue using the latest development version
           required: true
 
   - type: textarea
