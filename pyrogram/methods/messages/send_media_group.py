@@ -210,9 +210,13 @@ class SendMediaGroup:
                 if isinstance(i.media, str):
                     is_animation = False
                     if os.path.isfile(i.media):
-                        videoInfo = MediaInfo.parse(i.media)
-                        if not any([track.track_type == 'Audio' for track in videoInfo.tracks]):
-                            is_animation = True
+                        try:
+                            videoInfo = MediaInfo.parse(i.media)
+                        except OSError:
+                            is_animation = True if isinstance(i, types.InputMediaAnimation) else False
+                        else:
+                            if not any([track.track_type == 'Audio' for track in videoInfo.tracks]):
+                                is_animation = True
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
