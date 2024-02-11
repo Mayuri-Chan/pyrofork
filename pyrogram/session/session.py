@@ -287,7 +287,10 @@ class Session:
                         ping_id=0, disconnect_delay=self.WAIT_TIMEOUT + 10
                     ), False
                 )
-            except (OSError, RPCError):
+            except OSError:
+                self.loop.create_task(self.restart())
+                break
+            except RPCError:
                 pass
 
         log.info("PingTask stopped")
