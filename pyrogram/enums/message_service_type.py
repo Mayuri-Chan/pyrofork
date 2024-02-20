@@ -105,3 +105,6 @@ class MessageServiceType(AutoName):
 
     GIVEAWAY_RESULT = auto()
     "Giveaway Result"
+
+    BOOST_APPLY = auto()
+    "Boost apply"

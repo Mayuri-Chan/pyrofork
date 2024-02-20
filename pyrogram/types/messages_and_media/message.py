@@ -367,6 +367,24 @@ class Message(Object, Update):
         web_app_data (:obj:`~pyrogram.types.WebAppData`, *optional*):
             Service message: web app data sent to the bot.
 
+<<<<<<< HEAD
+=======
+        gift_code (:obj:`~pyrogram.types.GiftCode`, *optional*):
+            Service message: gift code information.
+
+        requested_chats (:obj:`~pyrogram.types.RequestedChats`, *optional*):
+            Service message: requested chats information.
+
+        giveaway_launched (``bool``, *optional*):
+            Service message: giveaway launched.
+
+        chat_ttl_period (``int``, *optional*):
+            Service message: chat TTL period changed.
+
+        boosts_applied (``int``, *optional*):
+            Service message: how many boosts were applied.
+
+>>>>>>> ccd9688e (Add support for ApplyBoost service messages)
         reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
             Additional interface options. An object for an inline keyboard, custom reply keyboard,
             instructions to remove reply keyboard or to force a reply from the user.
@@ -439,6 +457,7 @@ class Message(Object, Update):
         game: "types.Game" = None,
         giveaway: "types.Giveaway" = None,
         giveaway_result: "types.GiveawayResult" = None,
+        boosts_applied: int = None,
         story: Union["types.MessageStory", "types.Story"] = None,
         video: "types.Video" = None,
         voice: "types.Voice" = None,
@@ -540,6 +559,7 @@ class Message(Object, Update):
         self.game = game
         self.giveaway = giveaway
         self.giveaway_result = giveaway_result
+        self.boosts_applied = boosts_applied
         self.story = story
         self.video = video
         self.voice = voice
@@ -688,6 +708,7 @@ class Message(Object, Update):
             web_app_data = None
             giveaway_launched = None
             giveaway_result = None
+            boosts_applied = None
 
             service_type = None
 
@@ -779,6 +800,9 @@ class Message(Object, Update):
             elif isinstance(action, raw.types.MessageActionGiveawayResults):
                 giveaway_result = await types.GiveawayResult._parse(client, action, True)
                 service_type = enums.MessageServiceType.GIVEAWAY_RESULT
+            elif isinstance(action, raw.types.MessageActionBoostApply):
+                boosts_applied = action.boosts
+                service_type = enums.MessageServiceType.BOOST_APPLY
             from_user = types.User._parse(client, users.get(user_id, None))
             sender_chat = types.Chat._parse(client, message, users, chats, is_chat=False) if not from_user else None
 
@@ -817,6 +841,7 @@ class Message(Object, Update):
                 web_app_data=web_app_data,
                 giveaway_launched=giveaway_launched,
                 giveaway_result=giveaway_result,
+                boosts_applied=boosts_applied,
                 raw=message,
                 client=client
                 # TODO: supergroup_chat_created
