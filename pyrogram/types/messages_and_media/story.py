@@ -105,6 +105,9 @@ class Story(Object, Update):
 
         media_areas (List of :obj:`~pyrogram.types.MediaArea`, *optional*):
             List of :obj:`~pyrogram.types.MediaArea` object in story.
+
+        raw (``pyrogram.raw.types.StoryItem``, *optional*):
+            The raw story object, as received from the Telegram API.
     """
 
     # TODO: fix Allowed Chats
@@ -137,7 +140,8 @@ class Story(Object, Update):
         forward_from: "types.StoryForwardHeader" = None,
         allowed_users: List[int] = None,
         denied_users: List[int] = None,
-        media_areas: List["types.MediaArea"] = None
+        media_areas: List["types.MediaArea"] = None,
+        raw: "raw.types.StoryItem" = None
         #allowed_chats: List[int] = None,
         #denied_chats: List[int] = None
     ):
@@ -168,6 +172,7 @@ class Story(Object, Update):
         self.allowed_users = allowed_users
         self.denied_users = denied_users
         self.media_areas = media_areas
+        self.raw = raw
         #self.allowed_chats = allowed_chats
         #self.denied_chats = denied_chats
 
@@ -297,6 +302,7 @@ class Story(Object, Update):
             allowed_users=allowed_users,
             denied_users=denied_users,
             media_areas=media_areas,
+            raw=stories,
             client=client
         )
 
