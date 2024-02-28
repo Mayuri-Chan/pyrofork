@@ -117,6 +117,9 @@ class Message(Object, Update):
         reply_to_story_user_id (``int``, *optional*):
             The id of the story sender which this message directly replied to.
 
+        reply_to_story_chat_id (``int``, *optional*):
+            The id of the chat where the story was sent which this message directly replied to.
+
         reply_to_top_message_id (``int``, *optional*):
             The id of the first message which started this message thread.
 
@@ -404,6 +407,7 @@ class Message(Object, Update):
         reply_to_message_id: int = None,
         reply_to_story_id: int = None,
         reply_to_story_user_id: int = None,
+        reply_to_story_chat_id: int = None,
         reply_to_top_message_id: int = None,
         reply_to_message: "Message" = None,
         reply_to_story: "types.Story" = None,
@@ -503,6 +507,7 @@ class Message(Object, Update):
         self.reply_to_message_id = reply_to_message_id
         self.reply_to_story_id = reply_to_story_id
         self.reply_to_story_user_id = reply_to_story_user_id
+        self.reply_to_story_chat_id = reply_to_story_chat_id
         self.reply_to_top_message_id = reply_to_top_message_id
         self.reply_to_message = reply_to_message
         self.reply_to_story = reply_to_story
@@ -1106,7 +1111,12 @@ class Message(Object, Update):
                         parsed_message.reply_to_top_message_id = message.reply_to.reply_to_top_id
                 else:
                     parsed_message.reply_to_story_id = message.reply_to.story_id
-                    parsed_message.reply_to_story_user_id = message.reply_to.user_id
+                    if isinstance(message.reply_to, raw.types.PeerUser):
+                        parsed_message.reply_to_story_user_id = message.reply_to.peer.user_id
+                    elif isinstance(message.reply_to, raw.types.PeerChat):
+                        parsed_message.reply_to_story_chat_id = utils.get_channel_id(message.reply_to.peer.chat_id)
+                    else:
+                        parsed_message.reply_to_story_chat_id = utils.get_channel_id(message.reply_to.peer.channel_id)
 
                 if replies:
                     if parsed_message.reply_to_message_id:
@@ -1134,7 +1144,7 @@ class Message(Object, Update):
                     elif parsed_message.reply_to_story_id:
                         try:
                             reply_to_story = await client.get_stories(
-                                parsed_message.reply_to_story_user_id,
+                                parsed_message.reply_to_story_user_id or parsed_message.reply_to_story_chat_id,
                                 parsed_message.reply_to_story_id
                             )
                         except Exception:

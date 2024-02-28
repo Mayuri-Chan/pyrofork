@@ -139,7 +139,7 @@ class Dispatcher:
                 await pyrogram.types.Story._parse(self.client, update.story, update.peer),
                 StoryHandler
             )
-            
+
         async def message_bot_na_reaction_parser(update, users, chats):
             return (
                 pyrogram.types.MessageReactionUpdated._parse(self.client, update, users, chats),

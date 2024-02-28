@@ -31,9 +31,12 @@ class Story(Object, Update):
         id (``int``):
             Unique story identifier.
 
+        chat (:obj:`~pyrogram.types.Chat`, *optional*):
+            Chat the story was sent in.
+
         from_user (:obj:`~pyrogram.types.User`, *optional*):
             Sender of the story.
-        
+
         sender_chat (:obj:`~pyrogram.types.Chat`, *optional*):
             Sender of the story. If the story is from channel.
 
@@ -59,7 +62,7 @@ class Story(Object, Update):
 
         video (:obj:`~pyrogram.types.Video`, *optional*):
             Story is a video, information about the video.
-        
+
         edited (``bool``, *optional*):
            True, if the Story has been edited.
 
@@ -111,6 +114,7 @@ class Story(Object, Update):
         *,
         client: "pyrogram.Client" = None,
         id: int,
+        chat: "types.Chat" = None,
         from_user: "types.User" = None,
         sender_chat: "types.Chat" = None,
         date: datetime,
@@ -140,6 +144,7 @@ class Story(Object, Update):
         super().__init__(client)
 
         self.id = id
+        self.chat = chat
         self.from_user = from_user
         self.sender_chat = sender_chat
         self.date = date
@@ -181,6 +186,7 @@ class Story(Object, Update):
         animation = None
         photo = None
         video = None
+        chat = None
         from_user = None
         sender_chat = None
         privacy = None
@@ -218,7 +224,11 @@ class Story(Object, Update):
                     id=[await client.resolve_peer(chat_id)]
                 )
             )
-            sender_chat = types.Chat._parse_chat(client, chat.chats[0])
+            if stories.from_id is not None:
+                from_user = await client.get_users(stories.from_id.user_id)
+                chat = types.Chat._parse_chat(client, chat.chats[0])
+            else:
+                sender_chat = types.Chat._parse_chat(client, chat.chats[0])
         elif isinstance(peer, raw.types.InputPeerSelf):
             from_user = client.me
         else:
@@ -261,6 +271,7 @@ class Story(Object, Update):
 
         return Story(
             id=stories.id,
+            chat=chat,
             from_user=from_user,
             sender_chat=sender_chat,
             date=utils.timestamp_to_datetime(stories.date),

@@ -25,8 +25,8 @@ class InputReplyToStory(Object):
 
 
     Parameters:
-        user_id (:obj:`~pyrogram.raw.types.InputUser`):
-            An InputUser.
+        peer (:obj:`~pyrogram.raw.types.InputPeer`):
+            An InputPeer.
 
         story_id (``int``):
             Unique identifier for the target story.
@@ -34,16 +34,16 @@ class InputReplyToStory(Object):
 
     def __init__(
         self, *,
-        user_id: "raw.types.InputUser" = None,
+        peer: "raw.types.InputPeer" = None,
         story_id: int = None
     ):
         super().__init__()
 
-        self.user_id = user_id
+        self.peer = peer
         self.story_id = story_id
 
     def write(self):
         return raw.types.InputReplyToStory(
-            user_id=self.user_id,
+            peer=self.peer,
             story_id=self.story_id
         ).write()
