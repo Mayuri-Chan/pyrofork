@@ -217,6 +217,17 @@ class SendMediaGroup:
                         else:
                             if not any([track.track_type == 'Audio' for track in videoInfo.tracks]):
                                 is_animation = True
+                        attributes = [
+                            raw.types.DocumentAttributeVideo(
+                                supports_streaming=True if is_animation else (i.supports_streaming or None),
+                                duration=i.duration,
+                                w=i.width,
+                                h=i.height
+                            ),
+                            raw.types.DocumentAttributeFilename(file_name=os.path.basename(i.media))
+                        ]
+                        if is_animation:
+                            attributes.append(raw.types.DocumentAttributeAnimated())
                         media = await self.invoke(
                             raw.functions.messages.UploadMedia(
                                 peer=await self.resolve_peer(chat_id),
@@ -226,16 +237,7 @@ class SendMediaGroup:
                                     spoiler=i.has_spoiler,
                                     mime_type=self.guess_mime_type(i.media) or "video/mp4",
                                     nosound_video=is_animation,
-                                    attributes=[
-                                        raw.types.DocumentAttributeVideo(
-                                            supports_streaming=True if is_animation else (i.supports_streaming or None),
-                                            duration=i.duration,
-                                            w=i.width,
-                                            h=i.height
-                                        ),
-                                        raw.types.DocumentAttributeFilename(file_name=os.path.basename(i.media)),
-                                        raw.types.DocumentAttributeAnimated() if is_animation else None
-                                    ]
+                                    attributes=attributes
                                 )
                             )
                         )
