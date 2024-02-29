@@ -180,7 +180,7 @@ class SQLiteStorage(Storage):
         r = await q.fetchone()
 
         if r is None:
-            r2 = self.conn.execute(
+            r2 = await self.conn.execute(
                 "SELECT peer_id, last_update_on FROM usernames WHERE id = ?"
                 "ORDER BY last_update_on DESC",
                 (username,)
