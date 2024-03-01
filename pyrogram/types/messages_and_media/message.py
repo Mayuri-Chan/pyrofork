@@ -1143,9 +1143,9 @@ class Message(Object, Update):
                         parsed_message.reply_to_top_message_id = message.reply_to.reply_to_top_id
                 else:
                     parsed_message.reply_to_story_id = message.reply_to.story_id
-                    if isinstance(message.reply_to, raw.types.PeerUser):
+                    if isinstance(message.reply_to.peer, raw.types.PeerUser):
                         parsed_message.reply_to_story_user_id = message.reply_to.peer.user_id
-                    elif isinstance(message.reply_to, raw.types.PeerChat):
+                    elif isinstance(message.reply_to.peer, raw.types.PeerChat):
                         parsed_message.reply_to_story_chat_id = utils.get_channel_id(message.reply_to.peer.chat_id)
                     else:
                         parsed_message.reply_to_story_chat_id = utils.get_channel_id(message.reply_to.peer.channel_id)
