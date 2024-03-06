@@ -49,6 +49,15 @@ CREATE TABLE peers
     last_update_on INTEGER NOT NULL DEFAULT (CAST(STRFTIME('%s', 'now') AS INTEGER))
 );
 
+CREATE TABLE update_state
+(
+    id   INTEGER PRIMARY KEY,
+    pts  INTEGER,
+    qts  INTEGER,
+    date INTEGER,
+    seq  INTEGER
+);
+
 CREATE TABLE version
 (
     number INTEGER PRIMARY KEY
@@ -110,7 +119,7 @@ def get_input_peer(peer_id: int, access_hash: int, peer_type: str):
 
 
 class SQLiteStorage(Storage):
-    VERSION = 3
+    VERSION = 4
     USERNAME_TTL = 8 * 60 * 60
 
     def __init__(self, name: str):
@@ -165,6 +174,24 @@ class SQLiteStorage(Storage):
             "VALUES (?, ?)",
             usernames
         )
+
+    async def update_state(self, value: Tuple[int, int, int, int, int] = object):
+        if value == object:
+            return self.conn.execute(
+                "SELECT id, pts, qts, date, seq FROM update_state"
+            ).fetchall()
+        else:
+            with self.conn:
+                if value is None:
+                    self.conn.execute(
+                        "DELETE FROM update_state"
+                    )
+                else:
+                    self.conn.execute(
+                    "REPLACE INTO update_state (id, pts, qts, date, seq)"
+                    "VALUES (?, ?, ?, ?, ?)",
+                    value
+                )
 
     async def get_peer_by_id(self, peer_id: int):
         r = self.conn.execute(

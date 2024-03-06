@@ -174,6 +174,10 @@ class Client(Methods):
             Useful for batch programs that don't need to deal with updates.
             Defaults to False (updates enabled and received).
 
+        skip_updates (``bool``, *optional*):
+            Pass True to skip pending updates that arrived while the client was offline.
+            Defaults to True.
+
         takeout (``bool``, *optional*):
             Pass True to let the client use a takeout session instead of a normal one, implies *no_updates=True*.
             Useful for exporting Telegram data. Methods invoked inside a takeout session (such as get_chat_history,
@@ -248,7 +252,8 @@ class Client(Methods):
         plugins: Optional[dict] = None,
         parse_mode: "enums.ParseMode" = enums.ParseMode.DEFAULT,
         no_updates: Optional[bool] = None,
-        takeout: Optional[bool] = None,
+        skip_updates: bool = True,
+        takeout: bool = None,
         sleep_threshold: int = Session.SLEEP_THRESHOLD,
         hide_password: Optional[bool] = False,
         max_concurrent_transmissions: int = MAX_CONCURRENT_TRANSMISSIONS,
@@ -279,6 +284,7 @@ class Client(Methods):
         self.plugins = plugins
         self.parse_mode = parse_mode
         self.no_updates = no_updates
+        self.skip_updates = skip_updates
         self.takeout = takeout
         self.sleep_threshold = sleep_threshold
         self.hide_password = hide_password
@@ -607,6 +613,17 @@ class Client(Methods):
                 pts = getattr(update, "pts", None)
                 pts_count = getattr(update, "pts_count", None)
 
+                if pts:
+                    await self.storage.update_state(
+                        (
+                            utils.get_channel_id(channel_id) if channel_id else self.me.id,
+                            pts,
+                            None,
+                            updates.date,
+                            None
+                        )
+                    )
+
                 if isinstance(update, raw.types.UpdateChannelTooLong):
                     log.info(update)
 
@@ -637,6 +654,16 @@ class Client(Methods):
 
                 self.dispatcher.updates_queue.put_nowait((update, users, chats))
         elif isinstance(updates, (raw.types.UpdateShortMessage, raw.types.UpdateShortChatMessage)):
+            await self.storage.update_state(
+                (
+                    self.me.id,
+                    updates.pts,
+                    None,
+                    updates.date,
+                    None
+                )
+            )
+
             diff = await self.invoke(
                 raw.functions.updates.GetDifference(
                     pts=updates.pts - updates.pts_count,
