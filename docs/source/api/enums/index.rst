@@ -13,6 +13,7 @@ to apply only a valid value among the expected ones.
 .. autosummary::
     :nosignatures:
 
+    BusinessSchedule
     ChatAction
     ChatEventAction
     ChatMemberStatus

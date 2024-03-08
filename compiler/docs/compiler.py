@@ -421,6 +421,12 @@ def pyrogram_api():
     categories = dict(
         users_chats="""
         Users & Chats
+            BusinessInfo
+            BusinessMessage
+            BusinessRecipients
+            BusinessSchedule
+            BusinessWeeklyOpen
+            BusinessWorkingHours
             User
             Chat
             ChatPreview
