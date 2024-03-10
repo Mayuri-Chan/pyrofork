@@ -173,8 +173,8 @@ class MongoStorage(Storage):
             states = [[state['_id'],state['pts'],state['qts'],state['date'],state['seq']] async for state in self._states.find()]
             return states if len(states) > 0 else None
         else:
-            if value is None:
-                await self._states.drop()
+            if isinstance(value, int):
+                await self._states.delete_one({'id': value})
             else:
                 await self._states.update_one({'_id': value[0]}, {'$set': {'pts': value[1], 'qts': value[2], 'date': value[3], 'seq': value[4]}}, upsert=True)
 

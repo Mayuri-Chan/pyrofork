@@ -182,16 +182,17 @@ class SQLiteStorage(Storage):
             ).fetchall()
         else:
             with self.conn:
-                if value is None:
+                if isinstance(value, int):
                     self.conn.execute(
-                        "DELETE FROM update_state"
+                        "DELETE FROM update_state WHERE id = ?",
+                        (value,)
                     )
                 else:
                     self.conn.execute(
-                    "REPLACE INTO update_state (id, pts, qts, date, seq)"
-                    "VALUES (?, ?, ?, ?, ?)",
-                    value
-                )
+                        "REPLACE INTO update_state (id, pts, qts, date, seq)"
+                        "VALUES (?, ?, ?, ?, ?)",
+                        value
+                    )
 
     async def get_peer_by_id(self, peer_id: int):
         r = self.conn.execute(

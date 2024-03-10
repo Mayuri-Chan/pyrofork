@@ -23,6 +23,7 @@ import logging
 from collections import OrderedDict
 
 import pyrogram
+from pyrogram import errors
 from pyrogram import utils
 from pyrogram import raw
 from pyrogram.handlers import (
@@ -268,26 +269,27 @@ class Dispatcher:
                     prev_pts = 0
 
                     while True:
-                        diff = await self.client.invoke(
-                            raw.functions.updates.GetDifference(
-                                pts=local_pts,
-                                date=local_date,
-                                qts=0
-                            ) if id == self.client.me.id else
-                            raw.functions.updates.GetChannelDifference(
-                                channel=await self.client.resolve_peer(id),
-                                filter=raw.types.ChannelMessagesFilterEmpty(),
-                                pts=local_pts,
-                                limit=10000
+                        try:
+                            diff = await self.client.invoke(
+                                raw.functions.updates.GetChannelDifference(
+                                    channel=await self.client.resolve_peer(id),
+                                    filter=raw.types.ChannelMessagesFilterEmpty(),
+                                    pts=local_pts,
+                                    limit=10000
+                                ) if id < 0 else
+                                raw.functions.updates.GetDifference(
+                                    pts=local_pts,
+                                    date=local_date,
+                                    qts=0
+                                )
                             )
-                        )
+                        except (errors.ChannelPrivate, errors.ChannelInvalid):
+                            break
 
-                        if isinstance(diff, (raw.types.updates.DifferenceEmpty, raw.types.updates.ChannelDifferenceEmpty)):
+                        if isinstance(diff, raw.types.updates.DifferenceEmpty):
                             break
-                        elif isinstance(diff, (raw.types.updates.DifferenceTooLong, raw.types.updates.ChannelDifferenceTooLong)):
+                        elif isinstance(diff, raw.types.updates.DifferenceTooLong):
                             break
-                        elif isinstance(diff, raw.types.updates.ChannelDifference):
-                            local_pts = diff.pts
                         elif isinstance(diff, raw.types.updates.Difference):
                             local_pts = diff.state.pts
                         elif isinstance(diff, raw.types.updates.DifferenceSlice):
@@ -298,6 +300,12 @@ class Dispatcher:
                                 break
 
                             prev_pts = local_pts
+                        elif isinstance(diff, raw.types.updates.ChannelDifferenceEmpty):
+                            break
+                        elif isinstance(diff, raw.types.updates.ChannelDifferenceTooLong):
+                            break
+                        elif isinstance(diff, raw.types.updates.ChannelDifference):
+                            local_pts = diff.pts
 
                         users = {i.id: i for i in diff.users}
                         chats = {i.id: i for i in diff.chats}
@@ -330,7 +338,8 @@ class Dispatcher:
                         if isinstance(diff, (raw.types.updates.Difference, raw.types.updates.ChannelDifference)):
                             break
 
-                await self.client.storage.update_state(None)
+                    await self.client.storage.update_state(id)
+
                 log.info("Recovered %s messages and %s updates.", message_updates_counter, other_updates_counter)
 
     async def stop(self):
