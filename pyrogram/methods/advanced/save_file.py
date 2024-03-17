@@ -122,7 +122,7 @@ class SaveFile:
 
             file_name = getattr(fp, "name", "file.jpg")
 
-            fp.seek(0, os.SEEK_END)
+            fp.seek(0, io.SEEK_END)
             file_size = fp.tell()
             fp.seek(0)
 
