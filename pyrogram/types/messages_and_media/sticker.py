@@ -51,6 +51,13 @@ class Sticker(Object):
         is_video (``bool``):
             True, if the sticker is a video sticker
 
+        needs_repainting (``bool``, *optional*):
+            True, if the sticker needs repainting.
+            if the sticker can repainted to a text color in messages,
+            the color of the Telegram Premium badge in emoji status,
+            white color on chat photos, or another appropriate color in other places.
+            Only applicable to custom emoji stickers.
+
         file_name (``str``, *optional*):
             Sticker file name.
 
@@ -85,6 +92,7 @@ class Sticker(Object):
         height: int,
         is_animated: bool,
         is_video: bool,
+        needs_repainting: bool = False,
         file_name: str = None,
         mime_type: str = None,
         file_size: int = None,
@@ -105,6 +113,7 @@ class Sticker(Object):
         self.height = height
         self.is_animated = is_animated
         self.is_video = is_video
+        self.needs_repainting = needs_repainting
         self.emoji = emoji
         self.set_name = set_name
         self.thumbs = thumbs
@@ -167,6 +176,11 @@ class Sticker(Object):
         else:
             set_name = None
 
+        if isinstance(sticker_attributes, raw.types.DocumentAttributeCustomEmoji):
+            needs_repainting = sticker_attributes.text_color
+        else:
+            needs_repainting = None
+
         return Sticker(
             file_id=FileId(
                 file_type=FileType.STICKER,
@@ -195,6 +209,7 @@ class Sticker(Object):
             ),
             is_animated=sticker.mime_type == "application/x-tgsticker",
             is_video=sticker.mime_type == "video/webm",
+            needs_repainting=needs_repainting,
             # TODO: mask_position
             set_name=set_name,
             emoji=sticker_attributes.alt or None,
