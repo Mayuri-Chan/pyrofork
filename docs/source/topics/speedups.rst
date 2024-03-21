@@ -10,10 +10,10 @@ Pyrofork's speed can be boosted up by using TgCrypto and uvloop.
 
 -----
 
-TgCrypto
+TgCrypto-pyrofork
 --------
 
-TgCrypto_ is a high-performance, easy-to-install cryptography library specifically written in C for Pyrofork as a Python
+TgCrypto-pyrofork_ is a high-performance, easy-to-install cryptography library specifically written in C for Pyrofork as a Python
 extension. It is a replacement for a slower Python-only alternative and implements the cryptographic algorithms Telegram
 requires, namely: AES-256-IGE, AES-256-CTR and AES-256-CBC.
 
