@@ -18,9 +18,9 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
+import os
+import sqlite3
 from pathlib import Path
-
-import aiosqlite
 
 from .sqlite_storage import SQLiteStorage
 
@@ -35,38 +35,36 @@ class FileStorage(SQLiteStorage):
 
         self.database = workdir / (self.name + self.FILE_EXTENSION)
 
-    async def update(self):
-        version = await self.version()
+    def update(self):
+        version = self.version()
 
         if version == 1:
-            await self.conn.execute("DELETE FROM peers")
-            await self.conn.commit()
+            with self.conn:
+                self.conn.execute("DELETE FROM peers")
 
             version += 1
 
         if version == 2:
-            await self.conn.execute("ALTER TABLE sessions ADD api_id INTEGER")
-            await self.conn.commit()
+            with self.conn:
+                self.conn.execute("ALTER TABLE sessions ADD api_id INTEGER")
 
             version += 1
 
-        await self.version(version)
+        self.version(version)
 
     async def open(self):
         path = self.database
         file_exists = path.is_file()
 
-        self.conn = await aiosqlite.connect(str(path), timeout=1)
-
-        await self.conn.execute("PRAGMA journal_mode=WAL")
+        self.conn = sqlite3.connect(str(path), timeout=1, check_same_thread=False)
 
         if not file_exists:
-            await self.create()
+            self.create()
         else:
-            await self.update()
+            self.update()
 
-        await self.conn.execute("VACUUM")
-        await self.conn.commit()
+        with self.conn:
+            self.conn.execute("VACUUM")
 
     async def delete(self):
-        Path(self.database).unlink()
+        os.remove(self.database)
