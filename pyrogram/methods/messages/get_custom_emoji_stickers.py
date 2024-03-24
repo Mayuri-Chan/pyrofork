@@ -34,13 +34,13 @@ class GetCustomEmojiStickers:
         .. include:: /_includes/usable-by/users-bots.rst
 
         Parameters:
-            custom_emoji_ids (List[:obj:`int` | :obj:`List[int]`]):
+            custom_emoji_ids (:obj:`int` | :obj:`List[int]`):
                 Custom emoji ID.
                 At most 200 custom emoji identifiers can be specified.
 
         Returns:
             :obj: `~pyrogram.types.Sticker` | List of :obj:`~pyrogram.types.Sticker`: In case *custom_emoji_ids* was not
-             a lost, a single sticker is returned, otherwise a list of stickers is returned.
+             a list, a single sticker is returned, otherwise a list of stickers is returned.
         """
         is_list = isinstance(custom_emoji_ids, list)
         custom_emoji_ids = [custom_emoji_ids] if not is_list else custom_emoji_ids
