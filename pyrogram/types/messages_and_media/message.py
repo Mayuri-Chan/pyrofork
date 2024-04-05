@@ -367,24 +367,9 @@ class Message(Object, Update):
         web_app_data (:obj:`~pyrogram.types.WebAppData`, *optional*):
             Service message: web app data sent to the bot.
 
-<<<<<<< HEAD
-=======
-        gift_code (:obj:`~pyrogram.types.GiftCode`, *optional*):
-            Service message: gift code information.
-
-        requested_chats (:obj:`~pyrogram.types.RequestedChats`, *optional*):
-            Service message: requested chats information.
-
-        giveaway_launched (``bool``, *optional*):
-            Service message: giveaway launched.
-
-        chat_ttl_period (``int``, *optional*):
-            Service message: chat TTL period changed.
-
         boosts_applied (``int``, *optional*):
             Service message: how many boosts were applied.
 
->>>>>>> ccd9688e (Add support for ApplyBoost service messages)
         reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
             Additional interface options. An object for an inline keyboard, custom reply keyboard,
             instructions to remove reply keyboard or to force a reply from the user.
