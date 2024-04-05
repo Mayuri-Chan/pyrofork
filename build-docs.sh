@@ -3,7 +3,7 @@ export DOCS_KEY
 VENV="$(pwd)"/venv
 export VENV
 
-if [[ "$(echo "$GITHUB_REF" | cut -d '/' -f "1 2")" == "refs/tags" ]] || [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
+if [[ "$(echo "$GITHUB_REF" | cut -d '/' -f "1 2")" == "refs/tags" ]]; then
     branch="main"
 elif [[ "$GITHUB_REF" == "refs/heads/staging" ]]; then
     branch="staging"
