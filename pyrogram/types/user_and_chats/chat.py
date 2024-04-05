@@ -183,6 +183,9 @@ class Chat(Object):
 
         business_info (:obj:`~pyrogram.types.BusinessInfo`, *optional*):
             Business information of a chat.
+
+        birthday (:obj:`~pyrogram.types.Birthday`, *optional*):
+            User Date of birth.
     """
 
     def __init__(
@@ -230,7 +233,8 @@ class Chat(Object):
         usernames: List["types.Username"] = None,
         reply_color: "types.ChatColor" = None,
         profile_color: "types.ChatColor" = None,
-        business_info: "types.BusinessInfo" = None
+        business_info: "types.BusinessInfo" = None,
+        birthday: "types.Birthday" = None
     ):
         super().__init__(client)
 
@@ -276,6 +280,7 @@ class Chat(Object):
         self.reply_color = reply_color
         self.profile_color = profile_color
         self.business_info = business_info
+        self.birthday = birthday
 
     @property
     def full_name(self) -> str:
@@ -413,6 +418,8 @@ class Chat(Object):
             parsed_chat.bio = full_user.about
             parsed_chat.folder_id = getattr(full_user, "folder_id", None)
             parsed_chat.business_info = types.BusinessInfo._parse(client, full_user, users)
+            birthday = getattr(full_user, "birthday", None)
+            parsed_chat.birthday = types.Birthday._parse(birthday) if birthday is not None else None
 
             if full_user.pinned_msg_id:
                 parsed_chat.pinned_message = await client.get_messages(
