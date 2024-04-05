@@ -345,6 +345,13 @@ def pyrogram_api():
             get_contacts
             get_contacts_count
         """,
+        payments="""
+        Payments
+            apply_gift_code
+            check_gift_code
+            get_payment_form
+            send_payment_form
+        """,
         password="""
         Password
             enable_cloud_password
@@ -537,7 +544,6 @@ def pyrogram_api():
             ChatTheme
             ChatWallpaper
             ContactRegistered
-            GiftCode
             ReadParticipant
             ScreenshotTaken
             Wallpaper
@@ -556,6 +562,12 @@ def pyrogram_api():
             MediaAreaCoordinates
             InputMediaArea
             InputMediaAreaChannelPost
+        """,
+        payment="""
+        Payment
+            GiftCode
+            CheckedGiftCode
+            PaymentForm
         """,
         pyromod="""
         Pyromod

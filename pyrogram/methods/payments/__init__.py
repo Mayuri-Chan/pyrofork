@@ -1,4 +1,4 @@
-#  Pyrogram - Telegram MTProto API Client Library for Python
+#  Pyrofork - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
 #  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
@@ -17,38 +17,15 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from .advanced import Advanced
-from .auth import Auth
-from .bots import Bots
-from .chats import Chats
-from .contacts import Contacts
-from .decorators import Decorators
-from .invite_links import InviteLinks
-from .messages import Messages
-from .password import Password
-from .pyromod import Pyromod
-from .stickers import Stickers
-from .payments import Payments
-from .users import Users
-from .utilities import Utilities
-from .business import TelegramBusiness
+from .apply_gift_code import ApplyGiftCode
+from .check_giftcode import CheckGiftCode
+from .get_payment_form import GetPaymentForm
+from .send_payment_form import SendPaymentForm
 
-
-class Methods(
-    Advanced,
-    Auth,
-    Bots,
-    Contacts,
-    Password,
-    Pyromod,
-    Payments,
-    Chats,
-    Stickers,
-    Users,
-    Messages,
-    Decorators,
-    Utilities,
-    InviteLinks,
-    TelegramBusiness,
+class Payments(
+    ApplyGiftCode,
+    CheckGiftCode,
+    GetPaymentForm,
+    SendPaymentForm
 ):
     pass

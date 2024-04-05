@@ -22,6 +22,7 @@ from .audio import Audio
 from .available_effect import AvailableEffect
 from .chat_theme import ChatTheme
 from .chat_wallpaper import ChatWallpaper
+from .checked_gift_code import CheckedGiftCode
 from .contact import Contact
 from .contact_registered import ContactRegistered
 from .dice import Dice
@@ -39,6 +40,7 @@ from .media_area_channel_post import MediaAreaChannelPost
 from .media_area_coordinates import MediaAreaCoordinates
 from .message import Message
 from .message_entity import MessageEntity
+from .payment_form import PaymentForm
 from .photo import Photo
 from .poll import Poll
 from .poll_option import PollOption
@@ -84,6 +86,7 @@ __all__ = [
     "Document",
     "Game",
     "GiftCode",
+    "CheckedGiftCode",
     "GiftedPremium",
     "Giveaway",
     "GiveawayLaunched",
@@ -95,6 +98,7 @@ __all__ = [
     "MediaAreaCoordinates",
     "Message",
     "MessageEntity",
+    "PaymentForm",
     "Photo",
     "Thumbnail",
     "StrippedThumbnail",
