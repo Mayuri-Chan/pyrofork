@@ -25,6 +25,7 @@ from collections import OrderedDict
 import pyrogram
 from pyrogram import utils
 from pyrogram.handlers import (
+  BotBusinessConnectHandler,
   BotBusinessMessageHandler,
   CallbackQueryHandler,
   MessageHandler,
@@ -46,6 +47,7 @@ from pyrogram.handlers import (
 )
 from pyrogram.raw.types import (
     UpdateNewMessage, UpdateNewChannelMessage, UpdateNewScheduledMessage,
+    UpdateBotBusinessConnect,
     UpdateBotNewBusinessMessage, UpdateBotDeleteBusinessMessage, UpdateBotEditBusinessMessage,
     UpdateEditMessage, UpdateEditChannelMessage,
     UpdateDeleteMessages, UpdateDeleteChannelMessages,
@@ -77,6 +79,7 @@ class Dispatcher:
     NEW_STORY_UPDATES = (UpdateStory,)
     MESSAGE_BOT_NA_REACTION_UPDATES = (UpdateBotMessageReaction,)
     MESSAGE_BOT_A_REACTION_UPDATES = (UpdateBotMessageReactions,)
+    BOT_BUSSINESS_CONNECT_UPDATES = (UpdateBotBusinessConnect,)
 
     def __init__(self, client: "pyrogram.Client"):
         self.client = client
@@ -200,6 +203,12 @@ class Dispatcher:
                 MessageReactionCountUpdatedHandler
             )
 
+        async def bot_business_connect_parser(update, users, chats):
+            return (
+                await pyrogram.types.BotBusinessConnection._parse(self.client, update.connection),
+                BotBusinessConnectHandler
+            )
+
         self.update_parsers = {
             Dispatcher.NEW_MESSAGE_UPDATES: message_parser,
             Dispatcher.NEW_BOT_BUSINESS_MESSAGE_UPDATES: bot_business_message_parser,
@@ -216,7 +225,8 @@ class Dispatcher:
             Dispatcher.CHAT_JOIN_REQUEST_UPDATES: chat_join_request_parser,
             Dispatcher.NEW_STORY_UPDATES: story_parser,
             Dispatcher.MESSAGE_BOT_NA_REACTION_UPDATES: message_bot_na_reaction_parser,
-            Dispatcher.MESSAGE_BOT_A_REACTION_UPDATES: message_bot_a_reaction_parser
+            Dispatcher.MESSAGE_BOT_A_REACTION_UPDATES: message_bot_a_reaction_parser,
+            Dispatcher.BOT_BUSSINESS_CONNECT_UPDATES: bot_business_connect_parser
         }
 
         self.update_parsers = {key: value for key_tuple, value in self.update_parsers.items() for key in key_tuple}

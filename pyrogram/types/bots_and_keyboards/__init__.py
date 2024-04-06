@@ -17,6 +17,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
+from .bot_business_connection import BotBusinessConnection
 from .bot_command import BotCommand
 from .bot_command_scope import BotCommandScope
 from .bot_command_scope_all_chat_administrators import BotCommandScopeAllChatAdministrators
@@ -48,6 +49,7 @@ from .sent_web_app_message import SentWebAppMessage
 from .web_app_info import WebAppInfo
 
 __all__ = [
+    "BotBusinessConnection",
     "CallbackGame",
     "CallbackQuery",
     "ForceReply",

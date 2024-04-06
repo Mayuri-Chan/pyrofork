@@ -35,6 +35,7 @@ Index
 .. hlist::
     :columns: 3
 
+    - :class:`BotBusinessConnectHandler`
     - :class:`MessageHandler`
     - :class:`BotBusinessMessageHandler`
     - :class:`EditedMessageHandler`
@@ -59,6 +60,7 @@ Details
 -------
 
 .. Handlers
+.. autoclass:: BotBusinessConnectHandler()
 .. autoclass:: MessageHandler()
 .. autoclass:: BotBusinessMessageHandler()
 .. autoclass:: EditedMessageHandler()

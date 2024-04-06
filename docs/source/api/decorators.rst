@@ -35,6 +35,7 @@ Index
 .. hlist::
     :columns: 3
 
+    - :meth:`~Client.on_bot_business_connect`
     - :meth:`~Client.on_message`
     - :meth:`~Client.on_bot_business_message`
     - :meth:`~Client.on_edited_message`
@@ -60,6 +61,7 @@ Details
 -------
 
 .. Decorators
+.. autodecorator:: pyrogram.Client.on_bot_business_connect()
 .. autodecorator:: pyrogram.Client.on_message()
 .. autodecorator:: pyrogram.Client.on_bot_business_message()
 .. autodecorator:: pyrogram.Client.on_edited_message()
