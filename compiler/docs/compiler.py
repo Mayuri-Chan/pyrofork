@@ -278,6 +278,7 @@ def pyrogram_api():
             delete_profile_photos
             set_username
             update_birthday
+            update_personal_chat
             update_profile
             block_user
             unblock_user
