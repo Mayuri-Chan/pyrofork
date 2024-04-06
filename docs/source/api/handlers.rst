@@ -36,6 +36,7 @@ Index
     :columns: 3
 
     - :class:`MessageHandler`
+    - :class:`BotBusinessMessageHandler`
     - :class:`EditedMessageHandler`
     - :class:`DeletedMessagesHandler`
     - :class:`CallbackQueryHandler`
@@ -57,6 +58,7 @@ Details
 
 .. Handlers
 .. autoclass:: MessageHandler()
+.. autoclass:: BotBusinessMessageHandler()
 .. autoclass:: EditedMessageHandler()
 .. autoclass:: DeletedMessagesHandler()
 .. autoclass:: CallbackQueryHandler()

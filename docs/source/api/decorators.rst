@@ -36,6 +36,7 @@ Index
     :columns: 3
 
     - :meth:`~Client.on_message`
+    - :meth:`~Client.on_bot_business_message`
     - :meth:`~Client.on_edited_message`
     - :meth:`~Client.on_callback_query`
     - :meth:`~Client.on_message_reaction_updated`
@@ -58,6 +59,7 @@ Details
 
 .. Decorators
 .. autodecorator:: pyrogram.Client.on_message()
+.. autodecorator:: pyrogram.Client.on_bot_business_message()
 .. autodecorator:: pyrogram.Client.on_edited_message()
 .. autodecorator:: pyrogram.Client.on_callback_query()
 .. autodecorator:: pyrogram.Client.on_message_reaction_updated()
