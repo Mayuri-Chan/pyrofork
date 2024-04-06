@@ -28,7 +28,8 @@ class SendChatAction:
         self: "pyrogram.Client",
         chat_id: Union[int, str],
         action: "enums.ChatAction",
-        message_thread_id: int = None
+        message_thread_id: int = None,
+        business_connection_id: str = None
     ) -> bool:
         """Tell the other party that something is happening on your side.
 
@@ -47,6 +48,10 @@ class SendChatAction:
             message_thread_id (```int```):
                 Unique identifier for the target message thread (topic) of the forum.
                 for forum supergroups only.
+
+            business_connection_id (``str``, *optional*):
+                Business connection identifier.
+                for business bots only.
 
         Returns:
             ``bool``: On success, True is returned.
@@ -78,11 +83,16 @@ class SendChatAction:
             action = action.value(progress=0)
         else:
             action = action.value()
-
-        return await self.invoke(
-            raw.functions.messages.SetTyping(
-                peer=await self.resolve_peer(chat_id),
-                action=action,
-                top_msg_id=message_thread_id
-            )
+        rpc = raw.functions.messages.SetTyping(
+            peer=await self.resolve_peer(chat_id),
+            action=action,
+            top_msg_id=message_thread_id
         )
+        if business_connection_id:
+            return await self.invoke(
+                raw.functions.InvokeWithBusinessConnection(
+                    connection_id=business_connection_id,
+                    query=rpc
+                )
+            )
+        return await self.invoke(rpc)

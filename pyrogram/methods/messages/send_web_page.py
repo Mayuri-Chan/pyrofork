@@ -36,6 +36,7 @@ class SendWebPage:
         invert_media: bool = None,
         disable_notification: bool = None,
         message_thread_id: int = None,
+        business_connection_id: str = None,
         reply_to_message_id: int = None,
         reply_to_story_id: int = None,
         reply_to_chat_id: Union[int, str] = None,
@@ -87,6 +88,10 @@ class SendWebPage:
             message_thread_id (``int``, *optional*):
                 Unique identifier for the target message thread (topic) of the forum.
                 for forum supergroups only.
+
+            business_connection_id (``str``, *optional*):
+                Business connection identifier.
+                for business bots only.
 
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
@@ -146,21 +151,28 @@ class SendWebPage:
             force_large_media=large_media,
             force_small_media=not large_media
         )
-        r = await self.invoke(
-            raw.functions.messages.SendMedia(
-                peer=await self.resolve_peer(chat_id),
-                silent=disable_notification or None,
-                reply_to=reply_to,
-                random_id=self.rnd_id(),
-                schedule_date=utils.datetime_to_timestamp(schedule_date),
-                reply_markup=await reply_markup.write(self) if reply_markup else None,
-                message=message,
-                media=media,
-                invert_media=invert_media,
-                entities=entities,
-                noforwards=protect_content
-            )
+        rpc = raw.functions.messages.SendMedia(
+            peer=await self.resolve_peer(chat_id),
+            silent=disable_notification or None,
+            reply_to=reply_to,
+            random_id=self.rnd_id(),
+            schedule_date=utils.datetime_to_timestamp(schedule_date),
+            reply_markup=await reply_markup.write(self) if reply_markup else None,
+            message=message,
+            media=media,
+            invert_media=invert_media,
+            entities=entities,
+            noforwards=protect_content
         )
+        if business_connection_id is not None:
+            r = await self.invoke(
+                raw.functions.InvokeWithBusinessConnection(
+                    connection_id=business_connection_id,
+                    query=rpc
+                )
+            )
+        else:
+            r = await self.invoke(rpc)
 
         if isinstance(r, raw.types.UpdateShortSentMessage):
             peer = await self.resolve_peer(chat_id)
@@ -191,10 +203,12 @@ class SendWebPage:
         for i in r.updates:
             if isinstance(i, (raw.types.UpdateNewMessage,
                               raw.types.UpdateNewChannelMessage,
-                              raw.types.UpdateNewScheduledMessage)):
+                              raw.types.UpdateNewScheduledMessage,
+                              raw.types.UpdateBotNewBusinessMessage)):
                 return await types.Message._parse(
                     self, i.message,
                     {i.id: i for i in r.users},
                     {i.id: i for i in r.chats},
-                    is_scheduled=isinstance(i, raw.types.UpdateNewScheduledMessage)
+                    is_scheduled=isinstance(i, raw.types.UpdateNewScheduledMessage),
+                    business_connection_id=business_connection_id
                 )

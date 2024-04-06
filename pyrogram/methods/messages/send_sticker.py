@@ -39,6 +39,7 @@ class SendSticker:
         sticker: Union[str, BinaryIO],
         disable_notification: bool = None,
         message_thread_id: int = None,
+        business_connection_id: str = None,
         reply_to_message_id: int = None,
         reply_to_story_id: int = None,
         reply_to_chat_id: Union[int, str] = None,
@@ -81,6 +82,10 @@ class SendSticker:
             message_thread_id (``int``, *optional*):
                 Unique identifier for the target message thread (topic) of the forum.
                 for forum supergroups only.
+
+            business_connection_id (``str``, *optional*):
+                Business connection identifier.
+                for business bots only.
 
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
@@ -195,31 +200,40 @@ class SendSticker:
 
             while True:
                 try:
-                    r = await self.invoke(
-                        raw.functions.messages.SendMedia(
-                            peer=await self.resolve_peer(chat_id),
-                            media=media,
-                            silent=disable_notification or None,
-                            reply_to=reply_to,
-                            random_id=self.rnd_id(),
-                            schedule_date=utils.datetime_to_timestamp(schedule_date),
-                            noforwards=protect_content,
-                            reply_markup=await reply_markup.write(self) if reply_markup else None,
-                            message=""
-                        )
+                    rpc = raw.functions.messages.SendMedia(
+                        peer=await self.resolve_peer(chat_id),
+                        media=media,
+                        silent=disable_notification or None,
+                        reply_to=reply_to,
+                        random_id=self.rnd_id(),
+                        schedule_date=utils.datetime_to_timestamp(schedule_date),
+                        noforwards=protect_content,
+                        reply_markup=await reply_markup.write(self) if reply_markup else None,
+                        message=""
                     )
+                    if business_connection_id is not None:
+                        r = await self.invoke(
+                            raw.functions.InvokeWithBusinessConnection(
+                                connection_id=business_connection_id,
+                                query=rpc
+                            )
+                        )
+                    else:
+                        r = await self.invoke(rpc)
                 except FilePartMissing as e:
                     await self.save_file(sticker, file_id=file.id, file_part=e.value)
                 else:
                     for i in r.updates:
                         if isinstance(i, (raw.types.UpdateNewMessage,
                                           raw.types.UpdateNewChannelMessage,
-                                          raw.types.UpdateNewScheduledMessage)):
+                                          raw.types.UpdateNewScheduledMessage,
+                                          raw.types.UpdateBotNewBusinessMessage)):
                             return await types.Message._parse(
                                 self, i.message,
                                 {i.id: i for i in r.users},
                                 {i.id: i for i in r.chats},
-                                is_scheduled=isinstance(i, raw.types.UpdateNewScheduledMessage)
+                                is_scheduled=isinstance(i, raw.types.UpdateNewScheduledMessage),
+                                business_connection_id=business_connection_id
                             )
         except StopTransmission:
             return None

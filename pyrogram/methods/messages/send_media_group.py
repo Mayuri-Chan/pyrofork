@@ -48,6 +48,7 @@ class SendMediaGroup:
         ]],
         disable_notification: bool = None,
         message_thread_id: int = None,
+        business_connection_id: str = None,
         reply_to_message_id: int = None,
         reply_to_story_id: int = None,
         reply_to_chat_id: Union[int, str] = None,
@@ -78,6 +79,10 @@ class SendMediaGroup:
             message_thread_id (``int``, *optional*):
                 Unique identifier for the target message thread (topic) of the forum.
                 for forum supergroups only.
+
+            business_connection_id (``str``, *optional*):
+                Business connection identifier.
+                for business bots only.
 
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
@@ -454,28 +459,38 @@ class SendMediaGroup:
                 )
             )
 
-        r = await self.invoke(
-            raw.functions.messages.SendMultiMedia(
-                peer=await self.resolve_peer(chat_id),
-                multi_media=multi_media,
-                silent=disable_notification or None,
-                reply_to=reply_to,
-                schedule_date=utils.datetime_to_timestamp(schedule_date),
-                noforwards=protect_content
-            ),
-            sleep_threshold=60
-        )
-
+        rpc = raw.functions.messages.SendMultiMedia(
+            peer=await self.resolve_peer(chat_id),
+            multi_media=multi_media,
+            silent=disable_notification or None,
+            reply_to=reply_to,
+            schedule_date=utils.datetime_to_timestamp(schedule_date),
+            noforwards=protect_content
+        ),
+        
+        if business_connection_id is not None:
+            r = await self.invoke(
+                raw.functions.InvokeWithBusinessConnection(
+                    connection_id=business_connection_id,
+                    query=rpc
+                ),
+                sleep_threshold=60
+            )
+        else:
+            r = await self.invoke(rpc, sleep_threshold=60)
+        
         return await utils.parse_messages(
             self,
             raw.types.messages.Messages(
                 messages=[m.message for m in filter(
                     lambda u: isinstance(u, (raw.types.UpdateNewMessage,
                                              raw.types.UpdateNewChannelMessage,
-                                             raw.types.UpdateNewScheduledMessage)),
+                                             raw.types.UpdateNewScheduledMessage,
+                                             raw.types.UpdateBotNewBusinessMessage)),
                     r.updates
                 )],
                 users=r.users,
                 chats=r.chats
-            )
+            ),
+            business_connection_id=business_connection_id
         )

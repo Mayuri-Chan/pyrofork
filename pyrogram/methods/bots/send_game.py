@@ -31,6 +31,7 @@ class SendGame:
         game_short_name: str,
         disable_notification: bool = None,
         message_thread_id: int = None,
+        business_connection_id: str = None,
         reply_to_message_id: int = None,
         protect_content: bool = None,
         reply_markup: Union[
@@ -62,6 +63,10 @@ class SendGame:
                 Unique identifier of a message thread to which the message belongs.
                 for supergroups only
 
+            business_connection_id (``str``, *optional*):
+                Business connection identifier.
+                for business bots only.
+
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
@@ -87,28 +92,43 @@ class SendGame:
             message_thread_id=message_thread_id
         )
 
-        r = await self.invoke(
-            raw.functions.messages.SendMedia(
-                peer=await self.resolve_peer(chat_id),
-                media=raw.types.InputMediaGame(
-                    id=raw.types.InputGameShortName(
-                        bot_id=raw.types.InputUserSelf(),
-                        short_name=game_short_name
-                    ),
+        rpc = raw.functions.messages.SendMedia(
+            peer=await self.resolve_peer(chat_id),
+            media=raw.types.InputMediaGame(
+                id=raw.types.InputGameShortName(
+                    bot_id=raw.types.InputUserSelf(),
+                    short_name=game_short_name
                 ),
-                message="",
-                silent=disable_notification or None,
-                reply_to=reply_to,
-                random_id=self.rnd_id(),
-                noforwards=protect_content,
-                reply_markup=await reply_markup.write(self) if reply_markup else None
-            )
+            ),
+            message="",
+            silent=disable_notification or None,
+            reply_to=reply_to,
+            random_id=self.rnd_id(),
+            noforwards=protect_content,
+            reply_markup=await reply_markup.write(self) if reply_markup else None
         )
+        if business_connection_id is not None:
+            r = await self.invoke(
+                raw.functions.InvokeWithBusinessConnection(
+                    connection_id=business_connection_id,
+                    query=rpc
+                )
+            )
+        else:
+            r = await self.invoke(rpc)
 
         for i in r.updates:
-            if isinstance(i, (raw.types.UpdateNewMessage, raw.types.UpdateNewChannelMessage)):
+            if isinstance(
+                i,
+                (
+                    raw.types.UpdateNewMessage,
+                    raw.types.UpdateNewChannelMessage,
+                    raw.types.UpdateBotNewBusinessMessage
+                )
+            ):
                 return await types.Message._parse(
                     self, i.message,
                     {i.id: i for i in r.users},
-                    {i.id: i for i in r.chats}
+                    {i.id: i for i in r.chats},
+                    business_connection_id=business_connection_id
                 )
