@@ -38,6 +38,7 @@ Index
     - :meth:`~Client.on_message`
     - :meth:`~Client.on_bot_business_message`
     - :meth:`~Client.on_edited_message`
+    - :meth:`~Client.on_edited_bot_business_message`
     - :meth:`~Client.on_callback_query`
     - :meth:`~Client.on_message_reaction_updated`
     - :meth:`~Client.on_message_reaction_count_updated`
@@ -46,6 +47,7 @@ Index
     - :meth:`~Client.on_chat_member_updated`
     - :meth:`~Client.on_chat_join_request`
     - :meth:`~Client.on_deleted_messages`
+    - :meth:`~Client.on_edited_bot_business_message`
     - :meth:`~Client.on_user_status`
     - :meth:`~Client.on_story`
     - :meth:`~Client.on_poll`
@@ -61,6 +63,7 @@ Details
 .. autodecorator:: pyrogram.Client.on_message()
 .. autodecorator:: pyrogram.Client.on_bot_business_message()
 .. autodecorator:: pyrogram.Client.on_edited_message()
+.. autodecorator:: pyrogram.Client.on_edited_bot_business_message()
 .. autodecorator:: pyrogram.Client.on_callback_query()
 .. autodecorator:: pyrogram.Client.on_message_reaction_updated()
 .. autodecorator:: pyrogram.Client.on_message_reaction_count_updated()
@@ -69,6 +72,7 @@ Details
 .. autodecorator:: pyrogram.Client.on_chat_member_updated()
 .. autodecorator:: pyrogram.Client.on_chat_join_request()
 .. autodecorator:: pyrogram.Client.on_deleted_messages()
+.. autodecorator:: pyrogram.Client.on_edited_bot_business_message()
 .. autodecorator:: pyrogram.Client.on_user_status()
 .. autodecorator:: pyrogram.Client.on_story()
 .. autodecorator:: pyrogram.Client.on_poll()

@@ -38,7 +38,9 @@ Index
     - :class:`MessageHandler`
     - :class:`BotBusinessMessageHandler`
     - :class:`EditedMessageHandler`
+    - :class:`EditedBotBusinessMessageHandler`
     - :class:`DeletedMessagesHandler`
+    - :class:`DeletedBotBusinessMessagesHandler`
     - :class:`CallbackQueryHandler`
     - :class:`MessageReactionUpdatedHandler`
     - :class:`MessageReactionCountUpdatedHandler`
@@ -60,7 +62,9 @@ Details
 .. autoclass:: MessageHandler()
 .. autoclass:: BotBusinessMessageHandler()
 .. autoclass:: EditedMessageHandler()
+.. autoclass:: EditedBotBusinessMessageHandler()
 .. autoclass:: DeletedMessagesHandler()
+.. autoclass:: DeletedBotBusinessMessagesHandler()
 .. autoclass:: CallbackQueryHandler()
 .. autoclass:: MessageReactionUpdatedHandler()
 .. autoclass:: MessageReactionCountUpdatedHandler()
