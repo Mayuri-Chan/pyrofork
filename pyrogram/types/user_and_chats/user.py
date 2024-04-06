@@ -104,6 +104,9 @@ class User(Object, Update):
         is_contacts_only (``bool``, *optional*):
             True, if this user is only allow incoming message from users in their contacts/premium users.
 
+        is_bot_business (``bool``, *optional*):
+            True, if this bot can connect to business account.
+
         first_name (``str``, *optional*):
             User's or bot's first name.
 
@@ -181,6 +184,7 @@ class User(Object, Update):
         is_support: bool = None,
         is_premium: bool = None,
         is_contacts_only: bool = None,
+        is_bot_business: bool = None,
         first_name: str = None,
         last_name: str = None,
         status: "enums.UserStatus" = None,
@@ -212,6 +216,7 @@ class User(Object, Update):
         self.is_support = is_support
         self.is_premium = is_premium
         self.is_contacts_only = is_contacts_only
+        self.is_bot_business = is_bot_business
         self.first_name = first_name
         self.last_name = last_name
         self.status = status
@@ -272,6 +277,7 @@ class User(Object, Update):
             is_support=user.support,
             is_premium=user.premium,
             is_contacts_only=user.contact_require_premium,
+            is_bot_business=user.bot_business,
             first_name=user.first_name,
             last_name=user.last_name,
             **User._parse_status(user.status, user.bot),
