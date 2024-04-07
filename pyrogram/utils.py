@@ -207,7 +207,7 @@ async def parse_messages(
     return types.List(parsed_messages)
 
 
-def parse_deleted_messages(client, update, bussiness_connection_id: str = None) -> List["types.Message"]:
+def parse_deleted_messages(client, update, business_connection_id: str = None) -> List["types.Message"]:
     messages = update.messages
     channel_id = getattr(update, "channel_id", None)
 
