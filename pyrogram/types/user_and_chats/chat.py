@@ -426,12 +426,14 @@ class Chat(Object):
             parsed_chat.business_info = types.BusinessInfo._parse(client, full_user, users)
             birthday = getattr(full_user, "birthday", None)
             parsed_chat.birthday = types.Birthday._parse(birthday) if birthday is not None else None
-            personal_chat = await client.invoke(
-                raw.functions.channels.GetChannels(
-                    id=[await client.resolve_peer(utils.get_channel_id(full_user.personal_channel_id))]
+            personal_chat_id = getattr(full_user, "personal_channel_id", None)
+            if personal_chat_id is not None:
+                personal_chat = await client.invoke(
+                    raw.functions.channels.GetChannels(
+                        id=[await client.resolve_peer(utils.get_channel_id(personal_chat_id))]
+                    )
                 )
-            )
-            parsed_chat.personal_chat = Chat._parse_chat(client, personal_chat.chats[0])
+                parsed_chat.personal_chat = Chat._parse_chat(client, personal_chat.chats[0])
 
             if full_user.pinned_msg_id:
                 parsed_chat.pinned_message = await client.get_messages(
