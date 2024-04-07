@@ -186,6 +186,7 @@ class Chat(Object):
 
         birthday (:obj:`~pyrogram.types.Birthday`, *optional*):
             User Date of birth.
+            Returned only in :meth:`~pyrogram.Client.get_chat`.
 
         personal_chat (:obj:`~pyrogram.types.Chat`, *optional*):
             For private chats, the personal channel of the user.
