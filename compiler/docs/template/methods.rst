@@ -112,6 +112,19 @@ Stickers
 
     {stickers}
 
+Telegram Business
+-------------
+
+.. autosummary::
+    :nosignatures:
+
+    {business}
+
+.. toctree::
+    :hidden:
+
+    {business}
+
 Users
 -----
 
