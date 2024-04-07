@@ -48,7 +48,8 @@ class UpdateBirthday:
             .. code-block:: python
 
                 # Update your birthday to 1st January 2000
-                await app.update_profile(day=1, month=1, year=2000)
+                # 1874/01/01(YMD) is the earliest date, earlier will raise 400 Bad Request BIRTHDAY_INVALID.
+                await app.update_birthday(day=1, month=1, year=2000)
         """
         birthday = types.Birthday(day=day, month=month, year=year)
         birthday = await birthday.write()
