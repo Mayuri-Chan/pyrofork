@@ -466,7 +466,7 @@ class SendMediaGroup:
             reply_to=reply_to,
             schedule_date=utils.datetime_to_timestamp(schedule_date),
             noforwards=protect_content
-        ),
+        )
         
         if business_connection_id is not None:
             r = await self.invoke(
