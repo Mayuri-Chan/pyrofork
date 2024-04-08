@@ -29,7 +29,7 @@ Welcome to Pyrofork
             Support Chat
         </a>
         •
-        <a href="https://t.me/wulan17">
+        <a href="https://t.me/Pyrofork_CH">
             News/Releases
         </a>
     </p>
