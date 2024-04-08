@@ -207,6 +207,10 @@ class Client(Methods):
             Set the maximum size of the message cache.
             Defaults to 10000.
 
+        max_business_user_connection_cache_size (``int``, *optional*):
+            Set the maximum size of the message cache.
+            Defaults to 10000.
+
         client_platform (:obj:`~pyrogram.enums.ClientPlatform`, *optional*):
             The platform where this client is running.
             Defaults to 'other'
@@ -228,7 +232,7 @@ class Client(Methods):
     UPDATES_WATCHDOG_INTERVAL = 15 * 60
 
     MAX_CONCURRENT_TRANSMISSIONS = 1
-    MAX_MESSAGE_CACHE_SIZE = 10000
+    MAX_CACHE_SIZE = 10000
 
     mimetypes = MimeTypes()
     mimetypes.readfp(StringIO(mime_types))
@@ -265,7 +269,8 @@ class Client(Methods):
         hide_password: Optional[bool] = False,
         max_concurrent_transmissions: int = MAX_CONCURRENT_TRANSMISSIONS,
         client_platform: "enums.ClientPlatform" = enums.ClientPlatform.OTHER,
-        max_message_cache_size: int = MAX_MESSAGE_CACHE_SIZE
+        max_message_cache_size: int = MAX_CACHE_SIZE,
+        max_business_user_connection_cache_size: int = MAX_CACHE_SIZE
     ):
         super().__init__()
 
@@ -299,6 +304,8 @@ class Client(Methods):
         self.max_concurrent_transmissions = max_concurrent_transmissions
         self.client_platform = client_platform
         self.max_message_cache_size = max_message_cache_size
+        self.max_message_cache_size = max_message_cache_size
+        self.max_business_user_connection_cache_size = max_business_user_connection_cache_size
 
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handler")
 
@@ -349,6 +356,7 @@ class Client(Methods):
         self.me: Optional[User] = None
 
         self.message_cache = Cache(self.max_message_cache_size)
+        self.business_user_connection_cache = Cache(self.max_business_user_connection_cache_size)
 
         # Sometimes, for some reason, the server will stop sending updates and will only respond to pings.
         # This watchdog will invoke updates.GetState in order to wake up the server and enable it sending updates again
