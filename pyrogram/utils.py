@@ -222,7 +222,7 @@ def parse_deleted_messages(client, update, business_connection_id: str = None) -
                     type=enums.ChatType.CHANNEL,
                     client=client
                 ) if channel_id is not None else None,
-                business_connection_id=bussiness_connection_id,
+                business_connection_id=business_connection_id,
                 client=client
             )
         )
