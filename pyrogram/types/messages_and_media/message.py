@@ -358,6 +358,9 @@ class Message(Object, Update):
         general_topic_unhidden (:obj:`~pyrogram.types.GeneralTopicUnhidden`, *optional*):
             Service message: forum general topic unhidden
 
+        gifted_premium (:obj:`~pyrogram.types.GiftedPremium`, *optional*):
+            Info about a gifted Telegram Premium subscription
+
         giveaway_launcheded (:obj:`~pyrogram.types.GiveawayLaunched`, *optional*):
             Service message: giveaway launched.
 
@@ -388,6 +391,12 @@ class Message(Object, Update):
 
         raw (``pyrogram.raw.types.Message``, *optional*):
             The raw message object, as received from the Telegram API.
+
+        gift_code (:obj:`~pyrogram.types.GiftCode`, *optional*):
+            Contains a `Telegram Premium giftcode link <https://core.telegram.org/api/links#premium-giftcode-links>`_.
+
+        gifted_premium (:obj:`~pyrogram.types.GiftedPremium`, *optional*):
+            Info about a gifted Telegram Premium subscription
 
         link (``str``, *property*):
             Generate a link to this message, only for groups and channels.
@@ -493,6 +502,7 @@ class Message(Object, Update):
         forum_topic_edited: "types.ForumTopicEdited" = None,
         general_topic_hidden: "types.GeneralTopicHidden" = None,
         general_topic_unhidden: "types.GeneralTopicUnhidden" = None,
+        gifted_premium: "types.GiftedPremium" = None,
         giveaway_launched: "types.GiveawayLaunched" = None,
         video_chat_scheduled: "types.VideoChatScheduled" = None,
         video_chat_started: "types.VideoChatStarted" = None,
@@ -557,6 +567,7 @@ class Message(Object, Update):
         self.sticker = sticker
         self.animation = animation
         self.game = game
+        self.gifted_premium = gifted_premium
         self.giveaway = giveaway
         self.giveaway_result = giveaway_result
         self.boosts_applied = boosts_applied
@@ -707,6 +718,7 @@ class Message(Object, Update):
             video_chat_ended = None
             video_chat_members_invited = None
             web_app_data = None
+            gifted_premium = None
             giveaway_launched = None
             giveaway_result = None
             boosts_applied = None
@@ -795,6 +807,9 @@ class Message(Object, Update):
             elif isinstance(action, raw.types.MessageActionWebViewDataSentMe):
                 web_app_data = types.WebAppData._parse(action)
                 service_type = enums.MessageServiceType.WEB_APP_DATA
+            elif isinstance(action, raw.types.MessageActionGiftPremium):
+                gifted_premium = await types.GiftedPremium._parse(client, action, from_user.id)
+                service_type = enums.MessageServiceType.GIFTED_PREMIUM
             elif isinstance(action, raw.types.MessageActionGiveawayLaunch):
                 giveaway_launched = types.GiveawayLaunched()
                 service_type = enums.MessageServiceType.GIVEAWAY_LAUNCHED
@@ -840,6 +855,7 @@ class Message(Object, Update):
                 video_chat_ended=video_chat_ended,
                 video_chat_members_invited=video_chat_members_invited,
                 web_app_data=web_app_data,
+                gifted_premium=gifted_premium,
                 giveaway_launched=giveaway_launched,
                 giveaway_result=giveaway_result,
                 boosts_applied=boosts_applied,

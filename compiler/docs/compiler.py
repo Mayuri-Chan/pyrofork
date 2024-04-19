@@ -472,6 +472,7 @@ def pyrogram_api():
             Sticker
             StickerSet
             Game
+            GiftedPremium
             Giveaway
             GiveawayLaunched
             GiveawayResult
