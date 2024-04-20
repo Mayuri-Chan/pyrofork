@@ -71,3 +71,9 @@ class ChatAction(AutoName):
 
     CANCEL = raw.types.SendMessageCancelAction
     "Cancel ongoing chat action"
+
+    TRIGGER_EMOJI_ANIMATION = raw.types.SendMessageEmojiInteraction
+    "User has clicked on an animated emoji triggering a `reaction <https://core.telegram.org/api/animated-emojis#emoji-reactions>`_"
+
+    WATCH_EMOJI_ANIMATION = raw.types.SendMessageEmojiInteractionSeen
+    "The user is watching animations sent by the other party by clicking on an animated emoji"

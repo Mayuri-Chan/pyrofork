@@ -17,6 +17,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
+from json import dumps
+from random import randint
 from typing import Union
 
 import pyrogram
@@ -29,7 +31,9 @@ class SendChatAction:
         chat_id: Union[int, str],
         action: "enums.ChatAction",
         message_thread_id: int = None,
-        business_connection_id: str = None
+        business_connection_id: str = None,
+        emoji: str = None,
+        emoji_message_id: int = None
     ) -> bool:
         """Tell the other party that something is happening on your side.
 
@@ -52,6 +56,12 @@ class SendChatAction:
             business_connection_id (``str``, *optional*):
                 Business connection identifier.
                 for business bots only.
+
+            emoji (``str``, *optional*):
+                The animated emoji. Only supported for :obj:`~pyrogram.enums.ChatAction.TRIGGER_EMOJI_ANIMATION` and :obj:`~pyrogram.enums.ChatAction.WATCH_EMOJI_ANIMATION`.
+
+            emoji_message_id (``int``, *optional*):
+                Message identifier of the message containing the animated emoji. Only supported for :obj:`~pyrogram.enums.ChatAction.TRIGGER_EMOJI_ANIMATION`.
 
         Returns:
             ``bool``: On success, True is returned.
@@ -81,6 +91,43 @@ class SendChatAction:
 
         if "upload" in action_name or "history" in action_name:
             action = action.value(progress=0)
+        elif "watch_emoji" in action_name:
+            if emoji is None:
+                raise ValueError(
+                    "Invalid Argument Provided"
+                )
+            action = action.value(emoticon=emoji)
+        elif "trigger_emoji" in action_name:
+            if (
+                emoji is None or
+                emoji_message_id is None
+            ):
+                raise ValueError(
+                    "Invalid Argument Provided"
+                )
+            _, sticker_set = await self._get_raw_stickers(
+                raw.types.InputStickerSetAnimatedEmojiAnimations()
+            )
+            action = action.value(
+                emoticon=emoji,
+                msg_id=emoji_message_id,
+                interaction=raw.types.DataJSON(
+                    data=dumps(
+                        {
+                            "v": 1,
+                            "a":[
+                                {
+                                    "t": 0,
+                                    "i": randint(
+                                        1,
+                                        sticker_set.count
+                                    )
+                                }
+                            ]
+                        }
+                    )
+                )
+            )
         else:
             action = action.value()
         rpc = raw.functions.messages.SetTyping(
