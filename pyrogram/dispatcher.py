@@ -53,7 +53,7 @@ from pyrogram.raw.types import (
     UpdateDeleteMessages, UpdateDeleteChannelMessages,
     UpdateBotCallbackQuery, UpdateInlineBotCallbackQuery,
     UpdateUserStatus, UpdateBotInlineQuery, UpdateMessagePoll,
-    UpdateBotInlineSend, UpdateChatParticipant, UpdateChannelParticipant,
+    UpdateBotInlineSend, UpdateChatParticipant, UpdateChannelParticipant, UpdateBotStopped,
     UpdateBotChatInviteRequester, UpdateStory,
     UpdateBotMessageReaction,
     UpdateBotMessageReactions
@@ -70,7 +70,7 @@ class Dispatcher:
     DELETE_MESSAGES_UPDATES = (UpdateDeleteMessages, UpdateDeleteChannelMessages)
     DELETE_BOT_BUSINESS_MESSAGES_UPDATES = (UpdateBotDeleteBusinessMessage,)
     CALLBACK_QUERY_UPDATES = (UpdateBotCallbackQuery, UpdateInlineBotCallbackQuery)
-    CHAT_MEMBER_UPDATES = (UpdateChatParticipant, UpdateChannelParticipant)
+    CHAT_MEMBER_UPDATES = (UpdateChatParticipant, UpdateChannelParticipant, UpdateBotStopped,)
     USER_STATUS_UPDATES = (UpdateUserStatus,)
     BOT_INLINE_QUERY_UPDATES = (UpdateBotInlineQuery,)
     POLL_UPDATES = (UpdateMessagePoll,)
