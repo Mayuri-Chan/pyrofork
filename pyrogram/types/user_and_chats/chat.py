@@ -808,7 +808,8 @@ class Chat(Object):
     async def ban_member(
         self,
         user_id: Union[int, str],
-        until_date: datetime = utils.zero_datetime()
+        until_date: datetime = utils.zero_datetime(),
+        revoke_messages: bool = None
     ) -> Union["types.Message", bool]:
         """Bound method *ban_member* of :obj:`~pyrogram.types.Chat`.
 
@@ -841,6 +842,10 @@ class Chat(Object):
                 If user is banned for more than 366 days or less than 30 seconds from the current time they are
                 considered to be banned forever. Defaults to epoch (ban forever).
 
+            revoke_messages (``bool``, *optional*):
+                Pass True to delete all messages from the chat for the user that is being removed. If False, the user will be able to see messages in the group that were sent before the user was removed.
+                Always True for supergroups and channels.
+
         Returns:
             :obj:`~pyrogram.types.Message` | ``bool``: On success, a service message will be returned (when applicable), otherwise, in
             case a message object couldn't be returned, True is returned.
@@ -852,7 +857,8 @@ class Chat(Object):
         return await self._client.ban_chat_member(
             chat_id=self.id,
             user_id=user_id,
-            until_date=until_date
+            until_date=until_date,
+            revoke_messages=revoke_messages
         )
 
     async def unban_member(

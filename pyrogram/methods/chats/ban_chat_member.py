@@ -30,7 +30,8 @@ class BanChatMember:
         self: "pyrogram.Client",
         chat_id: Union[int, str],
         user_id: Union[int, str],
-        until_date: datetime = utils.zero_datetime()
+        until_date: datetime = utils.zero_datetime(),
+        revoke_messages: bool = None
     ) -> Union["types.Message", bool]:
         """Ban a user from a group, a supergroup or a channel.
         In the case of supergroups and channels, the user will not be able to return to the group on their own using
@@ -58,6 +59,10 @@ class BanChatMember:
                 Date when the user will be unbanned.
                 If user is banned for more than 366 days or less than 30 seconds from the current time they are
                 considered to be banned forever. Defaults to epoch (ban forever).
+
+            revoke_messages (``bool``, *optional*):
+                Pass True to delete all messages from the chat for the user that is being removed. If False, the user will be able to see messages in the group that were sent before the user was removed.
+                Always True for supergroups and channels.
 
         Returns:
             :obj:`~pyrogram.types.Message` | ``bool``: On success, a service message will be returned (when applicable),
@@ -100,7 +105,8 @@ class BanChatMember:
             r = await self.invoke(
                 raw.functions.messages.DeleteChatUser(
                     chat_id=abs(chat_id),
-                    user_id=user_peer
+                    user_id=user_peer,
+                    revoke_history=revoke_messages
                 )
             )
 
