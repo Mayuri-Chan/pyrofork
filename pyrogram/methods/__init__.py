@@ -29,6 +29,7 @@ from .password import Password
 from .pyromod import Pyromod
 from .stickers import Stickers
 from .payments import Payments
+from .phone import Phone
 from .users import Users
 from .utilities import Utilities
 from .business import TelegramBusiness
@@ -42,6 +43,7 @@ class Methods(
     Password,
     Pyromod,
     Payments,
+    Phone,
     Chats,
     Stickers,
     Users,
