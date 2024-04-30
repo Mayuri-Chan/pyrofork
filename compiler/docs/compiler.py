@@ -373,11 +373,15 @@ def pyrogram_api():
             send_gift
             send_resold_gift
             set_gift_resale_price
-            set_pinned_gift
+            set_pinned_gifts
             show_gift
             transfer_gift
             upgrade_gift
             get_stars_balance
+        """,
+        phone="""
+        Phone
+            get_call_members
         """,
         password="""
         Password
@@ -514,6 +518,7 @@ def pyrogram_api():
             PeerUser
             PeerChannel
             BotInfo
+            GroupCallMember
             ChatColor
             CollectibleItemInfo
             BotVerification
