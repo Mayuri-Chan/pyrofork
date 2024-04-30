@@ -379,6 +379,10 @@ def pyrogram_api():
             upgrade_gift
             get_stars_balance
         """,
+        phone="""
+        Phone
+            get_call_members
+        """,
         password="""
         Password
             enable_cloud_password
@@ -514,6 +518,7 @@ def pyrogram_api():
             PeerUser
             PeerChannel
             BotInfo
+            GroupCallMember
             ChatColor
             CollectibleItemInfo
             BotVerification
