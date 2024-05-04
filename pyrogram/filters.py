@@ -1028,3 +1028,25 @@ class chat(Filter, set):
                              and message.from_user
                              and message.from_user.is_self
                              and not message.outgoing)))
+
+
+# noinspection PyPep8Naming
+class topic(Filter, set):
+    """Filter messages coming from one or more topics.
+    You can use `set bound methods <https://docs.python.org/3/library/stdtypes.html#set>`_ to manipulate the
+    topics container.
+    Parameters:
+        topics (``int`` | ``list``):
+            Pass one or more topic ids to filter messages in specific topics.
+            Defaults to None (no topics).
+    """
+
+    def __init__(self, topics: Union[int, List[int]] = None):
+        topics = [] if topics is None else topics if isinstance(topics, list) else [topics]
+
+        super().__init__(
+            t for t in topics
+        )
+
+    async def __call__(self, _, message: Message):
+        return message.topic and message.topic.id in self
