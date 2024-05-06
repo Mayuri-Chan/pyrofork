@@ -191,6 +191,9 @@ class Chat(Object):
         personal_chat (:obj:`~pyrogram.types.Chat`, *optional*):
             For private chats, the personal channel of the user.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
+
+        max_reaction_count (``int``):
+            The maximum number of reactions that can be set on a message in the chat
     """
 
     def __init__(
@@ -240,7 +243,8 @@ class Chat(Object):
         profile_color: "types.ChatColor" = None,
         business_info: "types.BusinessInfo" = None,
         birthday: "types.Birthday" = None,
-        personal_chat: "types.Chat" = None
+        personal_chat: "types.Chat" = None,
+        max_reaction_count: int = None
     ):
         super().__init__(client)
 
@@ -519,6 +523,7 @@ class Chat(Object):
                 client,
                 full_chat.available_reactions
             )
+            parsed_chat.max_reaction_count = getattr(full_chat, "reactions_limit", 11)
 
         return parsed_chat
 
