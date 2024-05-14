@@ -28,7 +28,12 @@ class GetChatPhotos:
         self: "pyrogram.Client",
         chat_id: Union[int, str],
         limit: int = 0,
-    ) -> Optional[AsyncGenerator["types.Photo", None]]:
+    ) -> Optional[
+        Union[
+            AsyncGenerator["types.Photo", None],
+            AsyncGenerator["types.Animation", None]
+        ]
+    ]:
         """Get a chat or a user profile photos sequentially.
 
         .. include:: /_includes/usable-by/users-bots.rst
@@ -45,7 +50,7 @@ class GetChatPhotos:
                 By default, no limit is applied and all profile photos are returned.
 
         Returns:
-            ``Generator``: A generator yielding :obj:`~pyrogram.types.Photo` objects.
+            ``Generator``: A generator yielding :obj:`~pyrogram.types.Photo` | :obj:`~pyrogram.types.Video` objects.
 
         Example:
             .. code-block:: python
@@ -63,36 +68,44 @@ class GetChatPhotos:
             )
 
             current = types.Photo._parse(self, r.full_chat.chat_photo) or []
-
-            r = await utils.parse_messages(
+            current = [current]
+            current_animation = types.Animation._parse_chat_animation(
                 self,
-                await self.invoke(
-                    raw.functions.messages.Search(
-                        peer=peer_id,
-                        q="",
-                        filter=raw.types.InputMessagesFilterChatPhotos(),
-                        min_date=0,
-                        max_date=0,
-                        offset_id=0,
-                        add_offset=0,
-                        limit=limit,
-                        max_id=0,
-                        min_id=0,
-                        hash=0
+                r.full_chat.chat_photo
+            )
+            if current_animation:
+                current = current + [current_animation]
+            extra = []
+            if not self.me.is_bot:
+                r = await utils.parse_messages(
+                    self,
+                    await self.invoke(
+                        raw.functions.messages.Search(
+                            peer=peer_id,
+                            q="",
+                            filter=raw.types.InputMessagesFilterChatPhotos(),
+                            min_date=0,
+                            max_date=0,
+                            offset_id=0,
+                            add_offset=0,
+                            limit=limit,
+                            max_id=0,
+                            min_id=0,
+                            hash=0
+                        )
                     )
                 )
-            )
 
-            extra = [message.new_chat_photo for message in r]
+                extra = [message.new_chat_photo for message in r]
 
             if extra:
                 if current:
-                    photos = ([current] + extra) if current.file_id != extra[0].file_id else extra
+                    photos = (current + extra) if current[0].file_id != extra[0].file_id else extra
                 else:
                     photos = extra
             else:
                 if current:
-                    photos = [current]
+                    photos = current
                 else:
                     photos = []
 
@@ -121,7 +134,17 @@ class GetChatPhotos:
                     )
                 )
 
-                photos = [types.Photo._parse(self, photo) for photo in r.photos]
+                photos = []
+                for photo in r.photos:
+                    photos.append(
+                        types.Photo._parse(self, photo)
+                    )
+                    current_animation = types.Animation._parse_chat_animation(
+                        self,
+                        photo
+                    )
+                    if current_animation:
+                        photos.append(current_animation)
 
                 if not photos:
                     return

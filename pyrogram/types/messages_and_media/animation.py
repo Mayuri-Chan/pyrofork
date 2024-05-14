@@ -44,7 +44,7 @@ class Animation(Object):
         height (``int``):
             Animation height as defined by sender.
 
-        duration (``int``):
+        duration (``int``, *optional*):
             Duration of the animation in seconds as defined by sender.
 
         file_name (``str``, *optional*):
@@ -71,7 +71,7 @@ class Animation(Object):
         file_unique_id: str,
         width: int,
         height: int,
-        duration: int,
+        duration: int = None,
         file_name: str = None,
         mime_type: str = None,
         file_size: int = None,
@@ -120,3 +120,44 @@ class Animation(Object):
             thumbs=types.Thumbnail._parse(client, animation),
             client=client
         )
+
+    @staticmethod
+    def _parse_chat_animation(
+        client,
+        video: "raw.types.Photo"
+    ) -> "Animation":
+        if isinstance(video, raw.types.Photo):
+            if not video.video_sizes:
+                return
+            video_sizes: List[raw.types.VideoSize] = []
+            for p in video.video_sizes:
+                if isinstance(p, raw.types.VideoSize):
+                    video_sizes.append(p)
+                # TODO: VideoSizeEmojiMarkup
+            video_sizes.sort(key=lambda p: p.size)
+            video_size = video_sizes[-1]
+            return Animation(
+                file_id=FileId(
+                    file_type=FileType.PHOTO,
+                    dc_id=video.dc_id,
+                    media_id=video.id,
+                    access_hash=video.access_hash,
+                    file_reference=video.file_reference,
+                    thumbnail_source=ThumbnailSource.THUMBNAIL,
+                    thumbnail_file_type=FileType.PHOTO,
+                    thumbnail_size=video_size.type,
+                    volume_id=0,
+                    local_id=0
+                ).encode() if video else None,
+                file_unique_id=FileUniqueId(
+                    file_unique_type=FileUniqueType.DOCUMENT,
+                    media_id=video.id
+                ).encode() if video else None,
+                width=video_size.w,
+                height=video_size.h,
+                file_size=video_size.size,
+                date=utils.timestamp_to_datetime(video.date) if video else None,
+                file_name=f"chat_video_{video.date}_{client.rnd_id()}.mp4",
+                mime_type="video/mp4",
+                client=client
+            )
