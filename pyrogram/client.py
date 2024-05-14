@@ -941,8 +941,7 @@ class Client(Methods):
                         location=location,
                         offset=offset_bytes,
                         limit=chunk_size
-                    ),
-                    sleep_threshold=30
+                    )
                 )
 
                 if isinstance(r, raw.types.upload.File):
@@ -977,8 +976,7 @@ class Client(Methods):
                                 location=location,
                                 offset=offset_bytes,
                                 limit=chunk_size
-                            ),
-                            sleep_threshold=30
+                            )
                         )
 
                 elif isinstance(r, raw.types.upload.FileCdnRedirect):

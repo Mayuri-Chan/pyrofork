@@ -50,7 +50,7 @@ class GetChatPhotos:
                 By default, no limit is applied and all profile photos are returned.
 
         Returns:
-            ``Generator``: A generator yielding :obj:`~pyrogram.types.Photo` | :obj:`~pyrogram.types.Video` objects.
+            ``Generator``: A generator yielding :obj:`~pyrogram.types.Photo` | :obj:`~pyrogram.types.Animation` objects.
 
         Example:
             .. code-block:: python

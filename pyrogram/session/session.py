@@ -29,7 +29,9 @@ from pyrogram import raw
 from pyrogram.connection import Connection
 from pyrogram.crypto import mtproto
 from pyrogram.errors import (
-    RPCError, InternalServerError, AuthKeyDuplicated, FloodWait, ServiceUnavailable, BadMsgNotification,
+    RPCError, InternalServerError, AuthKeyDuplicated,
+    FloodWait, FloodPremiumWait,
+    ServiceUnavailable, BadMsgNotification,
     SecurityCheckMismatch
 )
 from pyrogram.raw.all import layer
@@ -403,7 +405,7 @@ class Session:
         while True:
             try:
                 return await self.send(query, timeout=timeout)
-            except FloodWait as e:
+            except (FloodWait, FloodPremiumWait) as e:
                 amount = e.value
 
                 if amount > sleep_threshold >= 0:
