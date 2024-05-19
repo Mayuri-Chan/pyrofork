@@ -2663,6 +2663,7 @@ class Message(Object, Update):
         reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
+        view_once: bool = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -2724,6 +2725,10 @@ class Message(Object, Update):
 
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
+
+            view_once (``bool``, *optional*):
+                Self-Destruct Timer.
+                If True, the photo will self-destruct after it was viewed.
 
             business_connection_id (``str``, *optional*):
                 Business connection identifier.
@@ -2809,6 +2814,7 @@ class Message(Object, Update):
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             quote_entities=quote_entities,
+            view_once=view_once,
             reply_markup=reply_markup,
             progress=progress,
             progress_args=progress_args
