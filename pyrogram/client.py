@@ -196,6 +196,10 @@ class Client(Methods):
             Set the maximum amount of concurrent transmissions (uploads & downloads).
             A value that is too high may result in network related issues.
             Defaults to 1.
+
+        client_platform (:obj:`~pyrogram.enums.ClientPlatform`, *optional*):
+            The platform where this client is running.
+            Defaults to 'other'
     """
 
     APP_VERSION = f"Pyrogram {__version__}"
@@ -221,33 +225,34 @@ class Client(Methods):
     def __init__(
         self,
         name: str,
-        api_id: Union[int, str] = None,
-        api_hash: str = None,
+        api_id: Optional[Union[int, str]] = None,
+        api_hash: Optional[str] = None,
         app_version: str = APP_VERSION,
         device_model: str = DEVICE_MODEL,
         system_version: str = SYSTEM_VERSION,
         lang_code: str = LANG_CODE,
-        ipv6: bool = False,
-        alt_port: bool = False,
-        proxy: dict = None,
-        test_mode: bool = False,
-        bot_token: str = None,
-        session_string: str = None,
-        in_memory: bool = None,
-        mongodb: dict = None,
-        storage: Storage = None,
-        phone_number: str = None,
-        phone_code: str = None,
-        password: str = None,
+        ipv6: Optional[bool] = False,
+        alt_port: Optional[bool] = False,
+        proxy: Optional[dict] = None,
+        test_mode: Optional[bool] = False,
+        bot_token: Optional[str] = None,
+        session_string: Optional[str] = None,
+        in_memory: Optional[bool] = None,
+        mongodb: Optional[dict] = None,
+        storage: Optional[Storage] = None,
+        phone_number: Optional[str] = None,
+        phone_code: Optional[str] = None,
+        password: Optional[str] = None,
         workers: int = WORKERS,
-        workdir: str = WORKDIR,
-        plugins: dict = None,
+        workdir: Union[str, Path] = WORKDIR,
+        plugins: Optional[dict] = None,
         parse_mode: "enums.ParseMode" = enums.ParseMode.DEFAULT,
-        no_updates: bool = None,
-        takeout: bool = None,
+        no_updates: Optional[bool] = None,
+        takeout: Optional[bool] = None,
         sleep_threshold: int = Session.SLEEP_THRESHOLD,
-        hide_password: bool = False,
-        max_concurrent_transmissions: int = MAX_CONCURRENT_TRANSMISSIONS
+        hide_password: Optional[bool] = False,
+        max_concurrent_transmissions: int = MAX_CONCURRENT_TRANSMISSIONS,
+        client_platform: "enums.ClientPlatform" = enums.ClientPlatform.OTHER
     ):
         super().__init__()
 
@@ -278,6 +283,7 @@ class Client(Methods):
         self.sleep_threshold = sleep_threshold
         self.hide_password = hide_password
         self.max_concurrent_transmissions = max_concurrent_transmissions
+        self.client_platform = client_platform
 
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handler")
 

@@ -4501,7 +4501,15 @@ class Message(Object, Update):
             revoke=revoke
         )
 
-    async def click(self, x: Union[int, str] = 0, y: int = None, quote: bool = None, timeout: int = 10):
+    async def click(
+        self,
+        x: Union[int, str] = 0,
+        y: int = None,
+        quote: bool = None,
+        timeout: int = 10,
+        request_write_access: bool = True,
+        password: str = None
+    ):
         """Bound method *click* of :obj:`~pyrogram.types.Message`.
 
         Use as a shortcut for clicking a button attached to the message instead of:
@@ -4553,11 +4561,22 @@ class Message(Object, Update):
             timeout (``int``, *optional*):
                 Timeout in seconds.
 
+            request_write_access (``bool``, *optional*):
+                Only used in case of :obj:`~pyrogram.types.LoginUrl` button.
+                True, if the bot can send messages to the user.
+                Defaults to ``True``.
+
+            password (``str``, *optional*):
+                When clicking certain buttons (such as BotFather's confirmation button to transfer ownership), if your account has 2FA enabled, you need to provide your account's password.
+                The 2-step verification password for the current user. Only applicable, if the :obj:`~pyrogram.types.InlineKeyboardButton` contains ``requires_password``.
+
         Returns:
             -   The result of :meth:`~pyrogram.Client.request_callback_answer` in case of inline callback button clicks.
             -   The result of :meth:`~Message.reply()` in case of normal button clicks.
             -   A string in case the inline button is a URL, a *switch_inline_query* or a
                 *switch_inline_query_current_chat* button.
+            -   A string URL with the user details, in case of a WebApp button.
+            -   A :obj:`~pyrogram.types.Chat` object in case of a ``KeyboardButtonUserProfile`` button.
 
         Raises:
             RPCError: In case of a Telegram RPC error.
@@ -4611,8 +4630,53 @@ class Message(Object, Update):
                     callback_data=button.callback_data,
                     timeout=timeout
                 )
+            elif button.requires_password:
+                if password is None:
+                    raise ValueError(
+                        "This button requires a password"
+                    )
+
+                return await self._client.request_callback_answer(
+                    chat_id=self.chat.id,
+                    message_id=self.id,
+                    callback_data=button.callback_data,
+                    password=password,
+                    timeout=timeout
+                )
             elif button.url:
                 return button.url
+            elif button.web_app:
+                web_app = button.web_app
+
+                bot_peer_id = (
+                    self.via_bot and
+                    self.via_bot.id
+                ) or (
+                    self.from_user and
+                    self.from_user.is_bot and
+                    self.from_user.id
+                ) or None
+
+                if not bot_peer_id:
+                    raise ValueError(
+                        "This button requires a bot as the sender"
+                    )
+
+                r = await self._client.invoke(
+                    raw.functions.messages.RequestWebView(
+                        peer=await self._client.resolve_peer(self.chat.id),
+                        bot=await self._client.resolve_peer(bot_peer_id),
+                        url=web_app.url,
+                        platform=self._client.client_platform.value,
+                        # TODO
+                    )
+                )
+                return r.url
+            elif button.user_id:
+                return await self._client.get_chat(
+                    button.user_id,
+                    force_full=False
+                )
             elif button.switch_inline_query:
                 return button.switch_inline_query
             elif button.switch_inline_query_current_chat:
@@ -4620,7 +4684,7 @@ class Message(Object, Update):
             else:
                 raise ValueError("This button is not supported yet")
         else:
-            await self.reply(button, quote=quote)
+            await self.reply(text=button, quote=quote)
 
     async def react(self, emoji: str = "", big: bool = False, add_to_recent: bool = True) -> "types.MessageReactions":
         """Bound method *react* of :obj:`~pyrogram.types.Message`.
