@@ -192,6 +192,9 @@ class Message(Object, Update):
         quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
             For quote text, special entities like usernames, URLs, bot commands, etc. that appear in the quote text.
 
+        effect_id (``str``, *optional*):
+            Unique identifier of the message effect added to the message.
+
         audio (:obj:`~pyrogram.types.Audio`, *optional*):
             Message is an audio file, information about the file.
 
@@ -442,6 +445,7 @@ class Message(Object, Update):
         caption_entities: List["types.MessageEntity"] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
+        effect_id: str = None,
         audio: "types.Audio" = None,
         document: "types.Document" = None,
         photo: "types.Photo" = None,
@@ -546,6 +550,7 @@ class Message(Object, Update):
         self.caption_entities = caption_entities
         self.quote_text = quote_text
         self.quote_entities = quote_entities
+        self.effect_id = effect_id
         self.audio = audio
         self.document = document
         self.photo = photo
@@ -1113,6 +1118,7 @@ class Message(Object, Update):
                 outgoing=message.out,
                 reply_markup=reply_markup,
                 reactions=reactions,
+                effect_id=getattr(message, "effect", None),
                 raw=message,
                 client=client
             )
