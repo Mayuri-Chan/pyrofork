@@ -1253,6 +1253,7 @@ class Message(Object, Update):
         quote_entities: List["types.MessageEntity"] = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
+        message_effect_id: int = None,
         invert_media: bool = None,
         reply_markup=None
     ) -> "Message":
@@ -1324,6 +1325,9 @@ class Message(Object, Update):
             protect_content (``bool``, *optional*):
                 Protects the contents of the sent message from forwarding and saving.
 
+            message_effect_id (``int`` ``64-bit``, *optional*):
+                Unique identifier of the message effect to be added to the message; for private chats only.
+
             invert_media (``bool``, *optional*):
                 Move web page preview to above the message.
 
@@ -1372,6 +1376,7 @@ class Message(Object, Update):
             quote_entities=quote_entities,
             schedule_date=schedule_date,
             protect_content=protect_content,
+            message_effect_id=message_effect_id,
             invert_media=invert_media,
             reply_markup=reply_markup
         )

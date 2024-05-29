@@ -52,6 +52,7 @@ class SendAudio:
         reply_to_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
+        message_effect_id: int = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
         reply_markup: Union[
@@ -142,6 +143,9 @@ class SendAudio:
             quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
                 List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
                 for reply_to_message only.
+
+            message_effect_id (``int`` ``64-bit``, *optional*):
+                Unique identifier of the message effect to be added to the message; for private chats only.
 
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
@@ -264,6 +268,7 @@ class SendAudio:
                         random_id=self.rnd_id(),
                         schedule_date=utils.datetime_to_timestamp(schedule_date),
                         noforwards=protect_content,
+                        effect=message_effect_id,
                         reply_markup=await reply_markup.write(self) if reply_markup else None,
                         **await utils.parse_text_entities(self, caption, parse_mode, caption_entities)
                     )

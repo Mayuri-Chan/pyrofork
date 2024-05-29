@@ -45,6 +45,7 @@ class SendVenue:
         parse_mode: Optional["enums.ParseMode"] = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
+        message_effect_id: int = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -121,6 +122,9 @@ class SendVenue:
             protect_content (``bool``, *optional*):
                 Protects the contents of the sent message from forwarding and saving.
 
+            message_effect_id (``int`` ``64-bit``, *optional*):
+                Unique identifier of the message effect to be added to the message; for private chats only.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -166,7 +170,8 @@ class SendVenue:
             random_id=self.rnd_id(),
             schedule_date=utils.datetime_to_timestamp(schedule_date),
             noforwards=protect_content,
-            reply_markup=await reply_markup.write(self) if reply_markup else None
+            reply_markup=await reply_markup.write(self) if reply_markup else None,
+            effect=message_effect_id
         )
         if business_connection_id is not None:
             r = await self.invoke(

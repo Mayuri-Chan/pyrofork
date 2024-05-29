@@ -51,6 +51,7 @@ class SendVideoNote:
         schedule_date: datetime = None,
         protect_content: bool = None,
         ttl_seconds: int = None,
+        message_effect_id: int = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -107,6 +108,9 @@ class SendVideoNote:
             
             reply_to_story_id (``int``, *optional*):
                 Unique identifier for the target story.
+
+            message_effect_id (``int`` ``64-bit``, *optional*):
+                Unique identifier of the message effect to be added to the message; for private chats only.
 
             reply_to_chat_id (``int`` | ``str``, *optional*):
                 Unique identifier for the origin chat.
@@ -242,6 +246,7 @@ class SendVideoNote:
                         random_id=self.rnd_id(),
                         schedule_date=utils.datetime_to_timestamp(schedule_date),
                         noforwards=protect_content,
+                        effect=message_effect_id,
                         reply_markup=await reply_markup.write(self) if reply_markup else None,
                         message=""
                     )

@@ -44,6 +44,7 @@ class SendMessage:
         schedule_date: datetime = None,
         protect_content: bool = None,
         invert_media: bool = None,
+        message_effect_id: int = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -115,6 +116,9 @@ class SendMessage:
             invert_media (``bool``, *optional*):
                 Move web page preview to above the message.
 
+            message_effect_id (``int`` ``64-bit``, *optional*):
+                Unique identifier of the message effect to be added to the message; for private chats only.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -182,7 +186,8 @@ class SendMessage:
             message=message,
             entities=entities,
             noforwards=protect_content,
-            invert_media=invert_media
+            invert_media=invert_media,
+            effect=message_effect_id,
         )
         if business_connection_id is not None:
             r = await self.invoke(
