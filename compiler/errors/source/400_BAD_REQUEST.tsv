@@ -106,6 +106,7 @@ DH_G_A_INVALID	The g_a parameter invalid
 DOCUMENT_INVALID	The document is invalid
 EMAIL_HASH_EXPIRED	The email hash expired and cannot be used to verify it
 EMAIL_INVALID	The email provided is invalid
+EMAIL_NOT_ALLOWED	This email is not allowed
 EMAIL_UNCONFIRMED	Email unconfirmed
 EMAIL_UNCONFIRMED_X	The provided email isn't confirmed, {value} is the length of the verification code that was just sent to the email
 EMAIL_VERIFY_EXPIRED	The verification email has expired
@@ -394,6 +395,7 @@ TMP_PASSWORD_INVALID	The temporary password is invalid
 TOKEN_INVALID	The provided token is invalid
 TOPIC_CLOSED	The topic was closed
 TOPIC_DELETED	The topic was deleted
+TOPIC_ID_INVALID	The provided topic ID is invalid
 TOPIC_NOT_MODIFIED	The topic was not modified
 TO_LANG_INVALID	The specified destination language is invalid
 TRANSCRIPTION_FAILED	Telegram is having internal problems. Please try again later to transcribe the audio.
@@ -459,3 +461,4 @@ MEDIA_FILE_INVALID	The provided media file is invalid
 CHANNEL_FORUM_MISSING	The channel forum is missing
 TTL_PERIOD_INVALID	The provided TTL period is invalid
 BOOSTS_REQUIRED	Channel required more boost to upload a story
+BOOSTS_EMPTY	Boosts empty

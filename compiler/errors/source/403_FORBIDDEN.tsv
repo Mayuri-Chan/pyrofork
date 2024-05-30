@@ -10,6 +10,7 @@ INLINE_BOT_REQUIRED	The action must be performed through an inline bot callback
 MESSAGE_AUTHOR_REQUIRED	You are not the author of this message
 MESSAGE_DELETE_FORBIDDEN	You don't have rights to delete messages in this chat, most likely because you are not the author of them
 NOT_ALLOWED	Not allowed
+NOT_ELIGIBLE	You are not eligible for this action
 PARTICIPANT_JOIN_MISSING	Trying to enable a presentation, when the user hasn't joined the Video Chat with phone.joinGroupCall
 POLL_VOTE_REQUIRED	Cast a vote in the poll before calling this method
 PREMIUM_ACCOUNT_REQUIRED	This action requires a premium account
