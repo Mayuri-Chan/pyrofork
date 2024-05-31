@@ -19,6 +19,7 @@
 
 from .answer_callback_query import AnswerCallbackQuery
 from .answer_inline_query import AnswerInlineQuery
+from .answer_pre_checkout_query import AnswerPreCheckoutQuery
 from .answer_web_app_query import AnswerWebAppQuery
 from .delete_bot_commands import DeleteBotCommands
 from .get_bot_commands import GetBotCommands
@@ -55,6 +56,7 @@ class Bots(
     GetBotInfo,
     SetChatMenuButton,
     GetChatMenuButton,
-    AnswerWebAppQuery
+    AnswerWebAppQuery,
+    AnswerPreCheckoutQuery
 ):
     pass

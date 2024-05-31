@@ -28,6 +28,7 @@ from pyrogram.types import (
     InlineKeyboardMarkup,
     InlineQuery,
     Message,
+    PreCheckoutQuery,
     ReplyKeyboardMarkup,
     Story,
     Update,
@@ -699,6 +700,17 @@ video_chat_members_invited = create(video_chat_members_invited_filter)
 
 # endregion
 
+# region successful_payment_filter
+async def successful_payment_filter(_, __, m: Message):
+    return bool(m.successful_payment)
+
+
+successful_payment = create(successful_payment_filter)
+"""Filter messages for successful payments"""
+
+
+# endregion
+
 # region service_filter
 async def service_filter(_, __, m: Message):
     return bool(m.service)
@@ -710,7 +722,7 @@ service = create(service_filter)
 A service message contains any of the following fields set: *left_chat_member*,
 *new_chat_title*, *new_chat_photo*, *delete_chat_photo*, *group_chat_created*, *supergroup_chat_created*,
 *channel_chat_created*, *migrate_to_chat_id*, *migrate_from_chat_id*, *pinned_message*, *game_score*,
-*video_chat_started*, *video_chat_ended*, *video_chat_members_invited*.
+*video_chat_started*, *video_chat_ended*, *video_chat_members_invited*, *successful_payment*, *successful_payment*.
 """
 
 
@@ -909,6 +921,7 @@ def regex(pattern: Union[str, Pattern], flags: int = 0):
     - :obj:`~pyrogram.types.Message`: The filter will match ``text`` or ``caption``.
     - :obj:`~pyrogram.types.CallbackQuery`: The filter will match ``data``.
     - :obj:`~pyrogram.types.InlineQuery`: The filter will match ``query``.
+    - :obj:`~pyrogram.types.PreCheckoutQuery`: The filter will match ``payload``.
 
     When a pattern matches, all the `Match Objects <https://docs.python.org/3/library/re.html#match-objects>`_ are
     stored in the ``matches`` field of the update object itself.
@@ -928,6 +941,8 @@ def regex(pattern: Union[str, Pattern], flags: int = 0):
             value = update.data
         elif isinstance(update, InlineQuery):
             value = update.query
+        elif isinstance(update, PreCheckoutQuery):
+            value = update.payload
         else:
             raise ValueError(f"Regex filter doesn't work with {type(update)}")
 

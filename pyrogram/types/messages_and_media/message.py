@@ -379,6 +379,9 @@ class Message(Object, Update):
         web_app_data (:obj:`~pyrogram.types.WebAppData`, *optional*):
             Service message: web app data sent to the bot.
 
+        successful_payment (:obj:`~pyrogram.types.SuccessfulPayment`, *optional*):
+            Service message: successful payment.
+
         boosts_applied (``int``, *optional*):
             Service message: how many boosts were applied.
 
@@ -509,6 +512,7 @@ class Message(Object, Update):
         video_chat_ended: "types.VideoChatEnded" = None,
         video_chat_members_invited: "types.VideoChatMembersInvited" = None,
         web_app_data: "types.WebAppData" = None,
+        successful_payment: "types.SuccessfulPayment" = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -616,6 +620,7 @@ class Message(Object, Update):
         self.video_chat_ended = video_chat_ended
         self.video_chat_members_invited = video_chat_members_invited
         self.web_app_data = web_app_data
+        self.successful_payment = successful_payment
         self.reactions = reactions
         self.raw = raw
 
@@ -721,6 +726,7 @@ class Message(Object, Update):
             gifted_premium = None
             giveaway_launched = None
             giveaway_result = None
+            successful_payment = None
             boosts_applied = None
 
             service_type = None
@@ -819,6 +825,9 @@ class Message(Object, Update):
             elif isinstance(action, raw.types.MessageActionBoostApply):
                 boosts_applied = action.boosts
                 service_type = enums.MessageServiceType.BOOST_APPLY
+            elif isinstance(action, (raw.types.MessageActionPaymentSent, raw.types.MessageActionPaymentSentMe)):
+                successful_payment = types.SuccessfulPayment._parse(client, action)
+                service_type = enums.MessageServiceType.SUCCESSFUL_PAYMENT
             from_user = types.User._parse(client, users.get(user_id, None))
             sender_chat = types.Chat._parse(client, message, users, chats, is_chat=False) if not from_user else None
 
@@ -858,6 +867,7 @@ class Message(Object, Update):
                 gifted_premium=gifted_premium,
                 giveaway_launched=giveaway_launched,
                 giveaway_result=giveaway_result,
+                successful_payment=successful_payment,
                 boosts_applied=boosts_applied,
                 raw=message,
                 client=client

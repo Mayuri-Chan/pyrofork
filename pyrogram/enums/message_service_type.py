@@ -111,3 +111,6 @@ class MessageServiceType(AutoName):
 
     BOOST_APPLY = auto()
     "Boost apply"
+
+    SUCCESSFUL_PAYMENT = auto()
+    "Successful payment"

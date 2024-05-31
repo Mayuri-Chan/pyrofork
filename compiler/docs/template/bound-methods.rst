@@ -101,6 +101,19 @@ InlineQuery
 
     {inline_query_toctree}
 
+PreCheckoutQuery
+-----------
+
+.. hlist::
+    :columns: 2
+
+    {pre_checkout_query_hlist}
+
+.. toctree::
+    :hidden:
+
+    {pre_checkout_query_toctree}
+
 ChatJoinRequest
 ---------------
 

@@ -32,6 +32,7 @@ from .edited_bot_business_message_handler import EditedBotBusinessMessageHandler
 from .inline_query_handler import InlineQueryHandler
 from .message_handler import MessageHandler
 from .poll_handler import PollHandler
+from .pre_checkout_query_handler import PreCheckoutQueryHandler
 from .raw_update_handler import RawUpdateHandler
 from .user_status_handler import UserStatusHandler
 from .story_handler import StoryHandler
