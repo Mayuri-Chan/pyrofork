@@ -30,6 +30,7 @@ from .edit_message_media import EditMessageMedia
 from .edit_message_reply_markup import EditMessageReplyMarkup
 from .edit_message_text import EditMessageText
 from .forward_messages import ForwardMessages
+from .get_available_effects import GetAvailableEffects
 from .get_chat_history import GetChatHistory
 from .get_chat_history_count import GetChatHistoryCount
 from .get_custom_emoji_stickers import GetCustomEmojiStickers
@@ -75,6 +76,7 @@ class Messages(
     EditMessageMedia,
     EditMessageText,
     ForwardMessages,
+    GetAvailableEffects,
     GetMediaGroup,
     GetMessages,
     SendAudio,

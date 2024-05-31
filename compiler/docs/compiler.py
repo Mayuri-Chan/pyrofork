@@ -193,6 +193,7 @@ def pyrogram_api():
             edit_inline_reply_markup
             send_chat_action
             delete_messages
+            get_available_effects
             get_messages
             get_media_group
             get_chat_history
@@ -461,6 +462,7 @@ def pyrogram_api():
             Photo
             Thumbnail
             Audio
+            AvailableEffect
             Document
             Animation
             Video

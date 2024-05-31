@@ -19,6 +19,7 @@
 
 from .animation import Animation
 from .audio import Audio
+from .available_effect import AvailableEffect
 from .contact import Contact
 from .dice import Dice
 from .document import Document
@@ -64,7 +65,7 @@ from .story_views import StoryViews
 from .exported_story_link import ExportedStoryLink
 
 __all__ = [
-    "Animation", "Audio", "Contact", "Document", "Game", "GiftedPremium", "Giveaway", "GiveawayLaunched", "GiveawayResult", "Location", "MediaArea", "MediaAreaChannelPost", "MediaAreaCoordinates", "Message", "MessageEntity", "Photo", "Thumbnail",
+    "Animation", "Audio", "AvailableEffect", "Contact", "Document", "Game", "GiftedPremium", "Giveaway", "GiveawayLaunched", "GiveawayResult", "Location", "MediaArea", "MediaAreaChannelPost", "MediaAreaCoordinates", "Message", "MessageEntity", "Photo", "Thumbnail",
     "StrippedThumbnail", "Poll", "PollOption", "Sticker", "StickerSet", "Venue", "Video", "VideoNote", "Voice", "WebPage", "WebPageEmpty", "WebPagePreview", "Dice",
     "Reaction", "WebAppData", "MessageReactions", "ReactionCount", "ReactionType", "MessageReactionUpdated", "MessageReactionCountUpdated", "MessageStory", "Story", "StoryDeleted", "StorySkipped", "StoryViews", "StoryForwardHeader", "StoriesPrivacyRules", "ExportedStoryLink"
 ]
