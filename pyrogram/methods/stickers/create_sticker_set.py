@@ -34,10 +34,7 @@ class CreateStickerSet:
         short_name: str,
         sticker: str,
         emoji: str = "🤔",
-        masks: bool = None,
-        animated: bool = None,
-        videos: bool = None,
-        emojis: bool = None
+        masks: bool = None
     ) -> Optional["types.Message"]:
         """Create a new stickerset.
 
@@ -67,15 +64,6 @@ class CreateStickerSet:
 
             masks (``bool``, *optional*):
                 Whether this is a mask stickerset.
-
-            animated (``bool``, *optional*):
-                Whether this is a animated stickerset.
-
-            videos (``bool``, *optional*):
-                Whether this is a videos stickerset.
-
-            emojis (``bool``, *optional*):
-                Whether this is a emojis stickerset.
 
         Returns:
             :obj:`~pyrogram.types.StickerSet` | ``None``: On success, the StickerSet is returned.
@@ -112,10 +100,7 @@ class CreateStickerSet:
                         emoji=emoji
                     )
                 ],
-                masks=masks,
-                animated=animated,
-                videos=videos,
-                emojis=emojis
+                masks=masks
             )
         )
 
