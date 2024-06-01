@@ -30,6 +30,7 @@ from .bot_command_scope_default import BotCommandScopeDefault
 from .bot_info import BotInfo
 from .callback_game import CallbackGame
 from .callback_query import CallbackQuery
+from .collectible_item_info import CollectibleItemInfo
 from .force_reply import ForceReply
 from .game_high_score import GameHighScore
 from .inline_keyboard_button import InlineKeyboardButton
@@ -56,6 +57,7 @@ __all__ = [
     "BotBusinessConnection",
     "CallbackGame",
     "CallbackQuery",
+    "CollectibleItemInfo",
     "ForceReply",
     "GameHighScore",
     "InlineKeyboardButton",
