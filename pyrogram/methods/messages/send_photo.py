@@ -52,6 +52,7 @@ class SendPhoto:
         protect_content: bool = None,
         message_effect_id: int = None,
         view_once: bool = None,
+        invert_media: bool = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -140,6 +141,9 @@ class SendPhoto:
             view_once (``bool``, *optional*):
                 Self-Destruct Timer.
                 If True, the photo will self-destruct after it was viewed.
+
+            invert_media (``bool``, *optional*):
+                Inverts the position of the photo and caption.
 
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
@@ -237,6 +241,7 @@ class SendPhoto:
                         schedule_date=utils.datetime_to_timestamp(schedule_date),
                         noforwards=protect_content,
                         effect=message_effect_id,
+                        invert_media=invert_media,
                         reply_markup=await reply_markup.write(self) if reply_markup else None,
                         **await utils.parse_text_entities(self, caption, parse_mode, caption_entities)
                     )

@@ -31,6 +31,7 @@ class EditMessageCaption:
         caption: str,
         parse_mode: Optional["enums.ParseMode"] = None,
         caption_entities: List["types.MessageEntity"] = None,
+        invert_media: bool = False,
         reply_markup: "types.InlineKeyboardMarkup" = None
     ) -> "types.Message":
         """Edit the caption of media messages.
@@ -57,6 +58,9 @@ class EditMessageCaption:
             caption_entities (List of :obj:`~pyrogram.types.MessageEntity`):
                 List of special entities that appear in the caption, which can be specified instead of *parse_mode*.
 
+            invert_media (``bool``, *optional*):
+                Inverts the position of the media and caption.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
                 An InlineKeyboardMarkup object.
 
@@ -74,5 +78,6 @@ class EditMessageCaption:
             text=caption,
             parse_mode=parse_mode,
             entities=caption_entities,
+            invert_media=invert_media,
             reply_markup=reply_markup
         )

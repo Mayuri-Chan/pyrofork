@@ -57,7 +57,8 @@ class SendMediaGroup:
         parse_mode: Optional["enums.ParseMode"] = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
-        message_effect_id: int = None
+        message_effect_id: int = None,
+        invert_media: bool = None
     ) -> List["types.Message"]:
         """Send a group of photos or videos as an album.
 
@@ -117,6 +118,9 @@ class SendMediaGroup:
 
             message_effect_id (``int`` ``64-bit``, *optional*):
                 Unique identifier of the message effect to be added to the message; for private chats only.
+
+            invert_media (``bool``, *optional*):
+                Inverts the position of the media and caption.
 
         Returns:
             List of :obj:`~pyrogram.types.Message`: On success, a list of the sent messages is returned.
@@ -470,7 +474,8 @@ class SendMediaGroup:
             reply_to=reply_to,
             schedule_date=utils.datetime_to_timestamp(schedule_date),
             noforwards=protect_content,
-            effect=message_effect_id
+            effect=message_effect_id,
+            invert_media=invert_media
         )
         
         if business_connection_id is not None:

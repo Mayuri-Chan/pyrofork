@@ -42,6 +42,7 @@ class CopyMessage:
         reply_to_message_id: int = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
+        invert_media: bool = False,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
             "types.ReplyKeyboardMarkup",
@@ -104,6 +105,9 @@ class CopyMessage:
             protect_content (``bool``, *optional*):
                 Protects the contents of the sent message from forwarding and saving.
 
+            invert_media (``bool``, *optional*):
+                Inverts the position of the media and caption.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardMarkup` | :obj:`~pyrogram.types.ReplyKeyboardRemove` | :obj:`~pyrogram.types.ForceReply`, *optional*):
                 Additional interface options. An object for an inline keyboard, custom reply keyboard,
                 instructions to remove reply keyboard or to force a reply from the user.
@@ -131,5 +135,6 @@ class CopyMessage:
             reply_to_message_id=reply_to_message_id,
             schedule_date=schedule_date,
             protect_content=protect_content,
+            invert_media=invert_media,
             reply_markup=reply_markup
         )
