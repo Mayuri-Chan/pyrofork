@@ -102,7 +102,7 @@ class MessageHandler(Handler):
         """
         listener_does_match = (
             await self.check_if_has_matching_listener(client, message)
-        )[0]
+        )[0] if message.chat is not None and message.from_user is not None else False
 
         if callable(self.filters):
             if iscoroutinefunction(self.filters.__call__):
@@ -129,7 +129,7 @@ class MessageHandler(Handler):
         """
         listener_does_match, listener = await self.check_if_has_matching_listener(
             client, message
-        )
+        ) if message.chat is not None and message.from_user is not None else False, None
 
         if listener and listener_does_match:
             client.remove_listener(listener)
