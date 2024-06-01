@@ -96,6 +96,7 @@ class ReplyKeyboardMarkup(Object):
             placeholder=kb.placeholder
         )
 
+    # TODO: Implement KeyboardButtonBuy.write method
     async def write(self, _: "pyrogram.Client"):
         return raw.types.ReplyKeyboardMarkup(
             rows=[raw.types.KeyboardButtonRow(

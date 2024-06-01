@@ -17,7 +17,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import List
+from typing import List, Union
 
 import pyrogram
 from pyrogram import raw
@@ -33,7 +33,7 @@ class InlineKeyboardMarkup(Object):
             List of button rows, each represented by a List of InlineKeyboardButton objects.
     """
 
-    def __init__(self, inline_keyboard: List[List["types.InlineKeyboardButton"]]):
+    def __init__(self, inline_keyboard: List[List[Union["types.InlineKeyboardButton", "types.InlineKeyboardButtonBuy"]]]):
         super().__init__()
 
         self.inline_keyboard = inline_keyboard

@@ -36,6 +36,7 @@ from .game_high_score import GameHighScore
 from .inline_keyboard_button import InlineKeyboardButton
 from .inline_keyboard_markup import InlineKeyboardMarkup
 from .keyboard_button import KeyboardButton
+from .inline_keyboard_button_buy import InlineKeyboardButtonBuy
 from .login_url import LoginUrl
 from .menu_button import MenuButton
 from .menu_button_commands import MenuButtonCommands
@@ -61,6 +62,7 @@ __all__ = [
     "ForceReply",
     "GameHighScore",
     "InlineKeyboardButton",
+    "InlineKeyboardButtonBuy",
     "InlineKeyboardMarkup",
     "KeyboardButton",
     "ReplyKeyboardMarkup",
