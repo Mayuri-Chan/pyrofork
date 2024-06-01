@@ -69,6 +69,9 @@ class MessageEntityType(AutoName):
     BLOCKQUOTE = raw.types.MessageEntityBlockquote
     "Blockquote text"
 
+    EXPANDABLE_BLOCKQUOTE = raw.types.MessageEntityBlockquote
+    "collapsed-by-default block quotation"
+
     TEXT_LINK = raw.types.MessageEntityTextUrl
     "For clickable text URLs"
 
