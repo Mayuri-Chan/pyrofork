@@ -40,6 +40,9 @@ class Poll(Object, Update):
         options (List of :obj:`~pyrogram.types.PollOption`):
             List of poll options.
 
+        question_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+            Special entities like usernames, URLs, bot commands, etc. that appear in the poll question.
+
         total_voter_count (``int``):
             Total number of users that voted in the poll.
 
@@ -84,6 +87,7 @@ class Poll(Object, Update):
         id: str,
         question: str,
         options: List["types.PollOption"],
+        question_entities: List["types.MessageEntity"] = None,
         total_voter_count: int,
         is_closed: bool,
         is_anonymous: bool = None,
@@ -101,6 +105,7 @@ class Poll(Object, Update):
         self.id = id
         self.question = question
         self.options = options
+        self.question_entities = question_entities
         self.total_voter_count = total_voter_count
         self.is_closed = is_closed
         self.is_anonymous = is_anonymous
@@ -136,19 +141,27 @@ class Poll(Object, Update):
                 if result.correct:
                     correct_option_id = i
 
+            o_entities = [types.MessageEntity._parse(client, entity, {}) for entity in answer.text.entities] if answer.text.entities else []
+            option_entities = types.List(filter(lambda x: x is not None, o_entities))
+
             options.append(
                 types.PollOption(
-                    text=answer.text,
+                    text=answer.text.text,
                     voter_count=voter_count,
                     data=answer.option,
+                    entities=option_entities,
                     client=client
                 )
             )
 
+        q_entities = [types.MessageEntity._parse(client, entity, {}) for entity in poll.question.entities] if poll.question.entities else []
+        question_entities = types.List(filter(lambda x: x is not None, q_entities))
+
         return Poll(
             id=str(poll.id),
-            question=poll.question,
+            question=poll.question.text,
             options=options,
+            question_entities=question_entities,
             total_voter_count=media_poll.results.total_voters,
             is_closed=poll.closed,
             is_anonymous=not poll.public_voters,

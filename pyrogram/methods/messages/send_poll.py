@@ -30,7 +30,8 @@ class SendPoll:
         self: "pyrogram.Client",
         chat_id: Union[int, str],
         question: str,
-        options: List[str],
+        options: List["types.PollOption"],
+        question_entities: List["types.MessageEntity"] = None,
         is_anonymous: bool = True,
         type: "enums.PollType" = enums.PollType.REGULAR,
         allows_multiple_answers: bool = None,
@@ -73,8 +74,11 @@ class SendPoll:
             question (``str``):
                 Poll question, 1-255 characters.
 
-            options (List of ``str``):
-                List of answer options, 2-10 strings 1-100 characters each.
+            options (List of :obj:`~pyrogram.types.PollOption`):
+                List of PollOption.
+
+            question_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in the poll question, which can be specified instead of *parse_mode*.
 
             is_anonymous (``bool``, *optional*):
                 True, if the poll needs to be anonymous.
@@ -185,16 +189,17 @@ class SendPoll:
         solution, solution_entities = (await utils.parse_text_entities(
             self, explanation, explanation_parse_mode, explanation_entities
         )).values()
+        q, q_entities = (await pyrogram.utils.parse_text_entities(self, question, None, question_entities)).values()
 
         rpc = raw.functions.messages.SendMedia(
             peer=await self.resolve_peer(chat_id),
             media=raw.types.InputMediaPoll(
                 poll=raw.types.Poll(
                     id=self.rnd_id(),
-                    question=question,
+                    question=raw.types.TextWithEntities(text=q, entities=q_entities or []),
                     answers=[
-                        raw.types.PollAnswer(text=text, option=bytes([i]))
-                        for i, text in enumerate(options)
+                        await types.PollOption(text=option.text,entities=option.entities).write(self,i)
+                        for i, option in enumerate(options)
                     ],
                     closed=is_closed,
                     public_voters=not is_anonymous,
