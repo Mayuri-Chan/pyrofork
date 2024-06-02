@@ -62,6 +62,9 @@ class MessageHandler(Handler):
         :return: A tuple of whether the message has a matching listener and its filters does match with the Message
         and the matching listener;
         """
+        chat = message.chat
+        chat_id = chat.id if chat else None
+        chat_username = chat.username if chat else None
         from_user = message.from_user
         from_user_id = from_user.id if from_user else None
         from_user_username = from_user.username if from_user else None
@@ -70,7 +73,7 @@ class MessageHandler(Handler):
 
         data = Identifier(
             message_id=message_id,
-            chat_id=[message.chat.id, message.chat.username],
+            chat_id=[chat_id, chat_username],
             from_user_id=[from_user_id, from_user_username],
         )
 
