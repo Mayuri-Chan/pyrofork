@@ -3989,6 +3989,7 @@ class Message(Object, Update):
         parse_mode: Optional["enums.ParseMode"] = None,
         entities: List["types.MessageEntity"] = None,
         disable_web_page_preview: bool = None,
+        invert_media: bool = None,
         reply_markup: "types.InlineKeyboardMarkup" = None
     ) -> "Message":
         """Bound method *edit_text* of :obj:`~pyrogram.types.Message`.
@@ -4024,6 +4025,9 @@ class Message(Object, Update):
             disable_web_page_preview (``bool``, *optional*):
                 Disables link previews for links in this message.
 
+            invert_media (``bool``, *optional*):
+                Inverts the position of the media and caption.
+
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
                 An InlineKeyboardMarkup object.
 
@@ -4040,6 +4044,7 @@ class Message(Object, Update):
             parse_mode=parse_mode,
             entities=entities,
             disable_web_page_preview=disable_web_page_preview,
+            invert_media=invert_media,
             reply_markup=reply_markup
         )
 
