@@ -208,6 +208,8 @@ def pyrogram_api():
             search_messages_count
             search_global
             search_global_count
+            search_global_hashtag_messages
+            search_global_hashtag_messages_count
             download_media
             stream_media
             get_discussion_message

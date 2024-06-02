@@ -43,6 +43,8 @@ from .read_chat_history import ReadChatHistory
 from .retract_vote import RetractVote
 from .search_global import SearchGlobal
 from .search_global_count import SearchGlobalCount
+from .search_global_hashtag_messages import SearchGlobalHashtagMessages
+from .search_global_hashtag_messages_count import SearchGlobalHashtagMessagesCount
 from .search_messages import SearchMessages
 from .search_messages_count import SearchMessagesCount
 from .send_animation import SendAnimation
@@ -110,10 +112,12 @@ class Messages(
     SendDice,
     SearchMessages,
     SearchGlobal,
+    SearchGlobalHashtagMessages,
     CopyMessage,
     CopyMediaGroup,
     SearchMessagesCount,
     SearchGlobalCount,
+    SearchGlobalHashtagMessagesCount,
     GetDiscussionMessage,
     SendReaction,
     GetDiscussionReplies,
