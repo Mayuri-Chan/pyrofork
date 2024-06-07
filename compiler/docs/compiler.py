@@ -376,6 +376,7 @@ def pyrogram_api():
         """,
         business="""
         Telegram Business
+            create_invoice_link
             get_business_connection
         """,
         authorization="""
