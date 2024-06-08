@@ -921,6 +921,9 @@ class Message(Object, Update):
                     else:
                         parsed_message.message_thread_id = message.reply_to.reply_to_msg_id
                     parsed_message.is_topic_message = True
+            elif parsed_message.chat.is_forum and parsed_message.message_thread_id is None:
+                parsed_message.message_thread_id = 1
+                parsed_message.is_topic_message = True
 
             return parsed_message
 
@@ -1236,6 +1239,9 @@ class Message(Object, Update):
                             pass
                         else:
                             parsed_message.reply_to_story = reply_to_story
+            if parsed_message.chat.is_forum and parsed_message.message_thread_id is None:
+                parsed_message.message_thread_id = 1
+                parsed_message.is_topic_message = True
 
             if not parsed_message.poll:  # Do not cache poll messages
                 client.message_cache[(parsed_message.chat.id, parsed_message.id)] = parsed_message
