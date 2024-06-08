@@ -54,6 +54,7 @@ from .send_chat_action import SendChatAction
 from .send_contact import SendContact
 from .send_dice import SendDice
 from .send_document import SendDocument
+from .send_invoice import SendInvoice
 from .send_location import SendLocation
 from .send_media_group import SendMediaGroup
 from .send_message import SendMessage
@@ -86,6 +87,7 @@ class Messages(
     SendContact,
     SendDocument,
     SendAnimation,
+    SendInvoice,
     SendLocation,
     SendMediaGroup,
     SendMessage,
