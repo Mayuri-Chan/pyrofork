@@ -68,6 +68,8 @@ Details
 .. autoclass:: DeletedMessagesHandler()
 .. autoclass:: DeletedBotBusinessMessagesHandler()
 .. autoclass:: CallbackQueryHandler()
+.. autoclass:: ShippingQueryHandler()
+.. autoclass:: PreCheckoutQueryHandler()
 .. autoclass:: MessageReactionUpdatedHandler()
 .. autoclass:: MessageReactionCountUpdatedHandler()
 .. autoclass:: InlineQueryHandler()

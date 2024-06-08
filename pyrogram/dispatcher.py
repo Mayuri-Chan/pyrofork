@@ -41,6 +41,7 @@ from pyrogram.handlers import (
   RawUpdateHandler,
   InlineQueryHandler,
   PollHandler,
+  ShippingQueryHandler,
   PreCheckoutQueryHandler,
   ConversationHandler,
   ChosenInlineResultHandler,
@@ -59,7 +60,8 @@ from pyrogram.raw.types import (
     UpdateBotInlineSend, UpdateChatParticipant, UpdateChannelParticipant, UpdateBotStopped,
     UpdateBotChatInviteRequester, UpdateStory,
     UpdateBotMessageReaction,
-    UpdateBotMessageReactions
+    UpdateBotMessageReactions,
+    UpdateBotShippingQuery
 )
 
 log = logging.getLogger(__name__)
@@ -84,6 +86,7 @@ class Dispatcher:
     MESSAGE_BOT_A_REACTION_UPDATES = (UpdateBotMessageReactions,)
     BOT_BUSSINESS_CONNECT_UPDATES = (UpdateBotBusinessConnect,)
     PRE_CHECKOUT_QUERY_UPDATES = (UpdateBotPrecheckoutQuery,)
+    SHIPPING_QUERY_UPDATES = (UpdateBotShippingQuery,)
 
     def __init__(self, client: "pyrogram.Client"):
         self.client = client
@@ -195,6 +198,12 @@ class Dispatcher:
                 StoryHandler
             )
 
+        async def shipping_query_parser(update, users, chats):
+            return (
+                await pyrogram.types.ShippingQuery._parse(self.client, update, users),
+                ShippingQueryHandler
+            )
+
         async def pre_checkout_query_parser(update, users, chats):
             return (
                 await pyrogram.types.PreCheckoutQuery._parse(self.client, update, users),
@@ -234,6 +243,7 @@ class Dispatcher:
             Dispatcher.CHAT_MEMBER_UPDATES: chat_member_updated_parser,
             Dispatcher.CHAT_JOIN_REQUEST_UPDATES: chat_join_request_parser,
             Dispatcher.NEW_STORY_UPDATES: story_parser,
+            Dispatcher.SHIPPING_QUERY_UPDATES: shipping_query_parser,
             Dispatcher.PRE_CHECKOUT_QUERY_UPDATES: pre_checkout_query_parser,
             Dispatcher.MESSAGE_BOT_NA_REACTION_UPDATES: message_bot_na_reaction_parser,
             Dispatcher.MESSAGE_BOT_A_REACTION_UPDATES: message_bot_a_reaction_parser,

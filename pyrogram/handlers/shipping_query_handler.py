@@ -1,6 +1,5 @@
 #  Pyrogram - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
-#  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
 #  This file is part of Pyrogram.
 #
@@ -22,16 +21,17 @@ from typing import Callable
 from .handler import Handler
 
 
-class PreCheckoutQueryHandler(Handler):
-    """The PreCheckoutQueryHandler handler class. Used to handle pre-checkout queries coming from buy buttons.
+class ShippingQueryHandler(Handler):
+    """The ShippingQueryHandler handler class. Used to handle shipping queries coming only from invoice buttons with flexible price.
+
     It is intended to be used with :meth:`~pyrogram.Client.add_handler`
 
     For a nicer way to register this handler, have a look at the
-    :meth:`~pyrogram.Client.on_pre_checkout_query` decorator.
+    :meth:`~pyrogram.Client.on_shipping_query` decorator.
 
     Parameters:
         callback (``Callable``):
-            Pass a function that will be called when a new PreCheckoutQuery arrives. It takes *(client, pre_checkout_query)*
+            Pass a function that will be called when a new PreCheckoutQuery arrives. It takes *(client, shipping_query)*
             as positional arguments (look at the section below for a detailed description).
 
         filters (:obj:`Filters`):
@@ -42,8 +42,8 @@ class PreCheckoutQueryHandler(Handler):
         client (:obj:`~pyrogram.Client`):
             The Client itself, useful when you want to call other API methods inside the message handler.
 
-        pre_checkout_query (:obj:`~pyrogram.types.PreCheckoutQuery`):
-            New incoming pre-checkout query. Contains full information about checkout.
+        shipping_query (:obj:`~pyrogram.types.ShippingQuery`):
+            New incoming shipping query. Only for invoices with flexible price.
 
     """
 

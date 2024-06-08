@@ -53,6 +53,8 @@ from .request_peer_type_chat import RequestPeerTypeChat
 from .request_peer_type_user import RequestPeerTypeUser
 from .sent_web_app_message import SentWebAppMessage
 from .shipping_address import ShippingAddress
+from .shipping_option import ShippingOption
+from .shipping_query import ShippingQuery
 from .successful_payment import SuccessfulPayment
 from .web_app_info import WebAppInfo
 
@@ -92,6 +94,8 @@ __all__ = [
     "MenuButtonDefault",
     "SentWebAppMessage",
     "ShippingAddress",
+    "ShippingOption",
+    "ShippingQuery",
     "PaymentInfo",
     "PreCheckoutQuery",
     "SuccessfulPayment"

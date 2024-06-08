@@ -67,6 +67,8 @@ Details
 .. autodecorator:: pyrogram.Client.on_edited_message()
 .. autodecorator:: pyrogram.Client.on_edited_bot_business_message()
 .. autodecorator:: pyrogram.Client.on_callback_query()
+.. autodecorator:: pyrogram.Client.on_shipping_query()
+.. autodecorator:: pyrogram.Client.on_pre_checkout_query()
 .. autodecorator:: pyrogram.Client.on_message_reaction_updated()
 .. autodecorator:: pyrogram.Client.on_message_reaction_count_updated()
 .. autodecorator:: pyrogram.Client.on_inline_query()

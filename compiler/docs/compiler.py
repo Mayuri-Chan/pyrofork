@@ -361,6 +361,7 @@ def pyrogram_api():
             get_chat_menu_button
             answer_web_app_query
             answer_pre_checkout_query
+            answer_shipping_query
             get_bot_info
             set_bot_info
             get_collectible_item_info
@@ -539,6 +540,8 @@ def pyrogram_api():
             BotBusinessConnection
             PaymentInfo
             ShippingAddress
+            ShippingOption
+            ShippingQuery
             SuccessfulPayment
         """,
         bot_keyboards="""
@@ -613,6 +616,10 @@ def pyrogram_api():
         pre_checkout_query="""
         PreCheckoutQuery
             PreCheckoutQuery.answer
+        """,
+        shipping_query="""
+        ShippingQuery
+            ShippingQuery.answer
         """,
         input_message_content="""
         InputMessageContent
@@ -767,6 +774,10 @@ def pyrogram_api():
         pre_checkout_query="""
         PreCheckoutQuery
             PreCheckoutQuery.answer
+        """,
+        shipping_query="""
+        ShippingQuery
+            ShippingQuery.answer
         """,
         chat_join_request="""
         ChatJoinRequest

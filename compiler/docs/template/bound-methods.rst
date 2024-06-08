@@ -102,7 +102,7 @@ InlineQuery
     {inline_query_toctree}
 
 PreCheckoutQuery
------------
+----------------
 
 .. hlist::
     :columns: 2
@@ -113,6 +113,19 @@ PreCheckoutQuery
     :hidden:
 
     {pre_checkout_query_toctree}
+
+ShippingQuery
+-------------
+
+.. hlist::
+    :columns: 2
+
+    {shipping_query_hlist}
+
+.. toctree::
+    :hidden:
+
+    {shipping_query_toctree}
 
 ChatJoinRequest
 ---------------

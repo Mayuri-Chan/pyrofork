@@ -37,6 +37,7 @@ from .on_user_status import OnUserStatus
 from .on_story import OnStory
 from .on_message_reaction_updated import OnMessageReactionUpdated
 from .on_message_reaction_count_updated import OnMessageReactionCountUpdated
+from .on_shipping_query import OnShippingQuery
 
 
 class Decorators(
@@ -48,6 +49,8 @@ class Decorators(
     OnDeletedMessages,
     OnDeletedBotBusinessMessages,
     OnCallbackQuery,
+    OnShippingQuery,
+    OnPreCheckoutQuery,
     OnRawUpdate,
     OnDisconnect,
     OnUserStatus,
@@ -58,7 +61,6 @@ class Decorators(
     OnChatJoinRequest,
     OnStory,
     OnMessageReactionUpdated,
-    OnMessageReactionCountUpdated,
-    OnPreCheckoutQuery
+    OnMessageReactionCountUpdated
 ):
     pass

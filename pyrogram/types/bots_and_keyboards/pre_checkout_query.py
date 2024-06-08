@@ -116,7 +116,7 @@ class PreCheckoutQuery(Object, Update):
 
             await client.answer_pre_checkout_query(
                 pre_checkout_query.id,
-                success=True
+                ok=True
             )
 
         Example:
