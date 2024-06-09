@@ -70,6 +70,7 @@ from .story_views import StoryViews
 from .exported_story_link import ExportedStoryLink
 from .wallpaper import Wallpaper
 from .wallpaper_settings import WallpaperSettings
+from .translated_text import TranslatedText
 
 __all__ = [
     "Animation",
@@ -124,5 +125,6 @@ __all__ = [
     "StoriesPrivacyRules",
     "ExportedStoryLink",
     "Wallpaper",
-    "WallpaperSettings"
+    "WallpaperSettings",
+    "TranslatedText"
 ]

@@ -5277,3 +5277,33 @@ class Message(Object, Update):
 
         reply_message.request = request
         return reply_message
+
+    async def translate(
+        self,
+        to_language_code: str
+    ) -> "types.TranslatedText":
+        """Bound method *translate* of :obj:`~pyrogram.types.Message`.
+        Use as a shortcut for:
+        .. code-block:: python
+            await client.translate_message_text(
+                chat_id=message.chat.id,
+                message_ids=message_id,
+                to_language_code="en"
+            )
+        Example:
+            .. code-block:: python
+                await message.translate("en")
+        Parameters:
+            to_language_code (``str``):
+                Language code of the language to which the message is translated.
+                Must be one of "af", "sq", "am", "ar", "hy", "az", "eu", "be", "bn", "bs", "bg", "ca", "ceb", "zh-CN", "zh", "zh-Hans", "zh-TW", "zh-Hant", "co", "hr", "cs", "da", "nl", "en", "eo", "et", "fi", "fr", "fy", "gl", "ka", "de", "el", "gu", "ht", "ha", "haw", "he", "iw", "hi", "hmn", "hu", "is", "ig", "id", "in", "ga", "it", "ja", "jv", "kn", "kk", "km", "rw", "ko", "ku", "ky", "lo", "la", "lv", "lt", "lb", "mk", "mg", "ms", "ml", "mt", "mi", "mr", "mn", "my", "ne", "no", "ny", "or", "ps", "fa", "pl", "pt", "pa", "ro", "ru", "sm", "gd", "sr", "st", "sn", "sd", "si", "sk", "sl", "so", "es", "su", "sw", "sv", "tl", "tg", "ta", "tt", "te", "th", "tr", "tk", "uk", "ur", "ug", "uz", "vi", "cy", "xh", "yi", "ji", "yo", "zu".
+        Returns:
+            :obj:`~pyrogram.types.TranslatedText`: The translated result is returned.
+        Raises:
+            RPCError: In case of a Telegram RPC error.
+        """
+        return await self._client.translate_message_text(
+            chat_id=self.chat.id,
+            message_ids=self.id,
+            to_language_code=to_language_code
+        )

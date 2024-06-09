@@ -72,7 +72,7 @@ from .send_web_page import SendWebPage
 from .stop_poll import StopPoll
 from .stream_media import StreamMedia
 from .vote_poll import VotePoll
-
+from .translate_text import TranslateText
 
 class Messages(
     DeleteMessages,
@@ -129,6 +129,7 @@ class Messages(
     GetDiscussionReplies,
     GetDiscussionRepliesCount,
     StreamMedia,
-    GetCustomEmojiStickers
+    GetCustomEmojiStickers,
+    TranslateText
 ):
     pass
