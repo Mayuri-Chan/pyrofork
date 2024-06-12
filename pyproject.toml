@@ -60,7 +60,7 @@ dev = [
 
 docs = [
     "sphinx",
-    "sphinx-immaterial==0.11.11",
+    "sphinx-immaterial==0.11.12",
     "sphinx_copybutton",
     "sphinx-autobuild",
     "tornado>=6.3.3"
