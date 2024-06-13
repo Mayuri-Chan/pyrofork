@@ -953,7 +953,8 @@ class Chat(Object):
     async def promote_member(
         self,
         user_id: Union[int, str],
-        privileges: "types.ChatPrivileges" = None
+        privileges: "types.ChatPrivileges" = None,
+        title: Optional[str] = None,
     ) -> bool:
         """Bound method *promote_member* of :obj:`~pyrogram.types.Chat`.
 
@@ -963,7 +964,8 @@ class Chat(Object):
 
             await client.promote_chat_member(
                 chat_id=chat_id,
-                user_id=user_id
+                user_id=user_id,
+                title=admin_title
             )
 
         Example:
@@ -980,6 +982,11 @@ class Chat(Object):
             privileges (:obj:`~pyrogram.types.ChatPrivileges`, *optional*):
                 New user privileges.
 
+            title (``str``, *optional*):
+                A custom title that will be shown to all members instead of "Owner" or "Admin".
+                Pass None or "" (empty string) will keep the current title.
+                If you want to delete the custom title, use :meth:`~pyrogram.Client.set_administrator_title()` method.
+
         Returns:
             ``bool``: True on success.
 
@@ -990,7 +997,8 @@ class Chat(Object):
         return await self._client.promote_chat_member(
             chat_id=self.id,
             user_id=user_id,
-            privileges=privileges
+            privileges=privileges,
+            title=title
         )
 
     async def join(self):
