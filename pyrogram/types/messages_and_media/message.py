@@ -742,6 +742,9 @@ class Message(Object, Update):
 
             service_type = None
 
+            from_user = types.User._parse(client, users.get(user_id, None))
+            sender_chat = types.Chat._parse(client, message, users, chats, is_chat=False) if not from_user else None
+
             if isinstance(action, raw.types.MessageActionChatAddUser):
                 new_chat_members = [types.User._parse(client, users[i]) for i in action.users]
                 service_type = enums.MessageServiceType.NEW_CHAT_MEMBERS
@@ -839,8 +842,6 @@ class Message(Object, Update):
             elif isinstance(action, (raw.types.MessageActionPaymentSent, raw.types.MessageActionPaymentSentMe)):
                 successful_payment = types.SuccessfulPayment._parse(client, action)
                 service_type = enums.MessageServiceType.SUCCESSFUL_PAYMENT
-            from_user = types.User._parse(client, users.get(user_id, None))
-            sender_chat = types.Chat._parse(client, message, users, chats, is_chat=False) if not from_user else None
 
             parsed_message = Message(
                 id=message.id,
