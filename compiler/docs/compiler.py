@@ -510,7 +510,6 @@ def pyrogram_api():
             ReactionType
             MessageReactionUpdated
             MessageReactionCountUpdated
-            SuccessfulPayment
         """,
         stories="""
         Stories
@@ -531,9 +530,17 @@ def pyrogram_api():
             Identifier
             Listener
         """,
+        bot="""
+        Bot
+            BotAllowed
+            BotApp
+            BotBusinessConnection
+            PaymentInfo
+            ShippingAddress
+            SuccessfulPayment
+        """,
         bot_keyboards="""
         Bot keyboards
-            BotBusinessConnection
             ReplyKeyboardMarkup
             KeyboardButton
             ReplyKeyboardRemove
@@ -554,9 +561,7 @@ def pyrogram_api():
             MenuButtonWebApp
             MenuButtonDefault
             SentWebAppMessage
-            PaymentInfo
             PreCheckoutQuery
-            ShippingAddress
         """,
         bot_commands="""
         Bot commands
