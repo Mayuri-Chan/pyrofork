@@ -44,7 +44,7 @@ class BotApp(Object):
             photo (``types.Photo``):
                 The photo of the app.
 
-            document (``types.Document``, *optional*):
+            document (:obj:`~pyrogram.types.Document`, *optional*):
                 The document of the app.
     """
             

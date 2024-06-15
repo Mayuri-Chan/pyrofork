@@ -38,7 +38,7 @@ class BotAllowed(Object):
         domain (``str``, *optional*):
             The domain of the bot.
 
-        app (:obj:`types.BotApp`, *optional*):
+        app (:obj:`~pyrogram.types.BotApp`, *optional*):
             The app of the bot.
     """
     

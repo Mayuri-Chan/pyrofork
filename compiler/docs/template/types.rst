@@ -73,6 +73,19 @@ Pyromod
 
     {pyromod}
 
+Bot
+---
+
+.. autosummary::
+    :nosignatures:
+
+    {bot}
+
+.. toctree::
+    :hidden:
+
+    {bot}
+
 Bot keyboards
 -------------
 
