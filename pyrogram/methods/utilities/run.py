@@ -39,7 +39,7 @@ class Run:
         operation. This is almost the same as :py:obj:`asyncio.run` except for the fact that Pyrogram's ``run`` uses the
         current event loop instead of a new one.
 
-        If you want to run multiple clients at once, see :meth:`pyrogram.compose`.
+        If you want to run multiple clients at once, see :meth:`~pyrogram.compose`.
 
         Parameters:
             coroutine (``Coroutine``, *optional*):
