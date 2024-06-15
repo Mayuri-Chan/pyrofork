@@ -31,9 +31,6 @@ class Story(Object, Update):
         id (``int``):
             Unique story identifier.
 
-        chat (:obj:`~pyrogram.types.Chat`, *optional*):
-            Chat the story was sent in.
-
         from_user (:obj:`~pyrogram.types.User`, *optional*):
             Sender of the story.
 
@@ -180,7 +177,12 @@ class Story(Object, Update):
     async def _parse(
         client: "pyrogram.Client",
         stories: raw.base.StoryItem,
-        peer: Union["raw.types.PeerChannel", "raw.types.PeerUser"]
+        peer: Union[
+            "raw.types.PeerChannel",
+            "raw.types.PeerUser",
+            "raw.types.InputPeerChannel",
+            "raw.types.InputPeerUser"
+        ]
     ) -> "Story":
         if isinstance(stories, raw.types.StoryItemSkipped):
             return await types.StorySkipped._parse(client, stories, peer)
@@ -229,20 +231,30 @@ class Story(Object, Update):
                     id=[await client.resolve_peer(chat_id)]
                 )
             )
-            if stories.from_id is not None:
-                if getattr(stories.from_id, "user_id", None) is not None:
-                    from_user = await client.get_users(stories.from_id.user_id)
-                    chat = types.Chat._parse_chat(client, chat.chats[0])
-                elif getattr(stories.from_id, "channel_id", None) is not None:
-                    sender_chat = types.Chat._parse_chat(client, stories.from_id.channel_id)
-                elif getattr(stories.from_id, "chat_id", None) is not None:
-                    sender_chat = types.Chat._parse_chat(client, stories.from_id.chat_id)
-            else:
-                sender_chat = types.Chat._parse_chat(client, chat.chats[0])
+            sender_chat = types.Chat._parse_chat(client, chat.chats[0])
         elif isinstance(peer, raw.types.InputPeerSelf):
             from_user = client.me
         else:
             from_user = await client.get_users(peer.user_id)
+        
+        from_id = getattr(stories, "from_id", None)
+        if from_id is not None:
+            if getattr(from_id, "user_id", None) is not None:
+                from_user = await client.get_users(getattr(from_id, "user_id"))
+            elif getattr(from_id, "channel_id", None) is not None:
+                chat = await client.invoke(
+                    raw.functions.channels.GetChannels(
+                        id=[await client.resolve_peer(utils.get_channel_id(getattr(from_id, "channel_id")))]
+                    )
+                )
+                sender_chat = types.Chat._parse_chat(client, chat.chats[0])
+            elif getattr(from_id, "chat_id", None) is not None:
+                chat = await client.invoke(
+                    raw.functions.channels.GetChannels(
+                        id=[await client.resolve_peer(utils.get_channel_id(getattr(from_id, "chat_id")))]
+                    )
+                )
+                sender_chat = types.Chat._parse_chat(client, chat.chats[0])
 
         for priv in stories.privacy:
             if isinstance(priv, raw.types.PrivacyValueAllowAll):
@@ -281,7 +293,6 @@ class Story(Object, Update):
 
         return Story(
             id=stories.id,
-            chat=chat,
             from_user=from_user,
             sender_chat=sender_chat,
             date=utils.timestamp_to_datetime(stories.date),

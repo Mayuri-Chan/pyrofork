@@ -20,6 +20,7 @@ import pyrogram
 
 from pyrogram import raw, types, utils
 from ..object import Object
+from typing import Union
 
 
 class MessageStory(Object):
@@ -53,7 +54,7 @@ class MessageStory(Object):
     async def _parse(
         client: "pyrogram.Client",
         message_story: "raw.types.MessageMediaStory"
-    ) -> "MessageStory":
+    ) -> Union["MessageStory", "types.Story"]:
         from_user = None
         sender_chat = None
         user_id = None
