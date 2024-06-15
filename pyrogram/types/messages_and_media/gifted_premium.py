@@ -44,10 +44,6 @@ class GiftedPremium(Object):
 
         month_count (``int``):
             Number of months the Telegram Premium subscription will be active
-
-        sticker (:obj:`~pyrogram.types.Sticker`):
-            A sticker to be shown in the message; may be null if unknown
-
     """
 
     def __init__(
@@ -58,8 +54,7 @@ class GiftedPremium(Object):
         amount: int = None,
         cryptocurrency: str = None,
         cryptocurrency_amount: int = None,
-        month_count: int = None,
-        sticker: "types.Sticker" = None,
+        month_count: int = None
     ):
         super().__init__()
 
@@ -69,7 +64,6 @@ class GiftedPremium(Object):
         self.cryptocurrency = cryptocurrency
         self.cryptocurrency_amount = cryptocurrency_amount
         self.month_count = month_count
-        self.sticker = sticker
 
     @staticmethod
     async def _parse(
@@ -77,17 +71,11 @@ class GiftedPremium(Object):
         gifted_premium: "raw.types.MessageActionGiftPremium",
         gifter_user_id: int
     ) -> "GiftedPremium":
-        sticker = None
-        stickers, _ = await client._get_raw_stickers(
-            raw.types.InputStickerSetPremiumGifts()
-        )
-        sticker = choice(stickers)
         return GiftedPremium(
             gifter_user_id=gifter_user_id,
             currency=gifted_premium.currency,
             amount=gifted_premium.amount,
             cryptocurrency=getattr(gifted_premium, "crypto_currency", None),
             cryptocurrency_amount=getattr(gifted_premium, "crypto_amount", None),
-            month_count=gifted_premium.months,
-            sticker=sticker
+            month_count=gifted_premium.months
         )
