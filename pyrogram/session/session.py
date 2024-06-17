@@ -23,6 +23,7 @@ import logging
 import os
 from hashlib import sha1
 from io import BytesIO
+from typing import Optional
 
 import pyrogram
 from pyrogram import raw
@@ -78,7 +79,7 @@ class Session:
         self.is_media = is_media
         self.is_cdn = is_cdn
 
-        self.connection = None
+        self.connection: Optional[Connection] = None
 
         self.auth_key_id = sha1(auth_key).digest()[-8:]
 
@@ -104,13 +105,14 @@ class Session:
 
     async def start(self):
         while True:
-            self.connection = Connection(
-                self.dc_id,
-                self.test_mode,
-                self.client.ipv6,
-                self.client.alt_port,
-                self.client.proxy,
-                self.is_media
+            self.connection = self.client.connection_factory(
+                dc_id=self.dc_id,
+                test_mode=self.test_mode,
+                ipv6=self.client.ipv6,
+                alt_port=self.client.alt_port,
+                proxy=self.client.proxy,
+                media=self.is_media,
+                protocol_factory=self.client.protocol_factory
             )
 
             try:
