@@ -21,17 +21,18 @@ import pyrogram
 
 from ..object import Object
 
-"""- :obj:`~pyrogram.types.InputLocationMessageContent`
-    - :obj:`~pyrogram.types.InputVenueMessageContent`
-    - :obj:`~pyrogram.types.InputContactMessageContent`"""
-
 
 class InputMessageContent(Object):
     """Content of a message to be sent as a result of an inline query.
 
-    Pyrogram currently supports the following types:
+    Telegram clients currently support the following 5 types:
 
     - :obj:`~pyrogram.types.InputTextMessageContent`
+    - :obj:`~pyrogram.types.InputLocationMessageContent`
+    - :obj:`~pyrogram.types.InputVenueMessageContent`
+    - :obj:`~pyrogram.types.InputContactMessageContent`
+    - :obj:`~pyrogram.types.InputInvoiceMessageContent`
+
     """
 
     def __init__(self):

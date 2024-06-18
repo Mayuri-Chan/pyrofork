@@ -31,6 +31,8 @@ class SendLocation:
         chat_id: Union[int, str],
         latitude: float,
         longitude: float,
+        horizontal_accuracy: float = None,
+        # TODO
         disable_notification: bool = None,
         message_thread_id: int = None,
         business_connection_id: str = None,
@@ -65,6 +67,9 @@ class SendLocation:
 
             longitude (``float``):
                 Longitude of the location.
+
+            horizontal_accuracy (``float``, *optional*):
+                The radius of uncertainty for the location, measured in meters; 0-1500.
 
             disable_notification (``bool``, *optional*):
                 Sends the message silently.
@@ -137,7 +142,8 @@ class SendLocation:
             media=raw.types.InputMediaGeoPoint(
                 geo_point=raw.types.InputGeoPoint(
                     lat=latitude,
-                    long=longitude
+                    long=longitude,
+                    accuracy_radius=horizontal_accuracy
                 )
             ),
             message="",

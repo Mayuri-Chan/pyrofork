@@ -35,6 +35,8 @@ class SendVenue:
         address: str,
         foursquare_id: str = "",
         foursquare_type: str = "",
+        google_place_id: str = "",
+        google_place_type: str = "",
         disable_notification: bool = None,
         message_thread_id: int = None,
         business_connection_id: str = None,
@@ -160,7 +162,7 @@ class SendVenue:
                 ),
                 title=title,
                 address=address,
-                provider="",
+                provider="", # TODO
                 venue_id=foursquare_id,
                 venue_type=foursquare_type
             ),
