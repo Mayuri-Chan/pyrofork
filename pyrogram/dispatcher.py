@@ -61,7 +61,8 @@ from pyrogram.raw.types import (
     UpdateBotChatInviteRequester, UpdateStory,
     UpdateBotMessageReaction,
     UpdateBotMessageReactions,
-    UpdateBotShippingQuery
+    UpdateBotShippingQuery,
+    UpdateBusinessBotCallbackQuery
 )
 
 log = logging.getLogger(__name__)
@@ -74,7 +75,7 @@ class Dispatcher:
     EDIT_BOT_BUSINESS_MESSAGE_UPDATES = (UpdateBotEditBusinessMessage,)
     DELETE_MESSAGES_UPDATES = (UpdateDeleteMessages, UpdateDeleteChannelMessages)
     DELETE_BOT_BUSINESS_MESSAGES_UPDATES = (UpdateBotDeleteBusinessMessage,)
-    CALLBACK_QUERY_UPDATES = (UpdateBotCallbackQuery, UpdateInlineBotCallbackQuery)
+    CALLBACK_QUERY_UPDATES = (UpdateBotCallbackQuery, UpdateInlineBotCallbackQuery, UpdateBusinessBotCallbackQuery)
     CHAT_MEMBER_UPDATES = (UpdateChatParticipant, UpdateChannelParticipant, UpdateBotStopped,)
     USER_STATUS_UPDATES = (UpdateUserStatus,)
     BOT_INLINE_QUERY_UPDATES = (UpdateBotInlineQuery,)
