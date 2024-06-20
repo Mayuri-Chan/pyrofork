@@ -716,10 +716,26 @@ class Client(Methods):
             await self.storage.date(0)
 
             await self.storage.test_mode(self.test_mode)
+            if self.test_mode:
+                await self.storage.server_address("149.154.167.40")
+                await self.storage.server_address_v6("2001:67c:4e8:f002::e")
+                await self.storage.server_port(80)
+                await self.storage.media_address("149.154.167.40")
+                await self.storage.media_address_v6("2001:67c:4e8:f002::e")
+                await self.storage.media_port(80)
+            else:
+                await self.storage.server_address("149.154.167.51")
+                await self.storage.server_address_v6("2001:67c:4e8:f002::a")
+                await self.storage.server_port(5222 if self.alt_port else 443)
+                await self.storage.media_address("149.154.167.151")
+                await self.storage.media_address_v6("2001:067c:04e8:f002:0000:0000:0000:000b")
+                await self.storage.media_port(5222 if self.alt_port else 443)
             await self.storage.auth_key(
                 await Auth(
                     self, await self.storage.dc_id(),
-                    await self.storage.test_mode()
+                    await self.storage.test_mode(),
+                    await self.storage.server_address_v6() if self.ipv6 else await self.storage.server_address(),
+                    await self.storage.server_port()
                 ).create()
             )
             await self.storage.user_id(None)
@@ -745,6 +761,22 @@ class Client(Methods):
                                 break
                         except Exception as e:
                             print(e)
+            # Needed for migration from storage v4 to v5
+            if not await self.storage.server_address():
+                if self.test_mode:
+                    await self.storage.server_address("149.154.167.40")
+                    await self.storage.server_address_v6("2001:67c:4e8:f002::e")
+                    await self.storage.server_port(80)
+                    await self.storage.media_address("")
+                    await self.storage.media_address_v6("")
+                    await self.storage.media_port(80)
+                else:
+                    await self.storage.server_address("149.154.167.51")
+                    await self.storage.server_address_v6("2001:67c:4e8:f002::a")
+                    await self.storage.server_port(5222 if self.alt_port else 443)
+                    await self.storage.media_address("149.154.167.151")
+                    await self.storage.media_address_v6("2001:067c:04e8:f002:0000:0000:0000:000b")
+                    await self.storage.media_port(5222 if self.alt_port else 443)
 
     def load_plugins(self):
         if self.plugins:
@@ -950,10 +982,18 @@ class Client(Methods):
 
             session = Session(
                 self, dc_id,
-                await Auth(self, dc_id, await self.storage.test_mode()).create()
+                await Auth(
+                    self,
+                    dc_id,
+                    await self.storage.test_mode(),
+                    await self.storage.server_address_v6() if self.ipv6 else await self.storage.server_address(),
+                    await self.storage.server_port()
+                ).create()
                 if dc_id != await self.storage.dc_id()
                 else await self.storage.auth_key(),
                 await self.storage.test_mode(),
+                await self.storage.media_address_v6() if self.ipv6 else await self.storage.media_address(),
+                await self.storage.media_port(),
                 is_media=True
             )
 
@@ -1021,8 +1061,18 @@ class Client(Methods):
 
                 elif isinstance(r, raw.types.upload.FileCdnRedirect):
                     cdn_session = Session(
-                        self, r.dc_id, await Auth(self, r.dc_id, await self.storage.test_mode()).create(),
-                        await self.storage.test_mode(), is_media=True, is_cdn=True
+                        self, r.dc_id, await Auth(
+                            self,
+                            r.dc_id,
+                            await self.storage.test_mode(),
+                            await self.storage.server_address_v6() if self.ipv6 else await self.storage.server_address(),
+                            await self.storage.server_port()
+                        ).create(),
+                        await self.storage.test_mode(),
+                        await self.storage.media_address_v6() if self.ipv6 else await self.storage.media_address(),
+                        await self.storage.media_port(),
+                        is_media=True,
+                        is_cdn=True
                     )
 
                     try:

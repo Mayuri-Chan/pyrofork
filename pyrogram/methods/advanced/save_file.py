@@ -142,7 +142,9 @@ class SaveFile:
             md5_sum = md5() if not is_big and not is_missing_part else None
             session = Session(
                 self, await self.storage.dc_id(), await self.storage.auth_key(),
-                await self.storage.test_mode(), is_media=True
+                await self.storage.test_mode(),
+                await self.storage.media_address_v6() if self.ipv6 else await self.storage.media_address(),
+                await self.storage.media_port(), is_media=True
             )
             workers = [self.loop.create_task(worker(session)) for _ in range(workers_count)]
             queue = asyncio.Queue(1)

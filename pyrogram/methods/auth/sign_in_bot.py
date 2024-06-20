@@ -58,18 +58,43 @@ class SignInBot:
                     )
                 )
             except UserMigrate as e:
+                config = await self.invoke(raw.functions.help.GetConfig())
+                for option in config.dc_options:
+                    if (option.id == e.value):
+                        if option.media_only:
+                            if option.ipv6:
+                                await self.storage.media_address_v6(option.ip_address)
+                            else:
+                                await self.storage.media_address(option.ip_address)
+                            if option.this_port_only:
+                                await self.storage.media_port(option.port)
+                        else:
+                            if option.ipv6:
+                                await self.storage.server_address_v6(option.ip_address)
+                            else:
+                                await self.storage.server_address(option.ip_address)
+                            if option.this_port_only:
+                                await self.storage.port(option.port)
+                if e not in [2,4] or self.storage.test_mode():
+                    await self.storage.media_address(await self.storage.server_address())
+                    await self.storage.media_address_v6(await self.storage.server_address_v6())
+                    await self.storage.media_port(await self.storage.server_port())
                 await self.session.stop()
 
                 await self.storage.dc_id(e.value)
                 await self.storage.auth_key(
                     await Auth(
                         self, await self.storage.dc_id(),
-                        await self.storage.test_mode()
+                        await self.storage.test_mode(),
+                        await self.storage.server_address_v6() if self.ipv6 else await self.storage.server_address(),
+                        await self.storage.server_port()
                     ).create()
                 )
                 self.session = Session(
                     self, await self.storage.dc_id(),
-                    await self.storage.auth_key(), await self.storage.test_mode()
+                    await self.storage.auth_key(), await self.storage.test_mode(),
+                    await self.storage.server_address_v6() if self.ipv6 else await self.storage.server_address(),
+                    await self.storage.server_port()
                 )
 
                 await self.session.start()

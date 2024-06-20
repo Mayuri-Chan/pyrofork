@@ -36,7 +36,13 @@ CREATE TABLE sessions
     auth_key  BLOB,
     date      INTEGER NOT NULL,
     user_id   INTEGER,
-    is_bot    INTEGER
+    is_bot    INTEGER,
+    server_address TEXT,
+    server_address_v6 TEXT,
+    server_port INTEGER,
+    media_address TEXT,
+    media_address_v6 TEXT,
+    media_port INTEGER
 );
 
 CREATE TABLE peers
@@ -138,8 +144,8 @@ class SQLiteStorage(Storage):
             )
 
             self.conn.execute(
-                "INSERT INTO sessions VALUES (?, ?, ?, ?, ?, ?, ?)",
-                (2, None, None, None, 0, None, None)
+                "INSERT INTO sessions VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (2, None, None, None, 0, None, None, None, None, 0, None, None, 0)
             )
 
     async def open(self):
@@ -284,6 +290,24 @@ class SQLiteStorage(Storage):
         return self._accessor(value)
 
     async def is_bot(self, value: bool = object):
+        return self._accessor(value)
+
+    async def server_address(self, value: str = object):
+        return self._accessor(value)
+
+    async def server_address_v6(self, value: str = object):
+        return self._accessor(value)
+
+    async def server_port(self, value: int = object):
+        return self._accessor(value)
+
+    async def media_address(self, value: str = object):
+        return self._accessor(value)
+
+    async def media_address_v6(self, value: str = object):
+        return self._accessor(value)
+
+    async def media_port(self, value: int = object):
         return self._accessor(value)
 
     def version(self, value: int = object):

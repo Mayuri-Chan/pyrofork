@@ -43,12 +43,15 @@ class Auth:
         self,
         client: "pyrogram.Client",
         dc_id: int,
-        test_mode: bool
+        test_mode: bool,
+        server_ip: str,
+        server_port: int
     ):
         self.dc_id = dc_id
         self.test_mode = test_mode
+        self.server_ip = server_ip
+        self.server_port = server_port
         self.ipv6 = client.ipv6
-        self.alt_port = client.alt_port
         self.proxy = client.proxy
         self.connection_factory = client.connection_factory
         self.protocol_factory = client.protocol_factory
@@ -86,14 +89,15 @@ class Auth:
         # The server may close the connection at any time, causing the auth key creation to fail.
         # If that happens, just try again up to MAX_RETRIES times.
         while True:
-            self.connection = self.connection_factory(
+            self.connection = self.client.connection_factory(
                 dc_id=self.dc_id,
                 test_mode=self.test_mode,
-                ipv6=self.ipv6,
-                alt_port=self.alt_port,
-                proxy=self.proxy,
-                media=False,
-                protocol_factory=self.protocol_factory
+                server_ip=self.server_ip,
+                server_port=self.server_port,
+                ipv6=self.client.ipv6,
+                proxy=self.client.proxy,
+                media=self.is_media,
+                protocol_factory=self.client.protocol_factory
             )
 
             try:

@@ -223,6 +223,8 @@ class MongoStorage(Storage):
         d = await self._session.find_one({'_id': 0}, {attr: 1})
         if not d:
             return
+        if f"{attr}" not in d:
+            return
         return d[attr]
 
     async def _set(self, value: Any):
@@ -251,4 +253,22 @@ class MongoStorage(Storage):
         return await self._accessor(value)
 
     async def is_bot(self, value: bool = object):
+        return await self._accessor(value)
+
+    async def server_address(self, value: str = object):
+        return await self._accessor(value)
+
+    async def server_address_v6(self, value: str = object):
+        return await self._accessor(value)
+
+    async def server_port(self, value: int = object):
+        return await self._accessor(value)
+
+    async def media_address(self, value: str = object):
+        return await self._accessor(value)
+
+    async def media_address_v6(self, value: str = object):
+        return await self._accessor(value)
+
+    async def media_port(self, value: int = object):
         return await self._accessor(value)

@@ -42,7 +42,9 @@ class Connect:
 
         self.session = Session(
             self, await self.storage.dc_id(),
-            await self.storage.auth_key(), await self.storage.test_mode()
+            await self.storage.auth_key(), await self.storage.test_mode(),
+            await self.storage.server_address_v6() if self.ipv6 else await self.storage.server_address(),
+            await self.storage.server_port()
         )
 
         await self.session.start()

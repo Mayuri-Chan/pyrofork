@@ -69,6 +69,8 @@ class Session:
         dc_id: int,
         auth_key: bytes,
         test_mode: bool,
+        server_ip: str,
+        server_port: int,
         is_media: bool = False,
         is_cdn: bool = False
     ):
@@ -78,6 +80,8 @@ class Session:
         self.test_mode = test_mode
         self.is_media = is_media
         self.is_cdn = is_cdn
+        self.server_ip = server_ip
+        self.server_port = server_port
 
         self.connection: Optional[Connection] = None
 
@@ -108,8 +112,9 @@ class Session:
             self.connection = self.client.connection_factory(
                 dc_id=self.dc_id,
                 test_mode=self.test_mode,
+                server_ip=self.server_ip,
+                server_port=self.server_port,
                 ipv6=self.client.ipv6,
-                alt_port=self.client.alt_port,
                 proxy=self.client.proxy,
                 media=self.is_media,
                 protocol_factory=self.client.protocol_factory

@@ -35,7 +35,9 @@ async def get_session(client: "pyrogram.Client", dc_id: int):
         session = client.media_sessions[dc_id] = Session(
             client, dc_id,
             await Auth(client, dc_id, await client.storage.test_mode()).create(),
-            await client.storage.test_mode(), is_media=True
+            await client.storage.test_mode(),
+            await client.storage.media_address_v6() if client.ipv6 else await client.storage.media_address(),
+            await client.storage.media_port(), is_media=True
         )
 
         await session.start()

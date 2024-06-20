@@ -29,7 +29,7 @@ class Storage:
     SESSION_STRING_SIZE = 351
     SESSION_STRING_SIZE_64 = 356
 
-    SESSION_STRING_FORMAT = ">BI?256sQ?"
+    SESSION_STRING_FORMAT = ">BI?256sQ?15s39sB15s39sB"
 
     def __init__(self, name: str):
         self.name = name
@@ -97,7 +97,38 @@ class Storage:
     async def is_bot(self, value: bool = object):
         raise NotImplementedError
 
+    async def server_address(self, value: str = object):
+        raise NotImplementedError
+
+    async def server_address_v6(self, value: str = object):
+        raise NotImplementedError
+
+    async def server_port(self, value: int = object):
+        raise NotImplementedError
+
+    async def media_address(self, value: str = object):
+        raise NotImplementedError
+
+    async def media_address_v6(self, value: str = object):
+        raise NotImplementedError
+
+    async def media_port(self, value: int = object):
+        raise NotImplementedError
+
     async def export_session_string(self):
+        server_ip = await self.server_address()
+        server_ip_v6 = await self.server_address_v6()
+        port_server = await self.server_port()
+        media_ip = await self.media_address()
+        media_ip_v6 = await self.media_address_v6()
+        port_media = await self.media_port()
+        # Add leading zero to make fixed size
+        server_address = '.'.join(i.zfill(3) for i in server_ip.split('.'))
+        server_address_v6 = ':'.join(i.zfill(4) for i in server_ip_v6.split(':'))
+        server_port = f"{port_server}".zfill(5)
+        media_address = '.'.join(i.zfill(3) for i in media_ip.split('.'))
+        media_address_v6 = ':'.join(i.zfill(4) for i in media_ip_v6.split(':'))
+        media_port = f"{port_media}".zfill(5)
         packed = struct.pack(
             self.SESSION_STRING_FORMAT,
             await self.dc_id(),
@@ -105,7 +136,13 @@ class Storage:
             await self.test_mode(),
             await self.auth_key(),
             await self.user_id(),
-            await self.is_bot()
+            await self.is_bot(),
+            bytes(server_address.encode()),
+            bytes(server_address_v6.encode()),
+            bytes(server_port.encode()),
+            bytes(media_address.encode()),
+            bytes(media_address_v6.encode()),
+            bytes(media_port.encode())
         )
 
         return base64.urlsafe_b64encode(packed).decode().rstrip("=")

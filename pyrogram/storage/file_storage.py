@@ -38,6 +38,16 @@ CREATE TABLE update_state
 );
 """
 
+UPDATE_SESSION_SCHEMA = """
+ALTER TABLE sessions
+ADD server_address TEXT,
+server_address_v6 TEXT,
+server_port INTEGER,
+media_address TEXT,
+media_address_v6 TEXT,
+media_port INTEGER;
+"""
+
 
 class FileStorage(SQLiteStorage):
     FILE_EXTENSION = ".session"
@@ -65,6 +75,12 @@ class FileStorage(SQLiteStorage):
         if version == 3:
             with self.conn:
                 self.conn.executescript(UPDATE_STATE_SCHEMA)
+
+            version += 1
+
+        if version == 4:
+            with self.conn:
+                self.conn.execute(UPDATE_SESSION_SCHEMA)
 
             version += 1
 

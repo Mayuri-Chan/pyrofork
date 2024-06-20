@@ -19,6 +19,7 @@
 
 import base64
 import logging
+import re
 import sqlite3
 import struct
 
@@ -57,10 +58,18 @@ class MemoryStorage(SQLiteStorage):
                 log.warning("You are using an old session string format. Use export_session_string to update")
                 return
 
-            dc_id, api_id, test_mode, auth_key, user_id, is_bot = struct.unpack(
+            dc_id, api_id, test_mode, auth_key, user_id, is_bot, server_address, server_address_v6, server_port, media_address, media_address_v6, media_port = struct.unpack(
                 self.SESSION_STRING_FORMAT,
                 base64.urlsafe_b64decode(self.session_string + "=" * (-len(self.session_string) % 4))
             )
+
+            # Remove leading zeros
+            server_address = re.sub(r'^[0]*', '', re.sub(r'\.[0]*', '.', server_address.decode()))
+            server_address_v6 = re.sub(r'^[0]*', '', re.sub(r'\:[0]*', ':', server_address_v6.decode()))
+            server_port = int(server_port.decode())
+            media_address = re.sub(r'^[0]*', '', re.sub(r'\.[0]*', '.', media_address.decode()))
+            media_address_v6 = re.sub(r'^[0]*', '', re.sub(r'\:[0]*', ':', media_address_v6.decode()))
+            media_port = int(media_port.decode())
 
             await self.dc_id(dc_id)
             await self.api_id(api_id)
@@ -69,6 +78,12 @@ class MemoryStorage(SQLiteStorage):
             await self.user_id(user_id)
             await self.is_bot(is_bot)
             await self.date(0)
+            await self.server_address(server_address)
+            await self.server_address_v6(server_address_v6)
+            await self.server_port(server_port)
+            await self.media_address(media_address)
+            await self.media_address_v6(media_address_v6)
+            await self.media_port(media_port)
 
     async def delete(self):
         pass
