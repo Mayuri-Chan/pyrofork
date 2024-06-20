@@ -29,7 +29,7 @@ class PromoteChatMember:
             chat_id: Union[int, str],
             user_id: Union[int, str],
             privileges: "types.ChatPrivileges" = None,
-            title: Optional[str] = None,
+            title: Optional[str] = "",
     ) -> bool:
         """Promote or demote a user in a supergroup or a channel.
 
