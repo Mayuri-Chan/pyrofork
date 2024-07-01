@@ -514,6 +514,8 @@ def pyrogram_api():
             ReactionType
             MessageReactionUpdated
             MessageReactionCountUpdated
+            ExtendedMediaPreview
+            PaidMedia
         """,
         stories="""
         Stories

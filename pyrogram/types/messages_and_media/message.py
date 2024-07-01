@@ -208,6 +208,9 @@ class Message(Object, Update):
         photo (:obj:`~pyrogram.types.Photo`, *optional*):
             Message is a photo, information about the photo.
 
+        paid_media (:obj:`~pyrogram.types.PaidMedia`, *optional*):
+            Message is a paid media, information about the paid media.
+
         sticker (:obj:`~pyrogram.types.Sticker`, *optional*):
             Message is a sticker, information about the sticker.
 
@@ -472,6 +475,7 @@ class Message(Object, Update):
         audio: "types.Audio" = None,
         document: "types.Document" = None,
         photo: "types.Photo" = None,
+        paid_media: "types.PaidMedia" = None,
         sticker: "types.Sticker" = None,
         animation: "types.Animation" = None,
         game: "types.Game" = None,
@@ -582,6 +586,7 @@ class Message(Object, Update):
         self.audio = audio
         self.document = document
         self.photo = photo
+        self.paid_media = paid_media
         self.sticker = sticker
         self.animation = animation
         self.game = game
@@ -971,6 +976,7 @@ class Message(Object, Update):
                     forward_sender_name = forward_header.from_name
 
             photo = None
+            paid_media = None
             location = None
             contact = None
             venue = None
@@ -1077,6 +1083,9 @@ class Message(Object, Update):
                 elif isinstance(media, raw.types.MessageMediaInvoice):
                     invoice = types.MessageInvoice._parse(media)
                     media = enums.MessageMediaType.INVOICE
+                elif isinstance(media, raw.types.MessageMediaPaidMedia):
+                    paid_media = types.PaidMedia._parse(client, media)
+                    media_type = enums.MessageMediaType.PAID_MEDIA
                 else:
                     media = None
 
@@ -1151,6 +1160,7 @@ class Message(Object, Update):
                 media_group_id=message.grouped_id,
                 invert_media=message.invert_media,
                 photo=photo,
+                paid_media=paid_media,
                 location=location,
                 contact=contact,
                 venue=venue,
