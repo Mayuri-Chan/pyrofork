@@ -67,9 +67,6 @@ class SendPaidMedia:
             parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
                 Send Markdown or HTML, if you want Telegram apps to show bold, italic, fixed-width text or inline URLs in your bot's message.
 
-            entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
-                List of special entities that appear in the text, which can be specified instead of parse_mode.
-
             disable_notification (``bool``, *optional*):
                 Sends the message silently. Users will receive a notification with no sound.
 
