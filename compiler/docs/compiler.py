@@ -230,6 +230,9 @@ def pyrogram_api():
             set_administrator_title
             set_chat_photo
             delete_chat_photo
+            delete_folder
+            export_folder_link
+            update_folder
             set_chat_title
             set_chat_description
             set_chat_permissions
@@ -242,6 +245,7 @@ def pyrogram_api():
             get_chat_members_count
             get_dialogs
             get_dialogs_count
+            get_folders
             get_forum_topics
             get_forum_topics_by_id
             set_chat_username
@@ -273,6 +277,7 @@ def pyrogram_api():
             reopen_general_topic
             unhide_general_topic
             update_color
+            update_folder
         """,
         users="""
         Users
@@ -455,6 +460,7 @@ def pyrogram_api():
             ChatJoinedByRequest
             ChatJoiner
             Dialog
+            Folder
             Restriction
             EmojiStatus
             ForumTopic

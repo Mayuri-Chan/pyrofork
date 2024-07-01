@@ -19,6 +19,7 @@ to apply only a valid value among the expected ones.
     ChatMemberStatus
     ChatMembersFilter
     ChatType
+    FolderColor
     ListenerTypes
     MessageEntityType
     MessageMediaType
@@ -41,6 +42,7 @@ to apply only a valid value among the expected ones.
     ChatMemberStatus
     ChatMembersFilter
     ChatType
+    FolderColor
     ListenerTypes
     MessageEntityType
     MessageMediaType
