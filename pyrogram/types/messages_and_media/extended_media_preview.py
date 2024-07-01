@@ -31,7 +31,7 @@ class ExtendedMediaPreview(Object):
         height (``int``, *optional*):
             Media Height.
 
-        thumb (:obj:`~pyrogram.types.Thumbnail`, *optional*):
+        thumb (:obj:`~pyrogram.types.StrippedThumbnail`, *optional*):
             Media Thumbnail.
 
         video_duration (``int``, *optional*):
@@ -53,10 +53,10 @@ class ExtendedMediaPreview(Object):
         self.video_duration = video_duration
 
     @staticmethod
-    async def _parse(client, media: "raw.types.MessageExtendedMediaPreview") -> "ExtendedMediaPreview":
+    def _parse(client, media: "raw.types.MessageExtendedMediaPreview") -> "ExtendedMediaPreview":
         thumb = None
         if media.thumb:
-            thumb = await types.Thumbnail._parse(client, media.thumb)
+            thumb = types.StrippedThumbnail._parse(client, media.thumb)
 
         return ExtendedMediaPreview(
             width=media.w,

@@ -55,7 +55,9 @@ class PaidMedia(Object):
     def _parse(client, media: "raw.types.MessageMediaPaidMedia") -> "PaidMedia":
         extended_media = []
         for m in media.extended_media:
-            if isinstance(m.media, raw.types.MessageMediaPhoto):
+            if isinstance(m, raw.types.MessageExtendedMediaPreview):
+                extended_media.append(types.ExtendedMediaPreview._parse(client, m))
+            elif isinstance(m.media, raw.types.MessageMediaPhoto):
                 extended_media.append(types.Photo._parse(client, m.media.photo, m.media.ttl_seconds))
             elif isinstance(m.media, raw.types.MessageMediaDocument):
                 attributes = {type(i): i for i in m.media.document.attributes}
@@ -70,8 +72,6 @@ class PaidMedia(Object):
                 else:
                     video_attributes = attributes[raw.types.DocumentAttributeVideo]
                     extended_media.append(types.Video._parse(client, m.media.document, video_attributes, file_name, m.media.ttl_seconds))
-            elif isinstance(m, raw.types.MessageExtendedMediaPreview):
-                extended_media.append(types.ExtendedMediaPreview._parse(client, m))
         return PaidMedia(
             stars_amount=media.stars_amount,
             extended_media=extended_media
