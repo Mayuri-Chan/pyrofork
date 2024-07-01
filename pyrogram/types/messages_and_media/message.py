@@ -864,7 +864,6 @@ class Message(Object, Update):
                 chat=types.Chat._parse(client, message, users, chats, is_chat=True),
                 topics=None,
                 from_user=from_user,
-                sender_chat=sender_chat,
                 service=service_type,
                 new_chat_members=new_chat_members,
                 chat_joined_by_request=chat_joined_by_request,
@@ -900,6 +899,8 @@ class Message(Object, Update):
                 client=client
                 # TODO: supergroup_chat_created
             )
+            if parsed_message.chat.type is not enums.ChatType.CHANNEL:
+                parsed_message.sender_chat = sender_chat
 
             if isinstance(action, raw.types.MessageActionPinMessage):
                 try:
@@ -1119,7 +1120,6 @@ class Message(Object, Update):
                 chat=types.Chat._parse(client, message, users, chats, is_chat=True),
                 topics=None,
                 from_user=from_user,
-                sender_chat=sender_chat,
                 sender_business_bot=sender_business_bot,
                 text=(
                     Str(message.message).init(entities) or None
@@ -1189,6 +1189,8 @@ class Message(Object, Update):
                 raw=message,
                 client=client
             )
+            if parsed_message.chat.type is not enums.ChatType.CHANNEL:
+                parsed_message.sender_chat = sender_chat
 
             if message.reply_to:
                 if isinstance(message.reply_to, raw.types.MessageReplyHeader):
