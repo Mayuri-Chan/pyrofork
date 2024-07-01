@@ -81,10 +81,22 @@ class SendPaidMedia:
 
             invert_media (``bool``, *optional*):
                 Invert the media.
+
+        Example:
+            .. code-block:: python
+
+                app.send_paid_media(
+                    chat_id="pyrogram",
+                    stars_amount=100,
+                    media=[
+                        types.InputMediaPhoto("/path/to/photo.jpg"),
+                        types.InputMediaVideo("video_file_id")
+                    ],
+                    caption="This is a paid media message."
+                )
         """
         multi_media = []
 
-        peer = await self.resolve_peer(chat_id)
         for i in media:
             if isinstance(i, types.InputMediaPhoto):
                 if isinstance(i.media, str):
