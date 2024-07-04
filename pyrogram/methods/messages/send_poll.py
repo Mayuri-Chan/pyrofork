@@ -172,7 +172,17 @@ class SendPoll:
         Example:
             .. code-block:: python
 
-                await app.send_poll(chat_id, "Is this a poll question?", ["Yes", "No", "Maybe"])
+                from pyrogram.types import PollOption
+
+                await app.send_poll(
+                    chat_id,
+                    "Is this a poll question?",
+                    [
+                        PollOption("Yes"),
+                        PollOption("No"),
+                        PollOption("Maybe")
+                    ]
+                )
         """
 
         reply_to = await utils.get_reply_to(

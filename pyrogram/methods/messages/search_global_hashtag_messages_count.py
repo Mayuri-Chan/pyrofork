@@ -21,7 +21,7 @@ from pyrogram import raw
 
 
 class SearchGlobalHashtagMessagesCount:
-    async def search_golbal_hashtag_messages_count(
+    async def search_global_hashtag_messages_count(
         self: "pyrogram.Client",
         hashtag: str = "",
     ) -> int:

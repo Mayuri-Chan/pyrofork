@@ -208,6 +208,9 @@ class Message(Object, Update):
         photo (:obj:`~pyrogram.types.Photo`, *optional*):
             Message is a photo, information about the photo.
 
+        paid_media (:obj:`~pyrogram.types.PaidMedia`, *optional*):
+            Message is a paid media, information about the paid media.
+
         sticker (:obj:`~pyrogram.types.Sticker`, *optional*):
             Message is a sticker, information about the sticker.
 
@@ -472,6 +475,7 @@ class Message(Object, Update):
         audio: "types.Audio" = None,
         document: "types.Document" = None,
         photo: "types.Photo" = None,
+        paid_media: "types.PaidMedia" = None,
         sticker: "types.Sticker" = None,
         animation: "types.Animation" = None,
         game: "types.Game" = None,
@@ -582,6 +586,7 @@ class Message(Object, Update):
         self.audio = audio
         self.document = document
         self.photo = photo
+        self.paid_media = paid_media
         self.sticker = sticker
         self.animation = animation
         self.game = game
@@ -859,7 +864,6 @@ class Message(Object, Update):
                 chat=types.Chat._parse(client, message, users, chats, is_chat=True),
                 topics=None,
                 from_user=from_user,
-                sender_chat=sender_chat,
                 service=service_type,
                 new_chat_members=new_chat_members,
                 chat_joined_by_request=chat_joined_by_request,
@@ -895,6 +899,8 @@ class Message(Object, Update):
                 client=client
                 # TODO: supergroup_chat_created
             )
+            if parsed_message.chat.type is not enums.ChatType.CHANNEL:
+                parsed_message.sender_chat = sender_chat
 
             if isinstance(action, raw.types.MessageActionPinMessage):
                 try:
@@ -971,6 +977,7 @@ class Message(Object, Update):
                     forward_sender_name = forward_header.from_name
 
             photo = None
+            paid_media = None
             location = None
             contact = None
             venue = None
@@ -1077,6 +1084,9 @@ class Message(Object, Update):
                 elif isinstance(media, raw.types.MessageMediaInvoice):
                     invoice = types.MessageInvoice._parse(media)
                     media = enums.MessageMediaType.INVOICE
+                elif isinstance(media, raw.types.MessageMediaPaidMedia):
+                    paid_media = types.PaidMedia._parse(client, media)
+                    media_type = enums.MessageMediaType.PAID_MEDIA
                 else:
                     media = None
 
@@ -1110,7 +1120,6 @@ class Message(Object, Update):
                 chat=types.Chat._parse(client, message, users, chats, is_chat=True),
                 topics=None,
                 from_user=from_user,
-                sender_chat=sender_chat,
                 sender_business_bot=sender_business_bot,
                 text=(
                     Str(message.message).init(entities) or None
@@ -1151,6 +1160,7 @@ class Message(Object, Update):
                 media_group_id=message.grouped_id,
                 invert_media=message.invert_media,
                 photo=photo,
+                paid_media=paid_media,
                 location=location,
                 contact=contact,
                 venue=venue,
@@ -1179,6 +1189,8 @@ class Message(Object, Update):
                 raw=message,
                 client=client
             )
+            if parsed_message.chat.type is not enums.ChatType.CHANNEL:
+                parsed_message.sender_chat = sender_chat
 
             if message.reply_to:
                 if isinstance(message.reply_to, raw.types.MessageReplyHeader):
@@ -4505,7 +4517,12 @@ class Message(Object, Update):
                 return await self._client.send_poll(
                     chat_id,
                     question=self.poll.question,
-                    options=[opt.text for opt in self.poll.options],
+                    options=[
+                        types.PollOption(
+                            text=opt.text,
+                            entities=opt.entities
+                        ) for opt in self.poll.options
+                    ],
                     disable_notification=disable_notification,
                     message_thread_id=message_thread_id,
                     schedule_date=schedule_date

@@ -57,6 +57,7 @@ OPENING_TAG = "<{}>"
 CLOSING_TAG = "</{}>"
 URL_MARKUP = '<a href="{}">{}</a>'
 FIXED_WIDTH_DELIMS = [CODE_DELIM, PRE_DELIM]
+CODE_TAG_RE = re.compile(r"<code>.*?</code>")
 
 
 class Markdown:
@@ -108,6 +109,12 @@ class Markdown:
         delims = set()
         is_fixed_width = False
 
+        placeholders = {}
+        for i, code_section in enumerate(CODE_TAG_RE.findall(text)):
+            placeholder = f"{{CODE_SECTION_{i}}}"
+            placeholders[placeholder] = code_section
+            text = text.replace(code_section, placeholder, 1)
+
         for i, match in enumerate(re.finditer(MARKDOWN_RE, text)):
             start, _ = match.span()
             delim, text_url, url = match.groups()
@@ -154,6 +161,9 @@ class Markdown:
                 continue
 
             text = utils.replace_once(text, delim, tag, start)
+
+        for placeholder, code_section in placeholders.items():
+            text = text.replace(placeholder, code_section)
 
         return await self.html.parse(text)
 

@@ -17,28 +17,36 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-__fork_name__ = "PyroFork"
-__version__ = "2.3.29"
-__license__ = "GNU Lesser General Public License v3.0 (LGPL-3.0)"
-__copyright__ = "Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>"
-
-from concurrent.futures.thread import ThreadPoolExecutor
+import pyrogram
+from pyrogram import raw
 
 
-class StopTransmission(Exception):
-    pass
+class DeleteFolder:
+    async def delete_folder(
+        self: "pyrogram.Client",
+        folder_id: int
+    ) -> bool:
+        """Delete a user's folder.
 
+        .. include:: /_includes/usable-by/users.rst
 
-class StopPropagation(StopAsyncIteration):
-    pass
+        Parameters:
+            folder_id (``int``):
+                Unique identifier (int) of the target folder.
 
+        Returns:
+            ``bool``: True, on success.
 
-class ContinuePropagation(StopAsyncIteration):
-    pass
+        Example:
+            .. code-block:: python
 
+                # Delete folder
+                app.delete_folder(folder_id)
+        """
+        r = await self.invoke(
+            raw.functions.messages.UpdateDialogFilter(
+                id=folder_id
+            )
+        )
 
-from . import raw, types, filters, handlers, emoji, enums
-from .client import Client
-from .sync import idle, compose
-
-crypto_executor = ThreadPoolExecutor(1, thread_name_prefix="CryptoWorker")
+        return r

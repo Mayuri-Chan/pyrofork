@@ -23,6 +23,7 @@ from .available_effect import AvailableEffect
 from .contact import Contact
 from .dice import Dice
 from .document import Document
+from .extended_media_preview import ExtendedMediaPreview
 from .game import Game
 from .gifted_premium import GiftedPremium
 from .giveaway import Giveaway
@@ -35,6 +36,7 @@ from .media_area_channel_post import MediaAreaChannelPost
 from .media_area_coordinates import MediaAreaCoordinates
 from .message import Message
 from .message_entity import MessageEntity
+from .paid_media import PaidMedia
 from .photo import Photo
 from .poll import Poll
 from .poll_option import PollOption
@@ -67,7 +69,7 @@ from .story_views import StoryViews
 from .exported_story_link import ExportedStoryLink
 
 __all__ = [
-    "Animation", "Audio", "AvailableEffect", "Contact", "Document", "Game", "GiftedPremium", "Giveaway", "GiveawayLaunched", "GiveawayResult", "LabeledPrice", "Location", "MediaArea", "MediaAreaChannelPost", "MediaAreaCoordinates", "Message", "MessageEntity", "Photo", "Thumbnail",
+    "Animation", "Audio", "AvailableEffect", "Contact", "Document", "ExtendedMediaPreview", "Game", "GiftedPremium", "Giveaway", "GiveawayLaunched", "GiveawayResult", "LabeledPrice", "Location", "MediaArea", "MediaAreaChannelPost", "MediaAreaCoordinates", "Message", "MessageEntity", "PaidMedia", "Photo", "Thumbnail",
     "StrippedThumbnail", "Poll", "PollOption", "Sticker", "StickerSet", "Venue", "Video", "VideoNote", "Voice", "WebPage", "WebPageEmpty", "WebPagePreview", "Dice",
     "Reaction", "WebAppData", "MessageInvoice", "MessageReactions", "ReactionCount", "ReactionType", "MessageReactionUpdated", "MessageReactionCountUpdated", "MessageStory", "Story", "StoryDeleted", "StorySkipped", "StoryViews", "StoryForwardHeader", "StoriesPrivacyRules", "ExportedStoryLink"
 ]
