@@ -39,6 +39,7 @@ class SendInvoice:
         message_thread_id: int = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
+        reply_markup: "types.InlineKeyboardMarkup" = None
     ):
         """Use this method to send invoices.
 
@@ -96,6 +97,9 @@ class SendInvoice:
                 List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
                 for reply_to_message only.
 
+            reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
+                An inline keyboard. If empty, one 'Buy' button will be shown.
+
         Returns:
             :obj:`~pyrogram.types.Message`: On success, the sent message is returned.
 
@@ -111,6 +115,21 @@ class SendInvoice:
                     provider_data="{}"
                 ))
         """
+
+        if reply_markup is not None:
+            has_buy_button = False
+            for i in reply_markup.inline_keyboard:
+                for j in i:
+                    if isinstance(j, types.InlineKeyboardButtonBuy):
+                        has_buy_button = True
+            if not has_buy_button:
+                text = "Pay"
+                if currency == "XTR":
+                    prices_total = 0
+                    for price in prices:
+                        prices_total += price.amount
+                    text = f"Pay ⭐️{prices_total}"
+                reply_markup.inline_keyboard.insert(0, [types.InlineKeyboardButtonBuy(text=text)])
 
         reply_to = await utils.get_reply_to(
             client=self,
@@ -145,7 +164,8 @@ class SendInvoice:
                 ),
                 random_id=self.rnd_id(),
                 reply_to=reply_to,
-                message=""
+                message="",
+                reply_markup=await reply_markup.write(self) if reply_markup is not None else None
             )
         )
 

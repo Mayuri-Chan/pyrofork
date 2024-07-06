@@ -29,8 +29,10 @@ class InlineKeyboardMarkup(Object):
     """An inline keyboard that appears right next to the message it belongs to.
 
     Parameters:
-        inline_keyboard (List of List of :obj:`~pyrogram.types.InlineKeyboardButton`):
+        inline_keyboard (List of List of :obj:`~pyrogram.types.InlineKeyboardButton` | :obj:`~pyrogram.types.InlineKeyboardButtonBuy`):
             List of button rows, each represented by a List of InlineKeyboardButton objects.
+            :obj:`~pyrogram.types.InlineKeyboardButtonBuy` objects is only for :meth:`~pyrogram.Client.send_invoice`.
+            and only one needed in the first row.
     """
 
     def __init__(self, inline_keyboard: List[List[Union["types.InlineKeyboardButton", "types.InlineKeyboardButtonBuy"]]]):
