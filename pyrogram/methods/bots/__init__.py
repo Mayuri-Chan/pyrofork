@@ -29,6 +29,7 @@ from .get_chat_menu_button import GetChatMenuButton
 from .get_collectible_item_info import GetCollectibleItemInfo
 from .get_game_high_scores import GetGameHighScores
 from .get_inline_bot_results import GetInlineBotResults
+from .refund_stars_payment import RefundStarPayment
 from .request_callback_answer import RequestCallbackAnswer
 from .send_game import SendGame
 from .send_inline_bot_result import SendInlineBotResult
@@ -59,6 +60,7 @@ class Bots(
     GetChatMenuButton,
     AnswerWebAppQuery,
     AnswerPreCheckoutQuery,
+    RefundStarPayment,
     GetCollectibleItemInfo
 ):
     pass
