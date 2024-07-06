@@ -28,6 +28,9 @@ class LabeledPrice(Object):
 
         amount (``int``):
             Price of the product in the smallest units of the currency (integer, not float/double).
+            The minimum amuont for telegram stars is 1.
+            The minimum amount for other currencies is US$1.
+            you need to add 2 extra zeros to the amount (except stars), example 100 for 1 usd.
     """
 
     def __init__(
