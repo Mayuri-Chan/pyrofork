@@ -792,17 +792,17 @@ class Message(Object, Update):
             elif isinstance(action, raw.types.MessageActionBotAllowed):
                 bot_allowed = types.BotAllowed._parse(client, action)
                 service_type = enums.MessageServiceType.BOT_ALLOWED
-            elif isinstance(action, raw.types.MessageActionRequestedPeer):
+            elif isinstance(action, raw.types.MessageActionRequestedPeer) or isinstance(action, raw.types.MessageActionRequestedPeerSentMe):
                 chat_shared = []
                 user_shared = []
                 for peer in action.peers:
-                    if isinstance(peer, raw.types.PeerChannel):
+                    if isinstance(peer, raw.types.PeerChannel) or isinstance(peer, raw.types.RequestedPeerChannel):
                         chat_shared.append(utils.get_channel_id(utils.get_raw_peer_id(peer)))
                         service_type = enums.MessageServiceType.ChannelShared
-                    elif isinstance(peer, raw.types.PeerChat):
+                    elif isinstance(peer, raw.types.PeerChat) or isinstance(peer, raw.types.RequestedPeerChat):
                         chat_shared.append(utils.get_channel_id(utils.get_raw_peer_id(peer)))
                         service_type = enums.MessageServiceType.ChannelShared
-                    elif isinstance(peer, raw.types.PeerUser):
+                    elif isinstance(peer, raw.types.PeerUser) or isinstance(peer, raw.types.RequestedPeerUser):
                         user_shared.append(peer.user_id)
                         service_type = enums.MessageServiceType.UserShared
             elif isinstance(action, raw.types.MessageActionTopicCreate):

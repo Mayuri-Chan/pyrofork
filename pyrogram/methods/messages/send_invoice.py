@@ -39,6 +39,7 @@ class SendInvoice:
         message_thread_id: int = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
+        reply_markup: "types.InlineKeyboardMarkup" = None
     ):
         """Use this method to send invoices.
 
@@ -56,12 +57,14 @@ class SendInvoice:
 
             currency (``str``):
                 Three-letter ISO 4217 currency code.
+                `XTR` for Telegram Stars.
 
             prices (List of :obj:`~pyrogram.types.LabeledPrice`):
                 Price with label.
 
             provider (``str``, *optional*):
                 Payment provider.
+                Get this from botfather.
 
             provider_data (``str``, *optional*):
                 Provider data in json format.
@@ -96,21 +99,48 @@ class SendInvoice:
                 List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
                 for reply_to_message only.
 
+            reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
+                An inline keyboard. If empty, one 'Buy' button will be shown.
+
         Returns:
             :obj:`~pyrogram.types.Message`: On success, the sent message is returned.
 
         Example:
             .. code-block:: python
 
+                # USD
                 app.send_invoice(chat_id, types.InputMediaInvoice(
                     title="Product Name",
                     description="Product Description",
                     currency="USD",
                     prices=[types.LabeledPrice("Product", 1000)],
-                    provider="Stripe",
+                    provider="Stripe_provider_codes",
                     provider_data="{}"
                 ))
+
+                # Telegram Stars
+                app.send_invoice(chat_id, types.InputMediaInvoice(
+                    title="Product Name",
+                    description="Product Description",
+                    currency="XTR",
+                    prices=[types.LabeledPrice("Product", 1000)]
+                ))
         """
+
+        if reply_markup is not None:
+            has_buy_button = False
+            for i in reply_markup.inline_keyboard:
+                for j in i:
+                    if isinstance(j, types.InlineKeyboardButtonBuy):
+                        has_buy_button = True
+            if not has_buy_button:
+                text = "Pay"
+                if currency == "XTR":
+                    prices_total = 0
+                    for price in prices:
+                        prices_total += price.amount
+                    text = f"Pay ⭐️{prices_total}"
+                reply_markup.inline_keyboard.insert(0, [types.InlineKeyboardButtonBuy(text=text)])
 
         reply_to = await utils.get_reply_to(
             client=self,
@@ -145,7 +175,8 @@ class SendInvoice:
                 ),
                 random_id=self.rnd_id(),
                 reply_to=reply_to,
-                message=""
+                message="",
+                reply_markup=await reply_markup.write(self) if reply_markup is not None else None
             )
         )
 
@@ -157,7 +188,7 @@ class SendInvoice:
                     raw.types.UpdateNewChannelMessage
                 )
             ):
-                return types.Message._parse(
+                return await types.Message._parse(
                     self,
                     i.message,
                     users={i.id: i for i in r.users},
