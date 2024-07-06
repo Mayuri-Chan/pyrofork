@@ -39,6 +39,12 @@ class SendInvoice:
         message_thread_id: int = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
+        reply_markup: Union[
+            "types.InlineKeyboardMarkup",
+            "types.ReplyKeyboardMarkup",
+            "types.ReplyKeyboardRemove",
+            "types.ForceReply"
+        ] = None
     ):
         """Use this method to send invoices.
 
@@ -145,7 +151,8 @@ class SendInvoice:
                 ),
                 random_id=self.rnd_id(),
                 reply_to=reply_to,
-                message=""
+                message="",
+                reply_markup= await reply_markup.write(self) if reply_markup else None
             )
         )
 
@@ -157,7 +164,7 @@ class SendInvoice:
                     raw.types.UpdateNewChannelMessage
                 )
             ):
-                return types.Message._parse(
+                return await types.Message._parse(
                     self,
                     i.message,
                     users={i.id: i for i in r.users},
