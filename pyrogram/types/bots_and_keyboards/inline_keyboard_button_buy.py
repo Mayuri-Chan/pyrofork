@@ -17,6 +17,7 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from ..object import Object
+from pyrogram import raw
 
 class InlineKeyboardButtonBuy(Object):
     """One button of the inline keyboard.
@@ -42,4 +43,7 @@ class InlineKeyboardButtonBuy(Object):
             text=b.text
         )
 
-    # TODO: Implement write method
+    async def write(self, client):
+        return raw.types.KeyboardButtonBuy(
+            text=self.text,
+        )
