@@ -30,6 +30,7 @@ class SendInvoice:
         prices: List["types.LabeledPrice"],
         provider: str = None,
         provider_data: str = None,
+        payload: str = None,
         photo_url: str = None,
         photo_size: int = None,
         photo_mime_type: str = None,
@@ -68,6 +69,10 @@ class SendInvoice:
 
             provider_data (``str``, *optional*):
                 Provider data in json format.
+
+            payload (``str``, *optional*):
+                Bot-defined invoice payload, 1-128 bytes.
+                This will not be displayed to the user, use for your internal processes.
 
             photo_url (``str``, *optional*):
                 Photo URL.
@@ -151,6 +156,10 @@ class SendInvoice:
             quote_entities=quote_entities
         )
 
+        if payload is not None:
+            encoded_payload = payload.encode()
+        else:
+            encoded_payload = f"{(title)}".encode()
         r = await self.invoke(
             raw.functions.messages.SendMedia(
                 peer=await self.resolve_peer(chat_id),
@@ -161,7 +170,7 @@ class SendInvoice:
                         currency=currency,
                         prices=[price.write() for price in prices]
                     ),
-                    payload=f"{(title)}".encode(),
+                    payload=encoded_payload,
                     provider=provider,
                     provider_data=raw.types.DataJSON(data=provider_data if provider_data else "{}"),
                     photo=raw.types.InputWebDocument(
