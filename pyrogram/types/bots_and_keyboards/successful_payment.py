@@ -106,7 +106,7 @@ class SuccessfulPayment(Object):
             total_amount=successful_payment.total_amount,
             payload=payload,
             telegram_payment_charge_id=telegram_payment_charge_id,
-            provider_payment_charge_id=shipping_option_id,
+            provider_payment_charge_id=provider_payment_charge_id,
             shipping_option_id=shipping_option_id,
             payment_info=payment_info
         )

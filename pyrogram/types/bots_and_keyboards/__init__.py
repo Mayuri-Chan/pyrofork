@@ -45,6 +45,7 @@ from .menu_button_commands import MenuButtonCommands
 from .menu_button_default import MenuButtonDefault
 from .menu_button_web_app import MenuButtonWebApp
 from .payment_info import PaymentInfo
+from .payment_refunded import PaymentRefunded
 from .pre_checkout_query import PreCheckoutQuery
 from .reply_keyboard_markup import ReplyKeyboardMarkup
 from .reply_keyboard_remove import ReplyKeyboardRemove
@@ -97,6 +98,7 @@ __all__ = [
     "ShippingOption",
     "ShippingQuery",
     "PaymentInfo",
+    "PaymentRefunded",
     "PreCheckoutQuery",
     "SuccessfulPayment"
 ]
