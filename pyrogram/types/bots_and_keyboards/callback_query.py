@@ -107,11 +107,10 @@ class CallbackQuery(Object, Update):
                 client,
                 callback_query.message,
                 users,
-                chats,
+                {},
                 is_scheduled=False,
                 replies=0,
-                business_connection_id=callback_query.connection_id,
-                raw_reply_to_message=getattr(callback_query, "reply_to_message", None)
+                business_connection_id=callback_query.connection_id
             )
         # Try to decode callback query data into string. If that fails, fallback to bytes instead of decoding by
         # ignoring/replacing errors, this way, button clicks will still work.
