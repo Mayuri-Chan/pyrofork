@@ -281,15 +281,20 @@ MAX_USER_ID_OLD = 2147483647
 MAX_USER_ID = 999999999999
 
 
-def get_raw_peer_id(peer: raw.base.Peer) -> Optional[int]:
+def get_raw_peer_id(
+        peer: Union[
+            raw.base.Peer,
+            raw.base.RequestedPeer
+        ]
+    ) -> Optional[int]:
     """Get the raw peer id from a Peer object"""
-    if isinstance(peer, raw.types.PeerUser):
+    if isinstance(peer, raw.types.PeerUser) or isinstance(peer, raw.types.RequestedPeerUser):
         return peer.user_id
 
-    if isinstance(peer, raw.types.PeerChat):
+    if isinstance(peer, raw.types.PeerChat) or isinstance(peer, raw.types.RequestedPeerChat):
         return peer.chat_id
 
-    if isinstance(peer, raw.types.PeerChannel):
+    if isinstance(peer, raw.types.PeerChannel) or isinstance(peer, raw.types.RequestedPeerChannel):
         return peer.channel_id
 
     return None
