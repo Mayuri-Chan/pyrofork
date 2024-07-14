@@ -4121,7 +4121,8 @@ class Message(Object, Update):
             entities=entities,
             disable_web_page_preview=disable_web_page_preview,
             invert_media=invert_media,
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
+            business_connection_id=self.business_connection_id
         )
 
     edit = edit_text
@@ -4181,7 +4182,8 @@ class Message(Object, Update):
             parse_mode=parse_mode,
             caption_entities=caption_entities,
             invert_media=invert_media,
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
+            business_connection_id=self.business_connection_id
         )
 
     async def edit_media(
@@ -4228,7 +4230,8 @@ class Message(Object, Update):
             message_id=self.id,
             media=media,
             invert_media=invert_media,
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
+            business_connection_id=self.business_connection_id
         )
 
     async def edit_reply_markup(self, reply_markup: "types.InlineKeyboardMarkup" = None) -> "Message":
@@ -4263,7 +4266,8 @@ class Message(Object, Update):
         return await self._client.edit_message_reply_markup(
             chat_id=self.chat.id,
             message_id=self.id,
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
+            business_connection_id=self.business_connection_id
         )
 
     async def forward(

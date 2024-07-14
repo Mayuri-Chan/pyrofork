@@ -250,5 +250,6 @@ class Poll(Object, Update):
         return await self._client.stop_poll(
             chat_id=self.chat.id,
             message_id=self.id,
-            reply_markup=reply_markup
+            reply_markup=reply_markup,
+            business_connection_id=self.business_connection_id
         )

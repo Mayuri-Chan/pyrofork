@@ -30,6 +30,7 @@ class EditMessageReplyMarkup:
         chat_id: Union[int, str],
         message_id: int,
         reply_markup: "types.InlineKeyboardMarkup" = None,
+        business_connection_id: str = None
     ) -> "types.Message":
         """Edit only the reply markup of messages sent by the bot.
 
@@ -48,6 +49,9 @@ class EditMessageReplyMarkup:
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
                 An InlineKeyboardMarkup object.
 
+            business_connection_id (``str``, *optional*):
+                Unique identifier of the business connection.
+
         Returns:
             :obj:`~pyrogram.types.Message`: On success, the edited message is returned.
 
@@ -62,13 +66,20 @@ class EditMessageReplyMarkup:
                     InlineKeyboardMarkup([[
                         InlineKeyboardButton("New button", callback_data="new_data")]]))
         """
-        r = await self.invoke(
-            raw.functions.messages.EditMessage(
-                peer=await self.resolve_peer(chat_id),
-                id=message_id,
-                reply_markup=await reply_markup.write(self) if reply_markup else None,
-            )
+        rpc = raw.functions.messages.EditMessage(
+            peer=await self.resolve_peer(chat_id),
+            id=message_id,
+            reply_markup=await reply_markup.write(self) if reply_markup else None
         )
+        if business_connection_id is not None:
+            r = await self.invoke(
+                raw.functions.InvokeWithBusinessConnection(
+                    connection_id=business_connection_id,
+                    query=rpc
+                )
+            )
+        else:
+            r = await self.invoke(rpc)
 
         for i in r.updates:
             if isinstance(i, (raw.types.UpdateEditMessage, raw.types.UpdateEditChannelMessage)):

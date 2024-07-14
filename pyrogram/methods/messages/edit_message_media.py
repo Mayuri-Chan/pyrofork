@@ -37,7 +37,8 @@ class EditMessageMedia:
         media: "types.InputMedia",
         reply_markup: "types.InlineKeyboardMarkup" = None,
         file_name: str = None,
-        invert_media: bool = False
+        invert_media: bool = False,
+        business_connection_id: str = None
     ) -> "types.Message":
         """Edit animation, audio, document, photo or video messages.
 
@@ -68,6 +69,9 @@ class EditMessageMedia:
 
             invert_media (``bool``, *optional*):
                 Inverts the position of the media and caption.
+
+            business_connection_id (``str``, *optional*):
+                Unique identifier of the business connection.
 
         Returns:
             :obj:`~pyrogram.types.Message`: On success, the edited message is returned.
@@ -273,17 +277,24 @@ class EditMessageMedia:
             else:
                 media = utils.get_input_media_from_file_id(media.media, FileType.DOCUMENT)
 
-        r = await self.invoke(
-            raw.functions.messages.EditMessage(
-                peer=await self.resolve_peer(chat_id),
-                id=message_id,
-                media=media,
-                reply_markup=await reply_markup.write(self) if reply_markup else None,
-                message=message,
-                entities=entities,
-                invert_media=invert_media
-            )
+        rpc = raw.functions.messages.EditMessage(
+            peer=await self.resolve_peer(chat_id),
+            id=message_id,
+            media=media,
+            reply_markup=await reply_markup.write(self) if reply_markup else None,
+            message=message,
+            entities=entities,
+            invert_media=invert_media
         )
+        if business_connection_id is not None:
+            r = await self.invoke(
+                raw.functions.InvokeWithBusinessConnection(
+                    connection_id=business_connection_id,
+                    query=rpc
+                )
+            )
+        else:
+            r = await self.invoke(rpc)
 
         for i in r.updates:
             if isinstance(i, (raw.types.UpdateEditMessage, raw.types.UpdateEditChannelMessage)):

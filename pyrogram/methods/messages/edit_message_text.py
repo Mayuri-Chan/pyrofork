@@ -35,7 +35,8 @@ class EditMessageText:
         entities: List["types.MessageEntity"] = None,
         disable_web_page_preview: bool = None,
         invert_media: bool = None,
-        reply_markup: "types.InlineKeyboardMarkup" = None
+        reply_markup: "types.InlineKeyboardMarkup" = None,
+        business_connection_id: str = None
     ) -> "types.Message":
         """Edit the text of messages.
 
@@ -70,6 +71,9 @@ class EditMessageText:
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
                 An InlineKeyboardMarkup object.
 
+            business_connection_id (``str``, *optional*):
+                Unique identifier of the business connection.
+
         Returns:
             :obj:`~pyrogram.types.Message`: On success, the edited message is returned.
 
@@ -85,16 +89,23 @@ class EditMessageText:
                     disable_web_page_preview=True)
         """
 
-        r = await self.invoke(
-            raw.functions.messages.EditMessage(
-                peer=await self.resolve_peer(chat_id),
-                id=message_id,
-                no_webpage=disable_web_page_preview or None,
-                invert_media=invert_media,
-                reply_markup=await reply_markup.write(self) if reply_markup else None,
-                **await utils.parse_text_entities(self, text, parse_mode, entities)
-            )
+        rpc = raw.functions.messages.EditMessage(
+            peer=await self.resolve_peer(chat_id),
+            id=message_id,
+            no_webpage=disable_web_page_preview or None,
+            invert_media=invert_media,
+            reply_markup=await reply_markup.write(self) if reply_markup else None,
+            **await utils.parse_text_entities(self, text, parse_mode, entities)
         )
+        if business_connection_id is not None:
+            r = await self.invoke(
+                raw.functions.InvokeWithBusinessConnection(
+                    connection_id=business_connection_id,
+                    query=rpc
+                )
+            )
+        else:
+            r = await self.invoke(rpc)
 
         for i in r.updates:
             if isinstance(i, (raw.types.UpdateEditMessage, raw.types.UpdateEditChannelMessage)):

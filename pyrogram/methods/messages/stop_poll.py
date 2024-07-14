@@ -29,7 +29,8 @@ class StopPoll:
         self: "pyrogram.Client",
         chat_id: Union[int, str],
         message_id: int,
-        reply_markup: "types.InlineKeyboardMarkup" = None
+        reply_markup: "types.InlineKeyboardMarkup" = None,
+        business_connection_id: str = None
     ) -> "types.Poll":
         """Stop a poll which was sent by you.
 
@@ -50,6 +51,9 @@ class StopPoll:
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
                 An InlineKeyboardMarkup object.
 
+            business_connection_id (``str``, *optional*):
+                Unique identifier of the business connection.
+
         Returns:
             :obj:`~pyrogram.types.Poll`: On success, the stopped poll with the final results is returned.
 
@@ -60,20 +64,27 @@ class StopPoll:
         """
         poll = (await self.get_messages(chat_id, message_id)).poll
 
-        r = await self.invoke(
-            raw.functions.messages.EditMessage(
-                peer=await self.resolve_peer(chat_id),
-                id=message_id,
-                media=raw.types.InputMediaPoll(
-                    poll=raw.types.Poll(
-                        id=int(poll.id),
-                        closed=True,
-                        question="",
-                        answers=[]
-                    )
-                ),
-                reply_markup=await reply_markup.write(self) if reply_markup else None
-            )
+        rpc = raw.functions.messages.EditMessage(
+            peer=await self.resolve_peer(chat_id),
+            id=message_id,
+            media=raw.types.InputMediaPoll(
+                poll=raw.types.Poll(
+                    id=int(poll.id),
+                    closed=True,
+                    question="",
+                    answers=[]
+                )
+            ),
+            reply_markup=await reply_markup.write(self) if reply_markup else None
         )
+        if business_connection_id is not None:
+            r = await self.invoke(
+                raw.functions.InvokeWithBusinessConnection(
+                    connection_id=business_connection_id,
+                    query=rpc
+                )
+            )
+        else:
+            r = await self.invoke(rpc)
 
         return types.Poll._parse(self, r.updates[0])
