@@ -32,8 +32,7 @@ class EditMessageCaption:
         parse_mode: Optional["enums.ParseMode"] = None,
         caption_entities: List["types.MessageEntity"] = None,
         invert_media: bool = False,
-        reply_markup: "types.InlineKeyboardMarkup" = None,
-        business_connection_id: str = None
+        reply_markup: "types.InlineKeyboardMarkup" = None
     ) -> "types.Message":
         """Edit the caption of media messages.
 
@@ -65,9 +64,6 @@ class EditMessageCaption:
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
                 An InlineKeyboardMarkup object.
 
-            business_connection_id (``str``, *optional*):
-                Unique identifier of the business connection on behalf of which the message to be edited was sent
-
         Returns:
             :obj:`~pyrogram.types.Message`: On success, the edited message is returned.
 
@@ -83,6 +79,5 @@ class EditMessageCaption:
             parse_mode=parse_mode,
             entities=caption_entities,
             invert_media=invert_media,
-            reply_markup=reply_markup,
-            business_connection_id=business_connection_id
+            reply_markup=reply_markup
         )
