@@ -181,7 +181,8 @@ class CallbackQuery(Object, Update):
         text: str,
         parse_mode: Optional["enums.ParseMode"] = None,
         disable_web_page_preview: bool = None,
-        reply_markup: "types.InlineKeyboardMarkup" = None
+        reply_markup: "types.InlineKeyboardMarkup" = None,
+        business_connection_id: Optional[str] = None
     ) -> Union["types.Message", bool]:
         """Edit the text of messages attached to callback queries.
 
@@ -200,6 +201,10 @@ class CallbackQuery(Object, Update):
 
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
                 An InlineKeyboardMarkup object.
+
+            business_connection_id (``str``, *optional*):
+                Unique identifier of the business connection.
+                for business bots only.
 
         Returns:
             :obj:`~pyrogram.types.Message` | ``bool``: On success, if the edited message was sent by the bot, the edited
@@ -224,15 +229,15 @@ class CallbackQuery(Object, Update):
                 text=text,
                 parse_mode=parse_mode,
                 disable_web_page_preview=disable_web_page_preview,
-                reply_markup=reply_markup,
-                business_connection_id=getattr(self.message, "business_connection_id", None)
+                reply_markup=reply_markup
             )
 
     async def edit_message_caption(
         self,
         caption: str,
         parse_mode: Optional["enums.ParseMode"] = None,
-        reply_markup: "types.InlineKeyboardMarkup" = None
+        reply_markup: "types.InlineKeyboardMarkup" = None,
+        business_connection_id: Optional[str] = None
     ) -> Union["types.Message", bool]:
         """Edit the caption of media messages attached to callback queries.
 
@@ -249,6 +254,10 @@ class CallbackQuery(Object, Update):
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
                 An InlineKeyboardMarkup object.
 
+            business_connection_id (``str``, *optional*):
+                Unique identifier of the business connection.
+                for business bots only.
+
         Returns:
             :obj:`~pyrogram.types.Message` | ``bool``: On success, if the edited message was sent by the bot, the edited
             message is returned, otherwise True is returned (message sent via the bot, as inline query result).
@@ -260,13 +269,18 @@ class CallbackQuery(Object, Update):
             caption,
             parse_mode,
             reply_markup=reply_markup,
-            business_connection_id=getattr(self.message, "business_connection_id", None)
+                business_connection_id=getattr(
+                    self.message,
+                    "business_connection_id",
+                    None
+                ) if business_connection_id is None else business_connection_id
         )
 
     async def edit_message_media(
         self,
         media: "types.InputMedia",
-        reply_markup: "types.InlineKeyboardMarkup" = None
+        reply_markup: "types.InlineKeyboardMarkup" = None,
+        business_connection_id: Optional[str] = None
     ) -> Union["types.Message", bool]:
         """Edit animation, audio, document, photo or video messages attached to callback queries.
 
@@ -278,6 +292,10 @@ class CallbackQuery(Object, Update):
 
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
                 An InlineKeyboardMarkup object.
+
+            business_connection_id (``str``, *optional*):
+                Unique identifier of the business connection.
+                for business bots only.
 
         Returns:
             :obj:`~pyrogram.types.Message` | ``bool``: On success, if the edited message was sent by the bot, the edited
@@ -292,19 +310,23 @@ class CallbackQuery(Object, Update):
                 message_id=self.message.id,
                 media=media,
                 reply_markup=reply_markup,
-                business_connection_id=getattr(self.message, "business_connection_id", None)
+                business_connection_id=getattr(
+                    self.message,
+                    "business_connection_id",
+                    None
+                ) if business_connection_id is None else business_connection_id
             )
         else:
             return await self._client.edit_inline_media(
                 inline_message_id=self.inline_message_id,
                 media=media,
-                reply_markup=reply_markup,
-                business_connection_id=getattr(self.message, "business_connection_id", None)
+                reply_markup=reply_markup
             )
 
     async def edit_message_reply_markup(
         self,
-        reply_markup: "types.InlineKeyboardMarkup" = None
+        reply_markup: "types.InlineKeyboardMarkup" = None,
+        business_connection_id: Optional[str] = None
     ) -> Union["types.Message", bool]:
         """Edit only the reply markup of messages attached to callback queries.
 
@@ -313,6 +335,10 @@ class CallbackQuery(Object, Update):
         Parameters:
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`):
                 An InlineKeyboardMarkup object.
+
+            business_connection_id (``str``, *optional*):
+                Unique identifier of the business connection.
+                for business bots only.
 
         Returns:
             :obj:`~pyrogram.types.Message` | ``bool``: On success, if the edited message was sent by the bot, the edited
@@ -326,11 +352,14 @@ class CallbackQuery(Object, Update):
                 chat_id=self.message.chat.id,
                 message_id=self.message.id,
                 reply_markup=reply_markup,
-                business_connection_id=getattr(self.message, "business_connection_id", None)
+                business_connection_id=getattr(
+                    self.message,
+                    "business_connection_id",
+                    None
+                ) if business_connection_id is None else business_connection_id
             )
         else:
             return await self._client.edit_inline_reply_markup(
                 inline_message_id=self.inline_message_id,
-                reply_markup=reply_markup,
-                business_connection_id=getattr(self.message, "business_connection_id", None)
+                reply_markup=reply_markup
             )

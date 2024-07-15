@@ -51,6 +51,7 @@ class EditMessageReplyMarkup:
 
             business_connection_id (``str``, *optional*):
                 Unique identifier of the business connection.
+                for business bots only.
 
         Returns:
             :obj:`~pyrogram.types.Message`: On success, the edited message is returned.

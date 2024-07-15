@@ -218,7 +218,8 @@ class Poll(Object, Update):
 
     async def stop(
         self,
-        reply_markup: "types.InlineKeyboardMarkup" = None
+        reply_markup: "types.InlineKeyboardMarkup" = None,
+        business_connection_id: str = None
     ) -> "types.Poll":
         """Bound method *stop* of :obj:`~pyrogram.types.Poll`.
 
@@ -234,6 +235,9 @@ class Poll(Object, Update):
         Parameters:
             reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
                 An InlineKeyboardMarkup object.
+
+            business_connection_id (``str``, *optional*):
+                Unique identifier of the business connection.
 
         Example:
             .. code-block:: python
@@ -251,5 +255,5 @@ class Poll(Object, Update):
             chat_id=self.chat.id,
             message_id=self.id,
             reply_markup=reply_markup,
-            business_connection_id=self.business_connection_id
+            business_connection_id=self.business_connection_id if business_connection_id is None else business_connection_id
         )
