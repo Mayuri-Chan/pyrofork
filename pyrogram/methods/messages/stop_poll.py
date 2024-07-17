@@ -20,9 +20,8 @@
 from typing import Union
 
 import pyrogram
-from pyrogram import raw, types
-
-from .inline_session import get_session
+from pyrogram import raw
+from pyrogram import types
 
 
 class StopPoll:
@@ -53,7 +52,7 @@ class StopPoll:
                 An InlineKeyboardMarkup object.
 
             business_connection_id (``str``, *optional*):
-                Unique identifier of the business connection on behalf of which the message to be edited was sent
+                Unique identifier of the business connection.
 
         Returns:
             :obj:`~pyrogram.types.Poll`: On success, the stopped poll with the final results is returned.
@@ -78,24 +77,13 @@ class StopPoll:
             ),
             reply_markup=await reply_markup.write(self) if reply_markup else None
         )
-        session = None
-        business_connection = None
-        if business_connection_id:
-            business_connection = self.business_user_connection_cache[business_connection_id]
-            if not business_connection:
-                business_connection = await self.get_business_connection(business_connection_id)
-            session = await get_session(
-                self,
-                business_connection._raw.connection.dc_id
-            )
-        if business_connection_id:
-            r = await session.invoke(
+        if business_connection_id is not None:
+            r = await self.invoke(
                 raw.functions.InvokeWithBusinessConnection(
-                    query=rpc,
-                    connection_id=business_connection_id
+                    connection_id=business_connection_id,
+                    query=rpc
                 )
             )
-            # await session.stop()
         else:
             r = await self.invoke(rpc)
 

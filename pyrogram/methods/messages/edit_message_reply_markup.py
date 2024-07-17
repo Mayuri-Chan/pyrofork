@@ -20,9 +20,8 @@
 from typing import Union
 
 import pyrogram
-from pyrogram import raw, types
-
-from .inline_session import get_session
+from pyrogram import raw
+from pyrogram import types
 
 
 class EditMessageReplyMarkup:
@@ -51,7 +50,8 @@ class EditMessageReplyMarkup:
                 An InlineKeyboardMarkup object.
 
             business_connection_id (``str``, *optional*):
-                Unique identifier of the business connection on behalf of which the message to be edited was sent
+                Unique identifier of the business connection.
+                for business bots only.
 
         Returns:
             :obj:`~pyrogram.types.Message`: On success, the edited message is returned.
@@ -70,54 +70,22 @@ class EditMessageReplyMarkup:
         rpc = raw.functions.messages.EditMessage(
             peer=await self.resolve_peer(chat_id),
             id=message_id,
-            reply_markup=await reply_markup.write(self) if reply_markup else None,
+            reply_markup=await reply_markup.write(self) if reply_markup else None
         )
-        session = None
-        business_connection = None
-        if business_connection_id:
-            business_connection = self.business_user_connection_cache[business_connection_id]
-            if not business_connection:
-                business_connection = await self.get_business_connection(business_connection_id)
-            session = await get_session(
-                self,
-                business_connection._raw.connection.dc_id
-            )
-        if business_connection_id:
-            r = await session.invoke(
+        if business_connection_id is not None:
+            r = await self.invoke(
                 raw.functions.InvokeWithBusinessConnection(
-                    query=rpc,
-                    connection_id=business_connection_id
+                    connection_id=business_connection_id,
+                    query=rpc
                 )
             )
-            # await session.stop()
         else:
             r = await self.invoke(rpc)
 
         for i in r.updates:
-            if isinstance(
-                i,
-                (
-                    raw.types.UpdateEditMessage,
-                    raw.types.UpdateEditChannelMessage
-                )
-            ):
+            if isinstance(i, (raw.types.UpdateEditMessage, raw.types.UpdateEditChannelMessage)):
                 return await types.Message._parse(
                     self, i.message,
                     {i.id: i for i in r.users},
                     {i.id: i for i in r.chats}
-                )
-            elif isinstance(
-                i,
-                (
-                    raw.types.UpdateBotEditBusinessMessage
-                )
-            ):
-                return await types.Message._parse(
-                    self,
-                    i.message,
-                    {i.id: i for i in r.users},
-                    {i.id: i for i in r.chats},
-                    business_connection_id=getattr(i, "connection_id", business_connection_id),
-                    raw_reply_to_message=i.reply_to_message,
-                    replies=0
                 )

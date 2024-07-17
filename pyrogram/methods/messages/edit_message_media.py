@@ -28,8 +28,6 @@ from pyrogram import types
 from pyrogram import utils
 from pyrogram.file_id import FileType
 
-from .inline_session import get_session
-
 
 class EditMessageMedia:
     async def edit_message_media(
@@ -73,7 +71,8 @@ class EditMessageMedia:
                 Inverts the position of the media and caption.
 
             business_connection_id (``str``, *optional*):
-                Unique identifier of the business connection on behalf of which the message to be edited was sent
+                Unique identifier of the business connection.
+                for business bots only.
 
         Returns:
             :obj:`~pyrogram.types.Message`: On success, the edited message is returned.
@@ -288,24 +287,13 @@ class EditMessageMedia:
             entities=entities,
             invert_media=invert_media
         )
-        session = None
-        business_connection = None
-        if business_connection_id:
-            business_connection = self.business_user_connection_cache[business_connection_id]
-            if not business_connection:
-                business_connection = await self.get_business_connection(business_connection_id)
-            session = await get_session(
-                self,
-                business_connection._raw.connection.dc_id
-            )
-        if business_connection_id:
-            r = await session.invoke(
+        if business_connection_id is not None:
+            r = await self.invoke(
                 raw.functions.InvokeWithBusinessConnection(
-                    query=rpc,
-                    connection_id=business_connection_id
+                    connection_id=business_connection_id,
+                    query=rpc
                 )
             )
-            # await session.stop()
         else:
             r = await self.invoke(rpc)
 
@@ -315,19 +303,4 @@ class EditMessageMedia:
                     self, i.message,
                     {i.id: i for i in r.users},
                     {i.id: i for i in r.chats}
-                )
-            elif isinstance(
-                i,
-                (
-                    raw.types.UpdateBotEditBusinessMessage
-                )
-            ):
-                return await types.Message._parse(
-                    self,
-                    i.message,
-                    {i.id: i for i in r.users},
-                    {i.id: i for i in r.chats},
-                    business_connection_id=getattr(i, "connection_id", business_connection_id),
-                    raw_reply_to_message=i.reply_to_message,
-                    replies=0
                 )
