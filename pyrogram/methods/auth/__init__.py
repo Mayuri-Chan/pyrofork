@@ -21,6 +21,7 @@ from .accept_terms_of_service import AcceptTermsOfService
 from .check_password import CheckPassword
 from .connect import Connect
 from .disconnect import Disconnect
+from .get_active_sessions import GetActiveSessions
 from .get_password_hint import GetPasswordHint
 from .initialize import Initialize
 from .log_out import LogOut
@@ -39,6 +40,7 @@ class Auth(
     CheckPassword,
     Connect,
     Disconnect,
+    GetActiveSessions,
     GetPasswordHint,
     Initialize,
     LogOut,
