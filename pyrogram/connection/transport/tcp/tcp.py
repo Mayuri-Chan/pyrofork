@@ -21,6 +21,7 @@ import asyncio
 import ipaddress
 import logging
 import socket
+from concurrent.futures import ThreadPoolExecutor
 from typing import Tuple, Dict, TypedDict, Optional
 
 import socks
@@ -91,10 +92,8 @@ class TCP:
         )
         sock.settimeout(TCP.TIMEOUT)
 
-        await self.loop.sock_connect(
-            sock=sock,
-            address=destination
-        )
+        with ThreadPoolExecutor() as executor:
+            await self.loop.run_in_executor(executor, sock.connect, destination)
 
         sock.setblocking(False)
 
