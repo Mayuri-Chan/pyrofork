@@ -78,6 +78,9 @@ class Poll(Object, Update):
 
         close_date (:py:obj:`~datetime.datetime`, *optional*):
             Point in time when the poll will be automatically closed.
+
+        recent_voters (List of :obj:`~pyrogram.types.User`, *optional*):
+            List of user whos recently vote.
     """
 
     def __init__(
@@ -98,7 +101,8 @@ class Poll(Object, Update):
         explanation: Optional[str] = None,
         explanation_entities: Optional[List["types.MessageEntity"]] = None,
         open_period: Optional[int] = None,
-        close_date: Optional[datetime] = None
+        close_date: Optional[datetime] = None,
+        recent_voters: List["types.User"] = None
     ):
         super().__init__(client)
 
@@ -117,9 +121,14 @@ class Poll(Object, Update):
         self.explanation_entities = explanation_entities
         self.open_period = open_period
         self.close_date = close_date
+        self.recent_voters = recent_voters
 
     @staticmethod
-    def _parse(client, media_poll: Union["raw.types.MessageMediaPoll", "raw.types.UpdateMessagePoll"]) -> "Poll":
+    async def _parse(
+        client,
+        media_poll: Union["raw.types.MessageMediaPoll", "raw.types.UpdateMessagePoll"],
+        users: List["raw.base.User"]
+    ) -> "Poll":
         poll: raw.types.Poll = media_poll.poll
         poll_results: raw.types.PollResults = media_poll.results
         results: List[raw.types.PollAnswerVoters] = poll_results.results
@@ -176,13 +185,21 @@ class Poll(Object, Update):
             ] if poll_results.solution_entities else None,
             open_period=poll.close_period,
             close_date=utils.timestamp_to_datetime(poll.close_date),
+            recent_voters=[
+                await client.get_users(user.user_id)
+                for user in poll_results.recent_voters
+            ] if poll_results.recent_voters else None,
             client=client
         )
 
     @staticmethod
-    def _parse_update(client, update: "raw.types.UpdateMessagePoll"):
+    async def _parse_update(
+        client,
+        update: "raw.types.UpdateMessagePoll",
+        users: List["raw.base.User"]
+    ) -> "Poll":
         if update.poll is not None:
-            return Poll._parse(client, update)
+            return await Poll._parse(client, update, users)
 
         results = update.results.results
         chosen_option_id = None
@@ -213,6 +230,10 @@ class Poll(Object, Update):
             is_closed=False,
             chosen_option_id=chosen_option_id,
             correct_option_id=correct_option_id,
+            recent_voters=[
+                types.User._parse(client, users.get(user.user_id, None))
+                for user in update.results.recent_voters
+            ] if update.results.recent_voters else None,
             client=client
         )
 
