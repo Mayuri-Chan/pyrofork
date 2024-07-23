@@ -178,6 +178,9 @@ class MongoStorage(Storage):
             else:
                 await self._states.update_one({'_id': value[0]}, {'$set': {'pts': value[1], 'qts': value[2], 'date': value[3], 'seq': value[4]}}, upsert=True)
 
+    async def remove_state(self, chat_id):
+        await self._states.delete_one({'_id': chat_id})
+
     async def get_peer_by_id(self, peer_id: int):
         # id, access_hash, type
         r = await self._peer.find_one({'_id': peer_id}, {'_id': 1, 'access_hash': 1, 'type': 1})

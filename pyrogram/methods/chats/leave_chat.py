@@ -53,6 +53,8 @@ class LeaveChat:
                 await app.leave_chat(chat_id, delete=True)
         """
         peer = await self.resolve_peer(chat_id)
+        if not self.skip_updates:
+            await self.storage.remove_state(chat_id)
 
         if isinstance(peer, raw.types.InputPeerChannel):
             return await self.invoke(

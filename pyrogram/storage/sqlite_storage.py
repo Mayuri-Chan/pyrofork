@@ -194,6 +194,12 @@ class SQLiteStorage(Storage):
                         value
                     )
 
+    async def remove_state(self, chat_id):
+        self.conn.execute(
+            "DELETE FROM update_state WHERE id = ?",
+            (chat_id,)
+        )
+
     async def get_peer_by_id(self, peer_id: int):
         r = self.conn.execute(
             "SELECT id, access_hash, type FROM peers WHERE id = ?",
