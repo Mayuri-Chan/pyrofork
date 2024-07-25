@@ -44,7 +44,7 @@ async def hello(client, message):
 app.run()
 ```
 
-**Pyrofork** is a modern, elegant and asynchronous [MTProto API](https://pyrofork.mayuri.my.id/topics/mtproto-vs-botapi)
+**Pyrofork** is a modern, elegant and asynchronous [MTProto API](https://pyrofork.mayuri.my.id/main/topics/mtproto-vs-botapi)
 framework. It enables you to easily interact with the main Telegram API through a user account (custom client) or a bot
 identity (bot API alternative) using Python.
 
