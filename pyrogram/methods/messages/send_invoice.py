@@ -114,22 +114,24 @@ class SendInvoice:
             .. code-block:: python
 
                 # USD
-                app.send_invoice(chat_id, types.InputMediaInvoice(
+                app.send_invoice(
+                    chat_id,
                     title="Product Name",
                     description="Product Description",
                     currency="USD",
                     prices=[types.LabeledPrice("Product", 1000)],
                     provider="Stripe_provider_codes",
                     provider_data="{}"
-                ))
+                )
 
                 # Telegram Stars
-                app.send_invoice(chat_id, types.InputMediaInvoice(
+                app.send_invoice(
+                    chat_id,
                     title="Product Name",
                     description="Product Description",
                     currency="XTR",
                     prices=[types.LabeledPrice("Product", 1000)]
-                ))
+                )
         """
 
         if reply_markup is not None:
