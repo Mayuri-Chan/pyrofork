@@ -112,6 +112,19 @@ Bot commands
 
     {bot_commands}
 
+Telegram Business
+-------------
+
+.. autosummary::
+    :nosignatures:
+
+    {business}
+
+.. toctree::
+    :hidden:
+
+    {business}
+
 Input Media
 -----------
 
