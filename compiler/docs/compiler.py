@@ -379,6 +379,7 @@ def pyrogram_api():
             create_invoice_link
             get_business_connection
             get_stars_transactions
+            get_stars_transactions_by_id
         """,
         authorization="""
         Authorization
@@ -601,6 +602,7 @@ def pyrogram_api():
         """,
         business="""
         Telegram Business
+            InputStarsTransaction
             StarsStatus
             StarsTransaction
         """,

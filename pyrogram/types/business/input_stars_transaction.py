@@ -16,12 +16,34 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from .input_stars_transaction import InputStarsTransaction
-from .stars_status import StarsStatus
-from .stars_transaction import StarsTransaction
+import pyrogram
 
-__all__ = [
-    "InputStarsTransaction",
-    "StarsStatus",
-    "StarsTransaction"
-]
+from pyrogram import raw
+from ..object import Object
+
+class InputStarsTransaction(Object):
+    """Content of a stars transaction.
+
+    Parameters:
+        id (``str``):
+            Unique transaction identifier.
+
+        is_refund (``bool``, *optional*):
+            True, If the transaction is a refund.
+    """
+    def __init__(
+        self,
+        *,
+        id: str,
+        is_refund: bool = None
+    ):
+        super().__init__()
+
+        self.id = id
+        self.is_refund = is_refund
+
+    async def write(self):
+        return raw.types.InputStarsTransaction(
+            id=self.id,
+            refund=self.is_refund
+        )
