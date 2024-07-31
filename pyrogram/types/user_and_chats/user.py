@@ -165,6 +165,9 @@ class User(Object, Update):
 
         profile_color (:obj:`~pyrogram.types.ChatColor`, *optional*)
             Chat profile color.
+
+        active_users (``int``, *optional*):
+            Bot's active users count.
     """
 
     def __init__(
@@ -199,7 +202,8 @@ class User(Object, Update):
         photo: "types.ChatPhoto" = None,
         restrictions: List["types.Restriction"] = None,
         reply_color: "types.ChatColor" = None,
-        profile_color: "types.ChatColor" = None
+        profile_color: "types.ChatColor" = None,
+        active_users: int = None
     ):
         super().__init__(client)
 
@@ -232,6 +236,7 @@ class User(Object, Update):
         self.restrictions = restrictions
         self.reply_color = reply_color
         self.profile_color = profile_color
+        self.active_users = active_users
 
     @property
     def full_name(self) -> str:
@@ -251,6 +256,7 @@ class User(Object, Update):
             return None
         user_name = user.username
         active_usernames = getattr(user, "usernames", [])
+        active_users = getattr(user, "bot_active_users", None)
         usernames = None
         if len(active_usernames) >= 1:
             usernames = []
@@ -291,6 +297,7 @@ class User(Object, Update):
             restrictions=types.List([types.Restriction._parse(r) for r in user.restriction_reason]) or None,
             reply_color=types.ChatColor._parse(getattr(user, "color", None)),
             profile_color=types.ChatColor._parse_profile_color(getattr(user, "profile_color", None)),
+            active_users=active_users,
             client=client
         )
 
