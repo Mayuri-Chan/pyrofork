@@ -61,11 +61,8 @@ class MessageServiceType(AutoName):
     GAME_HIGH_SCORE = auto()
     "Game high score"
 
-    ChannelShared = auto()
-    "a shared chat/channel"
-
-    UserShared = auto()
-    "a shared user"
+    ChatShared = auto()
+    "a shared chat/channel/user"
 
     FORUM_TOPIC_CREATED = auto()
     "a new forum topic created in the chat"

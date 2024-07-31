@@ -347,11 +347,8 @@ class Message(Object, Update):
         bot_allowed (:obj:`~pyrogram.types.BotAllowed`, *optional*):
             Contains information about a allowed bot.
 
-        chat_shared (List of ``int``, *optional*):
-            Service message: chat/channel shared
-
-        user_shared (List of ``int``, *optional*):
-            Service message: user shared
+        chats_shared (List of :obj:`~pyrogram.types.RequestedChats`, *optional*):
+            Service message: chats shared
 
         forum_topic_created (:obj:`~pyrogram.types.ForumTopicCreated`, *optional*):
             Service message: forum topic created
@@ -517,8 +514,7 @@ class Message(Object, Update):
         matches: List[Match] = None,
         command: List[str] = None,
         bot_allowed: "types.BotAllowed" = None,
-        chat_shared: List[int] = None,
-        user_shared: List[int] = None,
+        chats_shared: List["types.RequestedChats"] = None,
         forum_topic_created: "types.ForumTopicCreated" = None,
         forum_topic_closed: "types.ForumTopicClosed" = None,
         forum_topic_reopened: "types.ForumTopicReopened" = None,
@@ -631,8 +627,7 @@ class Message(Object, Update):
         self.command = command
         self.reply_markup = reply_markup
         self.bot_allowed = bot_allowed
-        self.chat_shared = chat_shared
-        self.user_shared = user_shared
+        self.chats_shared = chats_shared
         self.forum_topic_created = forum_topic_created
         self.forum_topic_closed = forum_topic_closed
         self.forum_topic_reopened = forum_topic_reopened
@@ -736,8 +731,7 @@ class Message(Object, Update):
             channel_chat_created = None
             new_chat_photo = None
             bot_allowed = None
-            chat_shared = None
-            user_shared = None
+            chats_shared = None
             is_topic_message = None
             forum_topic_created = None
             forum_topic_closed = None
@@ -799,18 +793,8 @@ class Message(Object, Update):
                 bot_allowed = types.BotAllowed._parse(client, action)
                 service_type = enums.MessageServiceType.BOT_ALLOWED
             elif isinstance(action, raw.types.MessageActionRequestedPeer) or isinstance(action, raw.types.MessageActionRequestedPeerSentMe):
-                chat_shared = []
-                user_shared = []
-                for peer in action.peers:
-                    if isinstance(peer, raw.types.PeerChannel) or isinstance(peer, raw.types.RequestedPeerChannel):
-                        chat_shared.append(utils.get_channel_id(utils.get_raw_peer_id(peer)))
-                        service_type = enums.MessageServiceType.ChannelShared
-                    elif isinstance(peer, raw.types.PeerChat) or isinstance(peer, raw.types.RequestedPeerChat):
-                        chat_shared.append(utils.get_channel_id(utils.get_raw_peer_id(peer)))
-                        service_type = enums.MessageServiceType.ChannelShared
-                    elif isinstance(peer, raw.types.PeerUser) or isinstance(peer, raw.types.RequestedPeerUser):
-                        user_shared.append(peer.user_id)
-                        service_type = enums.MessageServiceType.UserShared
+                chats_shared = await types.RequestedChats._parse(client, action)
+                service_type = enums.MessageServiceType.ChatShared
             elif isinstance(action, raw.types.MessageActionTopicCreate):
                 forum_topic_created = types.ForumTopicCreated._parse(message)
                 service_type = enums.MessageServiceType.FORUM_TOPIC_CREATED
@@ -885,8 +869,7 @@ class Message(Object, Update):
                 group_chat_created=group_chat_created,
                 bot_allowed=bot_allowed,
                 channel_chat_created=channel_chat_created,
-                chat_shared=chat_shared if chat_shared is not None and len(chat_shared) > 0 else None,
-                user_shared=user_shared if user_shared is not None and len(user_shared) > 0 else None,
+                chats_shared=chats_shared,
                 is_topic_message=is_topic_message,
                 forum_topic_created=forum_topic_created,
                 forum_topic_closed=forum_topic_closed,
