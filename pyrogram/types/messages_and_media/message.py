@@ -86,7 +86,7 @@ class Message(Object, Update):
         chat (:obj:`~pyrogram.types.Chat`, *optional*):
             Conversation the message belongs to.
 
-        topics (:obj:`~pyrogram.types.ForumTopic`, *optional*):
+        topic (:obj:`~pyrogram.types.ForumTopic`, *optional*):
             Topic the message belongs to.
             only returned using when client.get_messages.
 
@@ -441,7 +441,7 @@ class Message(Object, Update):
         sender_business_bot: "types.User" = None,
         date: datetime = None,
         chat: "types.Chat" = None,
-        topics: "types.ForumTopic" = None,
+        topic: "types.ForumTopic" = None,
         forward_from: "types.User" = None,
         forward_sender_name: str = None,
         forward_from_chat: "types.Chat" = None,
@@ -553,7 +553,7 @@ class Message(Object, Update):
         self.sender_business_bot = sender_business_bot
         self.date = date
         self.chat = chat
-        self.topics = topics
+        self.topic = topic
         self.forward_from = forward_from
         self.forward_sender_name = forward_sender_name
         self.forward_from_chat = forward_from_chat
@@ -871,7 +871,7 @@ class Message(Object, Update):
                 message_thread_id=message_thread_id,
                 date=utils.timestamp_to_datetime(message.date),
                 chat=types.Chat._parse(client, message, users, chats, is_chat=True),
-                topics=None,
+                topic=None,
                 from_user=from_user,
                 service=service_type,
                 new_chat_members=new_chat_members,
@@ -1128,7 +1128,7 @@ class Message(Object, Update):
                 business_connection_id=business_connection_id,
                 date=utils.timestamp_to_datetime(message.date),
                 chat=types.Chat._parse(client, message, users, chats, is_chat=True),
-                topics=None,
+                topic=None,
                 from_user=from_user,
                 sender_business_bot=sender_business_bot,
                 text=(
@@ -1217,12 +1217,12 @@ class Message(Object, Update):
                         parsed_message.message_thread_id = thread_id
                         parsed_message.is_topic_message = True
                         if topics:
-                            parsed_message.topics = types.ForumTopic._parse(topics[thread_id])
+                            parsed_message.topic = types.ForumTopic._parse(topics[thread_id])
                         else:
                             try:
                                 msg = await client.get_messages(parsed_message.chat.id,message.id)
-                                if getattr(msg, "topics"):
-                                    parsed_message.topics = msg.topics
+                                if getattr(msg, "topic"):
+                                    parsed_message.topic = msg.topic
                             except Exception:
                                 pass
                     else:
