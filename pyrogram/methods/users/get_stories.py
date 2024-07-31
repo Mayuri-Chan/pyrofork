@@ -42,7 +42,7 @@ class GetStories:
                 For a contact that exists in your Telegram address book you can use his phone number (str).
                 You can also use user profile/channel public link in form of *t.me/<username>* (str).
 
-            story_ids (``int`` | Iterable of ``int``, *optional*):
+            story_ids (``int`` | Iterable of ``int``):
                 Pass a single story identifier or an iterable of story ids (as integers) to get the content of the
                 story themselves.
 
