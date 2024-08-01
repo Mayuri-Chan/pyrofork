@@ -137,6 +137,10 @@ class Chat(Object):
             Chat members count, for groups, supergroups and channels only.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
 
+        join_requests_count (``int``, *optional*):
+            Number of users who requested to join the chat.
+            Returned only in :meth:`~pyrogram.Client.get
+
         slow_mode_delay (``int``, *optional*):
             For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user in seconds.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
@@ -231,6 +235,7 @@ class Chat(Object):
         sticker_set_name: str = None,
         can_set_sticker_set: bool = None,
         members_count: int = None,
+        join_requests_count: int = None,
         slow_mode_delay: int = None,
         restrictions: List["types.Restriction"] = None,
         permissions: "types.ChatPermissions" = None,
@@ -279,6 +284,7 @@ class Chat(Object):
         self.sticker_set_name = sticker_set_name
         self.can_set_sticker_set = can_set_sticker_set
         self.members_count = members_count
+        self.join_requests_count = join_requests_count
         self.slow_mode_delay = slow_mode_delay
         self.restrictions = restrictions
         self.permissions = permissions
@@ -338,6 +344,7 @@ class Chat(Object):
             photo=types.ChatPhoto._parse(client, getattr(chat, "photo", None), peer_id, 0),
             permissions=types.ChatPermissions._parse(getattr(chat, "default_banned_rights", None)),
             members_count=getattr(chat, "participants_count", None),
+            join_requests_count=getattr(chat, "requests_pending", None),
             dc_id=getattr(getattr(chat, "photo", None), "dc_id", None),
             has_protected_content=getattr(chat, "noforwards", None),
             usernames=usernames,
@@ -469,9 +476,11 @@ class Chat(Object):
 
                 if isinstance(full_chat.participants, raw.types.ChatParticipants):
                     parsed_chat.members_count = len(full_chat.participants.participants)
+                parsed_chat.join_requests_count = getattr(full_chat, "requests_pending", None)
             else:
                 parsed_chat = Chat._parse_channel_chat(client, chat_raw)
                 parsed_chat.members_count = full_chat.participants_count
+                parsed_chat.join_requests_count=getattr(full_chat, "requests_pending", None),
                 parsed_chat.slow_mode_delay = getattr(full_chat, "slowmode_seconds", None)
                 parsed_chat.description = full_chat.about or None
                 # TODO: Add StickerSet type

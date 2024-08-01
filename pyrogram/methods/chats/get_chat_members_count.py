@@ -39,7 +39,7 @@ class GetChatMembersCount:
                 You can also use chat public link in form of *t.me/<username>* (str).
 
             join_request (``bool``, *optional*):
-                If True, the count will include the number of users who sent a join request to the chat.
+                If True, will return the count of pending request of users who sent a join request to the chat.
 
         Returns:
             ``int``: On success, the chat members count is returned.
