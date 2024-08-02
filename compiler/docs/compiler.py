@@ -168,11 +168,9 @@ def pyrogram_api():
             forward_messages
             copy_message
             copy_media_group
-            send_paid_media
             send_photo
             send_audio
             send_document
-            send_invoice
             send_sticker
             send_video
             send_animation
@@ -367,19 +365,21 @@ def pyrogram_api():
             set_chat_menu_button
             get_chat_menu_button
             answer_web_app_query
-            answer_pre_checkout_query
-            answer_shipping_query
-            refund_star_payment
             get_bot_info
             set_bot_info
             get_collectible_item_info
         """,
         business="""
         Telegram Business
+            answer_pre_checkout_query
+            answer_shipping_query
             create_invoice_link
             get_business_connection
             get_stars_transactions
             get_stars_transactions_by_id
+            refund_star_payment
+            send_invoice
+            send_paid_media
         """,
         authorization="""
         Authorization
@@ -503,7 +503,6 @@ def pyrogram_api():
             Giveaway
             GiveawayLaunched
             GiveawayResult
-            MessageInvoice
             MessageStory
             WebPage
             WebPageEmpty
@@ -530,8 +529,6 @@ def pyrogram_api():
             ReactionType
             MessageReactionUpdated
             MessageReactionCountUpdated
-            ExtendedMediaPreview
-            PaidMedia
         """,
         stories="""
         Stories
@@ -557,12 +554,6 @@ def pyrogram_api():
             BotAllowed
             BotApp
             BotBusinessConnection
-            PaymentInfo
-            PaymentRefunded
-            ShippingAddress
-            ShippingOption
-            ShippingQuery
-            SuccessfulPayment
         """,
         bot_keyboards="""
         Bot keyboards
@@ -602,9 +593,18 @@ def pyrogram_api():
         """,
         business="""
         Telegram Business
+            ExtendedMediaPreview
             InputStarsTransaction
+            Invoice
+            PaidMedia
+            PaymentInfo
+            PaymentRefunded
+            ShippingAddress
+            ShippingOption
+            ShippingQuery
             StarsStatus
             StarsTransaction
+            SuccessfulPayment
         """,
         input_media="""
         Input Media

@@ -226,7 +226,7 @@ class Message(Object, Update):
         giveaway_result (:obj:`~pyrogram.types.GiveawayResult`, *optional*):
             Message is a giveaway result, information about the giveaway result.
 
-        invoice (:obj:`~pyrogram.types.MessageInvoice`, *optional*):
+        invoice (:obj:`~pyrogram.types.Invoice`, *optional*):
             Message is an invoice for a payment, information about the invoice.
 
         story (:obj:`~pyrogram.types.MessageStory` | :obj:`~pyrogram.types.Story`, *optional*):
@@ -485,7 +485,7 @@ class Message(Object, Update):
         giveaway: "types.Giveaway" = None,
         giveaway_result: "types.GiveawayResult" = None,
         boosts_applied: int = None,
-        invoice: "types.MessageInvoice" = None,
+        invoice: "types.Invoice" = None,
         story: Union["types.MessageStory", "types.Story"] = None,
         video: "types.Video" = None,
         voice: "types.Voice" = None,
@@ -1092,7 +1092,7 @@ class Message(Object, Update):
                     dice = types.Dice._parse(client, media)
                     media_type = enums.MessageMediaType.DICE
                 elif isinstance(media, raw.types.MessageMediaInvoice):
-                    invoice = types.MessageInvoice._parse(media)
+                    invoice = types.Invoice._parse(media)
                     media = enums.MessageMediaType.INVOICE
                 elif isinstance(media, raw.types.MessageMediaPaidMedia):
                     paid_media = types.PaidMedia._parse(client, media)

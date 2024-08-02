@@ -16,12 +16,32 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
+from .extended_media_preview import ExtendedMediaPreview
 from .input_stars_transaction import InputStarsTransaction
+from .invoice import Invoice
+from .paid_media import PaidMedia
+from .payment_info import PaymentInfo
+from .payment_refunded import PaymentRefunded
+from .pre_checkout_query import PreCheckoutQuery
+from .shipping_address import ShippingAddress
+from .shipping_option import ShippingOption
+from .shipping_query import ShippingQuery
 from .stars_status import StarsStatus
 from .stars_transaction import StarsTransaction
+from .successful_payment import SuccessfulPayment
 
 __all__ = [
+    "ExtendedMediaPreview",
+    "Invoice",
     "InputStarsTransaction",
+    "PaidMedia",
+    "PaymentInfo",
+    "PaymentRefunded",
+    "PreCheckoutQuery",
     "StarsStatus",
-    "StarsTransaction"
+    "StarsTransaction",
+    "ShippingAddress",
+    "ShippingOption",
+    "ShippingQuery",
+    "SuccessfulPayment"
 ]
