@@ -20,6 +20,7 @@
 from .copy_media_group import CopyMediaGroup
 from .copy_message import CopyMessage
 from .delete_messages import DeleteMessages
+from .delete_scheduled_messages import DeleteScheduledMessages
 from .download_media import DownloadMedia
 from .edit_inline_caption import EditInlineCaption
 from .edit_inline_media import EditInlineMedia
@@ -74,6 +75,7 @@ from .vote_poll import VotePoll
 
 class Messages(
     DeleteMessages,
+    DeleteScheduledMessages,
     EditMessageCaption,
     EditMessageReplyMarkup,
     EditMessageMedia,
