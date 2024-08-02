@@ -18,10 +18,10 @@
 
 from ..object import Object
 from pyrogram import enums, raw, types
-from typing import Union
+from typing import Union, List
 
 class RequestedChats(Object):
-    """Contains information about a requested chats.
+    """Contains information about requested chats.
 
     Parameters:
         button_id (``int``):
@@ -36,8 +36,8 @@ class RequestedChats(Object):
     def __init__(
         self,
         button_id: int,
-        chats: list["types.RequestedChat"] = None,
-        users: list["types.RequestedUser"] = None
+        chats: List["types.RequestedChat"] = None,
+        users: List["types.RequestedUser"] = None
     ):
         super().__init__()
 
