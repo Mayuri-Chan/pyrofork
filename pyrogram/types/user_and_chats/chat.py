@@ -480,7 +480,7 @@ class Chat(Object):
             else:
                 parsed_chat = Chat._parse_channel_chat(client, chat_raw)
                 parsed_chat.members_count = full_chat.participants_count
-                parsed_chat.join_requests_count=getattr(full_chat, "requests_pending", None),
+                parsed_chat.join_requests_count = getattr(full_chat, "requests_pending", None)
                 parsed_chat.slow_mode_delay = getattr(full_chat, "slowmode_seconds", None)
                 parsed_chat.description = full_chat.about or None
                 # TODO: Add StickerSet type
