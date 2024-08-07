@@ -32,7 +32,7 @@ class CreateInvoiceLink:
         description: str,
         payload: Union[str, bytes],
         currency: str,
-        prices: List["types.LabeledPrice"],
+        prices: Union["types.LabeledPrice", List["types.LabeledPrice"]],
         provider_token: str = None,
         start_parameter: str = None,
         provider_data: str = None,
@@ -65,8 +65,10 @@ class CreateInvoiceLink:
             currency (``str``):
                 Three-letter ISO 4217 currency code, see `more on currencies <https://core.telegram.org/bots/payments#supported-currencies>`_. Pass ``XTR`` for payments in `Telegram Stars <https://t.me/BotNews/90>`_.
 
-            prices (List of :obj:`~pyrogram.types.LabeledPrice`):
+            prices (:obj:`~pyrogram.types.LabeledPrice` | List of :obj:`~pyrogram.types.LabeledPrice`):
                 Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.). Must contain exactly one item for payments in `Telegram Stars <https://t.me/BotNews/90>`_.
+                If you add multiple prices, the prices will be added up.
+                For stars invoice you can only have one item.
 
             provider_token (``str``, *optional*):
                 Payment provider token, obtained via `@BotFather <https://t.me/botfather>`_. Pass an empty string for payments in `Telegram Stars <https://t.me/BotNews/90>`_.
@@ -115,6 +117,8 @@ class CreateInvoiceLink:
 
         """
 
+        is_iterable = not isinstance(prices, types.LabeledPrice)
+
         rpc = raw.functions.payments.ExportInvoice(
             invoice_media=raw.types.InputMediaInvoice(
                 title=title,
@@ -132,7 +136,7 @@ class CreateInvoiceLink:
                 ) if photo_url else None,
                 invoice=raw.types.Invoice(
                     currency=currency,
-                    prices=[i.write() for i in prices],
+                    prices=[i.write() for i in prices] if is_iterable else [prices.write()],
                     test=self.test_mode,
                     name_requested=need_name,
                     phone_requested=need_phone_number,
