@@ -35,6 +35,7 @@ class SendPaidMedia:
         chat_id: Union[int, str],
         stars_amount: int,
         media: List[Union["types.InputMediaAnimation", "types.InputMediaPhoto", "types.InputMediaVideo"]],
+        business_connection_id: str = None,
         caption: str = "",
         caption_entities: List["types.MessageEntity"] = None,
         parse_mode: Optional["enums.ParseMode"] = None,
@@ -57,6 +58,10 @@ class SendPaidMedia:
 
             media (List of :obj:`~pyrogram.types.InputMediaAnimation` | :obj:`~pyrogram.types.InputMediaPhoto` | :obj:`~pyrogram.types.InputMediaVideo`):
                 A list of media to send.
+
+            business_connection_id (``str``, *optional*):
+                Unique identifier for the target business connection.
+                for business bots only.
                 
             caption (``str``, *optional*):
                 Media caption, 0-1024 characters.
@@ -272,8 +277,16 @@ class SendPaidMedia:
             invert_media=invert_media,
             **await utils.parse_text_entities(self, caption, parse_mode, caption_entities)
         )
-        r = await self.invoke(rpc, sleep_threshold=60)
-        
+        if business_connection_id is not None:
+            r = await self.invoke(
+                raw.functions.InvokeWithBusinessConnection(
+                    connection_id=business_connection_id,
+                    query=rpc
+                )
+            )
+        else:
+            r = await self.invoke(rpc, sleep_threshold=60)
+
         return await utils.parse_messages(
             self,
             raw.types.messages.Messages(
