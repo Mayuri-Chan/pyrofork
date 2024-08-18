@@ -64,7 +64,7 @@ class ChatReactions(Object):
             return ChatReactions(
                 client=client,
                 reactions=[
-                    types.ReactionType._parse(reaction)
+                    types.Reaction._parse(client, reaction)
                     for reaction in chat_reactions.reactions
                 ]
             )

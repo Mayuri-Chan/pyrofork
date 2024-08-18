@@ -27,3 +27,6 @@ class ReactionType(AutoName):
 
     CUSTOM_EMOJI = auto()
     """Custom emoji reaction type."""
+
+    PAID = auto()
+    """Paid reaction type."""

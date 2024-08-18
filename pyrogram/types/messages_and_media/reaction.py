@@ -20,7 +20,7 @@
 from typing import Optional
 
 import pyrogram
-from pyrogram import raw
+from pyrogram import enums, raw
 from ..object import Object
 
 
@@ -28,6 +28,9 @@ class Reaction(Object):
     """Contains information about a reaction.
 
     Parameters:
+        type (``enums.ReactionType``):
+            Reaction type.
+
         emoji (``str``, *optional*):
             Reaction emoji.
 
@@ -46,6 +49,7 @@ class Reaction(Object):
         self,
         *,
         client: "pyrogram.Client" = None,
+        type: "enums.ReactionType",
         emoji: Optional[str] = None,
         custom_emoji_id: Optional[int] = None,
         count: Optional[int] = None,
@@ -53,6 +57,7 @@ class Reaction(Object):
     ):
         super().__init__(client)
 
+        self.type = type
         self.emoji = emoji
         self.custom_emoji_id = custom_emoji_id
         self.count = count
@@ -66,13 +71,20 @@ class Reaction(Object):
         if isinstance(reaction, raw.types.ReactionEmoji):
             return Reaction(
                 client=client,
+                type=enums.ReactionType.EMOJI,
                 emoji=reaction.emoticon
             )
 
         if isinstance(reaction, raw.types.ReactionCustomEmoji):
             return Reaction(
                 client=client,
+                type=enums.ReactionType.CUSTOM_EMOJI,
                 custom_emoji_id=reaction.document_id
+            )
+        if isinstance(reaction, raw.types.ReactionPaid):
+            return Reaction(
+                client=client,
+                type=enums.ReactionType.PAID
             )
 
     @staticmethod

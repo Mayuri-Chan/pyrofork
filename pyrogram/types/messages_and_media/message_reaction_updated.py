@@ -48,10 +48,10 @@ class MessageReactionUpdated(Object, Update):
         date (:py:obj:`~datetime.datetime`):
             Date of change of the reaction
 
-        old_reaction (:obj:`~pyrogram.types.ReactionType`):
+        old_reaction (:obj:`~pyrogram.types.Reaction`):
             Previous list of reaction types that were set by the user
 
-        new_reaction (:obj:`~pyrogram.types.ReactionType`):
+        new_reaction (:obj:`~pyrogram.types.Reaction`):
             New list of reaction types that have been set by the user
 
     """
@@ -65,8 +65,8 @@ class MessageReactionUpdated(Object, Update):
         actor_chat: "types.Chat",
         date: datetime,
         chat: "types.Chat",
-        old_reaction: List["types.ReactionType"],
-        new_reaction: List["types.ReactionType"]
+        old_reaction: List["types.Reaction"],
+        new_reaction: List["types.Reaction"]
     ):
         super().__init__(client)
 
@@ -112,12 +112,14 @@ class MessageReactionUpdated(Object, Update):
             chat=chat,
             actor_chat=actor_chat,
             old_reaction=[
-                types.ReactionType._parse(
+                types.Reaction._parse(
+                    client,
                     rt
                 ) for rt in update.old_reactions
             ],
             new_reaction=[
-                types.ReactionType._parse(
+                types.Reaction._parse(
+                    client,
                     rt
                 ) for rt in update.new_reactions
             ]

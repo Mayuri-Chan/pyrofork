@@ -527,8 +527,6 @@ def pyrogram_api():
             GeneralTopicHidden
             GeneralTopicUnhidden
             Reaction
-            ReactionCount
-            ReactionType
             MessageReactionUpdated
             MessageReactionCountUpdated
         """,
