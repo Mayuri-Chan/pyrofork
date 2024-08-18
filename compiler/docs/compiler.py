@@ -183,6 +183,7 @@ def pyrogram_api():
             send_contact
             send_cached_media
             send_reaction
+            send_paid_reaction
             edit_message_text
             edit_message_caption
             edit_message_media
