@@ -59,7 +59,7 @@ class ExportChatInviteLink:
                 Subscription price (stars).
 
         Returns:
-            ``str``: On success, the new invite link as string is returned.
+            :obj:`~pyrogram.types.ChatInviteLink`: On success, the invite link is returned.
 
         Example:
             .. code-block:: python
@@ -78,4 +78,4 @@ class ExportChatInviteLink:
             )
         )
 
-        return r.link
+        return types.ChatInviteLink._parse(self, r)
