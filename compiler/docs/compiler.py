@@ -520,6 +520,7 @@ def pyrogram_api():
             VideoChatMembersInvited
             WebAppData
             MessageReactions
+            MessageReactor
             ChatReactions
             ForumTopicCreated
             ForumTopicEdited

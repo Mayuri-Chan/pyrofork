@@ -55,6 +55,7 @@ from .web_page_preview import WebPagePreview
 from .message_reactions import MessageReactions
 from .message_reaction_updated import MessageReactionUpdated
 from .message_reaction_count_updated import MessageReactionCountUpdated
+from .message_reactor import MessageReactor
 from .message_story import MessageStory
 from .story import Story
 from .story_deleted import StoryDeleted
@@ -66,5 +67,5 @@ from .exported_story_link import ExportedStoryLink
 __all__ = [
     "Animation", "Audio", "AvailableEffect", "Contact", "Document", "Game", "GiftedPremium", "Giveaway", "GiveawayLaunched", "GiveawayResult", "LabeledPrice", "Location", "MediaArea", "MediaAreaChannelPost", "MediaAreaCoordinates", "Message", "MessageEntity", "Photo", "Thumbnail",
     "StrippedThumbnail", "Poll", "PollOption", "Sticker", "StickerSet", "Venue", "Video", "VideoNote", "Voice", "WebPage", "WebPageEmpty", "WebPagePreview", "Dice",
-    "Reaction", "WebAppData", "MessageReactions", "MessageReactionUpdated", "MessageReactionCountUpdated", "MessageStory", "Story", "StoryDeleted", "StorySkipped", "StoryViews", "StoryForwardHeader", "StoriesPrivacyRules", "ExportedStoryLink"
+    "Reaction", "WebAppData", "MessageReactions", "MessageReactionUpdated", "MessageReactionCountUpdated", "MessageReactor", "MessageStory", "Story", "StoryDeleted", "StorySkipped", "StoryViews", "StoryForwardHeader", "StoriesPrivacyRules", "ExportedStoryLink"
 ]
