@@ -204,7 +204,7 @@ class Chat(Object):
             The maximum number of reactions that can be set on a message in the chat
 
         subscription_until_date (:py:obj:`~datetime.datetime`, *optional*):
-            Date when the subscription expires.
+            Channel members only. Date when the subscription expires.
     """
 
     def __init__(
