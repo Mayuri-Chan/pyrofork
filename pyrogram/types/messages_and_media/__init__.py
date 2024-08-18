@@ -20,10 +20,14 @@
 from .animation import Animation
 from .audio import Audio
 from .available_effect import AvailableEffect
+from .chat_theme import ChatTheme
+from .chat_wallpaper import ChatWallpaper
 from .contact import Contact
+from .contact_registered import ContactRegistered
 from .dice import Dice
 from .document import Document
 from .game import Game
+from .gift_code import GiftCode
 from .gifted_premium import GiftedPremium
 from .giveaway import Giveaway
 from .giveaway_launched import GiveawayLaunched
@@ -39,6 +43,7 @@ from .photo import Photo
 from .poll import Poll
 from .poll_option import PollOption
 from .reaction import Reaction
+from .screenshot_taken import ScreenshotTaken
 from .sticker import Sticker
 from .stickerset import StickerSet
 from .stories_privacy_rules import StoriesPrivacyRules
@@ -63,9 +68,61 @@ from .story_forward_header import StoryForwardHeader
 from .story_skipped import StorySkipped
 from .story_views import StoryViews
 from .exported_story_link import ExportedStoryLink
+from .wallpaper import Wallpaper
+from .wallpaper_settings import WallpaperSettings
 
 __all__ = [
-    "Animation", "Audio", "AvailableEffect", "Contact", "Document", "Game", "GiftedPremium", "Giveaway", "GiveawayLaunched", "GiveawayResult", "LabeledPrice", "Location", "MediaArea", "MediaAreaChannelPost", "MediaAreaCoordinates", "Message", "MessageEntity", "Photo", "Thumbnail",
-    "StrippedThumbnail", "Poll", "PollOption", "Sticker", "StickerSet", "Venue", "Video", "VideoNote", "Voice", "WebPage", "WebPageEmpty", "WebPagePreview", "Dice",
-    "Reaction", "WebAppData", "MessageReactions", "MessageReactionUpdated", "MessageReactionCountUpdated", "MessageReactor", "MessageStory", "Story", "StoryDeleted", "StorySkipped", "StoryViews", "StoryForwardHeader", "StoriesPrivacyRules", "ExportedStoryLink"
+    "Animation",
+    "Audio",
+    "AvailableEffect",
+    "ChatTheme",
+    "ChatWallpaper",
+    "Contact",
+    "ContactRegistered",
+    "Document",
+    "Game",
+    "GiftCode",
+    "GiftedPremium",
+    "Giveaway",
+    "GiveawayLaunched",
+    "GiveawayResult",
+    "LabeledPrice",
+    "Location",
+    "MediaArea",
+    "MediaAreaChannelPost",
+    "MediaAreaCoordinates",
+    "Message",
+    "MessageEntity",
+    "Photo",
+    "Thumbnail",
+    "StrippedThumbnail",
+    "Poll",
+    "PollOption",
+    "Sticker",
+    "StickerSet",
+    "Venue",
+    "Video",
+    "VideoNote",
+    "Voice",
+    "WebPage",
+    "WebPageEmpty",
+    "WebPagePreview",
+    "Dice",
+    "Reaction",
+    "WebAppData",
+    "MessageReactions",
+    "MessageReactionUpdated",
+    "MessageReactionCountUpdated",
+    "MessageReactor",
+    "MessageStory",
+    "ScreenshotTaken",
+    "Story",
+    "StoryDeleted",
+    "StorySkipped",
+    "StoryViews",
+    "StoryForwardHeader",
+    "StoriesPrivacyRules",
+    "ExportedStoryLink",
+    "Wallpaper",
+    "WallpaperSettings"
 ]

@@ -531,6 +531,14 @@ def pyrogram_api():
             Reaction
             MessageReactionUpdated
             MessageReactionCountUpdated
+            ExportedStoryLink
+            ChatTheme
+            ChatWallpaper
+            ContactRegistered
+            GiftCode
+            ScreenshotTaken
+            Wallpaper
+            WallpaperSettings
         """,
         stories="""
         Stories

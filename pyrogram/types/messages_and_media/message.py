@@ -486,6 +486,11 @@ class Message(Object, Update):
         giveaway: "types.Giveaway" = None,
         giveaway_result: "types.GiveawayResult" = None,
         boosts_applied: int = None,
+        chat_theme_updated: "types.ChatTheme" = None,
+        chat_wallpaper_updated: "types.ChatWallpaper" = None,
+        contact_registered: "types.ContactRegistered" = None,
+        gift_code: "types.GiftCode" = None,
+        screenshot_taken: "types.ScreenshotTaken" = None,
         invoice: "types.Invoice" = None,
         story: Union["types.MessageStory", "types.Story"] = None,
         video: "types.Video" = None,
@@ -599,6 +604,11 @@ class Message(Object, Update):
         self.giveaway = giveaway
         self.giveaway_result = giveaway_result
         self.boosts_applied = boosts_applied
+        self.chat_theme_updated = chat_theme_updated
+        self.chat_wallpaper_updated = chat_wallpaper_updated
+        self.contact_registered = contact_registered
+        self.gift_code = gift_code
+        self.screenshot_taken = screenshot_taken
         self.invoice = invoice
         self.story = story
         self.video = video
@@ -756,6 +766,11 @@ class Message(Object, Update):
             successful_payment = None
             payment_refunded = None
             boosts_applied = None
+            chat_theme_updated = None
+            chat_wallpaper_updated = None
+            contact_registered = None
+            gift_code = None
+            screenshot_taken = None
 
             service_type = None
             chat_join_type = None
@@ -859,6 +874,21 @@ class Message(Object, Update):
             elif isinstance(action, raw.types.MessageActionPaymentRefunded):
                 payment_refunded = await types.PaymentRefunded._parse(client, action)
                 service_type = enums.MessageServiceType.PAYMENT_REFUNDED
+            elif isinstance(action, raw.types.MessageActionSetChatTheme):
+                chat_theme_updated = types.ChatTheme._parse(action)
+                service_type = enums.MessageServiceType.CHAT_THEME_UPDATED
+            elif isinstance(action, raw.types.MessageActionSetChatWallPaper):
+                chat_wallpaper_updated = types.ChatWallpaper._parse(client, action)
+                service_type = enums.MessageServiceType.CHAT_WALLPAPER_UPDATED
+            elif isinstance(action, raw.types.MessageActionContactSignUp):
+                contact_registered = types.ContactRegistered()
+                service_type = enums.MessageServiceType.CONTACT_REGISTERED
+            elif isinstance(action, raw.types.MessageActionGiftCode):
+                gift_code = types.GiftCode._parse(client, action, chats)
+                service_type = enums.MessageServiceType.GIFT_CODE
+            elif isinstance(action, raw.types.MessageActionScreenshotTaken):
+                screenshot_taken = types.ScreenshotTaken()
+                service_type = enums.MessageServiceType.SCREENSHOT_TAKEN
 
             parsed_message = Message(
                 id=message.id,
@@ -898,6 +928,11 @@ class Message(Object, Update):
                 successful_payment=successful_payment,
                 payment_refunded=payment_refunded,
                 boosts_applied=boosts_applied,
+                chat_theme_updated=chat_theme_updated,
+                chat_wallpaper_updated=chat_wallpaper_updated,
+                contact_registered=contact_registered,
+                gift_code=gift_code,
+                screenshot_taken=screenshot_taken,
                 raw=message,
                 chat_join_type=chat_join_type,
                 client=client

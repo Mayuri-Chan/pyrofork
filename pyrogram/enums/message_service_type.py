@@ -114,3 +114,18 @@ class MessageServiceType(AutoName):
 
     BOT_ALLOWED = auto()
     "Bot allowed"
+
+    CHAT_THEME_UPDATED = auto()
+    "Chat theme updated"
+
+    CHAT_WALLPAPER_UPDATED = auto()
+    "Chat wallpaper updated"
+
+    CONTACT_REGISTERED = auto()
+    "Contact registered"
+
+    GIFT_CODE = auto()
+    "Gift code"
+
+    SCREENSHOT_TAKEN = auto()
+    "Screenshot taken"
