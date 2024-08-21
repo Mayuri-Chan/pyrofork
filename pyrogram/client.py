@@ -576,7 +576,7 @@ class Client(Methods):
                 )
                 if peer.usernames is not None and len(peer.usernames) > 1:
                     for uname in peer.usernames:
-                        usernames.append((peer.id, uname.username.lower()))
+                        usernames.append((peer_id, uname.username.lower()))
                 phone_number = peer.phone
                 peer_type = "bot" if peer.bot else "user"
             elif isinstance(peer, (raw.types.Chat, raw.types.ChatForbidden)):
@@ -593,7 +593,7 @@ class Client(Methods):
                 )
                 if peer.usernames is not None and len(peer.usernames) > 1:
                     for uname in peer.usernames:
-                        usernames.append((peer.id, uname.username.lower()))
+                        usernames.append((peer_id, uname.username.lower()))
                 peer_type = "channel" if peer.broadcast else "supergroup"
             elif isinstance(peer, raw.types.ChannelForbidden):
                 peer_id = utils.get_channel_id(peer.id)
