@@ -32,7 +32,7 @@ class CreateChatInviteLink:
         name: str = None,
         expire_date: datetime = None,
         member_limit: int = None,
-        creates_join_request: bool = None
+        creates_join_request: bool = None,
         subscription_period: int = None,
         subscription_price: int = None
     ) -> "types.ChatInviteLink":
