@@ -23,6 +23,7 @@ AUTOARCHIVE_NOT_AVAILABLE	This feature is not yet enabled for your account due t
 BANK_CARD_NUMBER_INVALID	The credit card number is invalid
 BANNED_RIGHTS_INVALID	You provided a set of restrictions that is invalid
 BASE_PORT_LOC_INVALID	The base port location is invalid
+BIRTHDAY_INVALID The age should be less than 150 year old in Telegram
 BOTS_TOO_MUCH	The chat has too many bots
 BOT_CHANNELS_NA	Bots can't edit admin privileges
 BOT_COMMAND_DESCRIPTION_INVALID	The command description was empty, too long or had invalid characters
@@ -44,6 +45,7 @@ BROADCAST_ID_INVALID	The channel is invalid
 BROADCAST_PUBLIC_VOTERS_FORBIDDEN	Polls with public voters cannot be sent in channels
 BROADCAST_REQUIRED	The request can only be used with a channel
 BUTTON_DATA_INVALID	The button callback data is invalid or too large
+BUTTON_ID_INVALID The button_id parameter is invalid
 BUTTON_TEXT_INVALID	The specified button text is invalid
 BUTTON_TYPE_INVALID	The type of one of the buttons you provided is invalid
 BUTTON_URL_INVALID	The button url is invalid
@@ -129,6 +131,9 @@ ERROR_TEXT_EMPTY	The provided error message is empty
 EXPIRE_DATE_INVALID	The expiration date is invalid
 EXPIRE_FORBIDDEN	Expire forbidden
 EXPORT_CARD_INVALID	The provided card is invalid
+EXTENDED_MEDIA_AMOUNT_INVALID	The maximum amount of `star_count` should be less than the `stars_paid_post_amount_max`
+EXTENDED_MEDIA_PEER_INVALID	The specified chat type is invalid.
+EXTENDED_MEDIA_TYPE_INVALID	The specified extended media type is unsupported.
 EXTERNAL_URL_INVALID	The external media URL is invalid
 FIELD_NAME_EMPTY	The field with the name FIELD_NAME is missing
 FIELD_NAME_INVALID	The field with the name FIELD_NAME is invalid
@@ -161,6 +166,7 @@ FRESH_CHANGE_ADMINS_FORBIDDEN	You can't change administrator settings in this ch
 FROM_MESSAGE_BOT_DISABLED	Bots can't use fromMessage min constructors
 FROM_PEER_INVALID	The from peer value is invalid
 GAME_BOT_INVALID	You cannot send that game with the current bot
+GENERAL_MODIFY_ICON_FORBIDDEN You can't modify the icon of the "General" topic.
 GEO_POINT_INVALID	Invalid geo point provided
 GIF_CONTENT_TYPE_INVALID	GIF content-type invalid
 GIF_ID_INVALID	The provided gif/animation id is invalid
@@ -242,6 +248,7 @@ NEW_SALT_INVALID	The new salt is invalid
 NEW_SETTINGS_EMPTY	No password is set on the current account, and no new password was specified in `new_settings`
 NEW_SETTINGS_INVALID	The new settings are invalid
 NEXT_OFFSET_INVALID	The next offset value is invalid
+NOGENERAL_HIDE_FORBIDDEN The hidden parameter is only valid for the General topic message_thread_id=1
 OFFSET_INVALID	The offset parameter is invalid
 OFFSET_PEER_ID_INVALID	The provided offset peer is invalid
 OPTIONS_TOO_MUCH	The poll options are too many
@@ -301,6 +308,7 @@ POLL_QUESTION_INVALID	The poll question is invalid
 POLL_UNSUPPORTED	This layer does not support polls in the invoked method
 POLL_VOTE_REQUIRED	Cast a vote in the poll before calling this method
 PREMIUM_ACCOUNT_REQUIRED	The method requires a premium user account
+PREMIUM_GIFTCODE_WAS_REFUNDED This gift code can't be redeemed because the giveaway organizer requested a refund
 PRIVACY_KEY_INVALID	The privacy key is invalid
 PRIVACY_TOO_LONG	Your privacy exception list has exceeded the maximum capacity
 PRIVACY_VALUE_INVALID	The privacy value is invalid
@@ -398,6 +406,8 @@ TMP_PASSWORD_INVALID	The temporary password is invalid
 TOKEN_INVALID	The provided token is invalid
 TOPIC_CLOSED	The topic was closed
 TOPIC_DELETED	The topic was deleted
+TOPIC_CLOSE_SEPARATELY	The close flag cannot be provided together with any of the other flags.
+TOPIC_HIDE_SEPARATELY	The hide flag cannot be provided together with any of the other flags.
 TOPIC_ID_INVALID	The provided topic ID is invalid
 TOPIC_NOT_MODIFIED	The topic was not modified
 TO_LANG_INVALID	The specified destination language is invalid
@@ -440,7 +450,7 @@ USER_VOLUME_INVALID	The specified user volume is invalid
 VIDEO_CONTENT_TYPE_INVALID	The video content type is invalid (i.e.: not streamable)
 VIDEO_FILE_INVALID	The video file is invalid
 VIDEO_TITLE_EMPTY	The specified video title is empty
-VOICE_MESSAGES_FORBIDDEN	Voice messages are restricted
+VOICE_MESSAGES_FORBIDDEN	This user's privacy settings forbid you from sending voice messages
 VOLUME_LOC_NOT_FOUND	The volume location can't be found
 WALLPAPER_FILE_INVALID	The provided file cannot be used as a wallpaper
 WALLPAPER_INVALID	The input wallpaper was not valid
@@ -463,5 +473,5 @@ STORIES_NEVER_CREATED	You have never created any stories
 MEDIA_FILE_INVALID	The provided media file is invalid
 CHANNEL_FORUM_MISSING	The channel forum is missing
 TTL_PERIOD_INVALID	The provided TTL period is invalid
-BOOSTS_REQUIRED	Channel required more boost to upload a story
+BOOSTS_REQUIRED The specified channel must first be boosted by its users in order to perform this action
 BOOSTS_EMPTY	Boosts empty
