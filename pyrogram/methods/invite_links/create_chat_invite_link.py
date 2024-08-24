@@ -32,7 +32,9 @@ class CreateChatInviteLink:
         name: str = None,
         expire_date: datetime = None,
         member_limit: int = None,
-        creates_join_request: bool = None
+        creates_join_request: bool = None,
+        subscription_period: int = None,
+        subscription_price: int = None
     ) -> "types.ChatInviteLink":
         """Create an additional invite link for a chat.
 
@@ -64,6 +66,13 @@ class CreateChatInviteLink:
                 True, if users joining the chat via the link need to be approved by chat administrators.
                 If True, member_limit can't be specified.
 
+            subscription_period (``int``, *optional*):
+                Date when the subscription will expire.
+                for now, only 30 days is supported (30*24*60*60).
+
+            subscription_price (``int``, *optional*):
+                Subscription price (stars).
+
         Returns:
             :obj:`~pyrogram.types.ChatInviteLink`: On success, the new invite link is returned.
 
@@ -75,6 +84,9 @@ class CreateChatInviteLink:
 
                 # Create a new link for up to 3 new users
                 link = await app.create_chat_invite_link(chat_id, member_limit=3)
+
+                # Create subcription link
+                link = await app.create_chat_invite_link(chat_id, subscription_period=60*24*60*60, subscription_price=1)
         """
         r = await self.invoke(
             raw.functions.messages.ExportChatInvite(
@@ -82,7 +94,11 @@ class CreateChatInviteLink:
                 expire_date=utils.datetime_to_timestamp(expire_date),
                 usage_limit=member_limit,
                 title=name,
-                request_needed=creates_join_request
+                request_needed=creates_join_request,
+                subscription_pricing=raw.types.StarsSubscriptionPricing(
+                    period=subscription_period,
+                    amount=subscription_price
+                ) if subscription_period and subscription_price is not None else None
             )
         )
 

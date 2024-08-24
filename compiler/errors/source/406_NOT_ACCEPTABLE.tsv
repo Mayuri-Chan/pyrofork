@@ -14,6 +14,7 @@ PHONE_PASSWORD_FLOOD	You have tried to log-in too many times
 PREMIUM_CURRENTLY_UNAVAILABLE	Premium currently unavailable
 PREVIOUS_CHAT_IMPORT_ACTIVE_WAIT_XMIN	Similar to a flood wait, must wait {value} minutes
 SEND_CODE_UNAVAILABLE	Returned when all available options for this type of number were already used (e.g. flash-call, then SMS, then this error might be returned to trigger a second resend)
+PREMIUM_GIFTCODE_WAS_REFUNDED	This gift code can't be redeemed because the giveaway organizer requested a refund
 STICKERSET_INVALID	The sticker set is invalid
 STICKERSET_OWNER_ANONYMOUS	This sticker set can't be used as the group's sticker set because it was created by one of its anonymous admins
 UPDATE_APP_TO_LOGIN	Update app to login

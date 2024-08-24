@@ -2,10 +2,12 @@ id	message
 ABOUT_TOO_LONG	The provided about/bio text is too long
 ACCESS_TOKEN_EXPIRED	The bot token has expired
 ACCESS_TOKEN_INVALID	The bot access token is invalid
+ADDRESS_INVALID	The specified geopoint address is invalid.
 ADMINS_TOO_MUCH	The chat has too many administrators
 ADMIN_ID_INVALID	The specified admin ID is invalid
 ADMIN_RANK_EMOJI_NOT_ALLOWED	Emoji are not allowed in custom administrator titles
 ADMIN_RANK_INVALID	The custom administrator title is invalid or too long
+ADMIN_RIGHTS_EMPTY	The chatAdminRights constructor passed in keyboardButtonRequestPeer.peer_type.user_admin_rights has no rights set (i.e. flags is 0).
 ALBUM_PHOTOS_TOO_MANY	Too many photos were included in the album
 API_ID_INVALID	The api_id/api_hash combination is invalid
 API_ID_PUBLISHED_FLOOD	You are using an API key that is limited on the server side because it was published somewhere
@@ -23,6 +25,7 @@ AUTOARCHIVE_NOT_AVAILABLE	This feature is not yet enabled for your account due t
 BANK_CARD_NUMBER_INVALID	The credit card number is invalid
 BANNED_RIGHTS_INVALID	You provided a set of restrictions that is invalid
 BASE_PORT_LOC_INVALID	The base port location is invalid
+BIRTHDAY_INVALID	The age should be less than 150 year old in Telegram
 BOTS_TOO_MUCH	The chat has too many bots
 BOT_CHANNELS_NA	Bots can't edit admin privileges
 BOT_COMMAND_DESCRIPTION_INVALID	The command description was empty, too long or had invalid characters
@@ -44,6 +47,7 @@ BROADCAST_ID_INVALID	The channel is invalid
 BROADCAST_PUBLIC_VOTERS_FORBIDDEN	Polls with public voters cannot be sent in channels
 BROADCAST_REQUIRED	The request can only be used with a channel
 BUTTON_DATA_INVALID	The button callback data is invalid or too large
+BUTTON_ID_INVALID	The button_id parameter is invalid
 BUTTON_TEXT_INVALID	The specified button text is invalid
 BUTTON_TYPE_INVALID	The type of one of the buttons you provided is invalid
 BUTTON_URL_INVALID	The button url is invalid
@@ -58,13 +62,15 @@ CHANNELS_ADMIN_PUBLIC_TOO_MUCH	You are an administrator of too many public chann
 CHANNELS_TOO_MUCH	You have joined too many channels or supergroups, leave some and try again
 CHANNEL_ADD_INVALID	Internal error.
 CHANNEL_BANNED	The channel is banned
+CHANNEL_ID_INVALID	The specified supergroup ID is invalid.
 CHANNEL_INVALID	The channel parameter is invalid
 CHANNEL_PARICIPANT_MISSING	The current user is not in the channel
 CHANNEL_PRIVATE	The channel/supergroup is not accessible
 CHANNEL_TOO_BIG	The channel too big
-CHANNEL_TOO_LARGE	The channel is too large
+CHANNEL_TOO_LARGE	"Channel is too large to be deleted; this error is issued when trying to delete channels with more than 1000 members (subject to change)."
 CHARGE_ALREADY_REFUNDED	The charge id was already used for a refund.
 CHARGE_NOT_FOUND	The charge id was not found.
+CHATLIST_EXCLUDE_INVALID	The specified `exclude_peers` are invalid.
 CHAT_ABOUT_NOT_MODIFIED	The chat about text was not modified because you tried to edit it using the same content
 CHAT_ABOUT_TOO_LONG	The chat about text is too long
 CHAT_ADMIN_REQUIRED	The method requires chat admin privileges
@@ -95,6 +101,7 @@ CONNECTION_SYSTEM_EMPTY	The connection to the system is empty
 CONNECTION_SYSTEM_LANG_CODE_EMPTY	The system language code is empty
 CONTACT_ADD_MISSING	Contact to add is missing
 CONTACT_ID_INVALID	The provided contact id is invalid
+CONTACT_MISSING	The specified user is not a contact.
 CONTACT_NAME_EMPTY	The provided contact name is empty
 CONTACT_REQ_MISSING	Missing contact request
 CREATE_CALL_FAILED	An error occurred while creating the call
@@ -109,10 +116,12 @@ DOCUMENT_INVALID	The document is invalid
 EMAIL_HASH_EXPIRED	The email hash expired and cannot be used to verify it
 EMAIL_INVALID	The email provided is invalid
 EMAIL_NOT_ALLOWED	This email is not allowed
+EMAIL_NOT_SETUP	In order to change the login email with emailVerifyPurposeLoginChange, an existing login email must already be set using emailVerifyPurposeLoginSetup.
 EMAIL_UNCONFIRMED	Email unconfirmed
 EMAIL_UNCONFIRMED_X	The provided email isn't confirmed, {value} is the length of the verification code that was just sent to the email
 EMAIL_VERIFY_EXPIRED	The verification email has expired
 EMOJI_INVALID	The specified theme emoji is valid
+EMOJI_MARKUP_INVALID	The specified `video_emoji_markup` was invalid.
 EMOJI_NOT_MODIFIED	The theme wasn't changed
 EMOTICON_EMPTY	The emoticon parameter is empty
 EMOTICON_INVALID	The emoticon parameter is invalid
@@ -129,6 +138,9 @@ ERROR_TEXT_EMPTY	The provided error message is empty
 EXPIRE_DATE_INVALID	The expiration date is invalid
 EXPIRE_FORBIDDEN	Expire forbidden
 EXPORT_CARD_INVALID	The provided card is invalid
+EXTENDED_MEDIA_AMOUNT_INVALID	The maximum amount of `star_count` should be less than the `stars_paid_post_amount_max`
+EXTENDED_MEDIA_PEER_INVALID	The specified chat type is invalid.
+EXTENDED_MEDIA_TYPE_INVALID	The specified extended media type is unsupported.
 EXTERNAL_URL_INVALID	The external media URL is invalid
 FIELD_NAME_EMPTY	The field with the name FIELD_NAME is missing
 FIELD_NAME_INVALID	The field with the name FIELD_NAME is invalid
@@ -157,13 +169,16 @@ FIRSTNAME_INVALID	The first name is invalid
 FOLDER_ID_EMPTY	The folder you tried to delete was already empty
 FOLDER_ID_INVALID	The folder id is invalid
 FORM_ID_EXPIRED	The specified id has expired.
+FORUM_ENABLED	You can't execute the specified action because the group is a [forum](https://core.telegram.org/api/forum), disable forum functionality to continue.
 FRESH_CHANGE_ADMINS_FORBIDDEN	You can't change administrator settings in this chat because your session was logged-in recently
 FROM_MESSAGE_BOT_DISABLED	Bots can't use fromMessage min constructors
 FROM_PEER_INVALID	The from peer value is invalid
 GAME_BOT_INVALID	You cannot send that game with the current bot
+GENERAL_MODIFY_ICON_FORBIDDEN	You can't modify the icon of the General topic.
 GEO_POINT_INVALID	Invalid geo point provided
 GIF_CONTENT_TYPE_INVALID	GIF content-type invalid
 GIF_ID_INVALID	The provided gif/animation id is invalid
+GIFT_SLUG_INVALID	The specified slug is invalid.
 GIFT_SLUG_EXPIRED	The gift slug is expired
 GRAPH_EXPIRED_RELOAD	This graph has expired, please obtain a new graph token
 GRAPH_INVALID_RELOAD	Invalid graph token provided, please reload the stats and provide the updated token
@@ -190,7 +205,9 @@ INPUT_LAYER_INVALID	The provided layer is invalid
 INPUT_METHOD_INVALID	The method invoked is invalid in the current schema
 INPUT_REQUEST_TOO_LONG	The input request is too long
 INPUT_TEXT_EMPTY	The specified text is empty
+INPUT_TEXT_TOO_LONG	The specified text is too long.
 INPUT_USER_DEACTIVATED	The target user has been deleted/deactivated
+INVITES_TOO_MUCH	The maximum number of per-folder invites specified by the `chatlist_invites_limit_default`/`chatlist_invites_limit_premium` was reached.
 INVITE_FORBIDDEN_WITH_JOINAS	If the user has anonymously joined a group call as a channel, they can't invite other users to the group call because that would cause deanonymization, because the invite would be sent using the original user ID, not the anonymized channel ID
 INVITE_HASH_EMPTY	The invite hash is empty
 INVITE_HASH_EXPIRED	The chat invite link is no longer valid
@@ -241,6 +258,7 @@ MULTI_MEDIA_TOO_LONG	The album/media group contains too many items
 NEW_SALT_INVALID	The new salt is invalid
 NEW_SETTINGS_EMPTY	No password is set on the current account, and no new password was specified in `new_settings`
 NEW_SETTINGS_INVALID	The new settings are invalid
+NOGENERAL_HIDE_FORBIDDEN	The hidden parameter is only valid for the General topic message_thread_id=1
 NEXT_OFFSET_INVALID	The next offset value is invalid
 OFFSET_INVALID	The offset parameter is invalid
 OFFSET_PEER_ID_INVALID	The provided offset peer is invalid
@@ -301,6 +319,7 @@ POLL_QUESTION_INVALID	The poll question is invalid
 POLL_UNSUPPORTED	This layer does not support polls in the invoked method
 POLL_VOTE_REQUIRED	Cast a vote in the poll before calling this method
 PREMIUM_ACCOUNT_REQUIRED	The method requires a premium user account
+PREMIUM_GIFTCODE_WAS_REFUNDED	This gift code can't be redeemed because the giveaway organizer requested a refund
 PRIVACY_KEY_INVALID	The privacy key is invalid
 PRIVACY_TOO_LONG	Your privacy exception list has exceeded the maximum capacity
 PRIVACY_VALUE_INVALID	The privacy value is invalid
@@ -380,7 +399,13 @@ STICKER_THUMB_PNG_NOPNG	A png sticker thumbnail file was expected, but something
 STICKER_VIDEO_BIG	The specified video sticker is too big
 STICKER_VIDEO_NODOC	You must send the video sticker as a document
 STICKER_VIDEO_NOWEBM	A webm video file was expected, but something else was provided
+STORY_ID_EMPTY	You specified no story IDs.
+STORY_ID_INVALID	The specified story ID is invalid.
+STORY_NOT_MODIFIED	The new story information you passed is equal to the previous story information, thus it wasn't modified.
+STORY_PERIOD_INVALID	The specified story period is invalid for this account.
 STORIES_TOO_MUCH	Too many stories in the current account
+STORY_SEND_FLOOD_WEEKLY_X	You've hit the weekly story limit, wait for the specified number of seconds before posting a new story.
+STORY_SEND_FLOOD_MONTHLY_X	You've hit the monthly story limit, wait for the specified number of seconds before posting a new story.
 STORY_PERIOD_INVALID	The story period is invalid
 SWITCH_PM_TEXT_EMPTY	The switch_pm.text field was empty
 TAKEOUT_INVALID	The takeout id is invalid
@@ -398,8 +423,11 @@ TMP_PASSWORD_INVALID	The temporary password is invalid
 TOKEN_INVALID	The provided token is invalid
 TOPIC_CLOSED	The topic was closed
 TOPIC_DELETED	The topic was deleted
+TOPIC_CLOSE_SEPARATELY	The close flag cannot be provided together with any of the other flags.
+TOPIC_HIDE_SEPARATELY	The hide flag cannot be provided together with any of the other flags.
 TOPIC_ID_INVALID	The provided topic ID is invalid
 TOPIC_NOT_MODIFIED	The topic was not modified
+TOPIC_TITLE_EMPTY	The specified topic title is empty.
 TO_LANG_INVALID	The specified destination language is invalid
 TRANSCRIPTION_FAILED	Telegram is having internal problems. Please try again later to transcribe the audio.
 TTL_DAYS_INVALID	The provided TTL days is invalid
@@ -440,11 +468,12 @@ USER_VOLUME_INVALID	The specified user volume is invalid
 VIDEO_CONTENT_TYPE_INVALID	The video content type is invalid (i.e.: not streamable)
 VIDEO_FILE_INVALID	The video file is invalid
 VIDEO_TITLE_EMPTY	The specified video title is empty
-VOICE_MESSAGES_FORBIDDEN	Voice messages are restricted
+VOICE_MESSAGES_FORBIDDEN	This user's privacy settings forbid you from sending voice messages
 VOLUME_LOC_NOT_FOUND	The volume location can't be found
 WALLPAPER_FILE_INVALID	The provided file cannot be used as a wallpaper
 WALLPAPER_INVALID	The input wallpaper was not valid
 WALLPAPER_MIME_INVALID	The wallpaper mime type is invalid
+WALLPAPER_NOT_FOUND	The specified wallpaper could not be found.
 WC_CONVERT_URL_INVALID	WC convert URL invalid
 WEBDOCUMENT_INVALID	The web document is invalid
 WEBDOCUMENT_MIME_INVALID	The web document mime type is invalid
@@ -463,5 +492,7 @@ STORIES_NEVER_CREATED	You have never created any stories
 MEDIA_FILE_INVALID	The provided media file is invalid
 CHANNEL_FORUM_MISSING	The channel forum is missing
 TTL_PERIOD_INVALID	The provided TTL period is invalid
-BOOSTS_REQUIRED	Channel required more boost to upload a story
-BOOSTS_EMPTY	Boosts empty
+BOOSTS_REQUIRED	The specified channel must first be boosted by its users in order to perform this action
+BOOSTS_EMPTY	You can't modify the icon of the General topic.
+BOOST_NOT_MODIFIED	You're already boosting the specified channel.
+BOOST_PEER_INVALID	The specified `boost_peer` is invalid.
