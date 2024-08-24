@@ -320,6 +320,7 @@ POLL_UNSUPPORTED	This layer does not support polls in the invoked method
 POLL_VOTE_REQUIRED	Cast a vote in the poll before calling this method
 PREMIUM_ACCOUNT_REQUIRED	The method requires a premium user account
 PREMIUM_GIFTCODE_WAS_REFUNDED	This gift code can't be redeemed because the giveaway organizer requested a refund
+PRICING_CHAT_INVALID	This chat chat doesn't support subscription link.
 PRIVACY_KEY_INVALID	The privacy key is invalid
 PRIVACY_TOO_LONG	Your privacy exception list has exceeded the maximum capacity
 PRIVACY_VALUE_INVALID	The privacy value is invalid
@@ -407,6 +408,7 @@ STORIES_TOO_MUCH	Too many stories in the current account
 STORY_SEND_FLOOD_WEEKLY_X	You've hit the weekly story limit, wait for the specified number of seconds before posting a new story.
 STORY_SEND_FLOOD_MONTHLY_X	You've hit the monthly story limit, wait for the specified number of seconds before posting a new story.
 STORY_PERIOD_INVALID	The story period is invalid
+SUBSCRIPTION_PERIOD_INVALID	The subscription period is invalid.
 SWITCH_PM_TEXT_EMPTY	The switch_pm.text field was empty
 TAKEOUT_INVALID	The takeout id is invalid
 TAKEOUT_REQUIRED	The method must be invoked inside a takeout session
