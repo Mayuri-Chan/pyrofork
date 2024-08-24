@@ -1071,11 +1071,7 @@ class Chat(Object):
 
         return await self._client.leave_chat(self.id)
 
-    async def export_invite_link(
-        self,
-        subscription_period: int = None,
-        subscription_price: int = None
-    ):
+    async def export_invite_link(self):
         """Bound method *export_invite_link* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:
@@ -1089,14 +1085,6 @@ class Chat(Object):
 
                 chat.export_invite_link()
 
-        Parameters:
-            subscription_period (``int``, *optional*):
-                Channel members only. Date when the subscription expires.
-                for now, only 30 days is supported (30*24*60*60).
-
-            subscription_price (``int``, *optional*):
-                Channel members only. Price of the subscription in the smallest units of the currency.
-
         Returns:
             ``str``: On success, the exported invite link is returned.
 
@@ -1104,11 +1092,7 @@ class Chat(Object):
             ValueError: In case the chat_id belongs to a user.
         """
 
-        return await self._client.export_chat_invite_link(
-            self.id,
-            subscription_period=subscription_period,
-            subscription_price=subscription_price
-        )
+        return await self._client.export_chat_invite_link(self.id)
 
     async def get_member(
         self,
