@@ -23,16 +23,17 @@ from typing import Union, Optional
 import pyrogram
 from pyrogram import raw
 from pyrogram import types
-from pyrogram.file_id import FileId
+from pyrogram import utils
+from pyrogram.file_id import FileId, FileType
 
 
 class CreateStickerSet:
     async def create_sticker_set(
         self: "pyrogram.Client",
-        user_id: Union[int, str],
         title: str,
         short_name: str,
         sticker: str,
+        user_id: Union[int, str] = None,
         emoji: str = "🤔",
         masks: bool = None
     ) -> Optional["types.Message"]:
@@ -41,10 +42,6 @@ class CreateStickerSet:
         .. include:: /_includes/usable-by/users-bots.rst
 
         Parameters:
-            user_id (``int`` | ``str``):
-                Unique identifier (int) or username (str) of the Stickerset owner.
-                For you yourself you can simply use "me" or "self" (users only).
-
             title (``str``):
                 Stickerset name, 1-64 chars
 
@@ -57,6 +54,12 @@ class CreateStickerSet:
             sticker (``str``):
                 sticker to add.
                 Pass a file_id as string to send a file that exists on the Telegram servers.
+
+            user_id (``int`` | ``str``, *optional*):
+                Unique identifier (int) or username (str) of the Stickerset owner.
+                For you yourself you can simply use "me" or "self" (users only).
+                required for bots.
+                default to "me".
 
             emoji (``str``, *optional*):
                 Associated emoji.
@@ -71,14 +74,23 @@ class CreateStickerSet:
         Example:
             .. code-block:: python
 
-                # Send document by uploading from local file
                 await app.create_sticker_set("me", "My First Pack", "myfirstpack", "AAjjHjk")
         """
-        file = None
+
+        if self.me.is_bot and user_id is None:
+            raise ValueError("user_id is required for bots")
 
         if isinstance(sticker, str):
             if os.path.isfile(sticker) or re.match("^https?://", sticker):
-                raise ValueError(f"file_id is invalid!")
+                document = await self.send_document(
+                    user_id or "me",
+                    sticker,
+                    force_document=True,
+                    disable_notification=True
+                )
+                uploaded_media = utils.get_input_media_from_file_id(document.document.file_id, FileType.DOCUMENT)
+                media = uploaded_media.id
+                _ = await document.delete()
             else:
                 decoded = FileId.decode(sticker)
                 media = raw.types.InputDocument(
@@ -87,11 +99,19 @@ class CreateStickerSet:
                     file_reference=decoded.file_reference
                 )
         else:
-            raise ValueError(f"file_id is invalid!")
+            document = await self.send_document(
+                user_id or "me",
+                sticker,
+                force_document=True,
+                disable_notification=True
+            )
+            uploaded_media = utils.get_input_media_from_file_id(document.document.file_id, FileType.DOCUMENT)
+            media = uploaded_media.id
+            _ = await document.delete()
 
         r = await self.invoke(
             raw.functions.stickers.CreateStickerSet(
-                user_id=await self.resolve_peer(user_id),
+                user_id=await self.resolve_peer(user_id or "me"),
                 title=title,
                 short_name=short_name,
                 stickers=[
