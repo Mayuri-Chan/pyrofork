@@ -111,6 +111,9 @@ class Message(Object, Update):
         is_topic_message (``bool``, *optional*):
             True, if the message is sent to a forum topic
 
+        reply_to_chat_id (``int``, *optional*):
+            Unique identifier of the chat where the replied message belongs to.
+
         reply_to_message_id (``int``, *optional*):
             The id of the message which this message directly replied to.
 
@@ -450,6 +453,7 @@ class Message(Object, Update):
         forward_signature: str = None,
         forward_date: datetime = None,
         is_topic_message: bool = None,
+        reply_to_chat_id: int = None,
         reply_to_message_id: int = None,
         reply_to_story_id: int = None,
         reply_to_story_user_id: int = None,
@@ -567,6 +571,7 @@ class Message(Object, Update):
         self.forward_signature = forward_signature
         self.forward_date = forward_date
         self.is_topic_message = is_topic_message
+        self.reply_to_chat_id = reply_to_chat_id
         self.reply_to_message_id = reply_to_message_id
         self.reply_to_story_id = reply_to_story_id
         self.reply_to_story_user_id = reply_to_story_user_id
@@ -1265,13 +1270,15 @@ class Message(Object, Update):
                         parsed_message.reply_to_story_chat_id = utils.get_channel_id(message.reply_to.peer.chat_id)
                     else:
                         parsed_message.reply_to_story_chat_id = utils.get_channel_id(message.reply_to.peer.channel_id)
+                rtci = getattr(message.reply_to, "reply_to_peer_id", None)
+                reply_to_chat_id = utils.get_channel_id(utils.get_raw_peer_id(rtci)) if rtci else None
+                if rtci is not None and parsed_message.chat.id != reply_to_chat_id:
+                    parsed_message.reply_to_chat_id = reply_to_chat_id
 
                 if replies:
                     if parsed_message.reply_to_message_id:
-                        is_cross_chat = getattr(message.reply_to, "reply_to_peer_id", None) and getattr(message.reply_to.reply_to_peer_id, "channel_id", None)
-
-                        if is_cross_chat:
-                            key = (utils.get_channel_id(message.reply_to.reply_to_peer_id.channel_id), message.reply_to.reply_to_msg_id)
+                        if rtci is not None and parsed_message.chat.id != reply_to_chat_id:
+                            key = (reply_to_chat_id, message.reply_to.reply_to_msg_id)
                             reply_to_params = {"chat_id": key[0], 'message_ids': key[1]}
                         else:
                             key = (parsed_message.chat.id, parsed_message.reply_to_message_id)
