@@ -48,7 +48,7 @@ Index
     - :meth:`~Client.on_chat_member_updated`
     - :meth:`~Client.on_chat_join_request`
     - :meth:`~Client.on_deleted_messages`
-    - :meth:`~Client.on_edited_bot_business_message`
+    - :meth:`~Client.on_deleted_bot_business_message`
     - :meth:`~Client.on_user_status`
     - :meth:`~Client.on_story`
     - :meth:`~Client.on_poll`
