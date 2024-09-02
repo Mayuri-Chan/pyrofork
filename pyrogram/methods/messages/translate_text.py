@@ -56,6 +56,22 @@ class TranslateText:
             entities (List of :obj:`~pyrogram.types.MessageEntity`):
                 List of special entities that appear in message text, which can be specified instead of *parse_mode*.
 
+        Example:
+            .. code-block:: python
+
+                # Using chat_id and message_ids
+                await app.translate_message_text("en", chat_id, message_ids)
+
+                # Using text
+                await app.translate_message_text("en", text="Hello, how are you?")
+
+                # Using text with parse_mode
+                await app.translate_message_text("en", text="*Hello*, how are you?", parse_mode=ParseMode.MARKDOWN)
+
+                # Using text with entities
+                entities = [types.MessageEntityBold(offset=0, length=5)]
+                await app.translate_message_text("en", text="*Hello*, how are you?", entities=entities)
+
         Returns:
             :obj:`~pyrogram.types.TranslatedText` | List of :obj:`~pyrogram.types.TranslatedText`: In case *message_ids* was not
             a list, a single result is returned, otherwise a list of results is returned.
