@@ -748,6 +748,7 @@ def pyrogram_api():
             Message.reply_web_page
             Message.get_media_group
             Message.react
+            Message.translate
             Message.wait_for_click
         """,
         chat="""
