@@ -1417,7 +1417,7 @@ class Message(Object, Update):
                 Business connection identifier.
                 for business bots only.
 
-            reply_to_chat_id (``int`` | ``str``, *optional*):
+            reply_in_chat_id (``int`` | ``str``, *optional*):
                 Unique identifier for the origin chat.
                 for reply to message from another chat.
                 You can also use chat public link in form of *t.me/<username>* (str).
@@ -1595,7 +1595,7 @@ class Message(Object, Update):
                 Business connection identifier.
                 for business bots only.
 
-            reply_to_chat_id (``int`` | ``str``, *optional*):
+            reply_in_chat_id (``int`` | ``str``, *optional*):
                 Unique identifier for the origin chat.
                 for reply to message from another chat.
                 You can also use chat public link in form of *t.me/<username>* (str).
