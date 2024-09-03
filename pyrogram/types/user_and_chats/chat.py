@@ -774,7 +774,7 @@ class Chat(Object):
         emoji_background: Union[int, List[int]] = None,
         video: Union[str, BinaryIO] = None,
         video_start_ts: float = None,
-    ) -> bool:
+    ) -> Union["types.Message", bool]:
         """Bound method *set_photo* of :obj:`~pyrogram.types.Chat`.
 
         Use as a shortcut for:
@@ -825,7 +825,8 @@ class Chat(Object):
                 The timestamp in seconds of the video frame to use as photo profile preview.
 
         Returns:
-            ``bool``: True on success.
+            :obj:`~pyrogram.types.Message` | ``bool``: On success, a service message will be returned (when applicable),
+            otherwise, in case a message object couldn't be returned, True is returned.
 
         Raises:
             RPCError: In case of a Telegram RPC error.
