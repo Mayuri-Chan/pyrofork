@@ -54,6 +54,7 @@ from .requested_chats import RequestedChats
 from .requested_user import RequestedUser
 from .sent_web_app_message import SentWebAppMessage
 from .web_app_info import WebAppInfo
+from .purchased_paid_media import PurchasedPaidMedia
 
 __all__ = [
     "BotAllowed",
@@ -92,5 +93,6 @@ __all__ = [
     "MenuButtonCommands",
     "MenuButtonWebApp",
     "MenuButtonDefault",
-    "SentWebAppMessage"
+    "SentWebAppMessage",
+    "PurchasedPaidMedia"
 ]

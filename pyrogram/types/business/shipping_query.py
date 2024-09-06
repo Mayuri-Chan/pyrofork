@@ -36,7 +36,7 @@ class ShippingQuery(Object, Update):
             User who sent the query.
 
         invoice_payload (``str``):
-            Bot specified invoice payload. Only available to the bot that received the payment.
+            Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal processes.
 
         shipping_address (:obj:`~pyrogram.types.ShippingAddress`):
             User specified shipping address. Only available to the bot that received the payment.

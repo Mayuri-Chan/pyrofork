@@ -62,7 +62,8 @@ from pyrogram.raw.types import (
     UpdateBotMessageReaction,
     UpdateBotMessageReactions,
     UpdateBotShippingQuery,
-    UpdateBusinessBotCallbackQuery
+    UpdateBusinessBotCallbackQuery,
+    UpdateBotPurchasedPaidMedia
 )
 
 log = logging.getLogger(__name__)
@@ -88,6 +89,7 @@ class Dispatcher:
     BOT_BUSSINESS_CONNECT_UPDATES = (UpdateBotBusinessConnect,)
     PRE_CHECKOUT_QUERY_UPDATES = (UpdateBotPrecheckoutQuery,)
     SHIPPING_QUERY_UPDATES = (UpdateBotShippingQuery,)
+    PURCHASED_PAID_MEDIA_UPDATES = (UpdateBotPurchasedPaidMedia,)
 
     def __init__(self, client: "pyrogram.Client"):
         self.client = client
@@ -229,6 +231,12 @@ class Dispatcher:
                 BotBusinessConnectHandler
             )
 
+        async def purchased_paid_media_parser(update, users, chats):
+            return (
+                pyrogram.types.PurchasedPaidMedia._parse(self.client, update, users),
+                ChatBoostHandler
+            )
+
         self.update_parsers = {
             Dispatcher.NEW_MESSAGE_UPDATES: message_parser,
             Dispatcher.NEW_BOT_BUSINESS_MESSAGE_UPDATES: bot_business_message_parser,
@@ -248,7 +256,8 @@ class Dispatcher:
             Dispatcher.PRE_CHECKOUT_QUERY_UPDATES: pre_checkout_query_parser,
             Dispatcher.MESSAGE_BOT_NA_REACTION_UPDATES: message_bot_na_reaction_parser,
             Dispatcher.MESSAGE_BOT_A_REACTION_UPDATES: message_bot_a_reaction_parser,
-            Dispatcher.BOT_BUSSINESS_CONNECT_UPDATES: bot_business_connect_parser
+            Dispatcher.BOT_BUSSINESS_CONNECT_UPDATES: bot_business_connect_parser,
+            Dispatcher.PURCHASED_PAID_MEDIA_UPDATES: purchased_paid_media_parser
         }
 
         self.update_parsers = {key: value for key_tuple, value in self.update_parsers.items() for key in key_tuple}

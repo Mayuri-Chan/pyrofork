@@ -593,6 +593,7 @@ def pyrogram_api():
             MenuButtonDefault
             SentWebAppMessage
             PreCheckoutQuery
+            PurchasedPaidMedia
         """,
         bot_commands="""
         Bot commands
