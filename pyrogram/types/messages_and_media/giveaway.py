@@ -53,6 +53,9 @@ class Giveaway(Object):
 
         private_channel_ids (List of ``int``, *optional*):
             List of Unique channel identifier of private channel which host the giveaway.
+
+        is_winners_hidden (``bool``):
+            True, if the giveaway winners are hidden.
     """
 
     def __init__(
@@ -66,7 +69,8 @@ class Giveaway(Object):
         new_subscribers : bool,
         additional_price: str = None,
         allowed_countries: List[str] = None,
-        private_channel_ids: List[int] = None
+        private_channel_ids: List[int] = None,
+        is_winners_hidden: bool = None
     ):
         super().__init__(client)
 
@@ -78,6 +82,7 @@ class Giveaway(Object):
         self.additional_price = additional_price
         self.allowed_countries = allowed_countries
         self.private_channel_ids = private_channel_ids
+        self.is_winners_hidden = is_winners_hidden
 
     @staticmethod
     async def _parse(client, message: "raw.types.Message") -> "Giveaway":
@@ -108,5 +113,6 @@ class Giveaway(Object):
             additional_price=giveaway.prize_description,
             allowed_countries=giveaway.countries_iso2 if len(giveaway.countries_iso2) > 0 else None,
             private_channel_ids=private_ids if len(private_ids) > 0 else None,
+            is_winners_hidden=not giveaway.winners_are_visible,
             client=client
         )
