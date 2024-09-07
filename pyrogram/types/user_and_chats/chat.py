@@ -770,6 +770,8 @@ class Chat(Object):
         self,
         *,
         photo: Union[str, BinaryIO] = None,
+        emoji: int = None,
+        emoji_background: Union[int, List[int]] = None,
         video: Union[str, BinaryIO] = None,
         video_start_ts: float = None,
     ) -> bool:
@@ -793,12 +795,14 @@ class Chat(Object):
                 # Set chat photo using an existing Photo file_id
                 await chat.set_photo(photo=photo.file_id)
 
+                # set chat photo with emoji
+                await chat.set_photo(photo="photo.jpg", emoji=5366316836101038579)
 
-                # Set chat video using a local file
+                # set chat photo with emoji and emoji_background
+                await chat.set_photo(photo="photo.jpg", emoji=5366316836101038579, emoji_background=[0, 0, 0, 0])
+
+                # Set chat video
                 await chat.set_photo(video="video.mp4")
-
-                # Set chat photo using an existing Video file_id
-                await chat.set_photo(video=video.file_id)
 
         Parameters:
             photo (``str`` | ``BinaryIO``, *optional*):
@@ -806,8 +810,14 @@ class Chat(Object):
                 from your local machine or a binary file-like object with its attribute
                 ".name" set for in-memory uploads.
 
+            emoji (``int``, *optional*):
+                Unique identifier (int) of the emoji to be used as the chat photo.
+
+            emoji_background (``int`` | List of ``int``, *optional*):
+                hexadecimal colors or List of hexadecimal colors to be used as the chat photo background.
+
             video (``str`` | ``BinaryIO``, *optional*):
-                New chat video. You can pass a :obj:`~pyrogram.types.Video` file_id, a file path to upload a new video
+                New chat video. You can pass a file path to upload a new video
                 from your local machine or a binary file-like object with its attribute
                 ".name" set for in-memory uploads.
 
@@ -825,6 +835,8 @@ class Chat(Object):
         return await self._client.set_chat_photo(
             chat_id=self.id,
             photo=photo,
+            emoji=emoji,
+            emoji_background=emoji_background,
             video=video,
             video_start_ts=video_start_ts
         )
