@@ -36,8 +36,11 @@ class Giveaway(Object):
         quantity (``int``):
             Quantity of the giveaway prize.
 
-        months (``int``):
+        months (``int``, *optional*):
             How long the telegram premium last (in month).
+
+        stars (``int``, *optional*):
+            How many stars the giveaway winner(s) get.
 
         expire_date (:py:obj:`~datetime.datetime`):
             Date the giveaway winner(s) will be choosen.
@@ -64,9 +67,10 @@ class Giveaway(Object):
         client: "pyrogram.Client" = None,
         chats: List["types.Chat"],
         quantity: int,
-        months: int,
         expire_date: datetime,
         new_subscribers : bool,
+        months: int = None,
+        stars: int = None,
         additional_price: str = None,
         allowed_countries: List[str] = None,
         private_channel_ids: List[int] = None,
@@ -77,6 +81,7 @@ class Giveaway(Object):
         self.chats = chats
         self.quantity = quantity
         self.months = months
+        self.stars = stars
         self.expire_date = expire_date
         self.new_subscribers = new_subscribers
         self.additional_price = additional_price
@@ -108,6 +113,7 @@ class Giveaway(Object):
             chats=chats,
             quantity=giveaway.quantity,
             months=giveaway.months,
+            stars=giveaway.stars,
             expire_date=utils.timestamp_to_datetime(giveaway.until_date),
             new_subscribers=giveaway.only_new_subscribers,
             additional_price=giveaway.prize_description,
