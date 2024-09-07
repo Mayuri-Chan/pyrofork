@@ -865,7 +865,7 @@ class Message(Object, Update):
                 gifted_premium = await types.GiftedPremium._parse(client, action, from_user.id)
                 service_type = enums.MessageServiceType.GIFTED_PREMIUM
             elif isinstance(action, raw.types.MessageActionGiveawayLaunch):
-                giveaway_launched = types.GiveawayLaunched()
+                giveaway_launched = types.GiveawayLaunched._parse(client, action)
                 service_type = enums.MessageServiceType.GIVEAWAY_LAUNCHED
             elif isinstance(action, raw.types.MessageActionGiveawayResults):
                 giveaway_result = await types.GiveawayResult._parse(client, action, True)
