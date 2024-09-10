@@ -18,7 +18,7 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from typing import Union, BinaryIO
+from typing import Union, BinaryIO, List
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -32,7 +32,7 @@ class SetChatPhoto:
         *,
         photo: Union[str, BinaryIO] = None,
         emoji: int = None,
-        emoji_background: Union[int, list[int]] = None,
+        emoji_background: Union[int, List[int]] = None,
         video: Union[str, BinaryIO] = None,
         video_start_ts: float = None,
     ) -> Union["types.Message", bool]:
