@@ -3173,6 +3173,7 @@ class Message(Object, Update):
         self,
         sticker: Union[str, BinaryIO],
         quote: bool = None,
+        emoji: str = None,
         disable_notification: bool = None,
         reply_to_message_id: int = None,
         business_connection_id: str = None,
@@ -3217,6 +3218,9 @@ class Message(Object, Update):
                 If ``True``, the message will be sent as a reply to this message.
                 If *reply_to_message_id* is passed, this parameter will be ignored.
                 Defaults to ``True`` in group chats and ``False`` in private chats.
+
+            emoji (``str``, *optional*):
+                Emoji associated with the sticker; only for just uploaded stickers
 
             disable_notification (``bool``, *optional*):
                 Sends the message silently.
@@ -3305,6 +3309,7 @@ class Message(Object, Update):
         return await self._client.send_sticker(
             chat_id=chat_id,
             sticker=sticker,
+            emoji=emoji,
             disable_notification=disable_notification,
             message_thread_id=message_thread_id,
             reply_to_message_id=reply_to_message_id,

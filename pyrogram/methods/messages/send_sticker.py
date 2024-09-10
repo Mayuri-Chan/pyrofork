@@ -37,6 +37,7 @@ class SendSticker:
         self: "pyrogram.Client",
         chat_id: Union[int, str],
         sticker: Union[str, BinaryIO],
+        emoji: str = None,
         disable_notification: bool = None,
         message_thread_id: int = None,
         business_connection_id: str = None,
@@ -75,6 +76,9 @@ class SendSticker:
                 pass an HTTP URL as a string for Telegram to get a .webp sticker file from the Internet,
                 pass a file path as string to upload a new sticker that exists on your local machine, or
                 pass a binary file-like object with its attribute ".name" set for in-memory uploads.
+
+            emoji (``str``, *optional*):
+                Emoji associated with the sticker; only for just uploaded stickers
 
             disable_notification (``bool``, *optional*):
                 Sends the message silently.
@@ -183,7 +187,11 @@ class SendSticker:
                         mime_type=self.guess_mime_type(sticker) or "image/webp",
                         file=file,
                         attributes=[
-                            raw.types.DocumentAttributeFilename(file_name=os.path.basename(sticker))
+                            raw.types.DocumentAttributeFilename(file_name=os.path.basename(sticker)),
+                            raw.types.DocumentAttributeSticker(
+                                alt=emoji,
+                                stickerset=raw.types.InputStickerSetEmpty()
+                            )
                         ]
                     )
                 elif re.match("^https?://", sticker):
