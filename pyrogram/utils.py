@@ -284,31 +284,53 @@ MAX_USER_ID = 999999999999
 def get_raw_peer_id(
         peer: Union[
             raw.base.Peer,
-            raw.base.RequestedPeer
+            raw.base.RequestedPeer,
+            raw.base.InputPeer
         ]
     ) -> Optional[int]:
     """Get the raw peer id from a Peer object"""
-    if isinstance(peer, raw.types.PeerUser) or isinstance(peer, raw.types.RequestedPeerUser):
+    if (
+        isinstance(peer, raw.types.PeerUser)
+        or isinstance(peer, raw.types.RequestedPeerUser)
+        or isinstance(peer, raw.types.InputPeerUser)
+    ):
         return peer.user_id
 
-    if isinstance(peer, raw.types.PeerChat) or isinstance(peer, raw.types.RequestedPeerChat):
+    if (
+        isinstance(peer, raw.types.PeerChat)
+        or isinstance(peer, raw.types.RequestedPeerChat)
+        or isinstance(peer, raw.types.InputPeerChat)
+    ):
         return peer.chat_id
 
-    if isinstance(peer, raw.types.PeerChannel) or isinstance(peer, raw.types.RequestedPeerChannel):
+    if (
+        isinstance(peer, raw.types.PeerChannel)
+        or isinstance(peer, raw.types.RequestedPeerChannel)
+        or isinstance(peer, raw.types.InputPeerChannel)
+    ):
         return peer.channel_id
 
     return None
 
 
-def get_peer_id(peer: raw.base.Peer) -> int:
+def get_peer_id(peer: Union[raw.base.Peer, raw.base.InputPeer]) -> int:
     """Get the non-raw peer id from a Peer object"""
-    if isinstance(peer, raw.types.PeerUser):
+    if (
+        isinstance(peer, raw.types.PeerUser)
+        or isinstance(peer, raw.types.InputPeerUser)
+    ):
         return peer.user_id
 
-    if isinstance(peer, raw.types.PeerChat):
+    if (
+        isinstance(peer, raw.types.PeerChat)
+        or isinstance(peer, raw.types.InputPeerChat)
+    ):
         return -peer.chat_id
 
-    if isinstance(peer, raw.types.PeerChannel):
+    if (
+        isinstance(peer, raw.types.PeerChannel)
+        or isinstance(peer, raw.types.InputPeerChannel)
+    ):
         return MAX_CHANNEL_ID - peer.channel_id
 
     raise ValueError(f"Peer type invalid: {peer}")
