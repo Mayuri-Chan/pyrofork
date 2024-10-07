@@ -43,6 +43,7 @@ from .photo import Photo
 from .poll import Poll
 from .poll_option import PollOption
 from .reaction import Reaction
+from .read_participant import ReadParticipant
 from .screenshot_taken import ScreenshotTaken
 from .sticker import Sticker
 from .stickerset import StickerSet
@@ -116,6 +117,7 @@ __all__ = [
     "MessageReactionCountUpdated",
     "MessageReactor",
     "MessageStory",
+    "ReadParticipant",
     "ScreenshotTaken",
     "Story",
     "StoryDeleted",

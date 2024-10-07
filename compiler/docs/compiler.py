@@ -197,6 +197,7 @@ def pyrogram_api():
             delete_scheduled_messages
             get_available_effects
             get_messages
+            get_message_read_participants
             get_scheduled_messages
             get_media_group
             get_chat_history
@@ -537,6 +538,7 @@ def pyrogram_api():
             ChatWallpaper
             ContactRegistered
             GiftCode
+            ReadParticipant
             ScreenshotTaken
             Wallpaper
             WallpaperSettings
