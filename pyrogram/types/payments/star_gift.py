@@ -89,5 +89,6 @@ class StarGift(Object):
             convert_price=star_gift.convert_stars,
             available_amount=getattr(star_gift, "availability_remains", None),
             total_amount=getattr(star_gift, "availability_total", None),
-            is_limited=getattr(star_gift, "limited", None)
+            is_limited=getattr(star_gift, "limited", None),
+            client=client
         )
