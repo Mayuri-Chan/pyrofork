@@ -17,31 +17,30 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from .apply_gift_code import ApplyGiftCode
-from .check_giftcode import CheckGiftCode
-from .create_invoice_link import CreateInvoiceLink
-from .get_payment_form import GetPaymentForm
-from .get_star_gifts import GetStarGifts
-from .get_stars_transactions import GetStarsTransactions
-from .get_stars_transactions_by_id import GetStarsTransactionsById
-from .refund_stars_payment import RefundStarPayment
-from .send_invoice import SendInvoice
-from .send_paid_media import SendPaidMedia
-from .send_paid_reaction import SendPaidReaction
-from .send_payment_form import SendPaymentForm
+from typing import List
 
-class Payments(
-    ApplyGiftCode,
-    CheckGiftCode,
-    CreateInvoiceLink,
-    GetPaymentForm,
-    GetStarGifts,
-    GetStarsTransactions,
-    GetStarsTransactionsById,
-    RefundStarPayment,
-    SendPaidReaction,
-    SendPaidMedia,
-    SendInvoice,
-    SendPaymentForm
-):
-    pass
+import pyrogram
+from pyrogram import raw, types
+
+
+class GetStarGifts:
+    async def get_star_gifts(
+        self: "pyrogram.Client",
+    ) -> List["types.StarGift"]:
+        """Get all available star gifts to send.
+
+        .. include:: /_includes/usable-by/users.rst
+
+        Returns:
+            List of :obj:`~pyrogram.types.StarGift`: On success, a list of star gifts is returned.
+
+        Example:
+            .. code-block:: python
+
+                app.get_star_gifts()
+        """
+        r = await self.invoke(
+            raw.functions.payments.GetStarGifts(hash=0)
+        )
+
+        return types.List([await types.StarGift._parse(self, gift) for gift in r.gifts])

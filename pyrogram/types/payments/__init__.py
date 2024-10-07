@@ -29,6 +29,7 @@ from .payment_form import PaymentForm
 from .payment_info import PaymentInfo
 from .payment_refunded import PaymentRefunded
 from .purchased_paid_media import PurchasedPaidMedia
+from .star_gift import StarGift
 from .stars_status import StarsStatus
 from .stars_transaction import StarsTransaction
 from .successful_payment import SuccessfulPayment
@@ -46,6 +47,7 @@ __all__ = [
     "PaymentInfo",
     "PaymentRefunded",
     "PurchasedPaidMedia",
+    "StarGift",
     "StarsStatus",
     "StarsTransaction",
     "SuccessfulPayment"
