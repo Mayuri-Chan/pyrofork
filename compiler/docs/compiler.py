@@ -183,7 +183,6 @@ def pyrogram_api():
             send_contact
             send_cached_media
             send_reaction
-            send_paid_reaction
             edit_message_text
             edit_message_caption
             edit_message_media
@@ -349,7 +348,14 @@ def pyrogram_api():
         Payments
             apply_gift_code
             check_gift_code
+            create_invoice_link
             get_payment_form
+            get_stars_transactions
+            get_stars_transactions_by_id
+            refund_star_payment
+            send_invoice
+            send_paid_media
+            send_paid_reaction
             send_payment_form
         """,
         password="""
@@ -384,13 +390,7 @@ def pyrogram_api():
         Telegram Business
             answer_pre_checkout_query
             answer_shipping_query
-            create_invoice_link
             get_business_connection
-            get_stars_transactions
-            get_stars_transactions_by_id
-            refund_star_payment
-            send_invoice
-            send_paid_media
         """,
         authorization="""
         Authorization
@@ -500,7 +500,6 @@ def pyrogram_api():
             AvailableEffect
             Document
             Animation
-            LabeledPrice
             Video
             Voice
             VideoNote
@@ -510,7 +509,6 @@ def pyrogram_api():
             Sticker
             StickerSet
             Game
-            GiftedPremium
             Giveaway
             GiveawayLaunched
             GiveawayResult
@@ -565,9 +563,21 @@ def pyrogram_api():
         """,
         payment="""
         Payment
-            GiftCode
             CheckedGiftCode
+            ExtendedMediaPreview
+            GiftCode
+            GiftedPremium
+            InputStarsTransaction
+            Invoice
+            LabeledPrice
+            PaidMedia
             PaymentForm
+            PaymentInfo
+            PaymentRefunded
+            PurchasedPaidMedia
+            StarsStatus
+            StarsTransaction
+            SuccessfulPayment
         """,
         pyromod="""
         Pyromod
@@ -605,8 +615,6 @@ def pyrogram_api():
             MenuButtonWebApp
             MenuButtonDefault
             SentWebAppMessage
-            PreCheckoutQuery
-            PurchasedPaidMedia
         """,
         bot_commands="""
         Bot commands
@@ -622,18 +630,10 @@ def pyrogram_api():
         """,
         business="""
         Telegram Business
-            ExtendedMediaPreview
-            InputStarsTransaction
-            Invoice
-            PaidMedia
-            PaymentInfo
-            PaymentRefunded
+            PreCheckoutQuery
             ShippingAddress
             ShippingOption
             ShippingQuery
-            StarsStatus
-            StarsTransaction
-            SuccessfulPayment
         """,
         input_media="""
         Input Media
