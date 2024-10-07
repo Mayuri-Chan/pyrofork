@@ -29,6 +29,7 @@ from .send_invoice import SendInvoice
 from .send_paid_media import SendPaidMedia
 from .send_paid_reaction import SendPaidReaction
 from .send_payment_form import SendPaymentForm
+from .send_star_gift import SendStarGift
 
 class Payments(
     ApplyGiftCode,
@@ -42,6 +43,7 @@ class Payments(
     SendPaidReaction,
     SendPaidMedia,
     SendInvoice,
-    SendPaymentForm
+    SendPaymentForm,
+    SendStarGift
 ):
     pass

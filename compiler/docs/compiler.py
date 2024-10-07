@@ -358,6 +358,7 @@ def pyrogram_api():
             send_paid_media
             send_paid_reaction
             send_payment_form
+            send_star_gift
         """,
         password="""
         Password
