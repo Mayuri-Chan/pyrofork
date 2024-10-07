@@ -51,6 +51,10 @@ class InputMediaDocument(InputMedia):
 
         caption_entities (List of :obj:`~pyrogram.types.MessageEntity`):
             List of special entities that appear in the caption, which can be specified instead of *parse_mode*.
+
+        file_name (``str``, *optional*):
+            File name of the document sent.
+            Defaults to file's path basename.
     """
 
     def __init__(
@@ -59,8 +63,10 @@ class InputMediaDocument(InputMedia):
         thumb: str = None,
         caption: str = "",
         parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: List[MessageEntity] = None
+        caption_entities: List[MessageEntity] = None,
+        file_name: str = None
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
 
         self.thumb = thumb
+        self.file_name = file_name

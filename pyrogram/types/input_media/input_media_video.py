@@ -62,6 +62,10 @@ class InputMediaVideo(InputMedia):
         duration (``int``, *optional*):
             Video duration.
 
+        file_name (``str``, *optional*):
+            File name of the video sent.
+            Defaults to file's path basename.
+
         supports_streaming (``bool``, *optional*):
             Pass True, if the uploaded video is suitable for streaming.
 
@@ -79,6 +83,7 @@ class InputMediaVideo(InputMedia):
         width: int = 0,
         height: int = 0,
         duration: int = 0,
+        file_name: str = None,
         supports_streaming: bool = True,
         has_spoiler: bool = None,
     ):
@@ -88,5 +93,6 @@ class InputMediaVideo(InputMedia):
         self.width = width
         self.height = height
         self.duration = duration
+        self.file_name = file_name
         self.supports_streaming = supports_streaming
         self.has_spoiler = has_spoiler
