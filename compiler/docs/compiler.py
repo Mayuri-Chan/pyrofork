@@ -350,6 +350,7 @@ def pyrogram_api():
             check_gift_code
             create_invoice_link
             get_payment_form
+            get_star_gifts
             get_stars_transactions
             get_stars_transactions_by_id
             refund_star_payment
@@ -521,6 +522,7 @@ def pyrogram_api():
             PollOption
             Dice
             Reaction
+            StarGift
             VideoChatScheduled
             VideoChatStarted
             VideoChatEnded
