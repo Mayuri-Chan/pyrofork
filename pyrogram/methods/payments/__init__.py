@@ -29,12 +29,14 @@ from .get_payment_form import GetPaymentForm
 from .get_star_gifts import GetStarGifts
 from .get_stars_transactions import GetStarsTransactions
 from .get_stars_transactions_by_id import GetStarsTransactionsById
+from .hide_star_gift import HideStarGift
 from .refund_stars_payment import RefundStarPayment
 from .send_invoice import SendInvoice
 from .send_paid_media import SendPaidMedia
 from .send_paid_reaction import SendPaidReaction
 from .send_payment_form import SendPaymentForm
 from .send_star_gift import SendStarGift
+from .show_star_gift import ShowStarGift
 
 class Payments(
     ApplyGiftCode,
@@ -45,11 +47,13 @@ class Payments(
     GetStarGifts,
     GetStarsTransactions,
     GetStarsTransactionsById,
+    HideStarGift,
     RefundStarPayment,
     SendPaidReaction,
     SendPaidMedia,
     SendInvoice,
     SendPaymentForm,
-    SendStarGift
+    SendStarGift,
+    ShowStarGift
 ):
     pass
