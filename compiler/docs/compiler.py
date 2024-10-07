@@ -354,12 +354,14 @@ def pyrogram_api():
             get_star_gifts
             get_stars_transactions
             get_stars_transactions_by_id
+            hide_star_gift
             refund_star_payment
             send_invoice
             send_paid_media
             send_paid_reaction
             send_payment_form
             send_star_gift
+            show_star_gift
         """,
         password="""
         Password
