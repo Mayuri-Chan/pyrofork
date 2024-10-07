@@ -40,6 +40,7 @@ from .get_discussion_replies import GetDiscussionReplies
 from .get_discussion_replies_count import GetDiscussionRepliesCount
 from .get_media_group import GetMediaGroup
 from .get_messages import GetMessages
+from .get_message_read_participants import GetMessageReadParticipants
 from .get_scheduled_messages import GetScheduledMessages
 from .read_chat_history import ReadChatHistory
 from .retract_vote import RetractVote
@@ -85,6 +86,7 @@ class Messages(
     GetAvailableEffects,
     GetMediaGroup,
     GetMessages,
+    GetMessageReadParticipants,
     GetScheduledMessages,
     SendAudio,
     SendChatAction,
