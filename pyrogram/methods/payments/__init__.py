@@ -18,8 +18,13 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from .apply_gift_code import ApplyGiftCode
+<<<<<<< HEAD
 from .check_giftcode import CheckGiftCode
 from .create_invoice_link import CreateInvoiceLink
+=======
+from .check_gift_code import CheckGiftCode
+from .convert_star_gift import ConvertStarGift
+>>>>>>> 1473842c6 (Add convert_star_gift method)
 from .get_payment_form import GetPaymentForm
 from .get_star_gifts import GetStarGifts
 from .get_stars_transactions import GetStarsTransactions
@@ -34,6 +39,7 @@ from .send_star_gift import SendStarGift
 class Payments(
     ApplyGiftCode,
     CheckGiftCode,
+    ConvertStarGift,
     CreateInvoiceLink,
     GetPaymentForm,
     GetStarGifts,
