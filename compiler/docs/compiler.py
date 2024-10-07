@@ -354,6 +354,8 @@ def pyrogram_api():
             get_star_gifts
             get_stars_transactions
             get_stars_transactions_by_id
+            get_user_star_gifts_count
+            get_user_star_gifts
             hide_star_gift
             refund_star_payment
             send_invoice
@@ -584,6 +586,7 @@ def pyrogram_api():
             StarsStatus
             StarsTransaction
             SuccessfulPayment
+            UserStarGift
         """,
         pyromod="""
         Pyromod

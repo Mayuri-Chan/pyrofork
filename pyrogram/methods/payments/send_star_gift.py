@@ -71,11 +71,7 @@ class SendStarGift:
         """
         peer = await self.resolve_peer(chat_id)
 
-        if isinstance(peer, raw.types.InputPeerUser):
-            peer = raw.types.InputUser(user_id=peer.user_id, access_hash=peer.access_hash)
-        elif isinstance(peer, raw.types.InputPeerSelf):
-            peer = raw.types.InputUserSelf()
-        else:
+        if not isinstance(peer, (raw.types.InputPeerUser, raw.types.InputPeerSelf)):
             raise ValueError("chat_id must belong to a user.")
 
         text, entities = (await utils.parse_text_entities(self, text, parse_mode, entities)).values()
