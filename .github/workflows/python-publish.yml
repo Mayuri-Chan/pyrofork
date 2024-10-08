@@ -20,6 +20,9 @@ jobs:
   deploy:
 
     runs-on: ubuntu-latest
+    environment: release
+    permissions:
+      id-token: write
 
     steps:
     - uses: actions/checkout@v4
@@ -34,8 +37,4 @@ jobs:
     - name: Build package
       run: hatch build
     - name: Publish package
-      env:
-        HATCH_INDEX_USER: __token__
-        HATCH_INDEX_AUTH: ${{ secrets.PYPI_API_TOKEN }}
-      run: |
-        hatch publish
+      uses: pypa/gh-action-pypi-publish@release/v1
