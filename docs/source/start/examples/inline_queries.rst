@@ -24,13 +24,13 @@ It uses the @on_inline_query decorator to register an InlineQueryHandler.
                     input_message_content=InputTextMessageContent(
                         "Here's how to install **Pyrofork**"
                     ),
-                    url="https://pyrofork.mayuri.my.id/intro/install",
+                    url="https://pyrofork.wulan17.top/intro/install",
                     description="How to install Pyrofork",
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [InlineKeyboardButton(
                                 "Open website",
-                                url="https://pyrofork.mayuri.my.id/intro/install"
+                                url="https://pyrofork.wulan17.top/intro/install"
                             )]
                         ]
                     )
@@ -40,13 +40,13 @@ It uses the @on_inline_query decorator to register an InlineQueryHandler.
                     input_message_content=InputTextMessageContent(
                         "Here's how to use **Pyrofork**"
                     ),
-                    url="https://pyrofork.mayuri.my.id/start/invoking",
+                    url="https://pyrofork.wulan17.top/start/invoking",
                     description="How to use Pyrofork",
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [InlineKeyboardButton(
                                 "Open website",
-                                url="https://pyrofork.mayuri.my.id/start/invoking"
+                                url="https://pyrofork.wulan17.top/start/invoking"
                             )]
                         ]
                     )

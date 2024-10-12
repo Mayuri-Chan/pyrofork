@@ -133,7 +133,7 @@ class SendMessage:
                 await app.send_message("me", "Message sent with **Pyrogram**!")
 
                 # Disable web page previews
-                await app.send_message("me", "https://pyrofork.mayuri.my.id",
+                await app.send_message("me", "https://pyrofork.wulan17.top",
                     disable_web_page_preview=True)
 
                 # Reply to a message using its id
@@ -157,7 +157,7 @@ class SendMessage:
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [InlineKeyboardButton("Data", callback_data="callback_data")],
-                            [InlineKeyboardButton("Docs", url="https://pyrofork.mayuri.my.id")]
+                            [InlineKeyboardButton("Docs", url="https://pyrofork.wulan17.top")]
                         ]))
         """
 

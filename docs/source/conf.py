@@ -73,7 +73,7 @@ html_theme_options = {
         "repo": "fontawesome/brands/github",
         "edit": "material/file-edit-outline",
     },
-    "site_url": "https://pyrofork.mayuri.my.id/",
+    "site_url": "https://pyrofork.wulan17.top/",
     "repo_url": "https://github.com/Mayuri-Chan/pyrofork/",
     "repo_name": "pyrofork",
     "globaltoc_collapse": True,
