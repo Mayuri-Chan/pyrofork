@@ -15,23 +15,30 @@
 #
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
+from typing import List
 
-from .answer_pre_checkout_query import AnswerPreCheckoutQuery
-from .get_business_connection import GetBusinessConnection
-from .get_available_gifts import GetAvailableGifts
-from .get_user_gifts import GetUserGifts
-from .sell_gift import SellGift
-from .send_gift import SendGift
-from .toggle_gift_is_saved import ToggleGiftIsSaved
+import pyrogram
+from pyrogram import raw, types
 
 
-class TelegramBusiness(
-    AnswerPreCheckoutQuery,
-    GetBusinessConnection,
-    GetAvailableGifts,
-    GetUserGifts,
-    SellGift,
-    SendGift,
-    ToggleGiftIsSaved,
-):
-    pass
+class GetAvailableGifts:
+    async def get_available_gifts(
+        self: "pyrogram.Client",
+    ) -> List["types.Gift"]:
+        """Get all gifts that can be sent to other users.
+
+        .. include:: /_includes/usable-by/users.rst
+
+        Returns:
+            List of :obj:`~pyrogram.types.Gift`: On success, a list of star gifts is returned.
+
+        Example:
+            .. code-block:: python
+
+                app.get_available_gifts()
+        """
+        r = await self.invoke(
+            raw.functions.payments.GetStarGifts(hash=0)
+        )
+
+        return types.List([await types.Gift._parse(self, gift) for gift in r.gifts])

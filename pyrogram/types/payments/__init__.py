@@ -19,6 +19,7 @@
 
 from .extended_media_preview import ExtendedMediaPreview
 from .checked_gift_code import CheckedGiftCode
+from .gift import Gift
 from .gift_code import GiftCode
 from .gifted_premium import GiftedPremium
 from .input_stars_transaction import InputStarsTransaction
@@ -33,11 +34,13 @@ from .star_gift import StarGift
 from .stars_status import StarsStatus
 from .stars_transaction import StarsTransaction
 from .successful_payment import SuccessfulPayment
+from .user_gift import UserGift
 from .user_star_gift import UserStarGift
 
 __all__ = [
     "ExtendedMediaPreview",
     "CheckedGiftCode",
+    "Gift",
     "GiftCode",
     "GiftedPremium",
     "InputStarsTransaction",
@@ -52,5 +55,6 @@ __all__ = [
     "StarsStatus",
     "StarsTransaction",
     "SuccessfulPayment",
+    "UserGift",
     "UserStarGift"
 ]

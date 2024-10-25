@@ -310,6 +310,7 @@ PHOTO_SAVE_FILE_INVALID	The photo you tried to send cannot be saved by Telegram
 PHOTO_THUMB_URL_EMPTY	The photo thumb URL is empty
 PHOTO_THUMB_URL_INVALID	The photo thumb URL is invalid
 PINNED_DIALOGS_TOO_MUCH	Too many pinned dialogs
+PINNED_TOPIC_NOT_MODIFIED	The pinned topic was not modified.
 PIN_RESTRICTED	You can't pin messages in private chats with other people
 POLL_ANSWERS_INVALID	The poll answers are invalid
 POLL_ANSWER_INVALID	One of the poll answers is not acceptable

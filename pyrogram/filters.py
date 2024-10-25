@@ -337,6 +337,34 @@ game = create(game_filter)
 
 # endregion
 
+# region giveaway_filter
+async def giveaway_filter(_, __, m: Message):
+    return bool(m.giveaway)
+giveaway = create(giveaway_filter)
+"""Filter messages that contain :obj:`~pyrogram.types.Giveaway` objects."""
+# endregion
+
+# region giveaway_result_filter
+async def giveaway_result_filter(_, __, m: Message):
+    return bool(m.giveaway_winners or m.giveaway_completed)
+giveaway_result = create(giveaway_result_filter)
+"""Filter messages that contain :obj:`~pyrogram.types.GiveawayWinners` or :obj:`~pyrogram.types.GiveawayCompleted` objects."""
+# endregion
+
+# region gift_code_filter
+async def gift_code_filter(_, __, m: Message):
+    return bool(m.gift_code)
+gift_code = create(gift_code_filter)
+"""Filter messages that contain :obj:`~pyrogram.types.GiftCode` objects."""
+# endregion
+
+# region user_gift
+async def user_gift_filter(_, __, m: Message):
+    return bool(m.user_gift)
+user_gift = create(user_gift_filter)
+"""Filter messages that contain :obj:`~pyrogram.types.UserGift` objects."""
+# endregion
+
 # region video_filter
 async def video_filter(_, __, m: Message):
     return bool(m.video)
