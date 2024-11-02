@@ -16,6 +16,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from datetime import datetime
 from typing import Optional
 
 import pyrogram
@@ -45,8 +46,17 @@ class Gift(Object):
         total_count (``int``, *optional*):
             Number of total times the gift can be purchased by all users; None if not limited.
 
+        first_send_date (:py:obj:`~datetime.datetime`, *optional*):
+            Point in time (Unix timestamp) when the gift was send for the first time; for sold out gifts only.
+
+        last_send_date (:py:obj:`~datetime.datetime`, *optional*):
+            Point in time (Unix timestamp) when the gift was send for the last time; for sold out gifts only.
+
         is_limited (``bool``, *optional*):
             True, if the number of gifts is limited.
+
+        is_sold_out (``bool``, *optional*):
+            True, if the star gift is sold out.
 
     """
 
@@ -60,7 +70,10 @@ class Gift(Object):
         default_sell_star_count: int,
         remaining_count: Optional[int] = None,
         total_count: Optional[int] = None,
+        first_send_date: Optional[datetime] = None,
+        last_send_date: Optional[datetime] = None,
         is_limited: Optional[bool] = None,
+        is_sold_out: Optional[bool] = None,
     ):
         super().__init__(client)
 
@@ -70,7 +83,10 @@ class Gift(Object):
         self.default_sell_star_count = default_sell_star_count
         self.remaining_count = remaining_count
         self.total_count = total_count
+        self.first_send_date = first_send_date
+        self.last_send_date = last_send_date
         self.is_limited = is_limited
+        self.is_sold_out = is_sold_out
 
     @staticmethod
     async def _parse(
@@ -87,6 +103,9 @@ class Gift(Object):
             default_sell_star_count=star_gift.convert_stars,
             remaining_count=getattr(star_gift, "availability_remains", None),
             total_count=getattr(star_gift, "availability_total", None),
+            first_send_date=utils.timestamp_to_datetime(getattr(star_gift, "first_sale_date", None)),
+            last_send_date=utils.timestamp_to_datetime(getattr(star_gift, "last_sale_date", None)),
             is_limited=getattr(star_gift, "limited", None),
+            is_sold_out=getattr(star_gift, "sold_out", None),
             client=client
         )
