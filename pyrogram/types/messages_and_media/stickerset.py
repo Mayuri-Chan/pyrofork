@@ -43,12 +43,6 @@ class StickerSet(Object):
         masks (``Boolean``):
             Is this a mask stickerset.
 
-        animated (``Boolean``):
-            Is this a animated stickerset.
-
-        videos (``Boolean``):
-            Is this a videos stickerset.
-
         emojis (``Boolean``):
             Is this a emojis stickerset.
     """
@@ -61,8 +55,6 @@ class StickerSet(Object):
         short_name: str,
         count: int,
         masks: bool = None,
-        animated: bool = None,
-        videos: bool = None,
         emojis: bool = None
     ):
         self.id = id
@@ -70,8 +62,6 @@ class StickerSet(Object):
         self.short_name = short_name
         self.count = count
         self.masks = masks
-        self.animated = animated
-        self.videos = videos
         self.emojis = emojis
 
     @staticmethod
@@ -83,7 +73,5 @@ class StickerSet(Object):
             short_name=getattr(stickerset,"short_name", None),
             count=getattr(stickerset,"count", None),
             masks=getattr(stickerset,"masks", None),
-            animated=getattr(stickerset,"animated", None),
-            videos=getattr(stickerset,"videos", None),
             emojis=getattr(stickerset,"emojis", None)
         )
