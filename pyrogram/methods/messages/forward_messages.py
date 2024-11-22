@@ -35,6 +35,7 @@ class ForwardMessages:
         disable_notification: bool = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
+        allow_paid_broadcast: bool = None,
         drop_author: bool = None
     ) -> Union["types.Message", List["types.Message"]]:
         """Forward messages of any kind.
@@ -71,6 +72,9 @@ class ForwardMessages:
             protect_content (``bool``, *optional*):
                 Protects the contents of the sent message from forwarding and saving.
 
+            allow_paid_broadcast (``bool``, *optional*):
+                Pass True to allow the message to ignore regular broadcast limits for a small fee; for bots only.
+
             drop_author (``bool``, *optional*):
                 Forwards messages without quoting the original author
 
@@ -101,6 +105,7 @@ class ForwardMessages:
                 random_id=[self.rnd_id() for _ in message_ids],
                 schedule_date=utils.datetime_to_timestamp(schedule_date),
                 noforwards=protect_content,
+                allow_paid_floodskip=allow_paid_broadcast,
                 drop_author=drop_author
             )
         )
