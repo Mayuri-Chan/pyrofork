@@ -17,7 +17,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union, BinaryIO
+from typing import Union, BinaryIO, List
 
 import pyrogram
 from pyrogram import raw
@@ -29,7 +29,7 @@ class SetProfilePhoto:
         *,
         photo: Union[str, BinaryIO] = None,
         emoji: int = None,
-        emoji_background: Union[int, list[int]] = None,
+        emoji_background: Union[int, List[int]] = None,
         video: Union[str, BinaryIO] = None
     ) -> bool:
         """Set a new profile photo or video (H.264/MPEG-4 AVC video, max 5 seconds).
