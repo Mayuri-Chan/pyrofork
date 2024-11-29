@@ -158,13 +158,21 @@ class Poll(Object, Update):
                     text=answer.text.text,
                     voter_count=voter_count,
                     data=answer.option,
-                    entities=option_entities,
-                    client=client
+                    entities=option_entities
                 )
             )
 
         q_entities = [types.MessageEntity._parse(client, entity, {}) for entity in poll.question.entities] if poll.question.entities else []
         question_entities = types.List(filter(lambda x: x is not None, q_entities))
+
+        recent_voters = []
+        for user in poll_results.recent_voters:
+            try:
+                voter = types.User._parse(client, users.get(user.user_id, None))
+            except Exception:
+                pass
+            else:
+                recent_voters.append(voter)
 
         return Poll(
             id=str(poll.id),
@@ -185,10 +193,7 @@ class Poll(Object, Update):
             ] if poll_results.solution_entities else None,
             open_period=poll.close_period,
             close_date=utils.timestamp_to_datetime(poll.close_date),
-            recent_voters=[
-                await client.get_users(user.user_id)
-                for user in poll_results.recent_voters
-            ] if poll_results.recent_voters else None,
+            recent_voters=recent_voters if len(recent_voters) > 0 else None,
             client=client
         )
 
@@ -217,10 +222,19 @@ class Poll(Object, Update):
                 types.PollOption(
                     text="",
                     voter_count=result.voters,
-                    data=result.option,
-                    client=client
+                    data=result.option
                 )
             )
+
+        recent_voters = []
+        if update.results.recent_voters:
+            for user in update.results.recent_voters:
+                try:
+                    voter = types.User._parse(client, users.get(user.user_id, None))
+                except Exception:
+                    pass
+                else:
+                    recent_voters.append(voter)
 
         return Poll(
             id=str(update.poll_id),
@@ -230,10 +244,7 @@ class Poll(Object, Update):
             is_closed=False,
             chosen_option_id=chosen_option_id,
             correct_option_id=correct_option_id,
-            recent_voters=[
-                types.User._parse(client, users.get(user.user_id, None))
-                for user in update.results.recent_voters
-            ] if update.results.recent_voters else None,
+            recent_voters=recent_voters if len(recent_voters) > 0 else None,
             client=client
         )
 

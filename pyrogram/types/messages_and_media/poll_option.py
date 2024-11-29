@@ -41,15 +41,13 @@ class PollOption(Object):
     """
 
     def __init__(
-        self,
-        *,
-        client: "pyrogram.Client" = None,
+        self: "pyrogram.Client",
         text: str,
         voter_count: int = 0,
         data: bytes = None,
         entities: Optional[List["pyrogram.types.MessageEntity"]] = None,
     ):
-        super().__init__(client)
+        super().__init__(self)
 
         self.text = text
         self.voter_count = voter_count
