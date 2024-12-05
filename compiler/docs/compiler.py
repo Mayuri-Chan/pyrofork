@@ -397,6 +397,7 @@ def pyrogram_api():
             sell_gift
             send_gift
             toggle_gift_is_saved
+            get_owned_bots
         """,
         business="""
         Telegram Business
