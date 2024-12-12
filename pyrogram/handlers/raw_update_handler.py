@@ -35,6 +35,10 @@ class RawUpdateHandler(Handler):
             *(client, update, users, chats)* as positional arguments (look at the section below for
             a detailed description).
 
+        filters (:obj:`Filters`):
+            Pass one or more filters to allow only a subset of callback queries to be passed
+            in your callback function.
+
     Other Parameters:
         client (:obj:`~pyrogram.Client`):
             The Client itself, useful when you want to call other API methods inside the update handler.
@@ -64,5 +68,5 @@ class RawUpdateHandler(Handler):
         - :obj:`~pyrogram.raw.types.ChannelForbidden`
     """
 
-    def __init__(self, callback: Callable):
-        super().__init__(callback)
+    def __init__(self, callback: Callable, filters=None):
+        super().__init__(callback, filters)
