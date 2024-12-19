@@ -506,6 +506,7 @@ class Message(Object, Update):
         screenshot_taken: "types.ScreenshotTaken" = None,
         invoice: "types.Invoice" = None,
         story: Union["types.MessageStory", "types.Story"] = None,
+        alternative_videos: List["types.AlternativeVideo"] = None,
         video: "types.Video" = None,
         voice: "types.Voice" = None,
         video_note: "types.VideoNote" = None,
