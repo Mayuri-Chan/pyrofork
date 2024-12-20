@@ -82,3 +82,4 @@ Details
 .. autodecorator:: pyrogram.Client.on_poll()
 .. autodecorator:: pyrogram.Client.on_disconnect()
 .. autodecorator:: pyrogram.Client.on_raw_update()
+.. autodecorator:: pyrogram.Client.on_error()

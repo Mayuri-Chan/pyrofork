@@ -29,6 +29,7 @@ from .deleted_bot_business_messages_handler import DeletedBotBusinessMessagesHan
 from .disconnect_handler import DisconnectHandler
 from .edited_message_handler import EditedMessageHandler
 from .edited_bot_business_message_handler import EditedBotBusinessMessageHandler
+from .error_handler import ErrorHandler
 from .inline_query_handler import InlineQueryHandler
 from .message_handler import MessageHandler
 from .poll_handler import PollHandler

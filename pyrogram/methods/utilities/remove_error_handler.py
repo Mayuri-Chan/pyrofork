@@ -17,28 +17,26 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from .add_handler import AddHandler
-from .export_session_string import ExportSessionString
-from .remove_handler import RemoveHandler
-from .remove_error_handler import RemoveErrorHandler
-from .restart import Restart
-from .run import Run
-from .run_sync import RunSync
-from .start import Start
-from .stop import Stop
-from .stop_transmission import StopTransmission
+from __future__ import annotations
+from collections.abc import Iterable
+import pyrogram
 
 
-class Utilities(
-    AddHandler,
-    ExportSessionString,
-    RemoveHandler,
-    RemoveErrorHandler,
-    Restart,
-    Run,
-    RunSync,
-    Start,
-    Stop,
-    StopTransmission
-):
-    pass
+class RemoveErrorHandler:
+    def remove_error_handler(
+        self: pyrogram.Client,
+        exception: type[Exception] | Iterable[type[Exception]] = Exception,
+    ):
+        """Remove a previously registered error handler using exception classes.
+
+        Parameters:
+            exception (``Exception`` | Iterable of ``Exception``, *optional*):
+                The error(s) for handlers to be removed. Defaults to Exception.
+        """
+        to_remove = [
+            handler
+            for handler in self.dispatcher.error_handlers
+            if handler.check_remove(exception)
+        ]
+        for handler in to_remove:
+            self.dispatcher.error_handlers.remove(handler)
