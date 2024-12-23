@@ -20,6 +20,7 @@
 from .add_handler import AddHandler
 from .export_session_string import ExportSessionString
 from .remove_handler import RemoveHandler
+from .remove_error_handler import RemoveErrorHandler
 from .restart import Restart
 from .run import Run
 from .run_sync import RunSync
@@ -32,6 +33,7 @@ class Utilities(
     AddHandler,
     ExportSessionString,
     RemoveHandler,
+    RemoveErrorHandler,
     Restart,
     Run,
     RunSync,

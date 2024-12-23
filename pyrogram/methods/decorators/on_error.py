@@ -17,45 +17,33 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Callable, Optional
+from typing import Callable
 
 import pyrogram
 from pyrogram.filters import Filter
 
 
-class OnRawUpdate:
-    def on_raw_update(
-        self: Optional["OnRawUpdate"] = None,
-        filters=None,
-        group: int = 0,
-    ) -> Callable:
-        """Decorator for handling raw updates.
+class OnError:
+    def on_error(self=None, errors=None) -> Callable:
+        """Decorator for handling new errors.
 
         This does the same thing as :meth:`~pyrogram.Client.add_handler` using the
-        :obj:`~pyrogram.handlers.RawUpdateHandler`.
+        :obj:`~pyrogram.handlers.MessageHandler`.
 
         Parameters:
-            filters (:obj:`~pyrogram.filters`, *optional*):
-                Pass one or more filters to allow only a subset of callback queries to be passed
+            errors (:obj:`~Exception`, *optional*):
+                Pass one or more errors to allow only a subset of errors to be passed
                 in your function.
-
-            group (``int``, *optional*):
-                The group identifier, defaults to 0.
         """
 
         def decorator(func: Callable) -> Callable:
             if isinstance(self, pyrogram.Client):
-                self.add_handler(pyrogram.handlers.RawUpdateHandler(func, filters), group)
+                self.add_handler(pyrogram.handlers.ErrorHandler(func, errors), 0)
             elif isinstance(self, Filter) or self is None:
                 if not hasattr(func, "handlers"):
                     func.handlers = []
 
-                func.handlers.append(
-                    (
-                        pyrogram.handlers.RawUpdateHandler(func, self),
-                        group if filters is None else filters
-                    )
-                )
+                func.handlers.append((pyrogram.handlers.ErrorHandler(func, self), 0))
 
             return func
 

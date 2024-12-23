@@ -165,6 +165,7 @@ def pyrogram_api():
         messages="""
         Messages
             send_message
+            forward_media_group
             forward_messages
             copy_message
             copy_media_group
@@ -397,6 +398,7 @@ def pyrogram_api():
             sell_gift
             send_gift
             toggle_gift_is_saved
+            get_owned_bots
         """,
         business="""
         Telegram Business
@@ -511,6 +513,7 @@ def pyrogram_api():
             Audio
             AvailableEffect
             Document
+            AlternativeVideo
             Animation
             Video
             Voice

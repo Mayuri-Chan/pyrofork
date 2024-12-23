@@ -37,7 +37,7 @@ PRE_DELIM = "```"
 BLOCKQUOTE_DELIM = ">"
 BLOCKQUOTE_EXPANDABLE_DELIM = "**>"
 
-MARKDOWN_RE = re.compile(r"({d})|\[(.+?)\]\((.+?)\)".format(
+MARKDOWN_RE = re.compile(r"({d})|(!?)\[(.+?)\]\((.+?)\)".format(
     d="|".join(
         ["".join(i) for i in [
             [rf"\{j}" for j in i]
@@ -56,6 +56,7 @@ MARKDOWN_RE = re.compile(r"({d})|\[(.+?)\]\((.+?)\)".format(
 OPENING_TAG = "<{}>"
 CLOSING_TAG = "</{}>"
 URL_MARKUP = '<a href="{}">{}</a>'
+EMOJI_MARKUP = '<emoji id={}>{}</emoji>'
 FIXED_WIDTH_DELIMS = [CODE_DELIM, PRE_DELIM]
 CODE_TAG_RE = re.compile(r"<code>.*?</code>")
 
@@ -117,7 +118,7 @@ class Markdown:
 
         for i, match in enumerate(re.finditer(MARKDOWN_RE, text)):
             start, _ = match.span()
-            delim, text_url, url = match.groups()
+            delim, is_emoji, text_url, url = match.groups()
             full = match.group(0)
 
             if delim in FIXED_WIDTH_DELIMS:
@@ -126,8 +127,14 @@ class Markdown:
             if is_fixed_width and delim not in FIXED_WIDTH_DELIMS:
                 continue
 
-            if text_url:
+            if not is_emoji and text_url:
                 text = utils.replace_once(text, full, URL_MARKUP.format(url, text_url), start)
+                continue
+
+            if is_emoji:
+                emoji = text_url
+                emoji_id = url.lstrip("tg://emoji?id=")
+                text = utils.replace_once(text, full, EMOJI_MARKUP.format(emoji_id, emoji), start)
                 continue
 
             if delim == BOLD_DELIM:
@@ -221,6 +228,10 @@ class Markdown:
                 user = entity.user
                 start_tag = "["
                 end_tag = f"](tg://user?id={user.id})"
+            elif entity_type == MessageEntityType.CUSTOM_EMOJI:
+                emoji_id = entity.custom_emoji_id
+                start_tag = "!["
+                end_tag = f"](tg://emoji?id={emoji_id})"
             else:
                 continue
 

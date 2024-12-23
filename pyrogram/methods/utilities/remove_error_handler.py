@@ -17,28 +17,26 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-__fork_name__ = "PyroFork"
-__version__ = "2.3.53"
-__license__ = "GNU Lesser General Public License v3.0 (LGPL-3.0)"
-__copyright__ = "Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>"
-
-from concurrent.futures.thread import ThreadPoolExecutor
+from __future__ import annotations
+from collections.abc import Iterable
+import pyrogram
 
 
-class StopTransmission(Exception):
-    pass
+class RemoveErrorHandler:
+    def remove_error_handler(
+        self: pyrogram.Client,
+        exception: type[Exception] | Iterable[type[Exception]] = Exception,
+    ):
+        """Remove a previously registered error handler using exception classes.
 
-
-class StopPropagation(StopAsyncIteration):
-    pass
-
-
-class ContinuePropagation(StopAsyncIteration):
-    pass
-
-
-from . import raw, types, filters, handlers, emoji, enums
-from .client import Client
-from .sync import idle, compose
-
-crypto_executor = ThreadPoolExecutor(1, thread_name_prefix="CryptoWorker")
+        Parameters:
+            exception (``Exception`` | Iterable of ``Exception``, *optional*):
+                The error(s) for handlers to be removed. Defaults to Exception.
+        """
+        to_remove = [
+            handler
+            for handler in self.dispatcher.error_handlers
+            if handler.check_remove(exception)
+        ]
+        for handler in to_remove:
+            self.dispatcher.error_handlers.remove(handler)
