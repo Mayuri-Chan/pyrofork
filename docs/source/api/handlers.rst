@@ -43,6 +43,8 @@ Index
     - :class:`DeletedMessagesHandler`
     - :class:`DeletedBotBusinessMessagesHandler`
     - :class:`CallbackQueryHandler`
+    - :class:`PreCheckoutQueryHandler`
+    - :class:`ShippingQueryHandler`
     - :class:`MessageReactionUpdatedHandler`
     - :class:`MessageReactionCountUpdatedHandler`
     - :class:`InlineQueryHandler`
@@ -53,6 +55,7 @@ Index
     - :class:`PollHandler`
     - :class:`DisconnectHandler`
     - :class:`RawUpdateHandler`
+    - :class:`ErrorHandler`
 
 -----
 
@@ -80,3 +83,4 @@ Details
 .. autoclass:: PollHandler()
 .. autoclass:: DisconnectHandler()
 .. autoclass:: RawUpdateHandler()
+.. autoclass:: ErrorHandler()
