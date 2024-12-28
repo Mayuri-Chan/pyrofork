@@ -463,11 +463,15 @@ class SendMediaGroup:
             else:
                 raise ValueError(f"{i.__class__.__name__} is not a supported type for send_media_group")
 
+            message, entities = (
+                await utils.parse_text_entities(self, i.caption, i.parse_mode, i.caption_entities)).values()
+
             multi_media.append(
                 raw.types.InputSingleMedia(
                     media=media,
                     random_id=self.rnd_id(),
-                    **await self.parser.parse(i.caption, i.parse_mode)
+                    message=message,
+                    entities=entities,
                 )
             )
 
