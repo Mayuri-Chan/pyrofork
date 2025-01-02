@@ -16,37 +16,18 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-import pyrogram
 from pyrogram import raw
+from .auto_name import AutoName
 
 
-class ShowStarGift:
-    async def show_star_gift(
-        self: "pyrogram.Client",
-        message_id: int
-    ) -> bool:
-        """Display the star gift in your profile.
+class StarGiftAttributeType(AutoName):
+    """Star gift attribute type enumeration used in :obj:`~pyrogram.types.StarGiftAttribute`."""
 
-        .. include:: /_includes/usable-by/users.rst
+    MODEL = raw.types.StarGiftAttributeModel
+    "Model attribute"
 
-        Parameters:
-            message_id (``int``):
-                Unique message identifier of star gift.
-
-        Returns:
-            ``bool``: On success, True is returned.
-
-        Example:
-            .. code-block:: python
-
-                # Show gift
-                app.show_star_gift(message_id=123)
-        """
-        r = await self.invoke(
-            raw.functions.payments.SaveStarGift(
-                msg_id=message_id,
-                unsave=False
-            )
-        )
-
-        return r
+    SYMBOL = raw.types.StarGiftAttributePattern
+    "Symbol attribute"
+    
+    BACKDROP = raw.types.StarGiftAttributeBackdrop
+    "Backdrop attribute"

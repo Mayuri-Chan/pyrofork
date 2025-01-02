@@ -365,6 +365,8 @@ def pyrogram_api():
             send_payment_form
             send_star_gift
             show_star_gift
+            transfer_star_gift
+            upgrade_star_gift
         """,
         password="""
         Password
@@ -562,6 +564,7 @@ def pyrogram_api():
             ScreenshotTaken
             Wallpaper
             WallpaperSettings
+            StarGiftAttribute
         """,
         stories="""
         Stories

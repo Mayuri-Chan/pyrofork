@@ -16,20 +16,28 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import Union
+
 import pyrogram
 from pyrogram import raw
 
 
-class ShowStarGift:
-    async def show_star_gift(
+class TransferStarGift:
+    async def transfer_star_gift(
         self: "pyrogram.Client",
-        message_id: int
+        chat_id: Union[int, str],
+        message_id: int,
     ) -> bool:
-        """Display the star gift in your profile.
+        """Transfer star gift to another user.
 
         .. include:: /_includes/usable-by/users.rst
 
         Parameters:
+            chat_id (``int`` | ``str``):
+                Unique identifier (int) or username (str) of the target chat you want to transfer the star gift to.
+                For your personal cloud (Saved Messages) you can simply use "me" or "self".
+                For a contact that exists in your Telegram address book you can use his phone number (str).
+
             message_id (``int``):
                 Unique message identifier of star gift.
 
@@ -40,13 +48,18 @@ class ShowStarGift:
             .. code-block:: python
 
                 # Show gift
-                app.show_star_gift(message_id=123)
+                app.transfer_star_gift(chat_id=123, message_id=123)
         """
-        r = await self.invoke(
-            raw.functions.payments.SaveStarGift(
+        peer = await self.resolve_peer(chat_id)
+
+        if not isinstance(peer, (raw.types.InputPeerUser, raw.types.InputPeerSelf)):
+            raise ValueError("chat_id must belong to a user.")
+
+        await self.invoke(
+            raw.functions.payments.TransferStarGift(
                 msg_id=message_id,
-                unsave=False
+                keep_original_details=keep_details
             )
         )
 
-        return r
+        return True # TODO:

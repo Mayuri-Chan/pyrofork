@@ -35,6 +35,8 @@ from .send_paid_reaction import SendPaidReaction
 from .send_payment_form import SendPaymentForm
 from .send_star_gift import SendStarGift
 from .show_star_gift import ShowStarGift
+from .transfer_star_gift import TransferStarGift
+from .upgrade_star_gift import UpgradeStarGift
 
 class Payments(
     ApplyGiftCode,
@@ -54,6 +56,8 @@ class Payments(
     SendInvoice,
     SendPaymentForm,
     SendStarGift,
-    ShowStarGift
+    ShowStarGift,
+    TransferStarGift,
+    UpgradeStarGift
 ):
     pass

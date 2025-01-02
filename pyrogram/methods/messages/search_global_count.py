@@ -17,6 +17,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import Optional
+
 import pyrogram
 from pyrogram import raw, enums
 
@@ -26,6 +28,9 @@ class SearchGlobalCount:
         self: "pyrogram.Client",
         query: str = "",
         filter: "enums.MessagesFilter" = enums.MessagesFilter.EMPTY,
+        channels_only: Optional[bool] = None,
+        groups_only: Optional[bool] = None,
+        users_only: Optional[bool] = None,
     ) -> int:
         """Get the count of messages resulting from a global search.
 
@@ -41,6 +46,15 @@ class SearchGlobalCount:
             filter (:obj:`~pyrogram.enums.MessagesFilter`, *optional*):
                 Pass a filter in order to search for specific kind of messages only:
 
+            channels_only (``bool``, *optional*):
+                Pass True to search only in channels.
+
+            groups_only (``bool``, *optional*):
+                Pass True to search only in groups.
+
+            users_only (``bool``, *optional*):
+                Pass True to search only in users.
+
         Returns:
             ``int``: On success, the messages count is returned.
         """
@@ -53,6 +67,9 @@ class SearchGlobalCount:
                 offset_rate=0,
                 offset_peer=raw.types.InputPeerEmpty(),
                 offset_id=0,
+                broadcasts_only=channels_only,
+                groups_only=groups_only,
+                users_only=users_only,
                 limit=1
             )
         )

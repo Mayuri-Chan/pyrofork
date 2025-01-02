@@ -1,35 +1,34 @@
-#  Pyrofork - Telegram MTProto API Client Library for Python
+#  Pyrogram - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
-#  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
-#  This file is part of Pyrofork.
+#  This file is part of Pyrogram.
 #
-#  Pyrofork is free software: you can redistribute it and/or modify
+#  Pyrogram is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published
 #  by the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  Pyrofork is distributed in the hope that it will be useful,
+#  Pyrogram is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU Lesser General Public License for more details.
 #
 #  You should have received a copy of the GNU Lesser General Public License
-#  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
+#  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-
-from typing import Union
+from typing import Optional
 
 import pyrogram
 from pyrogram import raw
 
 
-class ConvertStarGift:
-    async def convert_star_gift(
+class UpgradeStarGift:
+    async def upgrade_star_gift(
         self: "pyrogram.Client",
-        message_id: int
+        message_id: int,
+        keep_details: Optional[bool] = None
     ) -> bool:
-        """Convert star gift to stars.
+        """Upgrade star gift to unique.
 
         .. include:: /_includes/usable-by/users.rst
 
@@ -43,13 +42,14 @@ class ConvertStarGift:
         Example:
             .. code-block:: python
 
-                # Convert gift
-                app.convert_star_gift(message_id=123)
+                # Show gift
+                app.upgrade_star_gift(message_id=123)
         """
-        r = await self.invoke(
-            raw.functions.payments.ConvertStarGift(
-                msg_id=message_id
+        await self.invoke(
+            raw.functions.payments.UpgradeStarGift(
+                msg_id=message_id,
+                keep_original_details=keep_details
             )
         )
 
-        return r
+        return True # TODO:
