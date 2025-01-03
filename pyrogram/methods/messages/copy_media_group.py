@@ -18,10 +18,10 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import Union, List
+from typing import Union, List, Optional
 
 import pyrogram
-from pyrogram import types, utils, raw
+from pyrogram import types, utils, raw, enums
 
 
 class CopyMediaGroup:
@@ -31,10 +31,18 @@ class CopyMediaGroup:
         from_chat_id: Union[int, str],
         message_id: int,
         captions: Union[List[str], str] = None,
+        has_spoilers: Union[List[bool], bool] = None,
         disable_notification: bool = None,
         message_thread_id: int = None,
         reply_to_message_id: int = None,
+        reply_to_chat_id: Union[int, str] = None,
+        reply_to_story_id: int = None,
+        quote_text: str = None,
+        parse_mode: Optional["enums.ParseMode"] = None,
+        quote_entities: List["types.MessageEntity"] = None,
+        quote_offset: int = None,
         schedule_date: datetime = None,
+        invert_media: bool = None,
         protect_content: bool = None,
     ) -> List["types.Message"]:
         """Copy a media group by providing one of the message ids.
@@ -53,7 +61,7 @@ class CopyMediaGroup:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
                 You can also use chat public link in form of *t.me/<username>* (str).
-
+                
             message_id (``int``):
                 Message identifier in the chat specified in *from_chat_id*.
 
@@ -72,13 +80,35 @@ class CopyMediaGroup:
 
             message_thread_id (``int``, *optional*):
                 Unique identifier for the target message thread (topic) of the forum.
-                for forum supergroups only.
+                For supergroups only.
 
             reply_to_message_id (``int``, *optional*):
                 If the message is a reply, ID of the original message.
 
+            reply_to_chat_id (``int``, *optional*):
+                If the message is a reply, ID of the original chat.
+
+            reply_to_story_id (``int``, *optional*):
+                If the message is a reply, ID of the target story.
+
+            quote_text (``str``, *optional*):
+                Text of the quote to be sent.
+
+            parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
+                By default, texts are parsed using both Markdown and HTML styles.
+                You can combine both syntaxes together.
+
+            quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                List of special entities that appear in quote text, which can be specified instead of *parse_mode*.
+
+            quote_offset (``int``, *optional*):
+                Offset for quote in original message.
+
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
+
+            invert_media (``bool``, *optional*):
+                Pass True, if the caption must be shown above the message media.
 
             protect_content (``bool``, *optional*):
                 Protects the contents of the sent message from forwarding and saving
@@ -93,17 +123,14 @@ class CopyMediaGroup:
                 await app.copy_media_group(to_chat, from_chat, 123)
 
                 await app.copy_media_group(to_chat, from_chat, 123, captions="single caption")
-                
+
                 await app.copy_media_group(to_chat, from_chat, 123,
                     captions=["caption 1", None, ""])
         """
+        quote_text, quote_entities = (await utils.parse_text_entities(self, quote_text, parse_mode, quote_entities)).values()
 
         media_group = await self.get_media_group(from_chat_id, message_id)
         multi_media = []
-
-        reply_to = None
-        if reply_to_message_id or message_thread_id:
-            reply_to = types.InputReplyToMessage(reply_to_message_id=reply_to_message_id, message_thread_id=message_thread_id)
 
         for i, message in enumerate(media_group):
             if message.photo:
@@ -117,7 +144,19 @@ class CopyMediaGroup:
             else:
                 raise ValueError("Message with this type can't be copied.")
 
-            media = utils.get_input_media_from_file_id(file_id=file_id)
+            media = utils.get_input_media_from_file_id(
+                file_id=file_id,
+                has_spoiler=(
+                    has_spoilers[i]
+                    if isinstance(has_spoilers, list)
+                    and i < len(has_spoilers)
+                    else (
+                        has_spoilers
+                        if isinstance(has_spoilers, bool)
+                        else message.has_media_spoiler
+                    )
+                ),
+            )
             multi_media.append(
                 raw.types.InputSingleMedia(
                     media=media,
@@ -135,9 +174,18 @@ class CopyMediaGroup:
                 peer=await self.resolve_peer(chat_id),
                 multi_media=multi_media,
                 silent=disable_notification or None,
-                reply_to=reply_to,
+                reply_to=utils.get_reply_to(
+                    reply_to_message_id=reply_to_message_id,
+                    message_thread_id=message_thread_id,
+                    reply_to_peer=await self.resolve_peer(reply_to_chat_id) if reply_to_chat_id else None,
+                    reply_to_story_id=reply_to_story_id,
+                    quote_text=quote_text,
+                    quote_entities=quote_entities,
+                    quote_offset=quote_offset,
+                ),
+                schedule_date=utils.datetime_to_timestamp(schedule_date),
                 noforwards=protect_content,
-                schedule_date=utils.datetime_to_timestamp(schedule_date)              
+                invert_media=invert_media
             ),
             sleep_threshold=60
         )
