@@ -71,7 +71,7 @@ class StopPoll:
                 poll=raw.types.Poll(
                     id=int(poll.id),
                     closed=True,
-                    question="",
+                    question=raw.types.TextWithEntities(text="", entities=[]),
                     answers=[]
                 )
             ),
