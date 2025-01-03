@@ -221,6 +221,7 @@ def pyrogram_api():
             get_discussion_replies_count
             get_custom_emoji_stickers
             translate_message_text
+            start_bot
         """,
         chats="""
         Chats
