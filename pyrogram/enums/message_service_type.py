@@ -127,9 +127,6 @@ class MessageServiceType(AutoName):
     GIFT_CODE = auto()
     "Gift code"
 
-    USER_GIFT = auto()
-    "Star gift"
-
     STAR_GIFT = auto()
     "Star gift"
 

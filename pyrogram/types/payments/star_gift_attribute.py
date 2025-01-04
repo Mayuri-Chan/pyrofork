@@ -77,4 +77,4 @@ class StarGiftAttribute(Object):
             sticker=await types.Sticker._parse(client, doc, attributes),
             rarity=attr.rarity_permille,
             client=client
-        )
+      )

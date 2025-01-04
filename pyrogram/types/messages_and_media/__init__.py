@@ -43,8 +43,6 @@ from .poll_option import PollOption
 from .reaction import Reaction
 from .read_participant import ReadParticipant
 from .screenshot_taken import ScreenshotTaken
-from .star_gift_attribute import StarGiftAttribute
-from .star_gift import StarGift
 from .sticker import Sticker
 from .stickerset import StickerSet
 from .stories_privacy_rules import StoriesPrivacyRules
@@ -117,8 +115,6 @@ __all__ = [
     "MessageStory",
     "ReadParticipant",
     "ScreenshotTaken",
-    "StarGiftAttribute",
-    "StarGift",
     "Story",
     "StoryDeleted",
     "StorySkipped",
