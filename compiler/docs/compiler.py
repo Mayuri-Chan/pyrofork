@@ -588,7 +588,7 @@ def pyrogram_api():
             GiftCode
             GiftedPremium
             Gift
-            UserGift
+            StarGift
             InputStarsTransaction
             Invoice
             LabeledPrice
@@ -600,7 +600,6 @@ def pyrogram_api():
             StarsStatus
             StarsTransaction
             SuccessfulPayment
-            UserStarGift
         """,
         pyromod="""
         Pyromod
