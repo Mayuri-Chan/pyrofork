@@ -76,7 +76,7 @@ class GetUserGifts:
             users = {u.id: u for u in r.users}
 
             user_gifts = [
-                await types.UserGift._parse(self, gift, users)
+                await types.StarGift._parse(self, gift, users)
                 for gift in r.gifts
             ]
 

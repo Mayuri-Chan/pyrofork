@@ -358,11 +358,11 @@ gift_code = create(gift_code_filter)
 """Filter messages that contain :obj:`~pyrogram.types.GiftCode` objects."""
 # endregion
 
-# region user_gift
-async def user_gift_filter(_, __, m: Message):
-    return bool(m.user_gift)
-user_gift = create(user_gift_filter)
-"""Filter messages that contain :obj:`~pyrogram.types.UserGift` objects."""
+# region star_gift_filter
+async def star_gift_filter(_, __, m: Message):
+    return bool(m.star_gift)
+star_gift = create(star_gift_filter)
+"""Filter messages that contain :obj:`~pyrogram.types.StarGift` objects."""
 # endregion
 
 # region video_filter
