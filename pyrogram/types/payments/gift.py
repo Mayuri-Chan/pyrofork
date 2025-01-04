@@ -46,6 +46,12 @@ class Gift(Object):
         total_count (``int``, *optional*):
             Number of total times the gift can be purchased by all users; None if not limited.
 
+        upgrade_star_count (``int``, *optional*):
+            Number of Telegram Stars that must be paid to upgrade the gift; 0 if upgrade isn't possible.
+
+        is_for_birthday (``bool``, *optional*):
+            True, if the gift is a birthday gift.
+
         first_send_date (:py:obj:`~datetime.datetime`, *optional*):
             Point in time (Unix timestamp) when the gift was send for the first time; for sold out gifts only.
 
@@ -70,6 +76,8 @@ class Gift(Object):
         default_sell_star_count: int,
         remaining_count: Optional[int] = None,
         total_count: Optional[int] = None,
+        upgrade_star_count: int,
+        is_for_birthday: Optional[bool] = None,
         first_send_date: Optional[datetime] = None,
         last_send_date: Optional[datetime] = None,
         is_limited: Optional[bool] = None,
@@ -83,6 +91,8 @@ class Gift(Object):
         self.default_sell_star_count = default_sell_star_count
         self.remaining_count = remaining_count
         self.total_count = total_count
+        self.upgrade_star_count = upgrade_star_count
+        self.is_for_birthday = is_for_birthday
         self.first_send_date = first_send_date
         self.last_send_date = last_send_date
         self.is_limited = is_limited
@@ -107,5 +117,7 @@ class Gift(Object):
             last_send_date=utils.timestamp_to_datetime(getattr(star_gift, "last_sale_date", None)),
             is_limited=getattr(star_gift, "limited", None),
             is_sold_out=getattr(star_gift, "sold_out", None),
+            upgrade_star_count=getattr(star_gift, "upgrade_stars", 0),
+            is_for_birthday=getattr(star_gift, "birthday", None),
             client=client
         )
