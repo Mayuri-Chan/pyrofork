@@ -477,6 +477,22 @@ async def run_sync(func: Callable[..., TypeVar("Result")], *args: Any, **kwargs:
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, functools.partial(func, *args, **kwargs))
 
+def parse_text_with_entities(client, message: "raw.types.TextWithEntities", users):
+    entities = types.List(
+        filter(
+            lambda x: x is not None,
+            [
+                types.MessageEntity._parse(client, entity, users)
+                for entity in getattr(message, "entities", [])
+            ]
+        )
+    )
+
+    return {
+        "text": Str(getattr(message, "text", "")).init(entities) or None,
+        "entities": entities or None
+    }
+
 async def get_reply_to(
     client: "pyrogram.Client",
     chat_id: Union[int,str] = None,
