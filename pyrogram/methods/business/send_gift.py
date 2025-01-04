@@ -28,6 +28,7 @@ class SendGift:
         self: "pyrogram.Client",
         user_id: Union[int, str],
         gift_id: int,
+        pay_for_upgrade: Optional[bool] = None,
         text: Optional[str] = None,
         parse_mode: Optional["enums.ParseMode"] = None,
         entities: Optional[List["types.MessageEntity"]] = None,
@@ -45,6 +46,9 @@ class SendGift:
 
             gift_id (``int``):
                 Unique identifier of the gift to send.
+
+            pay_for_upgrade (``bool``, *optional*):
+                Pass True to pay for the gift upgrade from the sender's balance, thereby making the upgrade free for the receiver.
 
             text (``str``, *optional*):
                 Text of the message to be sent. 0-``gift_text_length_max`` characters.
@@ -84,6 +88,7 @@ class SendGift:
             user_id=peer,
             gift_id=gift_id,
             hide_name=is_private,
+            include_upgrade=pay_for_upgrade,
             message=raw.types.TextWithEntities(
                 text=text, entities=entities or []
             ) if text else None
