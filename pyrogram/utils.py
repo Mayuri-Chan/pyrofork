@@ -30,8 +30,8 @@ from typing import Union, List, Dict, Optional, Any, Callable, TypeVar
 from types import SimpleNamespace
 
 import pyrogram
-from pyrogram import raw, enums
-from pyrogram import types
+from pyrogram import raw, enums, types
+from pyrogram.types.messages_and_media.message import Str
 from pyrogram.file_id import FileId, FileType, PHOTO_TYPES, DOCUMENT_TYPES
 
 
@@ -476,6 +476,22 @@ def datetime_to_timestamp(dt: Optional[datetime]) -> Optional[int]:
 async def run_sync(func: Callable[..., TypeVar("Result")], *args: Any, **kwargs: Any) -> TypeVar("Result"):
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, functools.partial(func, *args, **kwargs))
+
+def parse_text_with_entities(client, message: "raw.types.TextWithEntities", users):
+    entities = types.List(
+        filter(
+            lambda x: x is not None,
+            [
+                types.MessageEntity._parse(client, entity, users)
+                for entity in getattr(message, "entities", [])
+            ]
+        )
+    )
+
+    return {
+        "text": Str(getattr(message, "text", "")).init(entities) or None,
+        "entities": entities or None
+    }
 
 async def get_reply_to(
     client: "pyrogram.Client",

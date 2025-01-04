@@ -28,7 +28,7 @@ class GetUserGifts:
         user_id: Union[int, str],
         offset: str = "",
         limit: int = 0,
-    ) -> Optional[AsyncGenerator["types.UserGift", None]]:
+    ) -> Optional[AsyncGenerator["types.StarGift", None]]:
         """Get gifts saved to profile by the given user.
 
         .. include:: /_includes/usable-by/users.rst
@@ -70,13 +70,13 @@ class GetUserGifts:
                     offset=offset,
                     limit=limit
                 ),
-                sleep_threshold=max(60, self.sleep_threshold)
+                sleep_threshold=60
             )
 
             users = {u.id: u for u in r.users}
 
             user_gifts = [
-                await types.UserGift._parse(self, gift, users)
+                await types.StarGift._parse_user_star_gift(self, gift, users)
                 for gift in r.gifts
             ]
 
