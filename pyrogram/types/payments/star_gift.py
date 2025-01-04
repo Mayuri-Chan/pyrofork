@@ -238,7 +238,7 @@ class StarGift(Object):
         users: dict
     ) -> "StarGift":
         caption, caption_entities = (
-            utils.parse_text_with_entities(
+            utils.parse_text_entities(
                 client, getattr(user_star_gift, "message", None), users
             )
         ).values()
@@ -320,7 +320,7 @@ class StarGift(Object):
         action = message.action  # type: raw.types.MessageActionStarGift
 
         caption, caption_entities = (
-            utils.parse_text_with_entities(
+            utils.parse_text_entities(
                 client, getattr(action, "message", None), users
             )
         ).values()
