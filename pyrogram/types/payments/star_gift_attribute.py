@@ -67,14 +67,18 @@ class StarGiftAttribute(Object):
     async def _parse(
         client,
         attr: "raw.base.StarGiftAttribute",
+        backdrop: bool = False,
     ) -> "StarGiftAttribute":
-        doc = attr.document
-        attributes = {type(i): i for i in doc.attributes}
+        sticker = None
+        if not backdrop:
+            doc = attr.document
+            attributes = {type(i): i for i in doc.attributes}
+            sticker = await types.Sticker._parse(client, doc, attributes)
 
         return StarGiftAttribute(
             name=attr.name,
             type=enums.StarGiftAttributeType(type(attr)),
-            sticker=await types.Sticker._parse(client, doc, attributes),
+            sticker=sticker,
             rarity=attr.rarity_permille,
             client=client
       )
