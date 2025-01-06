@@ -361,11 +361,11 @@ class StarGift(Object):
             symbol = None
 
             for key, value in attributes.items():
-                if isinstance(key, raw.types.StarGiftAttributeModel):
+                if key is raw.types.StarGiftAttributeModel:
                     model = await types.StarGiftAttribute._parse(client, value)
-                elif isinstance(key, raw.types.StarGiftAttributeBackdrop):
-                    backdrop = await types.StarGiftAttribute._parse(client, value)
-                elif isinstance(key, raw.types.StarGiftAttributePattern):
+                elif key is raw.types.StarGiftAttributeBackdrop:
+                    backdrop = await types.StarGiftAttribute._parse(client, value, True)
+                elif key is raw.types.StarGiftAttributePattern:
                     symbol = await types.StarGiftAttribute._parse(client, value)
 
             return StarGift(
