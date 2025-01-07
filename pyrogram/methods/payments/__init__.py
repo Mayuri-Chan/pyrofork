@@ -19,45 +19,45 @@
 
 from .apply_gift_code import ApplyGiftCode
 from .check_giftcode import CheckGiftCode
-from .convert_star_gift import ConvertStarGift
+from .convert_gift import ConvertGift
 from .create_invoice_link import CreateInvoiceLink
 from .get_payment_form import GetPaymentForm
-from .get_star_gifts import GetStarGifts
+from .get_available_gifts import GetAvailableGifts
 from .get_stars_transactions import GetStarsTransactions
 from .get_stars_transactions_by_id import GetStarsTransactionsById
-from .get_user_star_gifts_count import GetUserStarGiftsCount
-from .get_user_star_gifts import GetUserStarGifts
-from .hide_star_gift import HideStarGift
+from .get_user_gifts_count import GetUserGiftsCount
+from .get_user_gifts import GetUserGifts
+from .hide_gift import HideGift
 from .refund_stars_payment import RefundStarPayment
 from .send_invoice import SendInvoice
 from .send_paid_media import SendPaidMedia
 from .send_paid_reaction import SendPaidReaction
 from .send_payment_form import SendPaymentForm
-from .send_star_gift import SendStarGift
-from .show_star_gift import ShowStarGift
-from .transfer_star_gift import TransferStarGift
-from .upgrade_star_gift import UpgradeStarGift
+from .send_gift import SendGift
+from .show_gift import ShowGift
+from .transfer_gift import TransferGift
+from .upgrade_gift import UpgradeGift
 
 class Payments(
     ApplyGiftCode,
     CheckGiftCode,
-    ConvertStarGift,
+    ConvertGift,
     CreateInvoiceLink,
     GetPaymentForm,
-    GetStarGifts,
+    GetAvailableGifts,
     GetStarsTransactions,
     GetStarsTransactionsById,
-    GetUserStarGiftsCount,
-    GetUserStarGifts,
-    HideStarGift,
+    GetUserGiftsCount,
+    GetUserGifts,
+    HideGift,
     RefundStarPayment,
     SendPaidReaction,
     SendPaidMedia,
     SendInvoice,
     SendPaymentForm,
-    SendStarGift,
-    ShowStarGift,
-    TransferStarGift,
-    UpgradeStarGift
+    SendGift,
+    ShowGift,
+    TransferGift,
+    UpgradeGift
 ):
     pass

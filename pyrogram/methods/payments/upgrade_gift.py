@@ -16,30 +16,28 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union
+from typing import Optional
 
 import pyrogram
-from pyrogram import raw
+from pyrogram import raw, errors
 
 
-class TransferStarGift:
-    async def transfer_star_gift(
+class UpgradeGift:
+    async def upgrade_gift(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
         message_id: int,
+        keep_details: Optional[bool] = None
     ) -> bool:
-        """Transfer star gift to another user.
+        """Upgrade star gift to unique.
 
         .. include:: /_includes/usable-by/users.rst
 
         Parameters:
-            chat_id (``int`` | ``str``):
-                Unique identifier (int) or username (str) of the target chat you want to transfer the star gift to.
-                For your personal cloud (Saved Messages) you can simply use "me" or "self".
-                For a contact that exists in your Telegram address book you can use his phone number (str).
-
             message_id (``int``):
                 Unique message identifier of star gift.
+
+            keep_details (``bool``):
+                Pass True if you want to keep the original details of the gift like caption.
 
         Returns:
             ``bool``: On success, True is returned.
@@ -47,19 +45,33 @@ class TransferStarGift:
         Example:
             .. code-block:: python
 
-                # Show gift
-                app.transfer_star_gift(chat_id=123, message_id=123)
+                # Upgrade gift
+                app.upgrade_gift(message_id=123)
         """
-        peer = await self.resolve_peer(chat_id)
-
-        if not isinstance(peer, (raw.types.InputPeerUser, raw.types.InputPeerSelf)):
-            raise ValueError("chat_id must belong to a user.")
-
-        await self.invoke(
-            raw.functions.payments.TransferStarGift(
+        try:
+            await self.invoke(
+                raw.functions.payments.UpgradeStarGift(
+                    msg_id=message_id,
+                    keep_original_details=keep_details
+                )
+            )
+        except errors.PaymentRequired:
+            invoice = raw.types.InputInvoiceStarGiftUpgrade(
                 msg_id=message_id,
                 keep_original_details=keep_details
             )
-        )
 
-        return True # TODO:
+            form = await self.invoke(
+                raw.functions.payments.GetPaymentForm(
+                    invoice=invoice
+                )
+            )
+
+            await self.invoke(
+                raw.functions.payments.SendStarsForm(
+                    form_id=form.form_id,
+                    invoice=invoice
+                )
+            )
+
+        return True

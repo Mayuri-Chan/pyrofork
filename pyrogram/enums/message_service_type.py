@@ -58,7 +58,7 @@ class MessageServiceType(AutoName):
     GAME_HIGH_SCORE = auto()
     "Game high score"
 
-    ChatShared = auto()
+    CHAT_SHARED = auto()
     "a shared chat/channel/user"
 
     FORUM_TOPIC_CREATED = auto()
@@ -127,7 +127,7 @@ class MessageServiceType(AutoName):
     GIFT_CODE = auto()
     "Gift code"
 
-    STAR_GIFT = auto()
+    GIFT = auto()
     "Star gift"
 
     SCREENSHOT_TAKEN = auto()

@@ -20,6 +20,8 @@
 import re
 import pyrogram
 from pyrogram import raw
+
+
 class ApplyGiftCode:
     async def apply_gift_code(
         self: "pyrogram.Client",

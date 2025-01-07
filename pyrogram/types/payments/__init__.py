@@ -20,6 +20,7 @@
 from .extended_media_preview import ExtendedMediaPreview
 from .checked_gift_code import CheckedGiftCode
 from .gift import Gift
+from .gift_attribute import GiftAttribute
 from .gift_code import GiftCode
 from .gifted_premium import GiftedPremium
 from .input_stars_transaction import InputStarsTransaction
@@ -30,8 +31,6 @@ from .payment_form import PaymentForm
 from .payment_info import PaymentInfo
 from .payment_refunded import PaymentRefunded
 from .purchased_paid_media import PurchasedPaidMedia
-from .star_gift import StarGift
-from .star_gift_attribute import StarGiftAttribute
 from .stars_status import StarsStatus
 from .stars_transaction import StarsTransaction
 from .successful_payment import SuccessfulPayment
@@ -40,6 +39,7 @@ __all__ = [
     "ExtendedMediaPreview",
     "CheckedGiftCode",
     "Gift",
+    "GiftAttribute",
     "GiftCode",
     "GiftedPremium",
     "InputStarsTransaction",
@@ -50,8 +50,6 @@ __all__ = [
     "PaymentInfo",
     "PaymentRefunded",
     "PurchasedPaidMedia",
-    "StarGift",
-    "StarGiftAttribute",
     "StarsStatus",
     "StarsTransaction",
     "SuccessfulPayment",

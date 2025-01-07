@@ -15,30 +15,22 @@
 #
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
-from typing import List
 
-import pyrogram
-from pyrogram import raw, types
+from pyrogram import raw
+from .auto_name import AutoName
 
 
-class GetAvailableGifts:
-    async def get_available_gifts(
-        self: "pyrogram.Client",
-    ) -> List["types.Gift"]:
-        """Get all gifts that can be sent to other users.
+class GiftAttributeType(AutoName):
+    """Star gift attribute type enumeration used in :obj:`~pyrogram.types.GiftAttribute`."""
 
-        .. include:: /_includes/usable-by/users.rst
+    MODEL = raw.types.StarGiftAttributeModel
+    "Model attribute"
 
-        Returns:
-            List of :obj:`~pyrogram.types.Gift`: On success, a list of star gifts is returned.
+    SYMBOL = raw.types.StarGiftAttributePattern
+    "Symbol attribute"
+    
+    BACKDROP = raw.types.StarGiftAttributeBackdrop
+    "Backdrop attribute"
 
-        Example:
-            .. code-block:: python
-
-                app.get_available_gifts()
-        """
-        r = await self.invoke(
-            raw.functions.payments.GetStarGifts(hash=0)
-        )
-
-        return types.List([await types.Gift._parse(self, gift) for gift in r.gifts])
+    ORIGINAL_DETAILS = raw.types.StarGiftAttributeOriginalDetails
+    "Original details attribute"

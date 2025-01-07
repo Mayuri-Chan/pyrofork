@@ -16,20 +16,21 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
+import logging
 from typing import Union
 
 import pyrogram
-from pyrogram import raw, types
+from pyrogram import raw
+
+log = logging.getLogger(__name__)
 
 
-class GetUserStarGifts:
-    async def get_user_star_gifts(
+class GetUserGiftsCount:
+    async def get_user_gifts_count(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        limit: int = 0,
-        offset: str = ""
-    ):
-        """Get user star gifts.
+        chat_id: Union[int, str]
+    ) -> int:
+        """Get the total count of star gifts of specified user.
 
         .. include:: /_includes/usable-by/users.rst
 
@@ -39,56 +40,25 @@ class GetUserStarGifts:
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
 
-            offset (``str``, *optional*):
-                Offset of the results to be returned.
-
-            limit (``int``, *optional*):
-                Maximum amount of star gifts to be returned.
-
         Returns:
-            ``Generator``: A generator yielding :obj:`~pyrogram.types.UserStarGift` objects.
+            ``int``: On success, the star gifts count is returned.
 
         Example:
             .. code-block:: python
 
-                async for gift in app.get_user_star_gifts(chat_id):
-                    print(gift)
+                await app.get_user_gifts_count(chat_id)
         """
         peer = await self.resolve_peer(chat_id)
 
         if not isinstance(peer, (raw.types.InputPeerUser, raw.types.InputPeerSelf)):
             raise ValueError("chat_id must belong to a user.")
 
-        current = 0
-        total = abs(limit) or (1 << 31) - 1
-        limit = min(100, total)
-
-        while True:
-            r = await self.invoke(
-                raw.functions.payments.GetUserStarGifts(
-                    user_id=peer,
-                    offset=offset,
-                    limit=limit
-                ),
-                sleep_threshold=60
+        r = await self.invoke(
+            raw.functions.payments.GetUserStarGifts(
+                user_id=peer,
+                offset="",
+                limit=1
             )
+        )
 
-            users = {u.id: u for u in r.users}
-
-            user_star_gifts = [
-                await types.UserStarGift._parse(self, gift, users)
-                for gift in r.gifts
-            ]
-
-            if not user_star_gifts:
-                return
-
-            offset = r.next_offset
-
-            for gift in user_star_gifts:
-                yield gift
-
-                current += 1
-
-                if current >= total:
-                    return
+        return r.count
