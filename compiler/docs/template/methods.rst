@@ -190,6 +190,19 @@ Bots
 
     {bots}
 
+Payments
+----
+
+.. autosummary::
+    :nosignatures:
+
+    {payments}
+
+.. toctree::
+    :hidden:
+
+    {payments}
+
 Authorization
 -------------
 

@@ -140,3 +140,28 @@ ChatJoinRequest
 
     {chat_join_request_toctree}
 
+Folder
+---------------
+
+.. hlist::
+    :columns: 2
+
+    {folder_hlist}
+
+.. toctree::
+    :hidden:
+
+    {folder_toctree}
+
+Gift
+---------------
+
+.. hlist::
+    :columns: 2
+
+    {gift_hlist}
+
+.. toctree::
+    :hidden:
+
+    {gift_toctree}
