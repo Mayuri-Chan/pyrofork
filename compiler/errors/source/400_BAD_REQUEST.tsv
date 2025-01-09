@@ -378,6 +378,9 @@ SLOWMODE_MULTI_MSGS_DISABLED	Slowmode is enabled, you cannot forward multiple me
 SMS_CODE_CREATE_FAILED	An error occurred while creating the SMS code
 SRP_ID_INVALID	Invalid SRP ID provided
 SRP_PASSWORD_CHANGED	The password has changed
+STARGIFT_ALREADY_CONVERTED	The provided star gift already converted to stars
+STARGIFT_ALREADY_UPGRADED	This star gift was already upgraded before
+STARGIFT_USAGE_LIMITED	The star gift usage is limited
 START_PARAM_EMPTY	The start parameter is empty
 START_PARAM_INVALID	The start parameter is invalid
 START_PARAM_TOO_LONG	The start parameter is too long
