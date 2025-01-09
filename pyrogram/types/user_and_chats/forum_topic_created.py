@@ -25,17 +25,17 @@ class ForumTopicCreated(Object):
 
 
     Parameters:
-        id (``Integer``):
+        id (``int``):
             Id of the topic
 
-        title (``String``):
+        title (``str``):
             Name of the topic.
 
-        icon_color (``Integer``):
-            Color of the topic icon in RGB format
+        icon_color (``int``):
+            Color of the topic icon in decimal format.
 
-        icon_emoji_id (``Integer``, *optional*):
-            Unique identifier of the custom emoji shown as the topic icon
+        custom_emoji_id (``int``, *optional*):
+            Unique identifier of the custom emoji shown as the topic icon.
     """
 
     def __init__(
@@ -43,14 +43,14 @@ class ForumTopicCreated(Object):
         id: int,
         title: str,
         icon_color: int,
-        icon_emoji_id: int = None
+        custom_emoji_id: int = None
     ):
         super().__init__()
 
         self.id = id
         self.title = title
         self.icon_color = icon_color
-        self.icon_emoji_id = icon_emoji_id
+        self.custom_emoji_id = custom_emoji_id
 
     @staticmethod
     def _parse(message: "raw.base.Message") -> "ForumTopicCreated":
@@ -60,5 +60,5 @@ class ForumTopicCreated(Object):
             id=getattr(message, "id", None),
             title=getattr(message.action,"title", None),
             icon_color=getattr(message.action,"icon_color", None),
-            icon_emoji_id=getattr(message.action,"icon_emoji_id", None)
+            custom_emoji_id=getattr(message.action,"icon_emoji_id", None)
         )
