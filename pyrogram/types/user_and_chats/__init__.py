@@ -18,6 +18,7 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from .birthday import Birthday
+from .bot_verification import BotVerification
 from .business_info import BusinessInfo
 from .business_message import BusinessMessage
 from .business_recipients import BusinessRecipients
@@ -62,6 +63,7 @@ from .video_chat_started import VideoChatStarted
 
 __all__ = [
     "Birthday",
+    "BotVerification",
     "BusinessInfo",
     "BusinessMessage",
     "BusinessRecipients",

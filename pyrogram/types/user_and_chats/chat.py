@@ -205,6 +205,12 @@ class Chat(Object):
 
         subscription_until_date (:py:obj:`~datetime.datetime`, *optional*):
             Channel members only. Date when the subscription expires.
+
+        gifts_count (``int``, *optional*):
+            Number of gifts received by the user.
+            
+        bot_verification (:obj:`~pyrogram.types.BotVerification`, *optional*):
+            Information about bot verification.
     """
 
     def __init__(
@@ -258,7 +264,9 @@ class Chat(Object):
         birthday: "types.Birthday" = None,
         personal_chat: "types.Chat" = None,
         max_reaction_count: int = None,
-        subscription_until_date: datetime = None
+        subscription_until_date: datetime = None,
+        gifts_count: int = None,
+        bot_verification: "types.BotVerification" = None
     ):
         super().__init__(client)
 
@@ -309,6 +317,8 @@ class Chat(Object):
         self.birthday = birthday
         self.personal_chat = personal_chat
         self.subscription_until_date = subscription_until_date
+        self.gifts_count = gifts_count
+        self.bot_verification = bot_verification
 
     @property
     def full_name(self) -> str:
@@ -450,9 +460,10 @@ class Chat(Object):
             parsed_chat.bio = full_user.about
             parsed_chat.folder_id = getattr(full_user, "folder_id", None)
             parsed_chat.business_info = types.BusinessInfo._parse(client, full_user, users)
-            birthday = getattr(full_user, "birthday", None)
-            parsed_chat.birthday = types.Birthday._parse(birthday) if birthday is not None else None
+            parsed_chat.birthday = types.Birthday._parse(getattr(full_user, "birthday", None))
+            parsed_chat.gifts_count = getattr(full_user, "stargifts_count", None)
             personal_chat_id = getattr(full_user, "personal_channel_id", None)
+            
             if personal_chat_id is not None:
                 personal_chat = await client.invoke(
                     raw.functions.channels.GetChannels(
@@ -548,6 +559,7 @@ class Chat(Object):
                 full_chat.available_reactions
             )
             parsed_chat.max_reaction_count = getattr(full_chat, "reactions_limit", 11)
+            parsed_chat.bot_verification = types.BotVerification._parse(client, getattr(full_chat, "bot_verification", None), users)
 
         return parsed_chat
 

@@ -502,6 +502,7 @@ def pyrogram_api():
             BotInfo
             ChatColor
             CollectibleItemInfo
+            BotVerification
         """,
         messages_media="""
         Messages & Media
@@ -780,7 +781,6 @@ def pyrogram_api():
             Message.react
             Message.translate
             Message.wait_for_click
-            UserGift.toggle
         """,
         chat="""
         Chat
