@@ -50,6 +50,8 @@ class Birthday(Object):
 
     @staticmethod
     def _parse(birthday: "raw.types.Birthday" = None) -> "Birthday":
+        if not birthday:
+            return
         return Birthday(
             day=birthday.day,
             month=birthday.month,
