@@ -34,12 +34,16 @@ class SendReaction:
         add_to_recent: bool = False
     ) -> "types.MessageReactions":
         """Use this method to send reactions on a message/stories.
-        Service messages can't be reacted to.
-        Automatically forwarded messages from
-        a channel to its discussion group have the
-        same available reactions as messages in the channel.
-
-        .. include:: /_includes/usable-by/users-bots.rst
+        Automatically forwarded messages from a channel to its discussion group have the same available reactions as messages in the channel.
+        Bots can't use paid reactions.
+        
+        You must use exactly one of ``message_id`` OR ``story_id``.
+        
+            If you specify, ``message_id``
+                .. include:: /_includes/usable-by/users-bots.rst
+                
+            If you specify, ``story_id``
+                .. include:: /_includes/usable-by/users.rst
 
         Parameters:
             chat_id (``int`` | ``str``):
