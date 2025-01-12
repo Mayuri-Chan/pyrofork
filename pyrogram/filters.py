@@ -160,6 +160,12 @@ def create(func: Callable, name: str = None, **kwargs) -> Filter:
         {"__call__": func, **kwargs}
     )()
 
+async def edited_filter(_, __, m: Message):
+    return bool(m.edit_date)
+
+
+edited = create(edited_filter)
+"""Filter edited messages."""
 
 # region all_filter
 async def all_filter(_, __, ___):
