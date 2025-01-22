@@ -5109,7 +5109,7 @@ class Message(Object, Update):
                 This option is applicable only for users.
 
         Returns:
-            :obj: `~pyrogram.types.MessageReactions`: On success, True is returned.
+            :obj: :obj:`~pyrogram.types.MessageReactions`: On success, True is returned.
 
         Raises:
             RPCError: In case of a Telegram RPC error.
