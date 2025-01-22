@@ -1,21 +1,20 @@
-#  Pyrofork - Telegram MTProto API Client Library for Python
+#  Pyrogram - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
-#  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
-#  This file is part of Pyrofork.
+#  This file is part of Pyrogram.
 #
-#  Pyrofork is free software: you can redistribute it and/or modify
+#  Pyrogram is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published
 #  by the Free Software Foundation, either version 3 of the License, or
 #  (at your option) any later version.
 #
-#  Pyrofork is distributed in the hope that it will be useful,
+#  Pyrogram is distributed in the hope that it will be useful,
 #  but WITHOUT ANY WARRANTY; without even the implied warranty of
 #  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #  GNU Lesser General Public License for more details.
 #
 #  You should have received a copy of the GNU Lesser General Public License
-#  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
+#  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
 from typing import List, Union, Optional
@@ -246,46 +245,4 @@ class Poll(Object, Update):
             correct_option_id=correct_option_id,
             recent_voters=recent_voters if len(recent_voters) > 0 else None,
             client=client
-        )
-
-    async def stop(
-        self,
-        reply_markup: "types.InlineKeyboardMarkup" = None,
-        business_connection_id: str = None
-    ) -> "types.Poll":
-        """Bound method *stop* of :obj:`~pyrogram.types.Poll`.
-
-        Use as a shortcut for:
-
-        .. code-block:: python
-
-            client.stop_poll(
-                chat_id=message.chat.id,
-                message_id=message.id,
-            )
-
-        Parameters:
-            reply_markup (:obj:`~pyrogram.types.InlineKeyboardMarkup`, *optional*):
-                An InlineKeyboardMarkup object.
-
-            business_connection_id (``str``, *optional*):
-                Unique identifier of the business connection.
-
-        Example:
-            .. code-block:: python
-
-                message.poll.stop()
-
-        Returns:
-            :obj:`~pyrogram.types.Poll`: On success, the stopped poll with the final results is returned.
-
-        Raises:
-            RPCError: In case of a Telegram RPC error.
-        """
-
-        return await self._client.stop_poll(
-            chat_id=self.chat.id,
-            message_id=self.id,
-            reply_markup=reply_markup,
-            business_connection_id=self.business_connection_id if business_connection_id is None else business_connection_id
         )
