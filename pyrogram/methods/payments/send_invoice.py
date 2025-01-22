@@ -40,6 +40,7 @@ class SendInvoice:
         message_thread_id: int = None,
         quote_text: str = None,
         allow_paid_broadcast: bool = None,
+        message_effect_id: int = None,
         quote_entities: List["types.MessageEntity"] = None,
         reply_markup: "types.InlineKeyboardMarkup" = None
     ):
@@ -105,6 +106,9 @@ class SendInvoice:
 
             allow_paid_broadcast (``bool``, *optional*):
                 Pass True to allow the message to ignore regular broadcast limits for a small fee; for bots only
+
+            message_effect_id (``int`` ``64-bit``, *optional*):
+                Unique identifier of the message effect to be added to the message; for private chats only.
 
             quote_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
                 List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
@@ -207,6 +211,7 @@ class SendInvoice:
                     extended_media=extended_media
                 ),
                 allow_paid_floodskip=allow_paid_broadcast,
+                effect=message_effect_id,
                 random_id=self.rnd_id(),
                 reply_to=reply_to,
                 message="",
