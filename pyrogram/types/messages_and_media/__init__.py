@@ -69,6 +69,7 @@ from .story_views import StoryViews
 from .exported_story_link import ExportedStoryLink
 from .wallpaper import Wallpaper
 from .wallpaper_settings import WallpaperSettings
+from .transcribed_audio import TranscribedAudio
 from .translated_text import TranslatedText
 
 __all__ = [
@@ -124,5 +125,6 @@ __all__ = [
     "ExportedStoryLink",
     "Wallpaper",
     "WallpaperSettings",
+    "TranscribedAudio",
     "TranslatedText"
 ]

@@ -220,6 +220,7 @@ def pyrogram_api():
             get_discussion_replies
             get_discussion_replies_count
             get_custom_emoji_stickers
+            transcribe_audio
             translate_message_text
             start_bot
         """,
@@ -534,6 +535,7 @@ def pyrogram_api():
             WebPage
             WebPageEmpty
             WebPagePreview
+            TranscribedAudio
             TranslatedText
             Poll
             PollOption
@@ -780,6 +782,7 @@ def pyrogram_api():
             Message.reply_web_page
             Message.get_media_group
             Message.react
+            Message.transcribe
             Message.translate
             Message.wait_for_click
         """,

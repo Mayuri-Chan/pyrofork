@@ -5434,6 +5434,34 @@ class Message(Object, Update):
         reply_message.request = request
         return reply_message
 
+    async def transcribe(self) -> "types.TranscribeAudio":
+        """Bound method *transcribe* of :obj:`~pyrogram.types.Message`.
+
+        Use as a shortcut for:
+        
+        .. code-block:: python
+        
+            await client.transcribe_audio(
+                chat_id=message.chat.id,
+                message_id=message.id
+                )
+        
+        Example:
+            .. code-block:: python
+            
+            await message.transcribe()
+        
+        Returns:
+            :obj:`~pyrogram.types.TranscribeAudio`: On success.
+        
+        Raises:
+            RPCError: In case of a Telegram RPC error.
+        """
+        return await self._client.transcribe_audio(
+            chat_id=self.chat.id,
+            message_id=self.id
+        )
+
     async def translate(
         self,
         to_language_code: str
