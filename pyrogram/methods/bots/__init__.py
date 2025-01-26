@@ -37,6 +37,7 @@ from .set_bot_info import SetBotInfo
 from .set_chat_menu_button import SetChatMenuButton
 from .set_game_score import SetGameScore
 from .get_owned_bots import GetOwnedBots
+from .get_similar_bots import GetSimilarBots
 
 
 class Bots(
@@ -60,5 +61,6 @@ class Bots(
     AnswerWebAppQuery,
     GetCollectibleItemInfo,
     GetOwnedBots,
+    GetSimilarBots,
 ):
     pass
