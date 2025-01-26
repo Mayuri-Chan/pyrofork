@@ -2759,6 +2759,7 @@ class Message(Object, Update):
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         allow_paid_broadcast: bool = None,
+        message_effect_id: int = None,
         parse_mode: Optional["enums.ParseMode"] = None,
         invert_media: bool = None
     ) -> List["types.Message"]:
@@ -2815,6 +2816,9 @@ class Message(Object, Update):
             allow_paid_broadcast (``bool``, *optional*):
                 Pass True to allow the message to ignore regular broadcast limits for a small fee; for bots
 
+            message_effect_id (``int``, *optional*):
+                Unique identifier of the message effect to be added to the message; for private chats only.                
+
             invert_media (``bool``, *optional*):
                 Inverts the position of the media and caption.
 
@@ -2854,6 +2858,8 @@ class Message(Object, Update):
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             quote_entities=quote_entities,
+            allow_paid_broadcast=allow_paid_broadcast,
+            message_effect_id=message_effect_id,
             invert_media=invert_media
         )
 
