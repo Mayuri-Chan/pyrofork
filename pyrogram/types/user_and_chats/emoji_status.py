@@ -54,25 +54,14 @@ class EmojiStatus(Object):
         if isinstance(emoji_status, raw.types.EmojiStatus):
             return EmojiStatus(
                 client=client,
-                custom_emoji_id=emoji_status.document_id
-            )
-
-        if isinstance(emoji_status, raw.types.EmojiStatusUntil):
-            return EmojiStatus(
-                client=client,
                 custom_emoji_id=emoji_status.document_id,
-                until_date=utils.timestamp_to_datetime(emoji_status.until)
+                until_date=utils.timestamp_to_datetime(emoji_status.until) if emoji_status.until else None
             )
 
         return None
 
     def write(self):
-        if self.until_date:
-            return raw.types.EmojiStatusUntil(
-                document_id=self.custom_emoji_id,
-                until=utils.datetime_to_timestamp(self.until_date)
-            )
-
         return raw.types.EmojiStatus(
-            document_id=self.custom_emoji_id
+            document_id=self.custom_emoji_id,
+            until=utils.datetime_to_timestamp(self.until_date) if self.until_date else None
         )
