@@ -55,7 +55,8 @@ class InputReplyToMessage(Object):
             "raw.types.InputPeerUser"
         ] = None,
         quote_text: str = None,
-        quote_entities: List["raw.base.MessageEntity"] = None
+        quote_entities: List["raw.base.MessageEntity"] = None,
+        quote_offset: int = None,
     ):
         super().__init__()
 
@@ -64,6 +65,7 @@ class InputReplyToMessage(Object):
         self.reply_to_chat = reply_to_chat
         self.quote_text = quote_text
         self.quote_entities = quote_entities
+        self.quote_offset = quote_offset
 
     def write(self):
         reply_to_msg_id = None
@@ -82,6 +84,7 @@ class InputReplyToMessage(Object):
                 top_msg_id=top_msg_id,
                 reply_to_peer_id=self.reply_to_chat,
                 quote_text=self.quote_text,
-                quote_entities=self.quote_entities
+                quote_entities=self.quote_entities,
+                quote_offset=self.quote_offset,
             ).write()
         return None
