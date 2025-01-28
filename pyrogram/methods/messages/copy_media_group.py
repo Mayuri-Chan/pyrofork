@@ -170,6 +170,7 @@ class CopyMediaGroup:
             )
 
         reply_to = await utils.get_reply_to(
+            client=self,
             reply_to_message_id=reply_to_message_id,
             message_thread_id=message_thread_id,
             reply_to_chat_id=reply_to_chat_id,
@@ -178,6 +179,7 @@ class CopyMediaGroup:
             quote_entities=quote_entities,
             quote_offset=quote_offset,
         )
+
         r = await self.invoke(
             raw.functions.messages.SendMultiMedia(
                 peer=await self.resolve_peer(chat_id),
