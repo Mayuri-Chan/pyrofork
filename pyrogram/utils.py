@@ -54,7 +54,8 @@ async def ainput(prompt: str = "", *, hide: bool = False):
 def get_input_media_from_file_id(
     file_id: str,
     expected_file_type: FileType = None,
-    ttl_seconds: int = None
+    ttl_seconds: int = None,
+    has_spoiler: bool = None
 ) -> Union["raw.types.InputMediaPhoto", "raw.types.InputMediaDocument"]:
     try:
         decoded = FileId.decode(file_id)
@@ -79,6 +80,7 @@ def get_input_media_from_file_id(
                 access_hash=decoded.access_hash,
                 file_reference=decoded.file_reference
             ),
+            spoiler=has_spoiler,
             ttl_seconds=ttl_seconds
         )
 
@@ -89,6 +91,7 @@ def get_input_media_from_file_id(
                 access_hash=decoded.access_hash,
                 file_reference=decoded.file_reference
             ),
+            spoiler=has_spoiler,
             ttl_seconds=ttl_seconds
         )
 
@@ -502,7 +505,8 @@ async def get_reply_to(
     reply_to_chat_id: Union[int,str] = None,
     quote_text: str = None,
     quote_entities: List["types.MessageEntity"] = None,
-    parse_mode: "enums.ParseMode" = None
+    quote_offset: int = None,
+    parse_mode: "enums.ParseMode" = None,
 ):
     reply_to = None
     reply_to_chat = None
@@ -515,7 +519,8 @@ async def get_reply_to(
             message_thread_id=message_thread_id,
             reply_to_chat=reply_to_chat,
             quote_text=text,
-            quote_entities=entities
+            quote_entities=entities,
+            quote_offset=quote_offset,
         )
     if reply_to_story_id:
         peer = await client.resolve_peer(chat_id)
