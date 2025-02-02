@@ -23,6 +23,7 @@ from .convert_gift import ConvertGift
 from .create_invoice_link import CreateInvoiceLink
 from .get_payment_form import GetPaymentForm
 from .get_stars_balance import GetStarsBalance
+from .get_upgraded_gift import GetUpgradedGift
 from .get_available_gifts import GetAvailableGifts
 from .get_stars_transactions import GetStarsTransactions
 from .get_stars_transactions_by_id import GetStarsTransactionsById
@@ -46,6 +47,7 @@ class Payments(
     CreateInvoiceLink,
     GetPaymentForm,
     GetStarsBalance,
+    GetUpgradedGift,
     GetAvailableGifts,
     GetStarsTransactions,
     GetStarsTransactionsById,
