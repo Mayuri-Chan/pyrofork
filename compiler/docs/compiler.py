@@ -357,6 +357,7 @@ def pyrogram_api():
             get_stars_transactions
             get_stars_transactions_by_id
             get_available_gifts
+            get_upgraded_gift
             get_user_gifts_count
             get_user_gifts
             hide_gift
