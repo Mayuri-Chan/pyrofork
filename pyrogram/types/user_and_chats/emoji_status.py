@@ -22,6 +22,7 @@ from typing import Optional
 
 import pyrogram
 from pyrogram import raw, utils
+
 from ..object import Object
 
 
@@ -29,7 +30,7 @@ class EmojiStatus(Object):
     """A user emoji status.
 
     Parameters:
-        custom_emoji_id (``int``):
+        custom_emoji_id (``int``, *optional*):
             Custom emoji id.
 
         until_date (:py:obj:`~datetime.datetime`, *optional*):
@@ -37,25 +38,25 @@ class EmojiStatus(Object):
 
         title (``str``, *optional*):
             Title of the collectible.
-            
-        collectible_id (``int``, *optional*):
-            Collectible id.
-            
+
+        gift_id (``int``, *optional*):
+            Gift collectible id.
+
         name (``str``, *optional*):
             Name of the collectible.
-            
+
         pattern_custom_emoji_id (``int``, *optional*):
             Pattern emoji id.
-            
+
         center_color (``int``, *optional*):
             Center color of the collectible emoji in decimal format.
-            
+
         edge_color (``int``, *optional*):
             Edge color of the collectible emoji in decimal format.
-            
+
         pattern_color (``int``, *optional*):
             Pattern color of the collectible emoji in decimal format.
-            
+
         text_color (``int``, *optional*):
             Text color of the collectible emoji in decimal format.
     """
@@ -64,10 +65,10 @@ class EmojiStatus(Object):
         self,
         *,
         client: "pyrogram.Client" = None,
-        custom_emoji_id: int,
+        custom_emoji_id: Optional[int] = None,
+        gift_id: Optional[int] = None,
         until_date: Optional[datetime] = None,
         title: Optional[str] = None,
-        collectible_id: Optional[int] = None,
         name: Optional[str] = None,
         pattern_custom_emoji_id: Optional[int] = None,
         center_color: Optional[int] = None,
@@ -78,9 +79,9 @@ class EmojiStatus(Object):
         super().__init__(client)
 
         self.custom_emoji_id = custom_emoji_id
+        self.gift_id = gift_id
         self.until_date = until_date
         self.title = title
-        self.collectible_id = collectible_id
         self.name = name
         self.pattern_custom_emoji_id = pattern_custom_emoji_id
         self.center_color = center_color
@@ -124,4 +125,4 @@ class EmojiStatus(Object):
         return raw.types.EmojiStatus(
             document_id=self.custom_emoji_id,
             until=utils.datetime_to_timestamp(self.until_date)
-            )
+        )
