@@ -77,13 +77,10 @@ class SendGift:
         """
         peer = await self.resolve_peer(chat_id)
 
-        if not isinstance(peer, (raw.types.InputPeerUser, raw.types.InputPeerSelf)):
-            raise ValueError("chat_id must belong to a user.")
-
         text, entities = (await utils.parse_text_entities(self, text, parse_mode, entities)).values()
 
         invoice = raw.types.InputInvoiceStarGift(
-            user_id=peer,
+            peer=peer,
             gift_id=gift_id,
             hide_name=hide_my_name,
             include_upgrade=pay_for_upgrade,
