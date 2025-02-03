@@ -358,8 +358,8 @@ def pyrogram_api():
             get_stars_transactions_by_id
             get_available_gifts
             get_upgraded_gift
-            get_user_gifts_count
-            get_user_gifts
+            get_chat_gifts_count
+            get_chat_gifts
             hide_gift
             refund_star_payment
             send_invoice
@@ -861,6 +861,7 @@ def pyrogram_api():
             Gift.convert
             Gift.upgrade
             Gift.transfer
+            Gift.wear
         """,
         callback_query="""
         Callback Query

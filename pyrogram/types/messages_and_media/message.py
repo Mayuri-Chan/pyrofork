@@ -901,7 +901,7 @@ class Message(Object, Update):
                 gift_code = types.GiftCode._parse(client, action, chats)
                 service_type = enums.MessageServiceType.GIFT_CODE
             elif isinstance(action, (raw.types.MessageActionStarGift, raw.types.MessageActionStarGiftUnique)):
-                gift = await types.Gift._parse_action(client, message, users)
+                gift = await types.Gift._parse_action(client, message, users, chats)
                 service_type = enums.MessageServiceType.GIFT
             elif isinstance(action, raw.types.MessageActionScreenshotTaken):
                 screenshot_taken = types.ScreenshotTaken()

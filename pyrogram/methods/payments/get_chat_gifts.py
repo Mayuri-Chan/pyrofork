@@ -16,16 +16,22 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union
+from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw, types
 
 
-class GetUserGifts:
-    async def get_user_gifts(
+class GetChatGifts:
+    async def get_chat_gifts(
         self: "pyrogram.Client",
         chat_id: Union[int, str],
+        exclude_unsaved: Optional[bool] = None,
+        exclude_saved: Optional[bool] = None,
+        exclude_unlimited: Optional[bool] = None,
+        exclude_limited: Optional[bool] = None,
+        exclude_upgraded: Optional[bool] = None,
+        sort_by_value: Optional[bool] = None,
         limit: int = 0,
         offset: str = ""
     ):
@@ -38,6 +44,24 @@ class GetUserGifts:
                 Unique identifier (int) or username (str) of the target chat.
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
+            
+            exclude_unsaved (``bool``, *optional*):
+                Exclude unsaved star gifts.
+                
+            exclude_saved (``bool``, *optional*):
+                Exclude saved star gifts.
+                
+            exclude_unlimited (``bool``, *optional*):
+                Exclude unlimited star gifts.
+                
+            exclude_limited (``bool``, *optional*):
+                Exclude limited star gifts.
+                
+            exclude_upgraded (``bool``, *optional*):
+                Exclude upgraded star gifts.
+                
+            sort_by_value (``bool``, *optional*):
+                Sort star gifts by value.
 
             offset (``str``, *optional*):
                 Offset of the results to be returned.
@@ -51,13 +75,10 @@ class GetUserGifts:
         Example:
             .. code-block:: python
 
-                async for gift in app.get_user_gifts(chat_id):
+                async for gift in app.get_chat_gifts(chat_id):
                     print(gift)
         """
         peer = await self.resolve_peer(chat_id)
-
-        if not isinstance(peer, (raw.types.InputPeerUser, raw.types.InputPeerSelf)):
-            raise ValueError("chat_id must belong to a user.")
 
         current = 0
         total = abs(limit) or (1 << 31) - 1
@@ -65,18 +86,25 @@ class GetUserGifts:
 
         while True:
             r = await self.invoke(
-                raw.functions.payments.GetUserStarGifts(
-                    user_id=peer,
+                raw.functions.payments.GetSavedStarGifts(
+                    peer=peer,
                     offset=offset,
-                    limit=limit
+                    limit=limit,
+                    exclude_unsaved=exclude_unsaved,
+                    exclude_saved=exclude_saved,
+                    exclude_unlimited=exclude_unlimited,
+                    exclude_limited=exclude_limited,
+                    exclude_unique=exclude_upgraded,
+                    sort_by_value=sort_by_value
                 ),
                 sleep_threshold=60
             )
 
-            users = {u.id: u for u in r.users}
+            users = {i.id: i for i in r.users}
+            chats = {i.id: i for i in r.chats}
 
             user_star_gifts = [
-                await types.Gift._parse_user(self, gift, users)
+                await types.Gift._parse_saved(self, gift, users, chats)
                 for gift in r.gifts
             ]
 

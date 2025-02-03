@@ -48,7 +48,7 @@ class ConvertGift:
         """
         r = await self.invoke(
             raw.functions.payments.ConvertStarGift(
-                msg_id=message_id
+                stargift=raw.types.InputSavedStarGiftUser(msg_id=message_id)
             )
         )
 

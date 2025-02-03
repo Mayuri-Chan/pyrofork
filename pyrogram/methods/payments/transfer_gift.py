@@ -19,7 +19,7 @@
 from typing import Union
 
 import pyrogram
-from pyrogram import raw, errors
+from pyrogram import errors, raw
 
 
 class TransferGift:
@@ -58,13 +58,17 @@ class TransferGift:
         try:
             await self.invoke(
                 raw.functions.payments.TransferStarGift(
-                    msg_id=message_id,
+                    stargift=raw.types.InputSavedStarGiftUser(
+                        msg_id=message_id
+                    ),
                     to_id=peer
                 )
             )
         except errors.PaymentRequired:
             invoice = raw.types.InputInvoiceStarGiftTransfer(
-                msg_id=message_id,
+                stargift=raw.types.InputSavedStarGiftUser(
+                    msg_id=message_id
+                ),
                 to_id=peer
             )
 

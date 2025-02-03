@@ -43,4 +43,4 @@ class GetAvailableGifts:
             raw.functions.payments.GetStarGifts(hash=0)
         )
 
-        return types.List([await types.Gift._parse(self, gift) for gift in r.gifts])
+        return types.List([await types.Gift._parse_regular(self, gift) for gift in r.gifts])

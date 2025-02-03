@@ -17,7 +17,7 @@
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Union
+from typing import Optional, Union
 
 import pyrogram
 from pyrogram import raw
@@ -25,10 +25,15 @@ from pyrogram import raw
 log = logging.getLogger(__name__)
 
 
-class GetUserGiftsCount:
-    async def get_user_gifts_count(
+class GetChatGiftsCount:
+    async def get_chat_gifts_count(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
+        chat_id: Union[int, str],
+        exclude_unsaved: Optional[bool] = None,
+        exclude_saved: Optional[bool] = None,
+        exclude_unlimited: Optional[bool] = None,
+        exclude_limited: Optional[bool] = None,
+        exclude_upgraded: Optional[bool] = None
     ) -> int:
         """Get the total count of star gifts of specified user.
 
@@ -39,6 +44,21 @@ class GetUserGiftsCount:
                 Unique identifier (int) or username (str) of the target chat.
                 For your personal cloud (Saved Messages) you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).
+                
+            exclude_unsaved (``bool``, *optional*):
+                Exclude unsaved star gifts.
+                
+            exclude_saved (``bool``, *optional*):
+                Exclude saved star gifts.
+                
+            exclude_unlimited (``bool``, *optional*):
+                Exclude unlimited star gifts.
+                
+            exclude_limited (``bool``, *optional*):
+                Exclude limited star gifts.
+                
+            exclude_upgraded (``bool``, *optional*):
+                Exclude upgraded star gifts.
 
         Returns:
             ``int``: On success, the star gifts count is returned.
@@ -46,17 +66,19 @@ class GetUserGiftsCount:
         Example:
             .. code-block:: python
 
-                await app.get_user_gifts_count(chat_id)
+                await app.get_chat_gifts_count(chat_id)
         """
         peer = await self.resolve_peer(chat_id)
 
-        if not isinstance(peer, (raw.types.InputPeerUser, raw.types.InputPeerSelf)):
-            raise ValueError("chat_id must belong to a user.")
-
         r = await self.invoke(
-            raw.functions.payments.GetUserStarGifts(
-                user_id=peer,
+            raw.functions.payments.GetSavedStarGifts(
+                peer=peer,
                 offset="",
+                exclude_unsaved=exclude_unsaved,
+                exclude_saved=exclude_saved,
+                exclude_unlimited=exclude_unlimited,
+                exclude_limited=exclude_limited,
+                exclude_unique=exclude_upgraded,
                 limit=1
             )
         )

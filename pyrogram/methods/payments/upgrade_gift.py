@@ -19,7 +19,7 @@
 from typing import Optional
 
 import pyrogram
-from pyrogram import raw, errors
+from pyrogram import errors, raw
 
 
 class UpgradeGift:
@@ -51,13 +51,17 @@ class UpgradeGift:
         try:
             await self.invoke(
                 raw.functions.payments.UpgradeStarGift(
-                    msg_id=message_id,
+                    stargift=raw.types.InputSavedStarGiftUser(
+                        msg_id=message_id
+                    ),
                     keep_original_details=keep_details
                 )
             )
         except errors.PaymentRequired:
             invoice = raw.types.InputInvoiceStarGiftUpgrade(
-                msg_id=message_id,
+                stargift=raw.types.InputSavedStarGiftUser(
+                    msg_id=message_id
+                ),
                 keep_original_details=keep_details
             )
 

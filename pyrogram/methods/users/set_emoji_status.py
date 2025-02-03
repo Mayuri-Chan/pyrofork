@@ -43,8 +43,12 @@ class SetEmojiStatus:
             .. code-block:: python
 
                 from pyrogram import types
-
+                
+                # Set emoji status
                 await app.set_emoji_status(types.EmojiStatus(custom_emoji_id=1234567890987654321))
+                
+                # Set collectible emoji status
+                await app.set_emoji_status(types.EmojiStatus(collectible_id=1234567890987654321))
         """
         await self.invoke(
             raw.functions.account.UpdateEmojiStatus(
