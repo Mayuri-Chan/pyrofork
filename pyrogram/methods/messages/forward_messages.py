@@ -36,7 +36,9 @@ class ForwardMessages:
         schedule_date: datetime = None,
         protect_content: bool = None,
         allow_paid_broadcast: bool = None,
-        drop_author: bool = None
+        drop_author: bool = None,
+        remove_caption: bool = None,
+        new_video_start_timestamp: int = None,
     ) -> Union["types.Message", List["types.Message"]]:
         """Forward messages of any kind.
 
@@ -76,7 +78,13 @@ class ForwardMessages:
                 Pass True to allow the message to ignore regular broadcast limits for a small fee; for bots only.
 
             drop_author (``bool``, *optional*):
-                Forwards messages without quoting the original author
+                Pass True to forwards messages without quoting the original author.
+                
+            remove_caption (``bool``, *optional*):
+                Pass True to remove media captions of message copies.
+                
+            new_video_start_timestamp (``int``, *optional*):
+                The new video start timestamp. Pass time to replace video start timestamp in the forwarded message.
 
         Returns:
             :obj:`~pyrogram.types.Message` | List of :obj:`~pyrogram.types.Message`: In case *message_ids* was not
@@ -106,7 +114,9 @@ class ForwardMessages:
                 schedule_date=utils.datetime_to_timestamp(schedule_date),
                 noforwards=protect_content,
                 allow_paid_floodskip=allow_paid_broadcast,
-                drop_author=drop_author
+                drop_author=drop_author,
+                drop_media_captions=remove_caption,
+                video_timestamp=new_video_start_timestamp
             )
         )
 

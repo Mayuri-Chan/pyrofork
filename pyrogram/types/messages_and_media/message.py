@@ -3593,6 +3593,9 @@ class Message(Object, Update):
         quote_entities: List["types.MessageEntity"] = None,
         allow_paid_broadcast: bool = None,
         message_effect_id: int = None,
+        cover: Optional[Union[str, "io.BytesIO"]] = None,
+        start_timestamp: int = None,
+        schedule_date: datetime = None,
         invert_media: bool = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -3695,7 +3698,16 @@ class Message(Object, Update):
                 for reply_to_message only.
 
             allow_paid_broadcast (``bool``, *optional*):
-                Pass True to allow the message to ignore regular broadcast limits for a small fee; for bots
+                Pass True to allow the message to ignore regular broadcast limits for a small fee; for bots.
+
+            cover (``str`` | :obj:`io.BytesIO`, *optional*):
+                Cover of the video; pass None to skip cover uploading.
+            
+            start_timestamp (``int``, *optional*):
+                Timestamp from which the video playing must start, in seconds.
+
+            schedule_date (:py:obj:`~datetime.datetime`, *optional*):
+                Date when the message will be automatically sent.
 
             message_effect_id (``int`` ``64-bit``, *optional*):
                 Unique identifier of the message effect to be added to the message; for private chats only.
@@ -3779,6 +3791,9 @@ class Message(Object, Update):
             quote_entities=quote_entities,
             allow_paid_broadcast=allow_paid_broadcast,
             message_effect_id=message_effect_id,
+            cover=cover,
+            start_timestamp=start_timestamp,
+            schedule_date=schedule_date,
             invert_media=invert_media,
             reply_markup=reply_markup,
             progress=progress,
@@ -4525,7 +4540,9 @@ class Message(Object, Update):
         schedule_date: datetime = None,
         protect_content: bool = None,
         allow_paid_broadcast: bool = None,
-        drop_author: bool = None
+        drop_author: bool = None,
+        remove_caption: bool = None,
+        new_video_start_timestamp: int = None,
     ) -> Union["types.Message", List["types.Message"]]:
         """Bound method *forward* of :obj:`~pyrogram.types.Message`.
 
@@ -4568,7 +4585,13 @@ class Message(Object, Update):
                 Pass True to allow the message to ignore regular broadcast limits for a small fee; for bots
 
             drop_author (``bool``, *optional*):
-                Forwards messages without quoting the original author
+                Forwards messages without quoting the original author.
+                
+            remove_caption (``bool``, *optional*):
+                Pass True to remove media captions of message copies.
+                
+            new_video_start_timestamp (``int``, *optional*):
+                The new video start timestamp. Pass time to replace video start timestamp in the forwarded message.
 
         Returns:
             On success, the forwarded Message is returned.
@@ -4585,7 +4608,9 @@ class Message(Object, Update):
             schedule_date=schedule_date,
             protect_content=protect_content,
             allow_paid_broadcast=allow_paid_broadcast,
-            drop_author=drop_author
+            drop_author=drop_author,
+            remove_caption=remove_caption,
+            new_video_start_timestamp=new_video_start_timestamp,
         )
 
     async def copy(

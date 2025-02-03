@@ -200,7 +200,9 @@ class SendPaidMedia:
                                     spoiler=i.has_spoiler,
                                     mime_type=self.guess_mime_type(i.media) or "video/mp4",
                                     nosound_video=is_animation,
-                                    attributes=attributes
+                                    attributes=attributes,
+                                    video_cover=await self.save_file(i.cover),
+                                    video_timestamp=i.start_timestamp
                                 )
                             )
                         )
@@ -219,6 +221,8 @@ class SendPaidMedia:
                                 peer=await self.resolve_peer(chat_id),
                                 media=raw.types.InputMediaDocumentExternal(
                                     url=i.media,
+                                    video_cover=await self.save_file(i.cover),
+                                    video_timestamp=i.start_timestamp,
                                     spoiler=i.has_spoiler
                                 )
                             )
@@ -251,7 +255,9 @@ class SendPaidMedia:
                                         h=i.height
                                     ),
                                     raw.types.DocumentAttributeFilename(file_name=getattr(i.media, "name", "video.mp4"))
-                                ]
+                                ],
+                                video_cover=await self.save_file(i.cover),
+                                video_timestamp=i.start_timestamp
                             )
                         )
                     )

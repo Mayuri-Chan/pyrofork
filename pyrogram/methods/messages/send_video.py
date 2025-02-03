@@ -55,6 +55,8 @@ class SendVideo:
         reply_to_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
+        cover: Optional[Union[str, "io.BytesIO"]] = None,
+        start_timestamp: int = None,
         schedule_date: datetime = None,
         protect_content: bool = None,
         allow_paid_broadcast: bool = None,
@@ -159,6 +161,12 @@ class SendVideo:
                 List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
                 for reply_to_message only.
 
+            cover (``str`` | :obj:`io.BytesIO`, *optional*):
+                Cover of the video; pass None to skip cover uploading.
+            
+            start_timestamp (``int``, *optional*):
+                Timestamp from which the video playing must start, in seconds.
+
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
 
@@ -255,13 +263,17 @@ class SendVideo:
                                 h=height
                             ),
                             raw.types.DocumentAttributeFilename(file_name=file_name or os.path.basename(video))
-                        ]
+                        ],
+                        video_cover=await self.save_file(cover) if cover else None,
+                        video_timestamp=start_timestamp
                     )
                 elif re.match("^https?://", video):
                     media = raw.types.InputMediaDocumentExternal(
                         url=video,
                         ttl_seconds=ttl_seconds,
-                        spoiler=has_spoiler
+                        spoiler=has_spoiler,
+                        video_cover=await self.save_file(cover) if cover else None,
+                        video_timestamp=start_timestamp
                     )
                 else:
                     media = utils.get_input_media_from_file_id(video, FileType.VIDEO, ttl_seconds=ttl_seconds)
@@ -283,7 +295,9 @@ class SendVideo:
                             h=height
                         ),
                         raw.types.DocumentAttributeFilename(file_name=file_name or video.name)
-                    ]
+                    ],
+                    video_cover=await self.save_file(cover) if cover else None,
+                    video_timestamp=start_timestamp
                 )
 
             while True:
