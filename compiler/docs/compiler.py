@@ -553,6 +553,7 @@ def pyrogram_api():
             ForumTopicCreated
             ForumTopicEdited
             ForumTopicClosed
+            ForumTopicDeleted
             ForumTopicReopened
             GeneralTopicHidden
             GeneralTopicUnhidden

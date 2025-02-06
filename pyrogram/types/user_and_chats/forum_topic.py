@@ -123,7 +123,9 @@ class ForumTopic(Object):
         #self.draft = draft //todo
 
     @staticmethod
-    def _parse(forum_topic: "raw.types.forum_topic") -> "ForumTopic":
+    def _parse(forum_topic: "raw.types.ForumTopic") -> "ForumTopic":
+        if isinstance(forum_topic, raw.types.ForumTopicDeleted):
+            return types.ForumTopicDeleted._parse(forum_topic)
         from_id = forum_topic.from_id
         if isinstance(from_id, raw.types.PeerChannel):
             peer = types.PeerChannel._parse(from_id)
