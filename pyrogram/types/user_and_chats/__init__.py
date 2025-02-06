@@ -50,6 +50,7 @@ from .username import Username
 from .forum_topic import ForumTopic
 from .forum_topic_created import ForumTopicCreated
 from .forum_topic_closed import ForumTopicClosed
+from .forum_topic_deleted import ForumTopicDeleted
 from .forum_topic_reopened import ForumTopicReopened
 from .forum_topic_edited import ForumTopicEdited
 from .general_forum_topic_hidden import GeneralTopicHidden
@@ -88,6 +89,7 @@ __all__ = [
     "ForumTopic",
     "ForumTopicCreated",
     "ForumTopicClosed",
+    "ForumTopicDeleted",
     "ForumTopicReopened",
     "ForumTopicEdited",
     "GeneralTopicHidden",
