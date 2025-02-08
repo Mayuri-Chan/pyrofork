@@ -622,7 +622,7 @@ class Client(Methods):
                                     limit=pts
                                 )
                             )
-                        except ChannelPrivate:
+                        except (ChannelPrivate, OSError):
                             pass
                         else:
                             if not isinstance(diff, raw.types.updates.ChannelDifferenceEmpty):
