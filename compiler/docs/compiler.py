@@ -253,6 +253,7 @@ def pyrogram_api():
             get_folders
             get_forum_topics
             get_forum_topics_by_id
+            get_forum_topics_count
             set_chat_username
             archive_chats
             unarchive_chats
