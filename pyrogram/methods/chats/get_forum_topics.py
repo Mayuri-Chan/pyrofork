@@ -32,7 +32,9 @@ class GetForumTopics:
     async def get_forum_topics(
         self: "pyrogram.Client",
         chat_id: Union[int, str],
-        limit: int = 0
+        limit: int = 0,
+        offset_date: int = 0,
+        offset_topic: int = 0
     ) -> Optional[AsyncGenerator["types.ForumTopic", None]]:
         """Get one or more topic from a chat.
 
@@ -46,6 +48,12 @@ class GetForumTopics:
             limit (``int``, *optional*):
                 Limits the number of topics to be retrieved.
 
+            offset_date (``int``, *optional*):
+                The date of the topic to be used as offset.
+
+            offset_topic (``int``, *optional*):
+                The topic ID to be used as offset.
+
         Returns:
             ``Generator``: On success, a generator yielding :obj:`~pyrogram.types.ForumTopic` objects is returned.
 
@@ -56,13 +64,31 @@ class GetForumTopics:
                 async for topic in app.get_forum_topics(chat_id):
                     print(topic)
 
+                # get more than 100 forum topics
+                count = await app.get_forum_topics_count(chat_id) # get the count of all topics
+                slice = 100 # limit per request
+                pages = count // slice + 1 # number of requests needed
+                all_topics = [] # list to store all topics
+                for i in range(pages):
+                    last_date = all_topics[-1].date if all_topics else 0 # date of the last found topic
+                    last_topic = all_topics[-1].id if all_topics else 0 # id of the last found topic
+                    async for topic in app.get_forum_topics(chat_id, limit=slice, offset_date=last_date, offset_topic=last_topic):
+                        if topic not in all_topics:
+                            all_topics.append(topic)
+
         Raises:
             ValueError: In case of invalid arguments.
         """
 
         peer = await self.resolve_peer(chat_id)
 
-        rpc = raw.functions.channels.GetForumTopics(channel=peer, offset_date=0, offset_id=0, offset_topic=0, limit=limit)
+        rpc = raw.functions.channels.GetForumTopics(
+            channel=peer,
+            offset_date=offset_date,
+            offset_id=offset_topic,
+            offset_topic=offset_topic,
+            limit=limit
+        )
 
         r = await self.invoke(rpc, sleep_threshold=-1)
 
