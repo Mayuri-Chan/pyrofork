@@ -35,7 +35,7 @@ class GetChatGiftsCount:
         exclude_limited: Optional[bool] = None,
         exclude_upgraded: Optional[bool] = None
     ) -> int:
-        """Get the total count of star gifts of specified user.
+        """Get the total count of owned gifts of specified chat.
 
         .. include:: /_includes/usable-by/users.rst
 
