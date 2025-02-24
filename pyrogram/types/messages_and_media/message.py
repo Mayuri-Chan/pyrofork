@@ -424,6 +424,9 @@ class Message(Object, Update):
         link (``str``, *property*):
             Generate a link to this message, only for groups and channels.
 
+        content (``str``, *property*):
+            The text or caption content of the message.
+
         scheduled (``bool``, *optional*):
             Message is a scheduled message and still in schedule.
 
@@ -1358,6 +1361,10 @@ class Message(Object, Update):
         else:
             return f"https://t.me/c/{utils.get_channel_id(self.chat.id)}/{self.id}"
 
+    @property
+    def content(self) -> str:
+        return self.text or self.caption or Str("").init([])
+    
     async def get_media_group(self) -> List["types.Message"]:
         """Bound method *get_media_group* of :obj:`~pyrogram.types.Message`.
         
