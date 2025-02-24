@@ -35,7 +35,7 @@ class GetChatGifts:
         limit: int = 0,
         offset: str = ""
     ):
-        """Get user star gifts.
+        """Get all gifts owned by specified chat.
 
         .. include:: /_includes/usable-by/users.rst
 
