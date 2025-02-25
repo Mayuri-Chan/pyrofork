@@ -19,6 +19,7 @@
 
 from .copy_media_group import CopyMediaGroup
 from .copy_message import CopyMessage
+from .delete_chat_history import DeleteChatHistory
 from .delete_messages import DeleteMessages
 from .delete_scheduled_messages import DeleteScheduledMessages
 from .download_media import DownloadMedia
@@ -78,6 +79,7 @@ from .transcribe_audio import TranscribeAudio
 from .translate_text import TranslateText
 
 class Messages(
+    DeleteChatHistory,
     DeleteMessages,
     DeleteScheduledMessages,
     EditMessageCaption,

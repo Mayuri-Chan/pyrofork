@@ -223,6 +223,7 @@ def pyrogram_api():
             transcribe_audio
             translate_message_text
             start_bot
+            delete_chat_history
         """,
         chats="""
         Chats
