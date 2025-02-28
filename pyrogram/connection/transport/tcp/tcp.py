@@ -134,12 +134,14 @@ class TCP:
             await asyncio.wait_for(self.writer.wait_closed(), TCP.TIMEOUT)
         except Exception as e:
             log.info("Close exception: %s %s", type(e).__name__, e)
+        finally:
+            self.writer = None
 
     async def send(self, data: bytes) -> None:
-        if self.writer is None:
-            return None
-
         async with self.lock:
+            if self.writer is None or self.writer.is_closing():
+                return None
+
             try:
                 self.writer.write(data)
                 await self.writer.drain()
