@@ -182,78 +182,65 @@ class Markdown:
 
     @staticmethod
     def unparse(text: str, entities: list):
+        """
+        Performs the reverse operation to .parse(), effectively returning
+        markdown-like syntax given a normal text and its MessageEntity's.
+
+        :param text: the text to be reconverted into markdown.
+        :param entities: list of MessageEntity's applied to the text.
+        :return: a markdown-like text representing the combination of both inputs.
+        """
+        delimiters = {
+            MessageEntityType.BOLD: BOLD_DELIM,
+            MessageEntityType.ITALIC: ITALIC_DELIM,
+            MessageEntityType.UNDERLINE: UNDERLINE_DELIM,
+            MessageEntityType.STRIKETHROUGH: STRIKE_DELIM,
+            MessageEntityType.CODE: CODE_DELIM,
+            MessageEntityType.PRE: PRE_DELIM,
+            MessageEntityType.BLOCKQUOTE: BLOCKQUOTE_DELIM,
+            MessageEntityType.EXPANDABLE_BLOCKQUOTE: BLOCKQUOTE_EXPANDABLE_DELIM,
+            MessageEntityType.SPOILER: SPOILER_DELIM
+        }
+
         text = utils.add_surrogates(text)
 
-        entities_offsets = []
-
-        for entity in entities:
-            entity_type = entity.type
-            start = entity.offset
-            end = start + entity.length
-
-            if entity_type == MessageEntityType.BOLD:
-                start_tag = end_tag = BOLD_DELIM
-            elif entity_type == MessageEntityType.ITALIC:
-                start_tag = end_tag = ITALIC_DELIM
-            elif entity_type == MessageEntityType.UNDERLINE:
-                start_tag = end_tag = UNDERLINE_DELIM
-            elif entity_type == MessageEntityType.STRIKETHROUGH:
-                start_tag = end_tag = STRIKE_DELIM
-            elif entity_type == MessageEntityType.CODE:
-                start_tag = end_tag = CODE_DELIM
-            elif entity_type == MessageEntityType.PRE:
-                language = getattr(entity, "language", "") or ""
-                start_tag = f"{PRE_DELIM}{language}\n"
-                end_tag = f"\n{PRE_DELIM}"
-            elif entity_type == MessageEntityType.BLOCKQUOTE:
-                if entity.collapsed:
-                    start_tag = BLOCKQUOTE_EXPANDABLE_DELIM + " "
-                else:
-                    start_tag = BLOCKQUOTE_DELIM + " "
-                end_tag = ""
-                blockquote_text = text[start:end]
-                lines = blockquote_text.split("\n")
-                last_length = 0
-                for line in lines:
-                    if len(line) == 0 and last_length == end:
-                        continue
-                    start_offset = start+last_length
-                    last_length = last_length+len(line)
-                    end_offset = start_offset+last_length
-                    entities_offsets.append((start_tag, start_offset,))
-                    entities_offsets.append((end_tag, end_offset,))
-                    last_length = last_length+1
-                continue
-            elif entity_type == MessageEntityType.SPOILER:
-                start_tag = end_tag = SPOILER_DELIM
-            elif entity_type == MessageEntityType.TEXT_LINK:
-                url = entity.url
-                start_tag = "["
-                end_tag = f"]({url})"
-            elif entity_type == MessageEntityType.TEXT_MENTION:
-                user = entity.user
-                start_tag = "["
-                end_tag = f"](tg://user?id={user.id})"
-            elif entity_type == MessageEntityType.CUSTOM_EMOJI:
-                emoji_id = entity.custom_emoji_id
-                start_tag = "!["
-                end_tag = f"](tg://emoji?id={emoji_id})"
+        insert_at = []
+        for i, entity in enumerate(entities):
+            s = entity.offset
+            e = entity.offset + entity.length
+            delimiter = delimiters.get(entity.type, None)
+            if delimiter:
+                open_delimiter = delimiter
+                close_delimiter = delimiter
+                if entity.type == MessageEntityType.PRE:
+                    close_delimiter = '\n' + delimiter
+                    if entity.language:
+                        open_delimiter += entity.language + '\n'
+                    else:
+                        open_delimiter += '\n'
+                insert_at.append((s, i, open_delimiter))
+                insert_at.append((e, -i, close_delimiter))
             else:
-                continue
+                url = None
+                if entity.type == MessageEntityType.TEXT_LINK:
+                    url = entity.url
+                elif entity.type == MessageEntityType.TEXT_MENTION:
+                    url = f'tg://user?id={entity.user.id}'
+                if url:
+                    insert_at.append((s, i, '['))
+                    insert_at.append((e, -i, f']({url})'))
 
-            entities_offsets.append((start_tag, start,))
-            entities_offsets.append((end_tag, end,))
+        insert_at.sort(key=lambda t: (t[0], t[1]))
+        while insert_at:
+            at, _, what = insert_at.pop()
 
-        entities_offsets = map(
-            lambda x: x[1],
-            sorted(
-                enumerate(entities_offsets),
-                key=lambda x: (x[1][1], x[0]),
-                reverse=True
-            )
-        )
+            # If we are in the middle of a surrogate nudge the position by -1.
+            # Otherwise we would end up with malformed text and fail to encode.
+            # For example of bad input: "Hi \ud83d\ude1c"
+            # https://en.wikipedia.org/wiki/UTF-16#U+010000_to_U+10FFFF
+            while utils.within_surrogate(text, at):
+                at += 1
 
-        for entity, offset in entities_offsets:
-            text = text[:offset] + entity + text[offset:]
+            text = text[:at] + what + text[at:]
 
         return utils.remove_surrogates(text)

@@ -40,3 +40,16 @@ def remove_surrogates(text):
 
 def replace_once(source: str, old: str, new: str, start: int):
     return source[:start] + source[start:].replace(old, new, 1)
+
+def within_surrogate(text, index, *, length=None):
+    """
+    `True` if ``index`` is within a surrogate (before and after it, not at!).
+    """
+    if length is None:
+        length = len(text)
+
+    return (
+            1 < index < len(text) and  # in bounds
+            '\ud800' <= text[index - 1] <= '\udbff' and  # previous is
+            '\ud800' <= text[index] <= '\udfff'  # current is
+    )
