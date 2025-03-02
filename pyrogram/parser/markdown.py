@@ -210,16 +210,28 @@ class Markdown:
             e = entity.offset + entity.length
             delimiter = delimiters.get(entity.type, None)
             if delimiter:
-                open_delimiter = delimiter
-                close_delimiter = delimiter
-                if entity.type == MessageEntityType.PRE:
-                    close_delimiter = '\n' + delimiter
-                    if entity.language:
-                        open_delimiter += entity.language + '\n'
-                    else:
-                        open_delimiter += '\n'
-                insert_at.append((s, i, open_delimiter))
-                insert_at.append((e, -i, close_delimiter))
+                if entity.type != MessageEntityType.BLOCKQUOTE and entity.type != MessageEntityType.EXPANDABLE_BLOCKQUOTE:
+                    open_delimiter = delimiter
+                    close_delimiter = delimiter
+                    if entity.type == MessageEntityType.PRE:
+                        close_delimiter = '\n' + delimiter
+                        if entity.language:
+                            open_delimiter += entity.language + '\n'
+                        else:
+                            open_delimiter += '\n'
+                    insert_at.append((s, i, open_delimiter))
+                    insert_at.append((e, -i, close_delimiter))
+                else:
+                    # Handle multiline blockquotes
+                    text_subset = text[s:e]
+                    lines = text_subset.splitlines()
+                    for line_num, line in enumerate(lines):
+                        line_start = s + sum(len(l) + 1 for l in lines[:line_num])
+                        if entity.collapsed:
+                            insert_at.append((line_start, i, BLOCKQUOTE_EXPANDABLE_DELIM))
+                        else:
+                            insert_at.append((line_start, i, BLOCKQUOTE_DELIM))
+                    # No closing delimiter for blockquotes
             else:
                 url = None
                 if entity.type == MessageEntityType.TEXT_LINK:
