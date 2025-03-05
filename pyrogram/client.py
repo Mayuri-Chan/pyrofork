@@ -33,7 +33,7 @@ from importlib import import_module
 from io import StringIO, BytesIO
 from mimetypes import MimeTypes
 from pathlib import Path
-from typing import Union, List, Optional, Callable, AsyncGenerator, Tuple
+from typing import Union, List, Optional, Callable, AsyncGenerator, Type, Tuple
 
 import pyrogram
 from pyrogram import __version__, __license__
@@ -55,7 +55,7 @@ from pyrogram.storage import FileStorage, MemoryStorage, Storage
 from pyrogram.types import User
 from pyrogram.utils import ainput
 from .connection import Connection
-from .connection.transport import TCPAbridged
+from .connection.transport import TCP, TCPAbridged
 from .dispatcher import Dispatcher
 from .file_id import FileId, FileType, ThumbnailSource
 from .mime_types import mime_types
@@ -220,6 +220,9 @@ class Client(Methods):
         client_platform (:obj:`~pyrogram.enums.ClientPlatform`, *optional*):
             The platform where this client is running.
             Defaults to 'other'
+
+        loop (:py:class:`asyncio.AbstractEventLoop`, *optional*):
+            Event loop.
     """
 
     APP_VERSION = f"Pyrogram {__version__}"
@@ -277,7 +280,9 @@ class Client(Methods):
         max_concurrent_transmissions: int = MAX_CONCURRENT_TRANSMISSIONS,
         client_platform: "enums.ClientPlatform" = enums.ClientPlatform.OTHER,
         max_message_cache_size: int = MAX_CACHE_SIZE,
-        max_business_user_connection_cache_size: int = MAX_CACHE_SIZE
+        max_business_user_connection_cache_size: int = MAX_CACHE_SIZE,
+        protocol_factory: Type[TCP] = TCPAbridged,
+        loop: Optional[asyncio.AbstractEventLoop] = None
     ):
         super().__init__()
 
@@ -371,7 +376,14 @@ class Client(Methods):
         self.updates_watchdog_event = asyncio.Event()
         self.last_update_time = datetime.now()
         self.listeners = {listener_type: [] for listener_type in pyrogram.enums.ListenerTypes}
-        self.loop = asyncio.get_event_loop()
+
+        if isinstance(loop, asyncio.AbstractEventLoop):
+            self.loop = loop
+        else:
+            try:
+                self.loop = asyncio.get_running_loop()
+            except RuntimeError:
+                self.loop = asyncio.new_event_loop()
 
     def __enter__(self):
         return self.start()
@@ -425,7 +437,7 @@ class Client(Methods):
                     if not self.phone_number:
                         while True:
                             print("Enter 'qrcode' if you want to login with qrcode.")
-                            value = await ainput("Enter phone number or bot token: ")
+                            value = await ainput("Enter phone number or bot token: ", loop=self.loop)
 
                             if not value:
                                 continue
@@ -434,7 +446,7 @@ class Client(Methods):
                                 self.use_qrcode = True
                                 break
 
-                            confirm = (await ainput(f'Is "{value}" correct? (y/N): ')).lower()
+                            confirm = (await ainput(f'Is "{value}" correct? (y/N): ', loop=self.loop)).lower()
 
                             if confirm == "y":
                                 break
@@ -466,7 +478,7 @@ class Client(Methods):
 
         while True:
             if not self.use_qrcode and not self.phone_code:
-                self.phone_code = await ainput("Enter confirmation code: ")
+                self.phone_code = await ainput("Enter confirmation code: ", loop=self.loop)
 
             try:
                 if self.use_qrcode:
@@ -483,18 +495,18 @@ class Client(Methods):
                     print("Password hint: {}".format(await self.get_password_hint()))
 
                     if not self.password:
-                        self.password = await ainput("Enter password (empty to recover): ", hide=self.hide_password)
+                        self.password = await ainput("Enter password (empty to recover): ", hide=self.hide_password, loop=self.loop)
 
                     try:
                         if not self.password:
-                            confirm = await ainput("Confirm password recovery (y/n): ")
+                            confirm = await ainput("Confirm password recovery (y/n): ", loop=self.loop)
 
                             if confirm == "y":
                                 email_pattern = await self.send_recovery_code()
                                 print(f"The recovery code has been sent to {email_pattern}")
 
                                 while True:
-                                    recovery_code = await ainput("Enter recovery code: ")
+                                    recovery_code = await ainput("Enter recovery code: ", loop=self.loop)
 
                                     try:
                                         return await self.recover_password(recovery_code)
@@ -842,13 +854,13 @@ class Client(Methods):
                 else:
                     while True:
                         try:
-                            value = int(await ainput("Enter the api_id part of the API key: "))
+                            value = int(await ainput("Enter the api_id part of the API key: ", loop=self.loop))
 
                             if value <= 0:
                                 print("Invalid value")
                                 continue
 
-                            confirm = (await ainput(f'Is "{value}" correct? (y/N): ')).lower()
+                            confirm = (await ainput(f'Is "{value}" correct? (y/N): ', loop=self.loop)).lower()
 
                             if confirm == "y":
                                 await self.storage.api_id(value)

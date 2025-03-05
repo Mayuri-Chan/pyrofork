@@ -104,8 +104,6 @@ class Session:
 
         self.is_started = asyncio.Event()
 
-        self.loop = asyncio.get_event_loop()
-
         self.last_reconnect_attempt = None
 
     async def start(self):
@@ -117,13 +115,14 @@ class Session:
                 alt_port=self.client.alt_port,
                 proxy=self.client.proxy,
                 media=self.is_media,
-                protocol_factory=self.client.protocol_factory
+                protocol_factory=self.client.protocol_factory,
+                loop=self.client.loop
             )
 
             try:
                 await self.connection.connect()
 
-                self.recv_task = self.loop.create_task(self.recv_worker())
+                self.recv_task = self.client.loop.create_task(self.recv_worker())
 
                 await self.send(raw.functions.Ping(ping_id=0), timeout=self.START_TIMEOUT)
 
@@ -145,7 +144,7 @@ class Session:
                         timeout=self.START_TIMEOUT
                     )
 
-                self.ping_task = self.loop.create_task(self.ping_worker())
+                self.ping_task = self.client.loop.create_task(self.ping_worker())
 
                 log.info("Session initialized: Layer %s", layer)
                 log.info("Device: %s - %s", self.client.device_model, self.client.app_version)
@@ -207,7 +206,7 @@ class Session:
 
     async def handle_packet(self, packet):
         try:
-            data = await self.loop.run_in_executor(
+            data = await self.client.loop.run_in_executor(
                 pyrogram.crypto_executor,
                 mtproto.unpack,
                 BytesIO(packet),
@@ -217,7 +216,7 @@ class Session:
             )
         except ValueError as e:
             log.debug(e)
-            self.loop.create_task(self.restart())
+            self.client.loop.create_task(self.restart())
             return
 
         messages = (
@@ -279,7 +278,7 @@ class Session:
                 msg_id = msg.body.msg_id
             else:
                 if self.client is not None:
-                    self.loop.create_task(self.client.handle_updates(msg.body))
+                    self.client.loop.create_task(self.client.handle_updates(msg.body))
 
             if msg_id in self.results:
                 self.results[msg_id].value = getattr(msg.body, "result", msg.body)
@@ -313,7 +312,7 @@ class Session:
                     ), False
                 )
             except OSError:
-                self.loop.create_task(self.restart())
+                self.client.loop.create_task(self.restart())
                 break
             except RPCError:
                 pass
@@ -342,11 +341,11 @@ class Session:
                     )
 
                 if self.is_started.is_set():
-                    self.loop.create_task(self.restart())
+                    self.client.loop.create_task(self.restart())
 
                 break
 
-            self.loop.create_task(self.handle_packet(packet))
+            self.client.loop.create_task(self.handle_packet(packet))
 
         log.info("NetworkTask stopped")
 
@@ -359,7 +358,7 @@ class Session:
 
         log.debug("Sent: %s", message)
 
-        payload = await self.loop.run_in_executor(
+        payload = await self.client.loop.run_in_executor(
             pyrogram.crypto_executor,
             mtproto.pack,
             message,

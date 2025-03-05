@@ -46,7 +46,7 @@ class Proxy(TypedDict):
 class TCP:
     TIMEOUT = 10
 
-    def __init__(self, ipv6: bool, proxy: Proxy) -> None:
+    def __init__(self, ipv6: bool, proxy: Proxy, loop: Optional[asyncio.AbstractEventLoop] = None) -> None:
         self.ipv6 = ipv6
         self.proxy = proxy
 
@@ -54,7 +54,14 @@ class TCP:
         self.writer: Optional[asyncio.StreamWriter] = None
 
         self.lock = asyncio.Lock()
-        self.loop = asyncio.get_event_loop()
+
+        if isinstance(loop, asyncio.AbstractEventLoop):
+            self.loop = loop
+        else:
+            try:
+                self.loop = asyncio.get_running_loop()
+            except RuntimeError:
+                self.loop = asyncio.new_event_loop()
 
     async def _connect_via_proxy(
         self,

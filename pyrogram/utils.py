@@ -43,13 +43,21 @@ PyromodConfig = SimpleNamespace(
     unallowed_click_alert=True,
     unallowed_click_alert_text=("[pyromod] You're not expected to click this button."),
 )
-    
 
-async def ainput(prompt: str = "", *, hide: bool = False):
+
+async def ainput(prompt: str = "", *, hide: bool = False, loop: Optional[asyncio.AbstractEventLoop] = None):
     """Just like the built-in input, but async"""
+    if isinstance(loop, asyncio.AbstractEventLoop):
+        loop = loop
+    else:
+        try:
+            loop = asyncio.get_running_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+
     with ThreadPoolExecutor(1) as executor:
         func = functools.partial(getpass if hide else input, prompt)
-        return await asyncio.get_event_loop().run_in_executor(executor, func)
+        return await loop.run_in_executor(executor, func)
 
 
 def get_input_media_from_file_id(
