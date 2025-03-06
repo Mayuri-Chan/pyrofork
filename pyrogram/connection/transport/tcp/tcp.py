@@ -58,10 +58,7 @@ class TCP:
         if isinstance(loop, asyncio.AbstractEventLoop):
             self.loop = loop
         else:
-            try:
-                self.loop = asyncio.get_running_loop()
-            except RuntimeError:
-                self.loop = asyncio.new_event_loop()
+            self.loop = asyncio.get_event_loop()
 
     async def _connect_via_proxy(
         self,

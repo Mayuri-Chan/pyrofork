@@ -50,10 +50,7 @@ async def ainput(prompt: str = "", *, hide: bool = False, loop: Optional[asyncio
     if isinstance(loop, asyncio.AbstractEventLoop):
         loop = loop
     else:
-        try:
-            loop = asyncio.get_running_loop()
-        except RuntimeError:
-            loop = asyncio.new_event_loop()
+        loop = asyncio.get_event_loop()
 
     with ThreadPoolExecutor(1) as executor:
         func = functools.partial(getpass if hide else input, prompt)
