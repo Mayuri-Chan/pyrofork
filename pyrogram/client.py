@@ -380,7 +380,7 @@ class Client(Methods):
         if isinstance(loop, asyncio.AbstractEventLoop):
             self.loop = loop
         else:
-            loop = asyncio.get_event_loop()
+            self.loop = asyncio.get_event_loop()
 
     def __enter__(self):
         return self.start()
