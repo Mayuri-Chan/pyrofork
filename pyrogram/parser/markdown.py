@@ -210,15 +210,41 @@ class Markdown:
             e = entity.offset + entity.length
             delimiter = delimiters.get(entity.type, None)
             if delimiter:
-                if entity.type != MessageEntityType.BLOCKQUOTE and entity.type != MessageEntityType.EXPANDABLE_BLOCKQUOTE:
+                if entity.type == MessageEntityType.PRE:
+                    inside_blockquote = any(
+                        blk_entity.offset <= s < blk_entity.offset + blk_entity.length and
+                        blk_entity.offset < e <= blk_entity.offset + blk_entity.length
+                        for blk_entity in entities
+                        if blk_entity.type == MessageEntityType.BLOCKQUOTE
+                    )
+                    is_expandable = any(
+                        blk_entity.offset <= s < blk_entity.offset + blk_entity.length and
+                        blk_entity.offset < e <= blk_entity.offset + blk_entity.length and
+                        blk_entity.collapsed
+                        for blk_entity in entities
+                        if blk_entity.type == MessageEntityType.BLOCKQUOTE
+                    )
+                    if inside_blockquote:
+                        if is_expandable:
+                            if entity.language:
+                                open_delimiter = f"{delimiter}{entity.language}\n**>"
+                            else:
+                                open_delimiter = f"{delimiter}\n**>"
+                            close_delimiter = f"\n**>{delimiter}"
+                        else:
+                            if entity.language:
+                                open_delimiter = f"{delimiter}{entity.language}\n>"
+                            else:
+                                open_delimiter = f"{delimiter}\n>"
+                            close_delimiter = f"\n>{delimiter}"
+                    else:
+                        open_delimiter = delimiter
+                        close_delimiter = delimiter
+                    insert_at.append((s, i, open_delimiter))
+                    insert_at.append((e, -i, close_delimiter))
+                elif entity.type != MessageEntityType.BLOCKQUOTE and entity.type != MessageEntityType.EXPANDABLE_BLOCKQUOTE:
                     open_delimiter = delimiter
                     close_delimiter = delimiter
-                    if entity.type == MessageEntityType.PRE:
-                        close_delimiter = '\n' + delimiter
-                        if entity.language:
-                            open_delimiter += entity.language + '\n'
-                        else:
-                            open_delimiter += '\n'
                     insert_at.append((s, i, open_delimiter))
                     insert_at.append((e, -i, close_delimiter))
                 else:
