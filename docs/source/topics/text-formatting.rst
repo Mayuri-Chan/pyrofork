@@ -47,6 +47,12 @@ list of the basic styles currently supported by Pyrofork.
 Markdown Style
 --------------
 
+.. warning::
+
+    The Markdown style is not recommended for complex text formatting.
+    If you want to use complex text formatting such as nested entities, overlapping entities use the HTML style instead.
+
+
 To strictly use this mode, pass :obj:`~pyrogram.enums.ParseMode.MARKDOWN` to the *parse_mode* parameter when using
 :meth:`~pyrogram.Client.send_message`. Use the following syntax in your message:
 
@@ -230,7 +236,7 @@ strike` styles, and you can still combine both Markdown and HTML together.
 
 Here there are some example texts you can try sending:
 
-**Markdown**:
+**Markdown (Not Recommended)**:
 
 - ``**bold, --underline--**``
 - ``**bold __italic --underline ~~strike~~--__**``
