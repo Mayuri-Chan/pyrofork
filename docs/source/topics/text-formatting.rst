@@ -37,12 +37,16 @@ list of the basic styles currently supported by Pyrofork.
 - spoiler
 - `text URL <https://pyrogram.org>`_
 - `user text mention <tg://user?id=123456789>`_
+- :emoji:`🔥`
 - ``inline fixed-width code``
 - .. code-block:: text
 
     pre-formatted
       fixed-width
         code block
+- > Quoted text
+
+- > Quoted text with collapse/expand button
 
 HTML Style
 ----------
@@ -66,9 +70,9 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.HTML` to the *parse_mode* 
 
     <a href="tg://user?id=123456789">inline mention</a>
 
-    <code>inline fixed-width code</code>
-
     <emoji id="12345678901234567890">🔥</emoji>
+
+    <code>inline fixed-width code</code>
 
     <pre>
     pre-formatted
@@ -77,6 +81,8 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.HTML` to the *parse_mode* 
     </pre>
 
     <blockquote>Quoted text</blockquote>
+
+    <blockquote expandable>Quoted text with collapse/expand button</blockquote>
 
 **Example**:
 
@@ -150,6 +156,8 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.ParseMode.MARKDOWN` to the
 
     [text user mention](tg://user?id=123456789)
 
+    ![🔥](tg://emoji?id=12345678901234567890)
+
     `inline fixed-width code`
 
     ```
@@ -159,6 +167,8 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.ParseMode.MARKDOWN` to the
     ```
 
     > Quoted text
+
+    **> Quoted text with collapse/expand button
 
 **Example**:
 
