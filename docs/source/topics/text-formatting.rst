@@ -44,68 +44,6 @@ list of the basic styles currently supported by Pyrofork.
       fixed-width
         code block
 
-Markdown Style
---------------
-
-.. warning::
-
-    The Markdown style is not recommended for complex text formatting.
-    If you want to use complex text formatting such as nested entities, overlapping entities use the HTML style instead.
-
-
-To strictly use this mode, pass :obj:`~pyrogram.enums.ParseMode.MARKDOWN` to the *parse_mode* parameter when using
-:meth:`~pyrogram.Client.send_message`. Use the following syntax in your message:
-
-.. code-block:: text
-
-    **bold**
-
-    __italic__
-
-    --underline--
-
-    ~~strike~~
-
-    ||spoiler||
-
-    [text URL](https://pyrogram.org/)
-
-    [text user mention](tg://user?id=123456789)
-
-    `inline fixed-width code`
-
-    ```
-    pre-formatted
-      fixed-width
-        code block
-    ```
-
-    > Quoted text
-
-**Example**:
-
-.. code-block:: python
-
-    from pyrogram import enums
-
-    await app.send_message(
-        "me",
-        (
-            "**bold**, "
-            "__italic__, "
-            "--underline--, "
-            "~~strike~~, "
-            "||spoiler||, "
-            "[URL](https://pyrogram.org), "
-            "`code`, "
-            "```"
-            "for i in range(10):\n"
-            "    print(i)"
-            "```"
-        ),
-        parse_mode=enums.ParseMode.MARKDOWN
-    )
-
 HTML Style
 ----------
 
@@ -184,6 +122,68 @@ To strictly use this mode, pass :obj:`~pyrogram.enums.HTML` to the *parse_mode* 
 
         &lt;my text&gt;
 
+Markdown Style
+--------------
+
+.. warning::
+
+    The Markdown style is not recommended for complex text formatting.
+    If you want to use complex text formatting such as nested entities, overlapping entities use the HTML style instead.
+
+
+To strictly use this mode, pass :obj:`~pyrogram.enums.ParseMode.MARKDOWN` to the *parse_mode* parameter when using
+:meth:`~pyrogram.Client.send_message`. Use the following syntax in your message:
+
+.. code-block:: text
+
+    **bold**
+
+    __italic__
+
+    --underline--
+
+    ~~strike~~
+
+    ||spoiler||
+
+    [text URL](https://pyrogram.org/)
+
+    [text user mention](tg://user?id=123456789)
+
+    `inline fixed-width code`
+
+    ```
+    pre-formatted
+      fixed-width
+        code block
+    ```
+
+    > Quoted text
+
+**Example**:
+
+.. code-block:: python
+
+    from pyrogram import enums
+
+    await app.send_message(
+        "me",
+        (
+            "**bold**, "
+            "__italic__, "
+            "--underline--, "
+            "~~strike~~, "
+            "||spoiler||, "
+            "[URL](https://pyrogram.org), "
+            "`code`, "
+            "```"
+            "for i in range(10):\n"
+            "    print(i)"
+            "```"
+        ),
+        parse_mode=enums.ParseMode.MARKDOWN
+    )
+
 Different Styles
 ----------------
 
@@ -236,17 +236,17 @@ strike` styles, and you can still combine both Markdown and HTML together.
 
 Here there are some example texts you can try sending:
 
-**Markdown (Not Recommended)**:
-
-- ``**bold, --underline--**``
-- ``**bold __italic --underline ~~strike~~--__**``
-- ``**bold __and** italic__``
-
 **HTML**:
 
 - ``<b>bold, <u>underline</u></b>``
 - ``<b>bold <i>italic <u>underline <s>strike</s></u></i></b>``
 - ``<b>bold <i>and</b> italic</i>``
+
+**Markdown (Not Recommended)**:
+
+- ``**bold, --underline--**``
+- ``**bold __italic --underline ~~strike~~--__**``
+- ``**bold __and** italic__``
 
 **Combined**:
 
