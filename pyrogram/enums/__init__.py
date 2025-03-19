@@ -30,6 +30,7 @@ from .gift_attribute_type import GiftAttributeType
 from .listerner_types import ListenerTypes
 from .message_entity_type import MessageEntityType
 from .message_media_type import MessageMediaType
+from .message_origin_type import MessageOriginType
 from .message_service_type import MessageServiceType
 from .messages_filter import MessagesFilter
 from .next_code_type import NextCodeType
@@ -57,6 +58,7 @@ __all__ = [
     'ListenerTypes',
     'MessageEntityType', 
     'MessageMediaType', 
+    'MessageOriginType',
     'MessageServiceType', 
     'MessagesFilter', 
     'NextCodeType', 

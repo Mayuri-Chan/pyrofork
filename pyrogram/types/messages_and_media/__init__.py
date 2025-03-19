@@ -37,6 +37,11 @@ from .media_area_channel_post import MediaAreaChannelPost
 from .media_area_coordinates import MediaAreaCoordinates
 from .message import Message
 from .message_entity import MessageEntity
+from .message_origin import MessageOrigin
+from .message_origin_channel import MessageOriginChannel
+from .message_origin_chat import MessageOriginChat
+from .message_origin_hidden_user import MessageOriginHiddenUser
+from .message_origin_user import MessageOriginUser
 from .photo import Photo
 from .poll import Poll
 from .poll_option import PollOption
@@ -71,6 +76,7 @@ from .wallpaper import Wallpaper
 from .wallpaper_settings import WallpaperSettings
 from .transcribed_audio import TranscribedAudio
 from .translated_text import TranslatedText
+from .text_quote import TextQuote
 
 __all__ = [
     "AlternativeVideo",
@@ -92,6 +98,11 @@ __all__ = [
     "MediaAreaCoordinates",
     "Message",
     "MessageEntity",
+    "MessageOrigin",
+    "MessageOriginChannel",
+    "MessageOriginChat",
+    "MessageOriginHiddenUser",
+    "MessageOriginUser",
     "Photo",
     "Thumbnail",
     "StrippedThumbnail",
@@ -126,5 +137,6 @@ __all__ = [
     "Wallpaper",
     "WallpaperSettings",
     "TranscribedAudio",
-    "TranslatedText"
+    "TranslatedText",
+    "TextQuote"
 ]

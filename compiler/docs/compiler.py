@@ -513,6 +513,11 @@ def pyrogram_api():
         Messages & Media
             Message
             MessageEntity
+            MessageOriginChannel
+            MessageOriginChat
+            MessageOriginHiddenUser
+            MessageOriginUser
+            MessageOrigin
             Photo
             Thumbnail
             Audio
@@ -540,6 +545,7 @@ def pyrogram_api():
             WebPagePreview
             TranscribedAudio
             TranslatedText
+            TextQuote
             Poll
             PollOption
             Dice
