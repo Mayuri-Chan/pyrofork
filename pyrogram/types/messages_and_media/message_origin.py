@@ -33,6 +33,7 @@ class MessageOrigin(Object):
     - :obj:`~pyrogram.types.MessageOriginChannel`
     - :obj:`~pyrogram.types.MessageOriginChat`
     - :obj:`~pyrogram.types.MessageOriginHiddenUser`
+    - :obj:`~pyrogram.types.MessageOriginImport`
     - :obj:`~pyrogram.types.MessageOriginUser`
     """
 
@@ -86,4 +87,9 @@ class MessageOrigin(Object):
             return types.MessageOriginHiddenUser(
                 date=forward_date,
                 sender_user_name=fwd_from.from_name
+            )
+        elif fwd_from.imported:
+            return types.MessageOriginImport(
+                date=forward_date,
+                sender_user_name=fwd_from.post_author
             )

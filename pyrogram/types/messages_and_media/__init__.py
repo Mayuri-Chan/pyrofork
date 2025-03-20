@@ -41,6 +41,7 @@ from .message_origin import MessageOrigin
 from .message_origin_channel import MessageOriginChannel
 from .message_origin_chat import MessageOriginChat
 from .message_origin_hidden_user import MessageOriginHiddenUser
+from .message_origin_import import MessageOriginImport
 from .message_origin_user import MessageOriginUser
 from .photo import Photo
 from .poll import Poll
@@ -102,6 +103,7 @@ __all__ = [
     "MessageOriginChannel",
     "MessageOriginChat",
     "MessageOriginHiddenUser",
+    "MessageOriginImport",
     "MessageOriginUser",
     "Photo",
     "Thumbnail",

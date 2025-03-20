@@ -34,5 +34,9 @@ class MessageOriginType(AutoName):
     HIDDEN_USER = auto()
     "The message was originally sent by a user, which is hidden by their privacy settings"
 
+    IMPORT = auto()
+    "The message was imported from a foreign chat service"
+
+
     USER = auto()
     "The message was originally sent by a known user"
