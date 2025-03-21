@@ -27,6 +27,7 @@ from .contact import Contact
 from .contact_registered import ContactRegistered
 from .dice import Dice
 from .document import Document
+from .external_reply_info import ExternalReplyInfo
 from .game import Game
 from .giveaway import Giveaway
 from .giveaway_launched import GiveawayLaunched
@@ -89,6 +90,7 @@ __all__ = [
     "Contact",
     "ContactRegistered",
     "Document",
+    "ExternalReplyInfo",
     "Game",
     "Giveaway",
     "GiveawayLaunched",

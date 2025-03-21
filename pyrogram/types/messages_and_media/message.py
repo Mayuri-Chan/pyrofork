@@ -318,6 +318,9 @@ class Message(Object, Update):
             Messages sent from yourself to other chats are outgoing (*outgoing* is True).
             An exception is made for your own personal chat; messages sent there will be incoming.
 
+        external_reply (:obj:`~pyrogram.types.ExternalReplyInfo`, *optional*):
+            Information about the message that is being replied to, which may come from another chat or forum topic.
+
         matches (List of regex Matches, *optional*):
             A list containing all `Match Objects <https://docs.python.org/3/library/re.html#match-objects>`_ that match
             the text of this message. Only applicable when using :obj:`Filters.regex <pyrogram.Filters.regex>`.
@@ -507,6 +510,7 @@ class Message(Object, Update):
         forwards: int = None,
         via_bot: "types.User" = None,
         outgoing: bool = None,
+        external_reply: Optional["types.ExternalReplyInfo"] = None,
         matches: List[Match] = None,
         command: List[str] = None,
         bot_allowed: "types.BotAllowed" = None,
@@ -546,8 +550,8 @@ class Message(Object, Update):
         self.sender_business_bot = sender_business_bot
         self.date = date
         self.chat = chat
-        self.topic = topic
         self.forward_origin = forward_origin
+        self.external_reply = external_reply
         self.is_topic_message = is_topic_message
         self.reply_to_chat_id = reply_to_chat_id
         self.reply_to_message_id = reply_to_message_id
@@ -1032,7 +1036,7 @@ class Message(Object, Update):
                     venue = types.Venue._parse(client, media)
                     media_type = enums.MessageMediaType.VENUE
                 elif isinstance(media, raw.types.MessageMediaGame):
-                    game = types.Game._parse(client, message)
+                    game = types.Game._parse(client, media)
                     media_type = enums.MessageMediaType.GAME
                 elif isinstance(media, raw.types.MessageMediaGiveaway):
                     giveaway = await types.Giveaway._parse(client, message)
@@ -1221,6 +1225,12 @@ class Message(Object, Update):
                 parsed_message.sender_chat = sender_chat
 
             if message.reply_to:
+                parsed_message.external_reply = await types.ExternalReplyInfo._parse(
+                    client,
+                    message.reply_to,
+                    users,
+                    chats
+                )
                 if isinstance(message.reply_to, raw.types.MessageReplyHeader):
                     if message.reply_to.quote:
                         parsed_message.quote = types.TextQuote._parse(

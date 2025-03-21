@@ -524,6 +524,7 @@ def pyrogram_api():
             Audio
             AvailableEffect
             Document
+            ExternalReplyInfo
             AlternativeVideo
             Animation
             Video
