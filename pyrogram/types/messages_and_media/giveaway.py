@@ -23,7 +23,7 @@ from datetime import datetime
 from pyrogram import raw, types, utils
 from pyrogram.errors import FloodWait
 from ..object import Object
-from typing import List
+from typing import List, Dict
 
 
 class Giveaway(Object):
@@ -73,7 +73,6 @@ class Giveaway(Object):
         stars: int = None,
         additional_price: str = None,
         allowed_countries: List[str] = None,
-        private_channel_ids: List[int] = None,
         is_winners_hidden: bool = None
     ):
         super().__init__(client)
@@ -86,28 +85,16 @@ class Giveaway(Object):
         self.new_subscribers = new_subscribers
         self.additional_price = additional_price
         self.allowed_countries = allowed_countries
-        self.private_channel_ids = private_channel_ids
         self.is_winners_hidden = is_winners_hidden
 
     @staticmethod
-    async def _parse(client, message: "raw.types.Message") -> "Giveaway":
+    async def _parse(
+        client,
+        message: "raw.types.Message",
+        chats: Dict[int, "raw.types.Chat"] = None
+    ) -> "Giveaway":
         giveaway: "raw.types.MessageMediaGiveaway" = message.media
-        chats = []
-        private_ids = []
-        for raw_chat_id in giveaway.channels:
-            chat_id = utils.get_channel_id(raw_chat_id)
-            try:
-                chat = await client.invoke(
-                    raw.functions.channels.GetChannels(
-                        id=[await client.resolve_peer(chat_id)]
-                    )
-                )
-            except FloodWait as e:
-                await asyncio.sleep(e.value)
-            except Exception:
-                private_ids.append(chat_id)
-            else:
-                chats.append(types.Chat._parse_chat(client, chat.chats[0]))
+        chats = types.List([types.Chat._parse_channel_chat(client, chats.get(i)) for i in giveaway.channels])
 
         return Giveaway(
             chats=chats,
@@ -118,7 +105,6 @@ class Giveaway(Object):
             new_subscribers=giveaway.only_new_subscribers,
             additional_price=giveaway.prize_description,
             allowed_countries=giveaway.countries_iso2 if len(giveaway.countries_iso2) > 0 else None,
-            private_channel_ids=private_ids if len(private_ids) > 0 else None,
             is_winners_hidden=not giveaway.winners_are_visible,
             client=client
         )

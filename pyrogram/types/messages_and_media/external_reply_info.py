@@ -218,7 +218,7 @@ class ExternalReplyInfo(Object):
                 game = types.Game._parse(client, media)
                 media_type = enums.MessageMediaType.GAME
             elif isinstance(media, raw.types.MessageMediaGiveaway):
-                giveaway = types.Giveaway._parse(client, reply)
+                giveaway = types.Giveaway._parse(client, reply, chats)
                 media_type = enums.MessageMediaType.GIVEAWAY
             elif isinstance(media, raw.types.MessageMediaGiveawayResults):
                 giveaway_result = await types.GiveawayResult._parse(client, media)
