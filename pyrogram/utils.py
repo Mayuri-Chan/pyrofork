@@ -123,7 +123,12 @@ async def parse_messages(
         messages_with_replies = {
             i.id: i.reply_to.reply_to_msg_id
             for i in messages.messages
-            if not isinstance(i, raw.types.MessageEmpty) and i.reply_to and isinstance(i.reply_to, raw.types.MessageReplyHeader)
+            if (
+                not isinstance(i, raw.types.MessageEmpty)
+                and i.reply_to
+                and isinstance(i.reply_to, raw.types.MessageReplyHeader)
+                and i.reply_to.reply_to_msg_id is not None
+            )
         }
 
         message_reply_to_story = {
