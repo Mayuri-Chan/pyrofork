@@ -852,7 +852,7 @@ class Message(Object, Update):
                 giveaway_launched = types.GiveawayLaunched._parse(client, action)
                 service_type = enums.MessageServiceType.GIVEAWAY_LAUNCHED
             elif isinstance(action, raw.types.MessageActionGiveawayResults):
-                giveaway_result = await types.GiveawayResult._parse(client, action, True)
+                giveaway_result = await types.GiveawayResult._parse(client, action, True, users, chats)
                 service_type = enums.MessageServiceType.GIVEAWAY_RESULT
             elif isinstance(action, raw.types.MessageActionBoostApply):
                 boosts_applied = action.boosts
@@ -1042,7 +1042,7 @@ class Message(Object, Update):
                     giveaway = await types.Giveaway._parse(client, message, chats)
                     media_type = enums.MessageMediaType.GIVEAWAY
                 elif isinstance(media, raw.types.MessageMediaGiveawayResults):
-                    giveaway_result = await types.GiveawayResult._parse(client, message.media)
+                    giveaway_result = await types.GiveawayResult._parse(client, message.media, users=users, chats=chats)
                     media_type = enums.MessageMediaType.GIVEAWAY_RESULT
                 elif isinstance(media, raw.types.MessageMediaStory):
                     story = await types.MessageStory._parse(client, media)

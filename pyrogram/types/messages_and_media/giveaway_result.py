@@ -21,7 +21,7 @@ import pyrogram
 from datetime import datetime
 from pyrogram import raw, types, utils
 from ..object import Object
-from typing import List, Union
+from typing import List, Union, Dict
 
 
 class GiveawayResult(Object):
@@ -104,7 +104,9 @@ class GiveawayResult(Object):
             "raw.types.MessageActionGiveawayResults",
             "raw.types.MessageMediaGiveawayResults"
         ],
-        hide_winners: bool = False
+        hide_winners: bool = False,
+        users: Dict[int, "raw.types.User"] = None,
+        chats: Dict[int, "raw.types.Chat"] = None
     ) -> "GiveawayResult":
         chat = None
         giveaway_message = None
@@ -112,17 +114,12 @@ class GiveawayResult(Object):
         winners = None
         if not hide_winners:
             chat_id = utils.get_channel_id(giveaway_result.channel_id)
-            chat = await client.invoke(
-                raw.functions.channels.GetChannels(
-                    id=[await client.resolve_peer(chat_id)]
-                )
-            )
-            chat = types.Chat._parse_chat(client, chat.chats[0])
+            chat = types.Chat._parse_channel_chat(client, chats.get(giveaway_result.channel_id))
             giveaway_message = await client.get_messages(chat_id, giveaway_result.launch_msg_id)
             expired_date = utils.timestamp_to_datetime(giveaway_result.until_date)
             winners = []
             for winner in giveaway_result.winners:
-                winners.append(await client.get_users(winner))
+                winners.append(types.User._parse(client, users.get(winner, None)))
         
         stars = getattr(giveaway_result, "stars", None)
 
