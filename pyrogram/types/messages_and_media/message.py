@@ -1143,7 +1143,7 @@ class Message(Object, Update):
             from_user = types.User._parse(client, users.get(user_id, None))
             sender_chat = types.Chat._parse(client, message, users, chats, is_chat=False) if not from_user else None
 
-            reactions = types.MessageReactions._parse(client, message.reactions, users)
+            reactions = types.MessageReactions._parse(client, message.reactions, users, chats)
 
             if message.via_business_bot_id:
                 sender_business_bot = types.User._parse(client, users.get(message.via_business_bot_id, None))
