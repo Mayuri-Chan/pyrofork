@@ -17,6 +17,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
+from pyrogram import raw
+
 from ..object import Object
 
 
@@ -60,3 +62,17 @@ class ShippingAddress(Object):
         self.state = state
         self.post_code = post_code
         self.country_code = country_code
+
+    @staticmethod
+    def _parse(shipping_address: "raw.types.raw.types.PostAddress") -> "ShippingAddress":
+        if shipping_address is None:
+            return None
+
+        return ShippingAddress(
+            street_line1=shipping_address.street_line1,
+            street_line2=shipping_address.street_line2,
+            city=shipping_address.city,
+            state=shipping_address.state,
+            post_code=shipping_address.post_code,
+            country_code=shipping_address.country_code
+        )

@@ -1,5 +1,6 @@
 #  Pyrogram - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
+#  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
 #  This file is part of Pyrogram.
 #
@@ -15,8 +16,6 @@
 #
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
-
-from typing import Union, Optional
 
 import pyrogram
 from pyrogram import raw, types
@@ -49,20 +48,20 @@ class ShippingQuery(Object, Update):
         client: "pyrogram.Client" = None,
         id: str,
         from_user: "types.User",
-        invoice_payload: str,
+        payload: str,
         shipping_address: "types.ShippingAddress" = None
     ):
         super().__init__(client)
 
         self.id = id
         self.from_user = from_user
-        self.invoice_payload = invoice_payload
+        self.payload = payload
         self.shipping_address = shipping_address
 
     @staticmethod
     async def _parse(
         client: "pyrogram.Client",
-        shipping_query: "raw.types.updateBotShippingQuery",
+        shipping_query: "raw.types.UpdateBotShippingQuery",
         users: dict
     ) -> "types.PreCheckoutQuery":
         # Try to decode pre-checkout query payload into string. If that fails, fallback to bytes instead of decoding by
@@ -72,19 +71,12 @@ class ShippingQuery(Object, Update):
         except (UnicodeDecodeError, AttributeError):
             payload = shipping_query.payload
 
-        return types.PreCheckoutQuery(
-            id=str(shipping_query.query_id),
-            from_user=types.User._parse(client, users[shipping_query.user_id]),
-            invoice_payload=payload,
-            shipping_address=types.ShippingAddress(
-                country_code=shipping_query.shipping_address.country_iso2,
-                state=shipping_query.shipping_address.state,
-                city=shipping_query.shipping_address.city,
-                street_line1=shipping_query.shipping_address.street_line1,
-                street_line2=shipping_query.shipping_address.street_line2,
-                post_code=shipping_query.shipping_address.post_code
-            ),
-            client=client
+        return ShippingQuery(
+            client=client,
+            id=shipping_query.query_id,
+            from_user=types.User._parse(client, users.get(shipping_query.user_id)),
+            payload=payload,
+            shipping_address=types.ShippingAddress._parse(shipping_query.shipping_address)
         )
 
     async def answer(

@@ -17,14 +17,12 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Union, List, Match, Optional
 
 import pyrogram
-from pyrogram import raw, enums
-from pyrogram import types
+from pyrogram import raw, types
+from typing import Dict
 from ..object import Object
 from ..update import Update
-from ... import utils
 
 
 class PreCheckoutQuery(Object, Update):
@@ -76,7 +74,11 @@ class PreCheckoutQuery(Object, Update):
         self.payment_info = payment_info
 
     @staticmethod
-    async def _parse(client: "pyrogram.Client", pre_checkout_query, users) -> "PreCheckoutQuery":
+    async def _parse(
+        client: "pyrogram.Client",
+        pre_checkout_query: "raw.types.UpdateBotPrecheckoutQuery",
+        users: Dict[int, "raw.types.User"] = None
+    ) -> "PreCheckoutQuery":
         # Try to decode pre-checkout query payload into string. If that fails, fallback to bytes instead of decoding by
         # ignoring/replacing errors, this way, button clicks will still work.
         try:
@@ -95,14 +97,7 @@ class PreCheckoutQuery(Object, Update):
                 name=pre_checkout_query.info.name,
                 phone_number=pre_checkout_query.info.phone,
                 email=pre_checkout_query.info.email,
-                shipping_address=types.ShippingAddress(
-                    street_line1=pre_checkout_query.info.shipping_address.street_line1,
-                    street_line2=pre_checkout_query.info.shipping_address.street_line2,
-                    city=pre_checkout_query.info.shipping_address.city,
-                    state=pre_checkout_query.info.shipping_address.state,
-                    post_code=pre_checkout_query.info.shipping_address.post_code,
-                    country_code=pre_checkout_query.info.shipping_address.country_iso2
-                )
+                shipping_address=types.ShippingAddress._parse(pre_checkout_query.info.shipping_address)
             ) if pre_checkout_query.info else None,
             client=client
         )
