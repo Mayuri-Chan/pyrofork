@@ -130,7 +130,7 @@ def get_type_hint(type: str) -> str:
         return f"Optional[{type}] = None" if is_flag else type
     else:
         ns, name = type.split(".") if "." in type else ("", type)
-        type = f'"raw.base.' + ".".join([ns, name]).strip(".") + '"'
+        type = '"raw.base.' + ".".join([ns, name]).strip(".") + '"'
 
         return f'{type}{" = None" if is_flag else ""}'
 
@@ -430,11 +430,11 @@ def start(format: bool = False):
             if function_docs:
                 docstring += function_docs["desc"] + "\n"
             else:
-                docstring += f"Telegram API function."
+                docstring += "Telegram API function."
 
         docstring += f"\n\n    Details:\n        - Layer: ``{layer}``\n        - ID: ``{c.id[2:].upper()}``\n\n"
-        docstring += f"    Parameters:\n        " + \
-                     (f"\n        ".join(docstring_args) if docstring_args else "No parameters required.\n")
+        docstring += "    Parameters:\n        " + \
+                     ("\n        ".join(docstring_args) if docstring_args else "No parameters required.\n")
 
         if c.section == "functions":
             docstring += "\n    Returns:\n        " + get_docstring_arg_type(c.qualtype)
@@ -442,12 +442,12 @@ def start(format: bool = False):
             references, count = get_references(c.qualname, "constructors")
 
             if references:
-                docstring += f"\n    Functions:\n        This object can be returned by " \
+                docstring += "\n    Functions:\n        This object can be returned by " \
                              f"{count} function{'s' if count > 1 else ''}.\n\n" \
-                             f"        .. currentmodule:: pyrogram.raw.functions\n\n" \
-                             f"        .. autosummary::\n" \
-                             f"            :nosignatures:\n\n" \
-                             f"            " + references
+                             "        .. currentmodule:: pyrogram.raw.functions\n\n" \
+                             "        .. autosummary::\n" \
+                             "            :nosignatures:\n\n" \
+                             "            " + references
 
         write_types = read_types = "" if c.has_flags else "# No flags\n        "
 

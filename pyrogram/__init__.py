@@ -37,8 +37,24 @@ class ContinuePropagation(StopAsyncIteration):
     pass
 
 
-from . import raw, types, filters, handlers, emoji, enums
-from .client import Client
-from .sync import idle, compose
+from . import raw, types, filters, handlers, emoji, enums  # pylint: disable=wrong-import-position
+from .client import Client  # pylint: disable=wrong-import-position
+from .sync import idle, compose  # pylint: disable=wrong-import-position
 
 crypto_executor = ThreadPoolExecutor(1, thread_name_prefix="CryptoWorker")
+
+__all__ = [
+    "Client",
+    "idle",
+    "compose",
+    "crypto_executor",
+    "StopTransmission",
+    "StopPropagation",
+    "ContinuePropagation",
+    "raw",
+    "types",
+    "filters",
+    "handlers",
+    "emoji",
+    "enums",
+]

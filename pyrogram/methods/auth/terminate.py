@@ -37,6 +37,7 @@ class Terminate:
         Raises:
             ConnectionError: In case you try to terminate a client that is already terminated.
         """
+        # pylint: disable=access-member-before-definition
         if not self.is_initialized:
             raise ConnectionError("Client is already terminated")
 

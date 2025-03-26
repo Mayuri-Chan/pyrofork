@@ -58,6 +58,7 @@ class SignInBot:
                     )
                 )
             except UserMigrate as e:
+                # pylint: disable=access-member-before-definition
                 await self.session.stop()
 
                 await self.storage.dc_id(e.value)

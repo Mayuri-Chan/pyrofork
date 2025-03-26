@@ -17,7 +17,7 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from ..object import Object
-from pyrogram import enums, raw, types
+from pyrogram import raw, types
 from typing import Union
 
 class RequestedUser(Object):

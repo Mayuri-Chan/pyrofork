@@ -16,11 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrogram.  If not, see <http://www.gnu.org/licenses/>.
 
-from datetime import datetime
-from typing import Union, List
-
 import pyrogram
-from pyrogram import types, utils, raw
+from pyrogram import types, raw
 
 
 class GetBusinessConnection:

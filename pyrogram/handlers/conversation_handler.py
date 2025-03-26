@@ -61,6 +61,7 @@ class ConversationHandler(MessageHandler, CallbackQueryHandler):
         return True
 
     @staticmethod
+    # pylint: disable=method-hidden
     async def callback(_, __):
         pass
 

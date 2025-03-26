@@ -19,7 +19,8 @@
 import pyrogram
 
 from ..object import Object
-from pyrogram import types, utils
+from pyrogram import raw, types, utils
+from typing import Dict
 
 
 class GiftCode(Object):
@@ -78,7 +79,11 @@ class GiftCode(Object):
         self.crypto_amount = crypto_amount
 
     @staticmethod
-    def _parse(client: "pyrogram.Client", gift_code: "types.GiftCode", chats: dict,) -> "GiftCode":
+    def _parse(
+        client: "pyrogram.Client",
+        gift_code: "types.GiftCode",
+        chats: Dict[int, "raw.types.Chat"]
+    ) -> "GiftCode":
         boosted_chat = None
         boosted_chat_raw = chats.get(utils.get_raw_peer_id(gift_code.boost_peer), None)
         if boosted_chat_raw:

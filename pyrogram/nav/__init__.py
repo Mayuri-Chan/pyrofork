@@ -18,3 +18,7 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from .pagination import Pagination
+
+__all__ = [
+    "Pagination"
+]

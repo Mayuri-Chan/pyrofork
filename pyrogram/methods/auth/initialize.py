@@ -41,6 +41,7 @@ class Initialize:
         if not self.is_connected:
             raise ConnectionError("Can't initialize a disconnected client")
 
+        # pylint: disable=access-member-before-definition
         if self.is_initialized:
             raise ConnectionError("Client is already initialized")
 

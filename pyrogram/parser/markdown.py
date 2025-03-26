@@ -18,7 +18,6 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 import html
-import logging
 import re
 from typing import Optional
 
@@ -251,7 +250,7 @@ class Markdown:
                     # Handle multiline blockquotes
                     text_subset = text[s:e]
                     lines = text_subset.splitlines()
-                    for line_num, line in enumerate(lines):
+                    for line_num, _ in enumerate(lines):
                         line_start = s + sum(len(l) + 1 for l in lines[:line_num])
                         if entity.collapsed:
                             insert_at.append((line_start, i, BLOCKQUOTE_EXPANDABLE_DELIM))

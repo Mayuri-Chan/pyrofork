@@ -35,13 +35,13 @@ class ChatEventAction(AutoName):
     "The linked chat has been changed (see ``old_linked_chat`` and ``new_linked_chat``)"
 
     # LOCATION_CHANGED = auto()
-    ""
+    # ""
 
     PHOTO_CHANGED = auto()
     "The chat photo has been changed (see ``old_photo`` and ``new_photo``)"
 
     # STICKER_SET_CHANGED = auto()
-    ""
+    # ""
 
     TITLE_CHANGED = auto()
     "the chat title has been changed (see ``old_title`` and ``new_title``)"
@@ -56,7 +56,7 @@ class ChatEventAction(AutoName):
     "a message has been deleted (see ``deleted_message``)"
 
     # VOICE_CHAT_DISCARDED = auto()
-    ""
+    # ""
 
     MESSAGE_EDITED = auto()
     "a message has been edited (see ``old_message`` and ``new_message``)"
@@ -77,13 +77,13 @@ class ChatEventAction(AutoName):
     "a member joined by themselves. (see ``user``)"
 
     # MEMBER_JOINED_BY_LINK = auto()
-    ""
+    # ""
 
     MEMBER_LEFT = auto()
     "a member left by themselves. (see ``user``)"
 
     # MEMBER_MUTED = auto()
-    ""
+    # ""
 
     ADMINISTRATOR_PRIVILEGES_CHANGED = auto()
     "a chat member has been promoted/demoted or their administrator privileges has changed (see ``old_administrator_privileges`` and ``new_administrator_privileges``)"
@@ -92,19 +92,19 @@ class ChatEventAction(AutoName):
     "a chat member has been restricted/unrestricted or banned/unbanned, or their permissions has changed (see ``old_member_permissions`` and ``new_member_permissions``)"
 
     # MEMBER_UNMUTED = auto()
-    ""
+    # ""
 
     # MEMBER_VOLUME_CHANGED = auto()
-    ""
+    # ""
 
     # VIDEO_CHAT_STARTED = auto()
-    ""
+    # ""
 
     POLL_STOPPED = auto()
     "a poll has been stopped (see ``stopped_poll``)"
 
     # VOICE_CHAT_SETTINGS_CHANGED = auto()
-    ""
+    # ""
 
     INVITES_ENABLED = auto()
     "the chat invitation has been enabled or disabled (see ``invites_enabled``)"

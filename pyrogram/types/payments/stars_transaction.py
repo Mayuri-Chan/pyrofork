@@ -18,6 +18,7 @@
 
 from datetime import datetime
 from pyrogram import raw, types, utils
+from typing import Dict
 from ..object import Object
 
 class StarsTransaction(Object):
@@ -100,7 +101,7 @@ class StarsTransaction(Object):
     def _parse(
         client,
         transaction: "raw.types.StarsTransaction",
-        users: dict
+        users: Dict[int, "raw.types.User"]
     ) -> "StarsTransaction":
         chat_id = utils.get_raw_peer_id(transaction.peer.peer)
         chat = types.User._parse(client, users.get(chat_id, None))

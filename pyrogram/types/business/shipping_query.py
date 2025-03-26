@@ -19,6 +19,7 @@
 
 import pyrogram
 from pyrogram import raw, types
+from typing import Dict
 
 from ..object import Object
 from ..update import Update
@@ -62,7 +63,7 @@ class ShippingQuery(Object, Update):
     async def _parse(
         client: "pyrogram.Client",
         shipping_query: "raw.types.UpdateBotShippingQuery",
-        users: dict
+        users: Dict[int, "raw.types.User"]
     ) -> "types.PreCheckoutQuery":
         # Try to decode pre-checkout query payload into string. If that fails, fallback to bytes instead of decoding by
         # ignoring/replacing errors, this way, button clicks will still work.

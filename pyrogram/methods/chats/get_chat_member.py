@@ -77,8 +77,7 @@ class GetChatMember:
                 else:
                     if member.user.id == user.user_id:
                         return member
-            else:
-                raise UserNotParticipant
+            raise UserNotParticipant
         elif isinstance(chat, raw.types.InputPeerChannel):
             r = await self.invoke(
                 raw.functions.channels.GetParticipant(

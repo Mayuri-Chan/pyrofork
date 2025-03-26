@@ -101,9 +101,9 @@ def kb(rows=None, **kwargs):
         line = []
         for button in row:
             button_type = type(button)
-            if button_type == str:
+            if isinstance(button_type, str):
                 button = KeyboardButton(button)
-            elif button_type == dict:
+            elif isinstance(button_type, dict):
                 button = KeyboardButton(**button)
 
             line.append(button)

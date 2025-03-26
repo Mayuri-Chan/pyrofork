@@ -21,7 +21,6 @@ import asyncio
 import ipaddress
 import logging
 import socket
-from concurrent.futures import ThreadPoolExecutor
 from typing import Tuple, Dict, TypedDict, Optional
 
 import socks

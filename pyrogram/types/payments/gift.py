@@ -18,7 +18,7 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from datetime import datetime
-from typing import List, Optional, Union
+from typing import List, Optional, Union, Dict
 
 import pyrogram
 from pyrogram import raw, types, utils
@@ -226,7 +226,7 @@ class Gift(Object):
         self.raw = raw
 
     @staticmethod
-    async def _parse(client, gift, users={}, chats={}):
+    async def _parse(client, gift, users=None, chats=None):
         if isinstance(gift, raw.types.StarGift):
             return await Gift._parse_regular(client, gift)
         elif isinstance(gift, raw.types.StarGiftUnique):
@@ -263,8 +263,8 @@ class Gift(Object):
     async def _parse_unique(
         client,
         star_gift: "raw.types.StarGiftUnique",
-        users: dict = {},
-        chats: dict = {}
+        users: Dict[int, "raw.types.User"] = None,
+        chats: Dict[int, "raw.types.Chat"] = None
     ) -> "Gift":
         owner_id = utils.get_raw_peer_id(getattr(star_gift, "owner_id", None))
         return Gift(
@@ -273,7 +273,7 @@ class Gift(Object):
             title=star_gift.title,
             collectible_id=star_gift.num,
             attributes=types.List(
-                [await types.GiftAttribute._parse(client, attr, users, chats) for attr in star_gift.attributes]
+                [await types.GiftAttribute._parse(client, attr, users) for attr in star_gift.attributes]
             ) or None,
             available_amount=getattr(star_gift, "availability_issued", None),
             total_amount=getattr(star_gift, "availability_total", None),
@@ -289,8 +289,8 @@ class Gift(Object):
     async def _parse_saved(
         client,
         saved_gift: "raw.types.SavedStarGift",
-        users: dict = {},
-        chats: dict = {}
+        users: Dict[int, "raw.types.User"] = None,
+        chats: Dict[int, "raw.types.Chat"] = None
     ) -> "Gift":
         caption, caption_entities = (
             utils.parse_text_with_entities(
@@ -324,8 +324,8 @@ class Gift(Object):
     async def _parse_action(
         client,
         message: "raw.base.Message",
-        users: dict = {},
-        chats: dict = {}
+        users: Dict[int, "raw.types.User"] = None,
+        chats: Dict[int, "raw.types.Chat"] = None
     ) -> "Gift":
         action = message.action  # type: raw.types.MessageActionStarGift
 

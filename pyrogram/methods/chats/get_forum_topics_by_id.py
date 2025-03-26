@@ -23,7 +23,6 @@ from typing import Union, List, Iterable
 import pyrogram
 from pyrogram import raw
 from pyrogram import types
-from pyrogram import utils
 
 log = logging.getLogger(__name__)
 
@@ -63,7 +62,7 @@ class GetForumTopicsByID:
         Raises:
             ValueError: In case of invalid arguments.
         """
-        ids, ids_type = (
+        ids, _ = (
             (topic_ids, int) if topic_ids
             else (None, None)
         )

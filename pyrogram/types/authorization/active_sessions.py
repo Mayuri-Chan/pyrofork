@@ -18,8 +18,7 @@
 
 from typing import List
 
-import pyrogram
-from pyrogram import raw, types, utils
+from pyrogram import raw, types
 
 from ..object import Object
 

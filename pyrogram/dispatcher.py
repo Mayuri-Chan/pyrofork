@@ -23,7 +23,7 @@ import logging
 from collections import OrderedDict
 
 import pyrogram
-from pyrogram import errors, raw, types, utils
+from pyrogram import raw, types, utils
 from pyrogram.handlers.handler import Handler
 from pyrogram.handlers import (
   BotBusinessConnectHandler,
@@ -266,7 +266,7 @@ class Dispatcher:
 
     async def start(self):
         if not self.client.no_updates:
-            for i in range(self.client.workers):
+            for _ in range(self.client.workers):
                 self.locks_list.append(asyncio.Lock())
 
                 self.handler_worker_tasks.append(

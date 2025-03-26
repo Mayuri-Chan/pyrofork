@@ -33,7 +33,7 @@ from importlib import import_module
 from io import StringIO, BytesIO
 from mimetypes import MimeTypes
 from pathlib import Path
-from typing import Union, List, Optional, Callable, AsyncGenerator, Type, Tuple
+from typing import Union, List, Optional, Callable, AsyncGenerator, Tuple
 
 import pyrogram
 from pyrogram import __version__, __license__
@@ -51,24 +51,26 @@ from pyrogram.handlers.handler import Handler
 from pyrogram.methods import Methods
 from pyrogram.session import Auth, Session
 from pyrogram.storage import FileStorage, MemoryStorage, Storage
+from pyrogram.types import User, TermsOfService
+from pyrogram.utils import ainput
+from .connection import Connection
+from .connection.transport import TCPAbridged
+from .dispatcher import Dispatcher
+from .file_id import FileId, FileType, ThumbnailSource
+from .mime_types import mime_types
+from .parser import Parser
+from .session.internals import MsgId
+
+log = logging.getLogger(__name__)
+MONGO_AVAIL = False
+
 try:
     import pymongo
 except Exception:
     pass
 else:
     from pyrogram.storage import MongoStorage
-from pyrogram.types import User, TermsOfService
-from pyrogram.utils import ainput
-from .connection import Connection
-from .connection.transport import TCP, TCPAbridged
-from .dispatcher import Dispatcher
-from .file_id import FileId, FileType, ThumbnailSource
-from .filters import Filter
-from .mime_types import mime_types
-from .parser import Parser
-from .session.internals import MsgId
-
-log = logging.getLogger(__name__)
+    MONGO_AVAIL = True
 
 
 class Client(Methods):
@@ -316,9 +318,7 @@ class Client(Methods):
         elif self.in_memory:
             self.storage = MemoryStorage(self.name)
         elif self.mongodb:
-            try:
-                import pymongo
-            except Exception:
+            if not MONGO_AVAIL:
                 log.warning(
                     "pymongo is missing! "
                     "Using MemoryStorage as session storage"
@@ -888,7 +888,7 @@ class Client(Methods):
             count = 0
 
             if not include:
-                for current_root, dirnames, filenames in os.walk(root.replace(".", "/")):
+                for current_root, _, filenames in os.walk(root.replace(".", "/")):
                     namespace = current_root.replace("/", ".").replace("\\", ".")
                     if "__pycache__" in namespace:
                         continue
@@ -953,7 +953,7 @@ class Client(Methods):
                                                     )
 
                                                     count += 1
-                                        except Exception as e:
+                                        except Exception:
                                             pass
             else:
                 for path, handlers in include:
@@ -1042,7 +1042,7 @@ class Client(Methods):
                                                             )
 
                                                             count += 1
-                                                except Exception as e:
+                                                except Exception:
                                                     pass
 
                     if handlers is None:
@@ -1106,7 +1106,7 @@ class Client(Methods):
     async def handle_download(self, packet):
         file_id, directory, file_name, in_memory, file_size, progress, progress_args = packet
 
-        os.makedirs(directory, exist_ok=True) if not in_memory else None
+        _ = os.makedirs(directory, exist_ok=True) if not in_memory else None
         temp_file_path = os.path.abspath(re.sub("\\\\", "/", os.path.join(directory, file_name))) + ".temp"
         file = BytesIO() if in_memory else open(temp_file_path, "wb")
 

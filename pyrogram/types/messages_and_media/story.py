@@ -193,6 +193,7 @@ class Story(Object, Update):
         animation = None
         photo = None
         video = None
+        media_type = None
         chat = None
         from_user = None
         sender_chat = None
@@ -268,14 +269,13 @@ class Story(Object, Update):
             elif isinstance(priv, raw.types.PrivacyValueDisallowContacts):
                 privacy = enums.StoryPrivacy.NO_CONTACTS
 
-            '''
-            if allowed_chats and len(allowed_chats) > 0:
-                chats = [int(str(chat_id)[3:]) if str(chat_id).startswith("-100") else chat_id for chat_id in allowed_chats]
-                privacy_rules.append(raw.types.InputPrivacyValueAllowChatParticipants(chats=chats))
-            if denied_chats and len(denied_chats) > 0:
-                chats = [int(str(chat_id)[3:]) if str(chat_id).startswith("-100") else chat_id for chat_id in denied_chats]
-                privacy_rules.append(raw.types.InputPrivacyValueDisallowChatParticipants(chats=chats))
-            '''
+            #if allowed_chats and len(allowed_chats) > 0:
+            #    chats = [int(str(chat_id)[3:]) if str(chat_id).startswith("-100") else chat_id for chat_id in allowed_chats]
+            #    privacy_rules.append(raw.types.InputPrivacyValueAllowChatParticipants(chats=chats))
+            #if denied_chats and len(denied_chats) > 0:
+            #    chats = [int(str(chat_id)[3:]) if str(chat_id).startswith("-100") else chat_id for chat_id in denied_chats]
+            #    privacy_rules.append(raw.types.InputPrivacyValueDisallowChatParticipants(chats=chats))
+
             if isinstance(priv, raw.types.PrivacyValueAllowUsers):
                 allowed_users = priv.users
             if isinstance(priv, raw.types.PrivacyValueDisallowUsers):

@@ -17,11 +17,10 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from typing import Union, List, Iterable
+from typing import Union, Iterable
 
 import pyrogram
 from pyrogram import raw
-from pyrogram import types
 
 log = logging.getLogger(__name__)
 

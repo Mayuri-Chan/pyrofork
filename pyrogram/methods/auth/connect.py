@@ -35,6 +35,7 @@ class Connect:
         Raises:
             ConnectionError: In case you try to connect an already connected client.
         """
+        # pylint: disable=access-member-before-definition
         if self.is_connected:
             raise ConnectionError("Client is already connected")
 

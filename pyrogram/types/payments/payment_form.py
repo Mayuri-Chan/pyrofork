@@ -107,7 +107,7 @@ class PaymentForm(Object):
             bot=types.User._parse(client, users.get(payment_form.bot_id)),
             title=payment_form.title,
             description=payment_form.description,
-            invoice=types.Invoice._parse(client, payment_form.invoice),
+            invoice=types.Invoice._parse(payment_form.invoice),
             provider=types.User._parse(client, users.get(getattr(payment_form, "provider_id", None))),
             url=getattr(payment_form, "url", None),
             can_save_credentials=getattr(payment_form, "can_save_credentials", None),

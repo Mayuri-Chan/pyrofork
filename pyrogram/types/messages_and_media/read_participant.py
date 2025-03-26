@@ -17,7 +17,7 @@
 #  along with PyroFork.  If not, see <http://www.gnu.org/licenses/>.
 
 import pyrogram
-from pyrogram import raw, types, utils
+from pyrogram import raw, utils
 from datetime import datetime
 from ..object import Object
 
