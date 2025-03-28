@@ -1273,20 +1273,15 @@ class Message(Object, Update):
 
                 if replies:
                     if parsed_message.reply_to_message_id:
-                        if rtci is not None and parsed_message.chat.id != reply_to_chat_id:
-                            key = (reply_to_chat_id, message.reply_to.reply_to_msg_id)
-                            reply_to_params = {"chat_id": key[0], 'message_ids': key[1]}
-                        else:
-                            key = (parsed_message.chat.id, parsed_message.reply_to_message_id)
-                            reply_to_params = {'chat_id': key[0], 'reply_to_message_ids': message.id}
-
                         try:
+                            key = (parsed_message.chat.id, parsed_message.reply_to_message_id)
                             reply_to_message = client.message_cache[key]
 
                             if not reply_to_message:
                                 reply_to_message = await client.get_messages(
-                                    replies=replies - 1,
-                                    **reply_to_params
+                                    parsed_message.chat.id,
+                                    reply_to_message_ids=message.id,
+                                    replies=replies - 1
                                 )
                             if reply_to_message and not reply_to_message.forum_topic_created:
                                 parsed_message.reply_to_message = reply_to_message
