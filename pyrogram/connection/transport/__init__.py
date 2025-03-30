@@ -18,3 +18,6 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 from .tcp import *
+
+__all__ = []
+__all__.extend(tcp.__all__)
