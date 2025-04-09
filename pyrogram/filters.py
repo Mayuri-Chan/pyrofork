@@ -1,3 +1,4 @@
+
 #  Pyrofork - Telegram MTProto API Client Library for Python
 #  Copyright (C) 2017-present Dan <https://github.com/delivrance>
 #  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
@@ -250,7 +251,7 @@ react = create(reaction_filter)
 
 # region forwarded_filter
 async def forwarded_filter(_, __, m: Message):
-    return bool(m.forward_date)
+    return bool(m.forward_origin)
 
 
 forwarded = create(forwarded_filter)
