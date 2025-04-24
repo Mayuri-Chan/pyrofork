@@ -2779,7 +2779,9 @@ class Message(Object, Update):
         allow_paid_broadcast: bool = None,
         message_effect_id: int = None,
         parse_mode: Optional["enums.ParseMode"] = None,
-        invert_media: bool = None
+        invert_media: bool = None,
+        progress: Callable = None,
+        progress_args: tuple = (),
     ) -> List["types.Message"]:
         """Bound method *reply_media_group* of :obj:`~pyrogram.types.Message`.
 
@@ -2840,6 +2842,28 @@ class Message(Object, Update):
             invert_media (``bool``, *optional*):
                 Inverts the position of the media and caption.
 
+            progress (``Callable``, *optional*):
+                Pass a callback function to view the file transmission progress.
+                The function must take *(current, total)* as positional arguments (look at Other Parameters below for a
+                detailed description) and will be called back each time a new file chunk has been successfully
+                transmitted.
+
+            progress_args (``tuple``, *optional*):
+                Extra custom arguments for the progress callback function.
+                You can pass anything you need to be available in the progress callback scope; for example, a Message
+                object or a Client instance in order to edit the message with the updated progress status.
+
+        Other Parameters:
+            current (``int``):
+                The amount of bytes transmitted so far.
+
+            total (``int``):
+                The total size of the file.
+
+            *args (``tuple``, *optional*):
+                Extra custom arguments as defined in the ``progress_args`` parameter.
+                You can either keep ``*args`` or add every single extra argument in your function signature.
+
         Returns:
             On success, a :obj:`~pyrogram.types.Messages` object is returned containing all the
             single messages sent.
@@ -2878,7 +2902,9 @@ class Message(Object, Update):
             quote_entities=quote_entities,
             allow_paid_broadcast=allow_paid_broadcast,
             message_effect_id=message_effect_id,
-            invert_media=invert_media
+            invert_media=invert_media,
+            progress=progress,
+            progress_args=progress_args,
         )
 
     async def reply_photo(
