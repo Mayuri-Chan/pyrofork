@@ -415,6 +415,8 @@ def pyrogram_api():
             answer_shipping_query
             delete_business_messages
             get_business_connection
+            get_business_account_gifts
+            get_business_account_star_balance
         """,
         authorization="""
         Authorization
