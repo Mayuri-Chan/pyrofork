@@ -408,6 +408,7 @@ def pyrogram_api():
         Telegram Business
             answer_pre_checkout_query
             answer_shipping_query
+            delete_business_messages
             get_business_connection
         """,
         authorization="""
