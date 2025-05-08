@@ -62,8 +62,8 @@ class SetPinnedGifts:
             if not isinstance(gift, str):
                 raise ValueError(f"gift id has to be str, but {type(gift)} was provided")
 
-            saved_gift_match = re.match(r"^(-\d+)_(\d+)$", gift)
-            slug_match = self.UPGRADED_GIFT_RE.match(gift)
+            saved_gift_match = re.match(r"^(\d+)_(\d+)$", str(gift))
+            slug_match = self.UPGRADED_GIFT_RE.match(str(gift))
 
             if saved_gift_match:
                 stargifts.append(

@@ -47,7 +47,7 @@ class GetUpgradedGift:
                 # Get information about upgraded gift by slug
                 gift = await client.get_upgraded_gift("SignetRing-903")
         """
-        match = re.match(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:nft/|\+))([\w-]+)$", link)
+        match = self.UPGRADED_GIFT_RE.match(link)
 
         if match:
             slug = match.group(1)
