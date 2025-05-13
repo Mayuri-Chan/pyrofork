@@ -3611,6 +3611,7 @@ class Message(Object, Update):
         quote_entities: List["types.MessageEntity"] = None,
         allow_paid_broadcast: bool = None,
         message_effect_id: int = None,
+        view_once: bool = None,
         cover: Union[str, BinaryIO] = None,
         start_timestamp: int = None,
         schedule_date: datetime = None,
@@ -3734,6 +3735,9 @@ class Message(Object, Update):
             message_effect_id (``int`` ``64-bit``, *optional*):
                 Unique identifier of the message effect to be added to the message; for private chats only.
 
+            view_once (``bool``, *optional*):
+                Pass True to send the video as a view-once message.
+
             invert_media (``bool``, *optional*):
                 Pass True to invert the video and caption position.
 
@@ -3813,6 +3817,7 @@ class Message(Object, Update):
             quote_entities=quote_entities,
             allow_paid_broadcast=allow_paid_broadcast,
             message_effect_id=message_effect_id,
+            view_once=view_once,
             cover=cover,
             start_timestamp=start_timestamp,
             schedule_date=schedule_date,
