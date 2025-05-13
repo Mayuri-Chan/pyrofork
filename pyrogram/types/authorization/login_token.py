@@ -1,5 +1,4 @@
 #  Pyrofork - Telegram MTProto API Client Library for Python
-#  Copyright (C) 2017-present Dan <https://github.com/delivrance>
 #  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
 #  This file is part of Pyrofork.
@@ -17,16 +16,22 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from .active_session import ActiveSession
-from .active_sessions import ActiveSessions
-from .login_token import LoginToken
-from .sent_code import SentCode
-from .terms_of_service import TermsOfService
+from ..object import Object
 
-__all__ = [
-    "ActiveSession",
-    "ActiveSessions",
-    "LoginToken",
-    "SentCode",
-    "TermsOfService",
-]
+
+class LoginToken(Object):
+    """Contains info on a login token.
+
+    Parameters:
+        token (``str``):
+            The login token.
+
+        expires (``int``):
+            The expiration date of the token in UNIX format.
+    """
+
+    def __init__(self, *, token: str, expires: int):
+        super().__init__()
+
+        self.token = token
+        self.expires = expires

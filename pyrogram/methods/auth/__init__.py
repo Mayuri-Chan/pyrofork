@@ -31,6 +31,7 @@ from .send_code import SendCode
 from .send_recovery_code import SendRecoveryCode
 from .sign_in import SignIn
 from .sign_in_bot import SignInBot
+from .sign_in_qrcode import SignInQrcode
 from .sign_up import SignUp
 from .terminate import Terminate
 
@@ -50,6 +51,7 @@ class Auth(
     SendRecoveryCode,
     SignIn,
     SignInBot,
+    SignInQrcode,
     SignUp,
     Terminate
 ):
