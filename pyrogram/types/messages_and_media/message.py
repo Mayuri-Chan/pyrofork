@@ -2896,6 +2896,8 @@ class Message(Object, Update):
         reply_in_chat_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
+        schedule_date: datetime = None,
+        protect_content: bool = None,
         allow_paid_broadcast: bool = None,
         message_effect_id: int = None,
         view_once: bool = None,
@@ -2985,6 +2987,12 @@ class Message(Object, Update):
                 List of special entities that appear in quote_text, which can be specified instead of *parse_mode*.
                 for reply_to_message only.
 
+            schedule_date (:py:obj:`~datetime.datetime`, *optional*):
+                Date when the message will be automatically sent.
+
+            protect_content (``bool``, *optional*):
+                Protects the contents of the sent message from forwarding and saving.
+
             allow_paid_broadcast (``bool``, *optional*):
                 Pass True to allow the message to ignore regular broadcast limits for a small fee; for bots
 
@@ -3059,6 +3067,8 @@ class Message(Object, Update):
             reply_to_chat_id=reply_to_chat_id,
             quote_text=quote_text,
             quote_entities=quote_entities,
+            schedule_date=schedule_date,
+            protect_content=protect_content,
             allow_paid_broadcast=allow_paid_broadcast,
             message_effect_id=message_effect_id,
             view_once=view_once,
@@ -3615,6 +3625,7 @@ class Message(Object, Update):
         cover: Union[str, BinaryIO] = None,
         start_timestamp: int = None,
         schedule_date: datetime = None,
+        protect_content: bool = None,
         invert_media: bool = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -3732,6 +3743,9 @@ class Message(Object, Update):
             schedule_date (:py:obj:`~datetime.datetime`, *optional*):
                 Date when the message will be automatically sent.
 
+            protect_content (``bool``, *optional*):
+                Protects the contents of the sent message from forwarding and saving.
+
             message_effect_id (``int`` ``64-bit``, *optional*):
                 Unique identifier of the message effect to be added to the message; for private chats only.
 
@@ -3821,6 +3835,7 @@ class Message(Object, Update):
             cover=cover,
             start_timestamp=start_timestamp,
             schedule_date=schedule_date,
+            protect_content=protect_content,
             invert_media=invert_media,
             reply_markup=reply_markup,
             progress=progress,
