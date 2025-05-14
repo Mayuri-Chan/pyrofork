@@ -28,7 +28,7 @@ class OnError:
         """Decorator for handling new errors.
 
         This does the same thing as :meth:`~pyrogram.Client.add_handler` using the
-        :obj:`~pyrogram.handlers.MessageHandler`.
+        :obj:`~pyrogram.handlers.ErrorHandler`.
 
         Parameters:
             errors (:obj:`~Exception`, *optional*):
