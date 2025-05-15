@@ -28,14 +28,6 @@ from pyrogram.session import Session, Auth
 
 log = logging.getLogger(__name__)
 
-QRCODE_AVAIL = False
-try:
-    import qrcode
-    QRCODE_AVAIL = True
-except ImportError:
-    QRCODE_AVAIL = False
-
-
 class SignInQrcode:
     async def sign_in_qrcode(
         self: "pyrogram.Client"
@@ -54,7 +46,9 @@ class SignInQrcode:
             SessionPasswordNeeded: In case a password is needed to sign in.
         """
 
-        if not QRCODE_AVAIL:
+        try:
+            import qrcode
+        except ImportError:
             raise ImportError("qrcode is missing! "
                             "Please install it with `pip install qrcode`")
         r = await self.session.invoke(
@@ -79,13 +73,13 @@ class SignInQrcode:
             print("Scan the QR code with your Telegram app.")
             qr.print_ascii()
 
-            return r
-        elif isinstance(r, raw.types.auth.LoginTokenSuccess):
+            return types.LoginToken._parse(r)
+        if isinstance(r, raw.types.auth.LoginTokenSuccess):
             await self.storage.user_id(r.authorization.user.id)
             await self.storage.is_bot(False)
 
             return types.User._parse(self, r.authorization.user)
-        elif isinstance(r, raw.types.auth.LoginTokenMigrateTo):
+        if isinstance(r, raw.types.auth.LoginTokenMigrateTo):
             # pylint: disable=access-member-before-definition
             await self.session.stop()
 
@@ -107,33 +101,11 @@ class SignInQrcode:
                     token=r.token
                 )
             )
-            if isinstance(r, raw.types.auth.LoginToken):
-                base64_token = b64encode(r.token).decode("utf-8")
-                login_url = f"tg://login?token={base64_token}"
-                qr = qrcode.QRCode(
-                    version=1,
-                    error_correction=qrcode.constants.ERROR_CORRECT_L,
-                    box_size=10,
-                    border=4,
-                )
-                qr.add_data(login_url)
-                qr.make(fit=True)
-
-                print("Scan the QR code below with your Telegram app.")
-                qr.print_ascii()
-
-                return types.LoginToken(
-                    self,
-                    r.token,
-                    r.expires
-                )
-            elif isinstance(r, raw.types.auth.LoginTokenSuccess):
+            if isinstance(r, raw.types.auth.LoginTokenSuccess):
                 await self.storage.user_id(r.authorization.user.id)
                 await self.storage.is_bot(False)
 
                 return types.User._parse(self, r.authorization.user)
-        else:
-            raise pyrogram.exceptions.RPCError(
-                "Unknown response type from Telegram API"
-            )
-        return r
+        raise pyrogram.exceptions.RPCError(
+            "Unknown response type from Telegram API"
+        )
