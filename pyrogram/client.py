@@ -273,7 +273,7 @@ class Client(Methods):
         skip_updates: bool = True,
         takeout: bool = None,
         sleep_threshold: int = Session.SLEEP_THRESHOLD,
-        hide_password: Optional[bool] = False,
+        hide_password: Optional[bool] = True,
         max_concurrent_transmissions: int = MAX_CONCURRENT_TRANSMISSIONS,
         client_platform: "enums.ClientPlatform" = enums.ClientPlatform.OTHER,
         max_message_cache_size: int = MAX_CACHE_SIZE,
