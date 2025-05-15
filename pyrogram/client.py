@@ -52,7 +52,7 @@ from pyrogram.handlers.handler import Handler
 from pyrogram.methods import Methods
 from pyrogram.session import Auth, Session
 from pyrogram.storage import FileStorage, MemoryStorage, Storage
-from pyrogram.types import User, TermsOfService
+from pyrogram.types import User
 from pyrogram.utils import ainput
 from .connection import Connection
 from .connection.transport import TCPAbridged
@@ -522,28 +522,6 @@ class Client(Methods):
 
         if isinstance(signed_in, User):
             return signed_in
-
-        while True:
-            first_name = await ainput("Enter first name: ")
-            last_name = await ainput("Enter last name (empty to skip): ")
-
-            try:
-                signed_up = await self.sign_up(
-                    self.phone_number,
-                    sent_code.phone_code_hash,
-                    first_name,
-                    last_name
-                )
-            except BadRequest as e:
-                print(e.MESSAGE)
-            else:
-                break
-
-        if isinstance(signed_in, TermsOfService):
-            print("\n" + signed_in.text + "\n")
-            await self.accept_terms_of_service(signed_in.id)
-
-        return signed_up
 
     def set_parse_mode(self, parse_mode: Optional["enums.ParseMode"]):
         """Set the parse mode to be used globally by the client.

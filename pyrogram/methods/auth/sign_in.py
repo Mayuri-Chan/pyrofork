@@ -23,6 +23,7 @@ from typing import Union
 import pyrogram
 from pyrogram import raw
 from pyrogram import types
+from pyrogram.errors import PhoneNumberUnoccupied
 
 log = logging.getLogger(__name__)
 
@@ -49,15 +50,13 @@ class SignIn:
                 The valid confirmation code you received (either as Telegram message or as SMS in your phone number).
 
         Returns:
-            :obj:`~pyrogram.types.User` | :obj:`~pyrogram.types.TermsOfService` | bool: On success, in case the
-            authorization completed, the user is returned. In case the phone number needs to be registered first AND the
-            terms of services accepted (with :meth:`~pyrogram.Client.accept_terms_of_service`), an object containing
-            them is returned. In case the phone number needs to be registered, but the terms of services don't need to
-            be accepted, False is returned instead.
+            :obj:`~pyrogram.types.User` | bool: On success, in case the
+            authorization completed, the user is returned.
 
         Raises:
             BadRequest: In case the arguments are invalid.
             SessionPasswordNeeded: In case a password is needed to sign in.
+            PhoneNumberUnoccupied: In case the phone number is not registered on Telegram.
         """
         phone_number = phone_number.strip(" +")
 
@@ -70,10 +69,7 @@ class SignIn:
         )
 
         if isinstance(r, raw.types.auth.AuthorizationSignUpRequired):
-            if r.terms_of_service:
-                return types.TermsOfService._parse(terms_of_service=r.terms_of_service)
-
-            return False
+            raise PhoneNumberUnoccupied("The phone number is not registered on Telegram. Please use official Telegram app to register it.")
         else:
             await self.storage.user_id(r.user.id)
             await self.storage.is_bot(False)
