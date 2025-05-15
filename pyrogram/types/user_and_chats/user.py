@@ -79,6 +79,9 @@ class User(Object, Update):
         is_deleted(``bool``, *optional*):
             True, if this user is deleted.
 
+        is_frozen(``bool``, *optional*):
+            True, if this user is frozen.
+
         is_bot (``bool``, *optional*):
             True, if this user is a bot.
 
@@ -168,6 +171,10 @@ class User(Object, Update):
 
         active_users (``int``, *optional*):
             Bot's active users count.
+
+        frozen_icon (``int``, *optional*):
+            Frozen account icon.
+            This field is available only in case *is_frozen* is True.
     """
 
     def __init__(
@@ -179,6 +186,7 @@ class User(Object, Update):
         is_contact: bool = None,
         is_mutual_contact: bool = None,
         is_deleted: bool = None,
+        is_frozen: bool = None,
         is_bot: bool = None,
         is_verified: bool = None,
         is_restricted: bool = None,
@@ -203,7 +211,8 @@ class User(Object, Update):
         restrictions: List["types.Restriction"] = None,
         reply_color: "types.ChatColor" = None,
         profile_color: "types.ChatColor" = None,
-        active_users: int = None
+        active_users: int = None,
+        frozen_icon: int = None
     ):
         super().__init__(client)
 
@@ -212,6 +221,7 @@ class User(Object, Update):
         self.is_contact = is_contact
         self.is_mutual_contact = is_mutual_contact
         self.is_deleted = is_deleted
+        self.is_frozen = is_frozen
         self.is_bot = is_bot
         self.is_verified = is_verified
         self.is_restricted = is_restricted
@@ -237,6 +247,7 @@ class User(Object, Update):
         self.reply_color = reply_color
         self.profile_color = profile_color
         self.active_users = active_users
+        self.frozen_icon = frozen_icon
 
     @property
     def full_name(self) -> str:
@@ -268,6 +279,8 @@ class User(Object, Update):
         if user_name is None and usernames is not None and len(usernames) > 0:
             user_name = usernames[0].username
             usernames.pop(0)
+        
+        frozen_icon = getattr(user, "bot_verification_icon", None)
 
         return User(
             id=user.id,
@@ -275,6 +288,7 @@ class User(Object, Update):
             is_contact=user.contact,
             is_mutual_contact=user.mutual_contact,
             is_deleted=user.deleted,
+            is_frozen=True if frozen_icon else False,
             is_bot=user.bot,
             is_verified=user.verified,
             is_restricted=user.restricted,
@@ -298,6 +312,7 @@ class User(Object, Update):
             reply_color=types.ChatColor._parse(getattr(user, "color", None)),
             profile_color=types.ChatColor._parse_profile_color(getattr(user, "profile_color", None)),
             active_users=active_users,
+            frozen_icon=frozen_icon,
             client=client
         )
 
