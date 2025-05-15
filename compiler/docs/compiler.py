@@ -409,6 +409,7 @@ def pyrogram_api():
         Telegram Business
             answer_pre_checkout_query
             answer_shipping_query
+            delete_business_messages
             get_business_connection
         """,
         authorization="""
@@ -421,6 +422,7 @@ def pyrogram_api():
             resend_code
             sign_in
             sign_in_bot
+            sign_in_qrcode
             sign_up
             get_password_hint
             check_password
@@ -724,6 +726,7 @@ def pyrogram_api():
         Authorization
             ActiveSession
             ActiveSessions
+            LoginToken
             SentCode
             TermsOfService
         """
