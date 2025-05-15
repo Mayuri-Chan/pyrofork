@@ -136,6 +136,7 @@ def pyrogram_api():
     categories = dict(
         utilities="""
         Utilities
+            ping
             start
             stop
             run
