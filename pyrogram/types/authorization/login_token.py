@@ -18,6 +18,8 @@
 
 from ..object import Object
 
+from pyrogram import raw
+
 
 class LoginToken(Object):
     """Contains info on a login token.
@@ -35,3 +37,10 @@ class LoginToken(Object):
 
         self.token = token
         self.expires = expires
+
+    @staticmethod
+    def _parse(login_token: "raw.base.LoginToken") -> "LoginToken":
+        return LoginToken(
+            token=login_token.token,
+            expires=login_token.expires,
+        )
