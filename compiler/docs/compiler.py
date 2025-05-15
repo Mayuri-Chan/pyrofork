@@ -423,12 +423,10 @@ def pyrogram_api():
             sign_in
             sign_in_bot
             sign_in_qrcode
-            sign_up
             get_password_hint
             check_password
             send_recovery_code
             recover_password
-            accept_terms_of_service
             log_out
             get_active_sessions
         """,

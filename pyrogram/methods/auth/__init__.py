@@ -17,7 +17,6 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from .accept_terms_of_service import AcceptTermsOfService
 from .check_password import CheckPassword
 from .connect import Connect
 from .disconnect import Disconnect
@@ -32,12 +31,10 @@ from .send_recovery_code import SendRecoveryCode
 from .sign_in import SignIn
 from .sign_in_bot import SignInBot
 from .sign_in_qrcode import SignInQrcode
-from .sign_up import SignUp
 from .terminate import Terminate
 
 
 class Auth(
-    AcceptTermsOfService,
     CheckPassword,
     Connect,
     Disconnect,
@@ -52,7 +49,6 @@ class Auth(
     SignIn,
     SignInBot,
     SignInQrcode,
-    SignUp,
     Terminate
 ):
     pass
