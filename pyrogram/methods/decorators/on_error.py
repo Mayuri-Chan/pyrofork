@@ -24,7 +24,11 @@ from pyrogram.filters import Filter
 
 
 class OnError:
-    def on_error(self=None, errors=None) -> Callable:
+    def on_error(
+        self=None,
+        errors=None,
+        group: int = 0,
+    ) -> Callable:
         """Decorator for handling new errors.
 
         This does the same thing as :meth:`~pyrogram.Client.add_handler` using the
@@ -34,16 +38,19 @@ class OnError:
             errors (:obj:`~Exception`, *optional*):
                 Pass one or more errors to allow only a subset of errors to be passed
                 in your function.
+
+            group (``int``, *optional*):
+                The group identifier, defaults to 0.
         """
 
         def decorator(func: Callable) -> Callable:
             if isinstance(self, pyrogram.Client):
-                self.add_handler(pyrogram.handlers.ErrorHandler(func, errors), 0)
+                self.add_handler(pyrogram.handlers.ErrorHandler(func, errors), group)
             elif isinstance(self, Filter) or self is None:
                 if not hasattr(func, "handlers"):
                     func.handlers = []
 
-                func.handlers.append((pyrogram.handlers.ErrorHandler(func, self), 0))
+                func.handlers.append((pyrogram.handlers.ErrorHandler(func, self), group))
 
             return func
 
