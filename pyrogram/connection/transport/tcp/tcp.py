@@ -54,14 +54,6 @@ class TCP:
 
         self.lock = asyncio.Lock()
         self.loop = asyncio.get_event_loop()
-        self._closed = True
-
-    @property
-    def closed(self) -> bool:
-        return (
-            self._closed or self.writer is None or self.writer.is_closing() or self.reader is None
-        )
-
 
     async def _connect_via_proxy(
         self,
@@ -131,14 +123,11 @@ class TCP:
     async def connect(self, address: Tuple[str, int]) -> None:
         try:
             await asyncio.wait_for(self._connect(address), TCP.TIMEOUT)
-            self._closed = False
         except asyncio.TimeoutError:  # Re-raise as TimeoutError. asyncio.TimeoutError is deprecated in 3.11
-            self._closed = True
             raise TimeoutError("Connection timed out")
 
     async def close(self) -> None:
         if self.writer is None:
-            self._closed = True
             return None
 
         try:
@@ -146,12 +135,10 @@ class TCP:
             await asyncio.wait_for(self.writer.wait_closed(), TCP.TIMEOUT)
         except Exception as e:
             log.info("Close exception: %s %s", type(e).__name__, e)
-        finally:
-            self._closed = True
 
     async def send(self, data: bytes) -> None:
-        if self.writer is None or self._closed:
-            raise OSError("Connection is closed")
+        if self.writer is None:
+            return None
 
         async with self.lock:
             try:
@@ -159,13 +146,9 @@ class TCP:
                 await self.writer.drain()
             except Exception as e:
                 log.info("Send exception: %s %s", type(e).__name__, e)
-                self._closed = True
                 raise OSError(e)
 
     async def recv(self, length: int = 0) -> Optional[bytes]:
-        if self._closed or self.reader is None:
-            return None
-
         data = b""
 
         while len(data) < length:
@@ -175,13 +158,11 @@ class TCP:
                     TCP.TIMEOUT
                 )
             except (OSError, asyncio.TimeoutError):
-                self._closed = True
                 return None
             else:
                 if chunk:
                     data += chunk
                 else:
-                    self._closed = True
                     return None
 
         return data
