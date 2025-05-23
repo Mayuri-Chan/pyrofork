@@ -35,6 +35,7 @@ BOT_GAMES_DISABLED	Bot games cannot be used in this type of chat
 BOT_GROUPS_BLOCKED	This bot can't be added to groups
 BOT_INLINE_DISABLED	The inline feature of the bot is disabled
 BOT_INVALID	This is not a valid bot
+BOT_INVOICE_INVALID	The provided invoice is invalid
 BOT_METHOD_INVALID	The method can't be used by bots
 BOT_MISSING	This method can only be run by a bot
 BOT_ONESIDE_NOT_AVAIL	Bots can't pin messages for one side only in private chats
@@ -46,6 +47,7 @@ BROADCAST_CALLS_DISABLED	Broadcast calls disabled
 BROADCAST_ID_INVALID	The channel is invalid
 BROADCAST_PUBLIC_VOTERS_FORBIDDEN	Polls with public voters cannot be sent in channels
 BROADCAST_REQUIRED	The request can only be used with a channel
+BUSINESS_BOT_MISSING	Business bot missing
 BUTTON_DATA_INVALID	The button callback data is invalid or too large
 BUTTON_ID_INVALID	The button_id parameter is invalid
 BUTTON_TEXT_INVALID	The specified button text is invalid
