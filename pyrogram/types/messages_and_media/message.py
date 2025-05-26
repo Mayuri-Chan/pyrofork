@@ -808,7 +808,7 @@ class Message(Object, Update):
                 service_type = enums.MessageServiceType.BOT_ALLOWED
             elif isinstance(action, raw.types.MessageActionRequestedPeer) or isinstance(action, raw.types.MessageActionRequestedPeerSentMe):
                 chats_shared = await types.RequestedChats._parse(client, action)
-                service_type = enums.MessageServiceType.ChatShared
+                service_type = enums.MessageServiceType.CHAT_SHARED
             elif isinstance(action, raw.types.MessageActionTopicCreate):
                 forum_topic_created = types.ForumTopicCreated._parse(message)
                 service_type = enums.MessageServiceType.FORUM_TOPIC_CREATED
