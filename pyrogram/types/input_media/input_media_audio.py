@@ -65,15 +65,17 @@ class InputMediaAudio(InputMedia):
     """
 
     def __init__(
-        self,
-        media: Union[str, BinaryIO],
-        thumb: str = None,
-        caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: List[MessageEntity] = None,
-        duration: int = 0,
-        performer: str = "",
-        title: str = ""
+            self,
+            media: Union[str, BinaryIO],
+            thumb: str = None,
+            caption: str = "",
+            parse_mode: Optional["enums.ParseMode"] = None,
+            caption_entities: List[MessageEntity] = None,
+            duration: int = 0,
+            performer: str = "",
+            title: str = "",
+            *args,
+            **kwargs
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
 

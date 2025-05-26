@@ -52,12 +52,15 @@ class InputMediaPhoto(InputMedia):
     """
 
     def __init__(
-        self,
-        media: Union[str, BinaryIO],
-        caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: List[MessageEntity] = None,
-        has_spoiler: bool = None
+            self,
+            media: Union[str, BinaryIO],
+            caption: str = "",
+            parse_mode: Optional["enums.ParseMode"] = None,
+            caption_entities: List[MessageEntity] = None,
+            has_spoiler: bool = None,
+            *args,
+            **kwargs
+
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
 

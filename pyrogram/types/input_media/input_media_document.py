@@ -54,12 +54,14 @@ class InputMediaDocument(InputMedia):
     """
 
     def __init__(
-        self,
-        media: Union[str, BinaryIO],
-        thumb: str = None,
-        caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: List[MessageEntity] = None
+            self,
+            media: Union[str, BinaryIO],
+            thumb: str = None,
+            caption: str = "",
+            parse_mode: Optional["enums.ParseMode"] = None,
+            caption_entities: List[MessageEntity] = None,
+            *args,
+            **kwargs
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
 

@@ -25,15 +25,15 @@ from pyrogram import types, raw, utils
 
 
 async def get_chunk(
-    *,
-    client: "pyrogram.Client",
-    chat_id: Union[int, str],
-    limit: int = 0,
-    offset: int = 0,
-    from_message_id: int = 0,
-    from_date: datetime = utils.zero_datetime(),
-    min_id: int = 0,
-    max_id: int = 0
+        *,
+        client: "pyrogram.Client",
+        chat_id: Union[int, str],
+        limit: int = 0,
+        offset: int = 0,
+        from_message_id: int = 0,
+        from_date: datetime = utils.zero_datetime(),
+        min_id: int = 0,
+        max_id: int = 0
 ):
     messages = await client.invoke(
         raw.functions.messages.GetHistory(
@@ -54,14 +54,14 @@ async def get_chunk(
 
 class GetChatHistory:
     async def get_chat_history(
-        self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        limit: int = 0,
-        offset: int = 0,
-        offset_id: int = 0,
-        offset_date: datetime = utils.zero_datetime(),
-        min_id: int = 0,
-        max_id: int = 0
+            self: "pyrogram.Client",
+            chat_id: Union[int, str],
+            limit: int = 0,
+            offset: int = 0,
+            offset_id: int = 0,
+            offset_date: datetime = utils.zero_datetime(),
+            min_id: int = 0,
+            max_id: int = 0
     ) -> Optional[AsyncGenerator["types.Message", None]]:
         """Get messages from a chat history.
 
@@ -133,3 +133,16 @@ class GetChatHistory:
 
                 if current >= total:
                     return
+
+    async def get_chat_messages(
+            self: "pyrogram.Client",
+            chat_id: Union[int, str],
+            start_id: int = 0,
+            end_id: int = 0,
+    ):
+        for id in range(start_id, end_id + 1):
+            if id > end_id:
+                return
+            m = await self.get_messages(chat_id, id)
+            if not m.empty:
+                yield m

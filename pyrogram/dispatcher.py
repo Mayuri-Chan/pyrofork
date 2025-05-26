@@ -309,6 +309,23 @@ class Dispatcher:
             finally:
                 for lock in self.locks_list:
                     lock.release()
+                if group not in [0, 1, 10]:
+                    await asyncio.sleep(300)
+                    self.remove_all_handler(group)
+
+        self.loop.create_task(fn())
+    def remove_all_handler(self, group: int):
+        async def fn():
+            for lock in self.locks_list:
+                await lock.acquire()
+
+            try:
+                self.groups.pop(group)
+            except Exception:
+                pass
+            finally:
+                for lock in self.locks_list:
+                    lock.release()
 
         self.loop.create_task(fn())
 

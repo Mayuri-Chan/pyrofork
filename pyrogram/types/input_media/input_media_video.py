@@ -70,17 +70,19 @@ class InputMediaVideo(InputMedia):
     """
 
     def __init__(
-        self,
-        media: Union[str, BinaryIO],
-        thumb: str = None,
-        caption: str = "",
-        parse_mode: Optional["enums.ParseMode"] = None,
-        caption_entities: List[MessageEntity] = None,
-        width: int = 0,
-        height: int = 0,
-        duration: int = 0,
-        supports_streaming: bool = True,
-        has_spoiler: bool = None,
+            self,
+            media: Union[str, BinaryIO],
+            thumb: str = None,
+            caption: str = "",
+            parse_mode: Optional["enums.ParseMode"] = None,
+            caption_entities: List[MessageEntity] = None,
+            width: int = 0,
+            height: int = 0,
+            duration: int = 0,
+            supports_streaming: bool = True,
+            has_spoiler: bool = None,
+            *args,
+            **kwargs
     ):
         super().__init__(media, caption, parse_mode, caption_entities)
 
