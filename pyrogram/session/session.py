@@ -104,10 +104,13 @@ class Session:
         self.loop = asyncio.get_event_loop()
 
     async def start(self):
+        address, port, _ = await self.client.storage.get_dc_address(self.dc_id, self.client.ipv6, self.test_mode, self.is_media)
         while True:
             self.connection = self.client.connection_factory(
                 dc_id=self.dc_id,
                 test_mode=self.test_mode,
+                server_ip=address,
+                server_port=port,
                 ipv6=self.client.ipv6,
                 alt_port=self.client.alt_port,
                 proxy=self.client.proxy,
