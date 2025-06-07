@@ -104,7 +104,13 @@ class Session:
         self.loop = asyncio.get_event_loop()
 
     async def start(self):
-        address, port, _ = await self.client.storage.get_dc_address(self.dc_id, self.client.ipv6, self.test_mode, self.is_media)
+        if not self.test_mode:
+            address, port, _ = await self.client.storage.get_dc_address(self.dc_id, self.client.ipv6, self.is_media)
+        else:
+            address = self.client.test_addr
+            port = self.client.test_port
+            if address is None or port is None:
+                raise ValueError("Test address and port must be set for test mode.")
         while True:
             self.connection = self.client.connection_factory(
                 dc_id=self.dc_id,
