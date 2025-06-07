@@ -45,6 +45,7 @@ class Auth:
         dc_id: int,
         test_mode: bool
     ):
+        self.client = client
         self.dc_id = dc_id
         self.test_mode = test_mode
         self.ipv6 = client.ipv6
@@ -86,7 +87,13 @@ class Auth:
 
         # The server may close the connection at any time, causing the auth key creation to fail.
         # If that happens, just try again up to MAX_RETRIES times.
-        address, port, _ = await self.storage.get_dc_address(self.dc_id, self.ipv6, self.test_mode)
+        if not self.test_mode:
+            address, port, _ = await self.storage.get_dc_address(self.dc_id, self.ipv6)
+        else:
+            address = self.client.test_addr
+            port = self.client.test_port
+            if address is None or port is None:
+                raise ValueError("Test address and port must be set for test mode.")
         while True:
             self.connection = self.connection_factory(
                 dc_id=self.dc_id,

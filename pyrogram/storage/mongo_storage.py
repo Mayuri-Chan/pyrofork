@@ -230,12 +230,11 @@ class MongoStorage(Storage):
         Updates or inserts a data center address.
 
         Parameters:
-            value (Tuple[int, str, int, bool, bool]): A tuple containing:
+            value (Tuple[int, str, int, bool]): A tuple containing:
                 - dc_id (int): Data center ID.
                 - address (str): Address of the data center.
                 - port (int): Port of the data center.
                 - is_ipv6 (bool): Whether the address is IPv6.
-                - is_test (bool): Whether it is a test data center.
                 - is_media (bool): Whether it is a media data center.
                 - is_default_ip (bool): Whether it is the dc IP address provided by library.
         """
@@ -246,10 +245,9 @@ class MongoStorage(Storage):
             {"$and": [
                 {'dc_id': value[0]},
                 {'is_ipv6': value[3]},
-                {'is_test': value[4]},
-                {'is_media': value[5]}
+                {'is_media': value[4]}
             ]},
-            {'$set': {'address': value[1], 'port': value[2], 'is_default_ip': value[6]}},
+            {'$set': {'address': value[1], 'port': value[2], 'is_default_ip': value[5]}},
             upsert=True
         )
 
@@ -257,15 +255,12 @@ class MongoStorage(Storage):
         self,
         dc_id: int,
         is_ipv6: bool,
-        test_mode: bool = False,
         media: bool = False
     ) -> Tuple[str, int]:
         if dc_id in [1,3,5] and media:
             media = False
-        if dc_id in [4,5] and test_mode:
-            test_mode = False
         r = await self._dc_options.find_one(
-            {'dc_id': dc_id, 'is_ipv6': is_ipv6, 'is_test': test_mode, 'is_media': media},
+            {'dc_id': dc_id, 'is_ipv6': is_ipv6, 'is_media': media},
             {'address': 1, 'port': 1, 'is_default_ip': 1}
         )
         if r is None:
