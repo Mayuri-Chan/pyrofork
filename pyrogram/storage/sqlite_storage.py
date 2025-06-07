@@ -252,6 +252,65 @@ class SQLiteStorage(Storage):
 
         return get_input_peer(*r)
 
+    async def update_dc_address(
+        self,
+        value: Tuple[int, str, int, bool, bool, bool] = object
+    ):
+        """
+        Updates or inserts a data center address.
+
+        Parameters:
+            value (Tuple[int, str, int, bool, bool, bool]): A tuple containing:
+                - dc_id (int): Data center ID.
+                - address (str): Address of the data center.
+                - port (int): Port of the data center.
+                - is_ipv6 (bool): Whether the address is IPv6.
+                - is_test (bool): Whether it is a test data center.
+                - is_media (bool): Whether it is a media data center.
+        """
+        if value == object:
+            return
+        with self.conn:
+            self.conn.execute(
+                """
+                INSERT INTO dc_options (dc_id, address, port, is_ipv6, is_test, is_media)
+                VALUES (?, ?, ?, ?, ?, ?)
+                ON CONFLICT(dc_id, is_ipv6, is_test, is_media)
+                DO UPDATE SET address=excluded.address, port=excluded.port
+                """,
+                value
+            )
+
+    async def get_dc_address(
+        self,
+        dc_id: int,
+        is_ipv6: bool,
+        test_mode: bool = False,
+        media: bool = False
+    ) -> Tuple[str, int]:
+        """
+        Retrieves the address of a data center.
+
+        Parameters:
+            dc_id (int): Data center ID.
+            is_ipv6 (bool): Whether the address is IPv6.
+            test_mode (bool): Whether it is a test data center.
+            media (bool): Whether it is a media data center.
+
+        Returns:
+            Tuple[str, int]: A tuple containing the address and port of the data center.
+        """
+        if dc_id in [1,3,5] and media:
+            media = False
+        if dc_id in [4,5] and test_mode:
+            test_mode = False
+        r = self.conn.execute(
+            "SELECT address, port FROM dc_options WHERE dc_id = ? AND is_ipv6 = ? AND is_test = ? AND is_media = ?",
+            (dc_id, is_ipv6, test_mode, media)
+        ).fetchone()
+
+        return r
+
     def _get(self):
         attr = inspect.stack()[2].function
 

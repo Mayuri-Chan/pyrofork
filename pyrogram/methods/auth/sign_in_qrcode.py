@@ -80,6 +80,7 @@ class SignInQrcode:
 
             return types.User._parse(self, r.authorization.user)
         if isinstance(r, raw.types.auth.LoginTokenMigrateTo):
+            await self.update_dc_option()
             # pylint: disable=access-member-before-definition
             await self.session.stop()
 

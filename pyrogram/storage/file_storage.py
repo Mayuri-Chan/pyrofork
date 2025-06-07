@@ -38,6 +38,20 @@ CREATE TABLE update_state
 );
 """
 
+UPDATE_DC_SCHEMA = """
+CREATE TABLE dc_options
+(
+    id       INTEGER PRIMARY KEY AUTOINCREMENT,
+    dc_id    INTEGER,
+    address  TEXT,
+    port     INTEGER,
+    is_ipv6  BOOLEAN,
+    is_test  BOOLEAN,
+    is_media BOOLEAN,
+    UNIQUE(dc_id, is_ipv6, is_test, is_media)
+);
+"""
+
 
 class FileStorage(SQLiteStorage):
     FILE_EXTENSION = ".session"
@@ -65,6 +79,12 @@ class FileStorage(SQLiteStorage):
         if version == 3:
             with self.conn:
                 self.conn.executescript(UPDATE_STATE_SCHEMA)
+
+            version += 1
+
+        if version == 4:
+            with self.conn:
+                self.conn.executescript(UPDATE_DC_SCHEMA)
 
             version += 1
 
