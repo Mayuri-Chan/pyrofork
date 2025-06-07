@@ -61,6 +61,7 @@ class SendCode:
                     )
                 )
             except (PhoneMigrate, NetworkMigrate) as e:
+                await self.update_dc_option()
                 # pylint: disable=access-member-before-definition
                 await self.session.stop()
 

@@ -22,7 +22,6 @@ import logging
 from typing import Optional, Type
 
 from .transport import TCP, TCPAbridged
-from ..session.internals import DataCenter
 
 log = logging.getLogger(__name__)
 
@@ -34,6 +33,8 @@ class Connection:
         self,
         dc_id: int,
         test_mode: bool,
+        server_ip: str,
+        server_port: int,
         ipv6: bool,
         alt_port: bool,
         proxy: dict,
@@ -42,13 +43,14 @@ class Connection:
     ) -> None:
         self.dc_id = dc_id
         self.test_mode = test_mode
+        self.server_ip = server_ip
+        self.server_port = 5222 if alt_port else server_port
         self.ipv6 = ipv6
-        self.alt_port = alt_port
         self.proxy = proxy
         self.media = media
         self.protocol_factory = protocol_factory
 
-        self.address = DataCenter(dc_id, test_mode, ipv6, alt_port, media)
+        self.address = (server_ip, server_port)
         self.protocol: Optional[TCP] = None
 
     async def connect(self) -> None:

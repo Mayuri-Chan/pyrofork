@@ -50,6 +50,7 @@ class Auth:
         self.ipv6 = client.ipv6
         self.alt_port = client.alt_port
         self.proxy = client.proxy
+        self.storage = client.storage
         self.connection_factory = client.connection_factory
         self.protocol_factory = client.protocol_factory
 
@@ -85,10 +86,13 @@ class Auth:
 
         # The server may close the connection at any time, causing the auth key creation to fail.
         # If that happens, just try again up to MAX_RETRIES times.
+        address, port, _ = await self.storage.get_dc_address(self.dc_id, self.ipv6, self.test_mode)
         while True:
             self.connection = self.connection_factory(
                 dc_id=self.dc_id,
                 test_mode=self.test_mode,
+                server_ip=address,
+                server_port=port,
                 ipv6=self.ipv6,
                 alt_port=self.alt_port,
                 proxy=self.proxy,

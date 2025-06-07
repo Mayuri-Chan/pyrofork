@@ -76,6 +76,21 @@ class Storage:
     async def get_peer_by_phone_number(self, phone_number: str):
         raise NotImplementedError
 
+    async def update_dc_address(
+        self,
+        value: Tuple[int, str, int, bool, bool] = object
+    ):
+        raise NotImplementedError
+
+    async def get_dc_address(
+        self,
+        dc_id: int,
+        is_ipv6: bool,
+        test_mode: bool = False,
+        media: bool = False
+    ):
+        raise NotImplementedError
+
     async def dc_id(self, value: int = object):
         raise NotImplementedError
 

@@ -68,6 +68,12 @@ class FileStorage(SQLiteStorage):
 
             version += 1
 
+        if version == 4:
+            with self.conn:
+                self.conn.executescript(self.UPDATE_DC_SCHEMA)
+
+            version += 1
+
         self.version(version)
 
     async def open(self):
