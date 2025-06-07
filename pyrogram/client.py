@@ -61,6 +61,7 @@ from .file_id import FileId, FileType, ThumbnailSource
 from .mime_types import mime_types
 from .parser import Parser
 from .session.internals import MsgId
+from .session.internals.data_center import DataCenter
 
 log = logging.getLogger(__name__)
 MONGO_AVAIL = False
@@ -522,6 +523,15 @@ class Client(Methods):
                 break
 
         if isinstance(signed_in, User):
+            is_dc_default = await self.check_dc_default()
+            if is_dc_default:
+                log.info("Your session is using the default data center.")
+                log.info("Updating the data center options from GetConfig...")
+                await self.update_dc_option()
+                log.info("Data center updated successfully.")
+                log.info("Restarting the session to apply the changes...")
+                await self.session.stop()
+                await self.session.start()
             return signed_in
 
     def set_parse_mode(self, parse_mode: Optional["enums.ParseMode"]):
@@ -856,6 +866,62 @@ class Client(Methods):
                                 break
                         except Exception as e:
                             print(e)
+            # Needed for migration from storage v3 to v4
+            if self.in_memory or self.session_string:
+                await self.insert_default_dc_options()
+            if not await self.storage.get_dc_address(await self.storage.dc_id(), self.ipv6):
+                log.info("No DC address found, inserting default DC options...")
+                await self.insert_default_dc_options()
+
+    async def insert_default_dc_options(self):
+        for dc_id in range(1, 6):
+            for is_ipv6 in (False, True):
+                if dc_id == 2:
+                    for media in (False, True):
+                        address, port = DataCenter(dc_id, False, is_ipv6, self.alt_port, media)
+                        await self.storage.update_dc_address(
+                            (dc_id, address, port, is_ipv6, False, media, True)
+                        )
+                    for test_mode in (False, True):
+                        address, port = DataCenter(dc_id, test_mode, is_ipv6, self.alt_port, False)
+                        await self.storage.update_dc_address(
+                            (dc_id, address, port, is_ipv6, test_mode, False, True)
+                        )
+                elif dc_id == 4:
+                    for media in (False, True):
+                        address, port = DataCenter(dc_id, False, is_ipv6, False, media)
+                        await self.storage.update_dc_address(
+                            (dc_id, address, port, is_ipv6, False, media, True)
+                        )
+                elif dc_id in [1,3]:
+                    for test_mode in (False, True):
+                        address, port = DataCenter(dc_id, test_mode, is_ipv6, False, False)
+                        await self.storage.update_dc_address(
+                            (dc_id, address, port, is_ipv6, test_mode, False, True)
+                        )
+                else:
+                    address, port = DataCenter(dc_id, False, is_ipv6, False, False)
+                    await self.storage.update_dc_address(
+                        (dc_id, address, port, is_ipv6, False, False, True)
+                    )
+
+    async def update_dc_option(self):
+        config = await self.invoke(raw.functions.help.GetConfig())
+        for option in config.dc_options:
+            await self.storage.update_dc_address(
+                (option.id, option.address, option.port, option.is_ipv6, option.is_media, option.is_test, False)
+            )
+
+    async def check_dc_default(
+        self,
+        dc_id: int,
+        is_ipv6: bool,
+        test_mode: bool = False,
+        media: bool = False
+    ) -> bool:
+        current_dc = await self.storage.get_dc_address(dc_id, is_ipv6, test_mode, media)
+        if current_dc is not None and current_dc[2]:
+            return True
 
     def is_excluded(self, exclude, module):
         for e in exclude:
