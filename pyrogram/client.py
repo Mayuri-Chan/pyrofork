@@ -320,6 +320,8 @@ class Client(Methods):
         self.max_message_cache_size = max_message_cache_size
         self.max_message_cache_size = max_message_cache_size
         self.max_business_user_connection_cache_size = max_business_user_connection_cache_size
+        self.test_addr = None
+        self.test_port = None
 
         self.executor = ThreadPoolExecutor(self.workers, thread_name_prefix="Handler")
 
@@ -400,6 +402,25 @@ class Client(Methods):
             await self.stop()
         except ConnectionError:
             pass
+
+    def set_dc(self, addr: str, port: int = 80):
+        """Set the data center address and port.
+
+        Parameters:
+            addr (``str``):
+                The data center address, e.g.: "149.154.167.40".
+
+            port (``int``, *optional*):
+                The data center port, e.g.: 443.
+                Defaults to 80.
+        """
+        if not isinstance(addr, str):
+            raise TypeError("addr must be a string")
+        if not isinstance(port, int):
+            raise TypeError("port must be an integer")
+
+        self.test_addr = addr
+        self.test_port = port
 
     async def updates_watchdog(self):
         while True:
@@ -531,15 +552,16 @@ class Client(Methods):
                 break
 
         if isinstance(signed_in, User):
-            is_dc_default = await self.check_dc_default()
-            if is_dc_default:
-                log.info("Your session is using the default data center.")
-                log.info("Updating the data center options from GetConfig...")
-                await self.update_dc_option()
-                log.info("Data center updated successfully.")
-                log.info("Restarting the session to apply the changes...")
-                await self.session.stop()
-                await self.session.start()
+            if not self.test_mode:
+                is_dc_default = await self.check_dc_default()
+                if is_dc_default:
+                    log.info("Your session is using the default data center.")
+                    log.info("Updating the data center options from GetConfig...")
+                    await self.update_dc_option()
+                    log.info("Data center updated successfully.")
+                    log.info("Restarting the session to apply the changes...")
+                    await self.session.stop()
+                    await self.session.start()
             return signed_in
 
     def set_parse_mode(self, parse_mode: Optional["enums.ParseMode"]):
@@ -882,57 +904,39 @@ class Client(Methods):
     async def insert_default_dc_options(self):
         for dc_id in range(1, 6):
             for is_ipv6 in (False, True):
-                if dc_id == 2:
+                if dc_id in [2,4]:
                     for media in (False, True):
                         address, port = DataCenter(dc_id, False, is_ipv6, self.alt_port, media)
                         await self.storage.update_dc_address(
-                            (dc_id, address, port, is_ipv6, False, media)
-                        )
-                    for test_mode in (False, True):
-                        address, port = DataCenter(dc_id, test_mode, is_ipv6, self.alt_port, False)
-                        await self.storage.update_dc_address(
-                            (dc_id, address, port, is_ipv6, test_mode, False)
-                        )
-                elif dc_id == 4:
-                    for media in (False, True):
-                        address, port = DataCenter(dc_id, False, is_ipv6, False, media)
-                        await self.storage.update_dc_address(
-                            (dc_id, address, port, is_ipv6, False, media)
-                        )
-                elif dc_id in [1,3]:
-                    for test_mode in (False, True):
-                        address, port = DataCenter(dc_id, test_mode, is_ipv6, False, False)
-                        await self.storage.update_dc_address(
-                            (dc_id, address, port, is_ipv6, test_mode, False)
+                            (dc_id, address, port, is_ipv6, media)
                         )
                 else:
                     address, port = DataCenter(dc_id, False, is_ipv6, False, False)
                     await self.storage.update_dc_address(
-                        (dc_id, address, port, is_ipv6, False, False)
+                        (dc_id, address, port, is_ipv6, False)
                     )
 
     async def update_dc_option(self):
         config = await self.invoke(raw.functions.help.GetConfig())
         for option in config.dc_options:
             await self.storage.update_dc_address(
-                (option.id, option.address, option.port, option.is_ipv6, option.is_media, option.is_test)
+                (option.id, option.address, option.port, option.is_ipv6, option.is_media)
             )
 
     async def check_dc_default(
         self,
         dc_id: int,
         is_ipv6: bool,
-        test_mode: bool = False,
         media: bool = False
     ) -> bool:
         default_dc = DataCenter(
             dc_id,
-            test_mode=test_mode,
+            test_mode=False,
             is_ipv6=is_ipv6,
             alt_port=self.alt_port,
             media=media
         )
-        current_dc = await self.storage.get_dc_address(dc_id, is_ipv6, test_mode, media)
+        current_dc = await self.storage.get_dc_address(dc_id, is_ipv6, media)
         if current_dc is not None and current_dc[0] == default_dc.address:
             return True
 

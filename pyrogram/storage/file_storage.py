@@ -46,9 +46,8 @@ CREATE TABLE dc_options
     address  TEXT,
     port     INTEGER,
     is_ipv6  BOOLEAN,
-    is_test  BOOLEAN,
     is_media BOOLEAN,
-    UNIQUE(dc_id, is_ipv6, is_test, is_media)
+    UNIQUE(dc_id, is_ipv6, is_media)
 );
 """
 

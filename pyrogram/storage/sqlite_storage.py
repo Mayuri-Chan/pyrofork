@@ -265,7 +265,6 @@ class SQLiteStorage(Storage):
                 - address (str): Address of the data center.
                 - port (int): Port of the data center.
                 - is_ipv6 (bool): Whether the address is IPv6.
-                - is_test (bool): Whether it is a test data center.
                 - is_media (bool): Whether it is a media data center.
         """
         if value == object:
@@ -273,9 +272,9 @@ class SQLiteStorage(Storage):
         with self.conn:
             self.conn.execute(
                 """
-                INSERT INTO dc_options (dc_id, address, port, is_ipv6, is_test, is_media)
-                VALUES (?, ?, ?, ?, ?, ?)
-                ON CONFLICT(dc_id, is_ipv6, is_test, is_media)
+                INSERT INTO dc_options (dc_id, address, port, is_ipv6, is_media)
+                VALUES (?, ?, ?, ?, ?)
+                ON CONFLICT(dc_id, is_ipv6, is_media)
                 DO UPDATE SET address=excluded.address, port=excluded.port
                 """,
                 value
@@ -285,7 +284,6 @@ class SQLiteStorage(Storage):
         self,
         dc_id: int,
         is_ipv6: bool,
-        test_mode: bool = False,
         media: bool = False
     ) -> Tuple[str, int]:
         """
@@ -294,7 +292,6 @@ class SQLiteStorage(Storage):
         Parameters:
             dc_id (int): Data center ID.
             is_ipv6 (bool): Whether the address is IPv6.
-            test_mode (bool): Whether it is a test data center.
             media (bool): Whether it is a media data center.
 
         Returns:
@@ -302,11 +299,9 @@ class SQLiteStorage(Storage):
         """
         if dc_id in [1,3,5] and media:
             media = False
-        if dc_id in [4,5] and test_mode:
-            test_mode = False
         r = self.conn.execute(
-            "SELECT address, port FROM dc_options WHERE dc_id = ? AND is_ipv6 = ? AND is_test = ? AND is_media = ?",
-            (dc_id, is_ipv6, test_mode, media)
+            "SELECT address, port FROM dc_options WHERE dc_id = ? AND is_ipv6 = ? AND is_media = ?",
+            (dc_id, is_ipv6, media)
         ).fetchone()
 
         return r
