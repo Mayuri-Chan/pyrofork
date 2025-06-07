@@ -432,6 +432,19 @@ class Session:
 
         while retries > 0:
             try:
+                if (
+                    self.connection is None
+                    or self.connection.protocol is None
+                    or getattr(self.connection.protocol, "closed", True)
+                ):
+                    log.warning(
+                        "[%s] Connection is closed or not established. Attempting to reconnect...",
+                        self.client.name,
+                    )
+                    await self.restart()
+                    await asyncio.sleep(1)
+                    continue
+
                 return await self.send(query, timeout=timeout)
             except (FloodWait, FloodPremiumWait) as e:
                 amount = e.value
@@ -453,6 +466,16 @@ class Session:
                     Session.MAX_RETRIES - retries,
                     query_name, str(e) or repr(e)
                 )
+
+                if isinstance(e, OSError) and retries > 1:
+                    try:
+                        await self.restart()
+                    except Exception as restart_error:
+                        log.warning(
+                            "[%s] Failed to restart session: %s",
+                            self.client.name,
+                            str(restart_error) or repr(restart_error),
+                        )
 
                 await asyncio.sleep(0.5)
 
