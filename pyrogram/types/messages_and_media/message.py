@@ -1314,9 +1314,14 @@ class Message(Object, Update):
             self.chat.type in (enums.ChatType.GROUP, enums.ChatType.SUPERGROUP, enums.ChatType.CHANNEL)
             and self.chat.username
         ):
+            if self.chat.type == enums.ChatType.SUPERGROUP and self.message_thread_id:
+                return f"https://t.me/{self.chat.username}/{self.message_thread_id}/{self.id}"
             return f"https://t.me/{self.chat.username}/{self.id}"
-        else:
-            return f"https://t.me/c/{utils.get_channel_id(self.chat.id)}/{self.id}"
+        if self.chat.type == enums.ChatType.PRIVATE:
+            return f"tg://openmessage?user_id={self.from_user.id}&message_id={self.id}"
+        if self.message_thread_id:
+            return f"https://t.me/c/{utils.get_channel_id(self.chat.id)}/{self.message_thread_id}/{self.id}"
+        return f"https://t.me/c/{utils.get_channel_id(self.chat.id)}/{self.id}"
 
     @property
     def content(self) -> str:
