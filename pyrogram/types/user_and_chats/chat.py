@@ -394,6 +394,14 @@ class Chat(Object):
         restriction_reason = getattr(channel, "restriction_reason", [])
         user_name = getattr(channel, "username", None)
         active_usernames = getattr(channel, "usernames", [])
+        if getattr(channel, "monoforum", None):
+            chat_type = enums.ChatType.MONOFORUM
+        elif getattr(channel, "megagroup", None):
+            chat_type = enums.ChatType.SUPERGROUP
+        elif getattr(channel, "broadcast", None):
+            chat_type = enums.ChatType.CHANNEL
+        else:
+            chat_type = enums.ChatType.GROUP
         usernames = None
         if len(active_usernames) >= 1:
             usernames = []
@@ -410,7 +418,7 @@ class Chat(Object):
 
         return Chat(
             id=peer_id,
-            type=enums.ChatType.SUPERGROUP if getattr(channel, "megagroup", None) else enums.ChatType.CHANNEL,
+            type=chat_type,
             is_verified=getattr(channel, "verified", None),
             is_restricted=getattr(channel, "restricted", None),
             is_creator=getattr(channel, "creator", None),
