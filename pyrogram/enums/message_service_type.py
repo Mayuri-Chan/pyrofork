@@ -132,3 +132,6 @@ class MessageServiceType(AutoName):
 
     SCREENSHOT_TAKEN = auto()
     "Screenshot taken"
+
+    PAID_MESSAGE_PRICE_CHANGED = auto()
+    "Paid message price changed"

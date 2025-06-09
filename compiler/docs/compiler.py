@@ -609,6 +609,7 @@ def pyrogram_api():
             Invoice
             LabeledPrice
             PaidMedia
+            PaidMessagePriceChanged
             PaymentForm
             PaymentInfo
             PaymentRefunded

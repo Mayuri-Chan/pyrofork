@@ -27,6 +27,7 @@ from .input_stars_transaction import InputStarsTransaction
 from .invoice import Invoice
 from .labeled_price import LabeledPrice
 from .paid_media import PaidMedia
+from .paid_message_price_changed import PaidMessagePriceChanged
 from .payment_form import PaymentForm
 from .payment_info import PaymentInfo
 from .payment_refunded import PaymentRefunded
@@ -46,6 +47,7 @@ __all__ = [
     "Invoice",
     "LabeledPrice",
     "PaidMedia",
+    "PaidMessagePriceChanged",
     "PaymentForm",
     "PaymentInfo",
     "PaymentRefunded",
