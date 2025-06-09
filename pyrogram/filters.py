@@ -1108,7 +1108,7 @@ class chat(Filter, set):
         else:
             is_usernames_in_filters = False
             if message.chat.usernames:
-                for username in message._chat.usernames:
+                for username in message.chat.usernames:
                     if (
                         username.username in self
                         or username.username.lower() in self
