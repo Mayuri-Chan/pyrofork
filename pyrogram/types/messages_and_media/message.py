@@ -480,6 +480,7 @@ class Message(Object, Update):
         gift_code: "types.GiftCode" = None,
         gift: "types.Gift" = None,
         screenshot_taken: "types.ScreenshotTaken" = None,
+        paid_message_price_changed: "types.PaidMessagePriceChanged" = None,
         invoice: "types.Invoice" = None,
         story: Union["types.MessageStory", "types.Story"] = None,
         alternative_videos: List["types.AlternativeVideo"] = None,
@@ -596,6 +597,7 @@ class Message(Object, Update):
         self.gift_code = gift_code
         self.gift = gift
         self.screenshot_taken = screenshot_taken
+        self.paid_message_price_changed = paid_message_price_changed
         self.invoice = invoice
         self.story = story
         self.video = video
@@ -760,6 +762,7 @@ class Message(Object, Update):
             gift_code = None
             gift = None
             screenshot_taken = None
+            paid_message_price_changed = None
 
             service_type = None
             chat_join_type = None
@@ -881,6 +884,9 @@ class Message(Object, Update):
             elif isinstance(action, raw.types.MessageActionScreenshotTaken):
                 screenshot_taken = types.ScreenshotTaken()
                 service_type = enums.MessageServiceType.SCREENSHOT_TAKEN
+            elif isinstance(action, raw.types.MessageActionPaidMessagesPrice):
+                paid_message_price_changed = types.PaidMessagePriceChanged._parse(action)
+                service_type = enums.MessageServiceType.PAID_MESSAGE_PRICE_CHANGED
 
             parsed_message = Message(
                 id=message.id,
@@ -926,6 +932,7 @@ class Message(Object, Update):
                 contact_registered=contact_registered,
                 gift_code=gift_code,
                 screenshot_taken=screenshot_taken,
+                paid_message_price_changed=paid_message_price_changed,
                 raw=message,
                 chat_join_type=chat_join_type,
                 client=client
