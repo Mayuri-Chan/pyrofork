@@ -503,3 +503,4 @@ BOOSTS_EMPTY	You can't modify the icon of the General topic.
 BOOST_NOT_MODIFIED	You're already boosting the specified channel.
 PAYMENT_REQUIRED	The payment is required
 BOOST_PEER_INVALID	The specified `boost_peer` is invalid.
+STARS_AMOUNT_INVALID	The specified `amount` is invalid.
