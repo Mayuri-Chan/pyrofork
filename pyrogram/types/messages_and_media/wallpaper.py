@@ -54,7 +54,7 @@ class Wallpaper(Object):
         self,
         id: int,
         slug: str,
-        document: "types.Document",
+        document: "types.Document" = None,
         is_creator: bool = None,
         is_default: bool = None,
         is_pattern: bool = None,
@@ -73,7 +73,9 @@ class Wallpaper(Object):
 
     @staticmethod
     def _parse(client: "pyrogram.Client", wallpaper: "raw.base.WallPaper") -> "Wallpaper":
-        doc = wallpaper.document
+        doc = None
+        if not isinstance(wallpaper, raw.types.WallPaperNoFile):
+            doc = wallpaper.document
         attributes = {type(i): i for i in doc.attributes}
 
         file_name = getattr(
@@ -84,7 +86,7 @@ class Wallpaper(Object):
         return Wallpaper(
             id=wallpaper.id,
             slug=wallpaper.slug,
-            document=types.Document._parse(client, doc, file_name),
+            document=types.Document._parse(client, doc, file_name) if doc is not None else None,
             is_creator=getattr(wallpaper, "creator", None),
             is_default=getattr(wallpaper, "default", None),
             is_pattern=getattr(wallpaper, "pattern", None),
