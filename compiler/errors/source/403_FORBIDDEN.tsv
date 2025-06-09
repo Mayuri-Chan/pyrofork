@@ -44,3 +44,4 @@ GROUPCALL_ALREADY_STARTED	The groupcall has already started, you can join direct
 GROUPCALL_FORBIDDEN	The group call has already ended
 LIVE_DISABLED	Story is disabled server-side
 CHAT_GUEST_SEND_FORBIDDEN	You need to join the discussion group before commenting
+ALLOW_PAYMENT_REQUIRED_X	Payment of {value} stars is required to perform this action
