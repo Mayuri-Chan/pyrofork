@@ -40,6 +40,7 @@ class SendCachedMedia:
         reply_to_message_id: int = None,
         reply_to_story_id: int = None,
         reply_to_chat_id: Union[int, str] = None,
+        reply_to_monoforum_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         schedule_date: datetime = None,
@@ -104,6 +105,11 @@ class SendCachedMedia:
                 for reply to message from another chat.
                 You can also use chat public link in form of *t.me/<username>* (str).
 
+            reply_to_monoforum_id (``int`` | ``str``, *optional*):
+                Unique identifier for the target user of monoforum.
+                for reply to message from monoforum.
+                for channel administrators only.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -144,6 +150,7 @@ class SendCachedMedia:
             reply_to_story_id=reply_to_story_id,
             message_thread_id=message_thread_id,
             reply_to_chat_id=reply_to_chat_id,
+            reply_to_monoforum_id=reply_to_monoforum_id,
             quote_text=quote_text,
             quote_entities=quote_entities,
             parse_mode=parse_mode
