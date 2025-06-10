@@ -487,6 +487,7 @@ async def get_reply_to(
     reply_to_message_id: int = None,
     reply_to_story_id: int = None,
     message_thread_id: int = None,
+    reply_to_monoforum_id: Union[int,str] = None,
     reply_to_chat_id: Union[int,str] = None,
     quote_text: str = None,
     quote_entities: List["types.MessageEntity"] = None,
@@ -495,7 +496,12 @@ async def get_reply_to(
 ):
     reply_to = None
     reply_to_chat = None
-    if reply_to_message_id or message_thread_id:
+    if reply_to_monoforum_id:
+        peer = await client.resolve_peer(reply_to_monoforum_id)
+        reply_to = types.InputReplyToMonoforum(
+            monoforum_peer=peer
+        )
+    elif reply_to_message_id or message_thread_id:
         text, entities = (await parse_text_entities(client, quote_text, parse_mode, quote_entities)).values()
         if reply_to_chat_id is not None:
             reply_to_chat = await client.resolve_peer(reply_to_chat_id)
@@ -507,7 +513,7 @@ async def get_reply_to(
             quote_entities=entities,
             quote_offset=quote_offset,
         )
-    if reply_to_story_id:
+    elif reply_to_story_id:
         peer = await client.resolve_peer(chat_id)
         reply_to = types.InputReplyToStory(
             peer=peer,
