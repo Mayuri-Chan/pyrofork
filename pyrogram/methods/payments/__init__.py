@@ -39,7 +39,7 @@ from .send_payment_form import SendPaymentForm
 from .send_gift import SendGift
 from .send_resold_gift import SendResoldGift
 from .set_gift_resale_price import SetGiftResalePrice
-from .set_pinned_gift import SetPinnedGift
+from .set_pinned_gifts import SetPinnedGifts
 from .show_gift import ShowGift
 from .transfer_gift import TransferGift
 from .upgrade_gift import UpgradeGift
@@ -67,7 +67,7 @@ class Payments(
     SendGift,
     SendResoldGift,
     SetGiftResalePrice,
-    SetPinnedGift,
+    SetPinnedGifts,
     ShowGift,
     TransferGift,
     UpgradeGift

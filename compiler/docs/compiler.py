@@ -373,7 +373,7 @@ def pyrogram_api():
             send_gift
             send_resold_gift
             set_gift_resale_price
-            set_pinned_gift
+            set_pinned_gifts
             show_gift
             transfer_gift
             upgrade_gift
