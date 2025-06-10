@@ -365,11 +365,15 @@ def pyrogram_api():
             get_chat_gifts
             hide_gift
             refund_star_payment
+            search_gifts_for_resale
             send_invoice
             send_paid_media
             send_paid_reaction
             send_payment_form
             send_gift
+            send_resold_gift
+            set_gift_resale_price
+            set_pinned_gift
             show_gift
             transfer_gift
             upgrade_gift
