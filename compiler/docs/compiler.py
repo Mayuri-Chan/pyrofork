@@ -715,6 +715,7 @@ def pyrogram_api():
         InputMessageContent
             InputMessageContent
             InputReplyToMessage
+            InputReplyToMonoforum
             InputReplyToStory
             InputTextMessageContent
             InputLocationMessageContent
