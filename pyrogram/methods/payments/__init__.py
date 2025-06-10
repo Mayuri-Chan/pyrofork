@@ -31,11 +31,15 @@ from .get_chat_gifts_count import GetChatGiftsCount
 from .get_chat_gifts import GetChatGifts
 from .hide_gift import HideGift
 from .refund_stars_payment import RefundStarPayment
+from .search_gifts_for_resale import SearchGiftsForResale
 from .send_invoice import SendInvoice
 from .send_paid_media import SendPaidMedia
 from .send_paid_reaction import SendPaidReaction
 from .send_payment_form import SendPaymentForm
 from .send_gift import SendGift
+from .send_resold_gift import SendResoldGift
+from .set_gift_resale_price import SetGiftResalePrice
+from .set_pinned_gift import SetPinnedGift
 from .show_gift import ShowGift
 from .transfer_gift import TransferGift
 from .upgrade_gift import UpgradeGift
@@ -55,11 +59,15 @@ class Payments(
     GetChatGifts,
     HideGift,
     RefundStarPayment,
+    SearchGiftsForResale,
     SendPaidReaction,
     SendPaidMedia,
     SendInvoice,
     SendPaymentForm,
     SendGift,
+    SendResoldGift,
+    SetGiftResalePrice,
+    SetPinnedGift,
     ShowGift,
     TransferGift,
     UpgradeGift
