@@ -143,8 +143,8 @@ class KeyboardButton(Object):
         elif self.request_location:
             return raw.types.KeyboardButtonRequestGeoLocation(text=self.text)
         elif self.request_chat:
-            user_privileges = self.request_peer.user_privileges
-            bot_privileges = self.request_peer.bot_privileges
+            user_privileges = self.request_chat.user_privileges
+            bot_privileges = self.request_chat.bot_privileges
 
             user_admin_rights = raw.types.ChatAdminRights(
                     change_info=user_privileges.can_change_info,
