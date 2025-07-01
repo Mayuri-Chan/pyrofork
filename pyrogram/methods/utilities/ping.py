@@ -17,31 +17,30 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from enum import auto
+from time import time
 
-from .auto_name import AutoName
+import pyrogram
+from pyrogram import raw
 
 
-class ChatType(AutoName):
-    """Chat type enumeration used in :obj:`~pyrogram.types.Chat`."""
+class Ping:
+    async def ping(self: "pyrogram.Client"):
+        """Measure the round-trip time (RTT) to the Telegram server.
 
-    PRIVATE = auto()
-    "Chat is a private chat with a user"
+        The ping method sends a request to the Telegram server and measures the time it takes to receive a response.
+        This can be useful for monitoring network latency and ensuring a stable connection to the server.
 
-    BOT = auto()
-    "Chat is a private chat with a bot"
+        Returns:
+            float: The round-trip time in milliseconds (ms).
 
-    GROUP = auto()
-    "Chat is a basic group"
+        Example:
+            .. code-block:: python
 
-    SUPERGROUP = auto()
-    "Chat is a supergroup"
-
-    CHANNEL = auto()
-    "Chat is a channel"
-
-    FORUM = auto()
-    "Chat is a forum"
-
-    MONOFORUM = auto()
-    "Chat is a monoforum"
+                latency = await app.ping()
+                print(f"Ping: {latency} ms")
+        """
+        start_time = time()
+        await self.invoke(
+            raw.functions.ping.Ping(ping_id=self.rnd_id()),
+        )
+        return round((time() - start_time) * 1000.0, 3)

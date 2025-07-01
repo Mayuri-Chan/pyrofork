@@ -39,6 +39,7 @@ import pyrogram
 from pyrogram import __version__, __license__
 from pyrogram import enums
 from pyrogram import raw
+from pyrogram import types
 from pyrogram import utils
 from pyrogram.crypto import aes
 from pyrogram.errors import CDNFileHashMismatch
@@ -51,7 +52,7 @@ from pyrogram.handlers.handler import Handler
 from pyrogram.methods import Methods
 from pyrogram.session import Auth, Session
 from pyrogram.storage import FileStorage, MemoryStorage, Storage
-from pyrogram.types import User, TermsOfService
+from pyrogram.types import User
 from pyrogram.utils import ainput
 from .connection import Connection
 from .connection.transport import TCPAbridged
@@ -129,6 +130,9 @@ class Client(Methods):
         session_string (``str``, *optional*):
             Pass a session string to load the session in-memory.
             Implies ``in_memory=True``.
+
+        use_qrcode (``bool``, *optional*):
+            Pass True to login using a QR code.
 
         in_memory (``bool``, *optional*):
             Pass True to start an in-memory session that will be discarded as soon as the client stops.
@@ -229,6 +233,7 @@ class Client(Methods):
     PARENT_DIR = Path(sys.argv[0]).parent
 
     INVITE_LINK_RE = re.compile(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:joinchat/|\+))([\w-]+)$")
+    UPGRADED_GIFT_RE = re.compile(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:nft/|\+))([\w-]+)$")
     WORKERS = min(32, (os.cpu_count() or 0) + 4)  # os.cpu_count() can be None
     WORKDIR = PARENT_DIR
 
@@ -258,6 +263,7 @@ class Client(Methods):
         test_mode: Optional[bool] = False,
         bot_token: Optional[str] = None,
         session_string: Optional[str] = None,
+        use_qrcode: Optional[bool] = False,
         in_memory: Optional[bool] = None,
         mongodb: Optional[dict] = None,
         storage: Optional[Storage] = None,
@@ -272,7 +278,7 @@ class Client(Methods):
         skip_updates: bool = True,
         takeout: bool = None,
         sleep_threshold: int = Session.SLEEP_THRESHOLD,
-        hide_password: Optional[bool] = False,
+        hide_password: Optional[bool] = True,
         max_concurrent_transmissions: int = MAX_CONCURRENT_TRANSMISSIONS,
         client_platform: "enums.ClientPlatform" = enums.ClientPlatform.OTHER,
         max_message_cache_size: int = MAX_CACHE_SIZE,
@@ -295,6 +301,7 @@ class Client(Methods):
         self.test_mode = test_mode
         self.bot_token = bot_token
         self.session_string = session_string
+        self.use_qrcode = use_qrcode
         self.in_memory = in_memory
         self.mongodb = mongodb
         self.phone_number = phone_number
@@ -403,6 +410,15 @@ class Client(Methods):
             if datetime.now() - self.last_update_time > timedelta(seconds=self.UPDATES_WATCHDOG_INTERVAL):
                 await self.invoke(raw.functions.updates.GetState())
 
+    async def _wait_for_update_login_token(self):
+        """
+        Wait for an UpdateLoginToken update from Telegram.
+        """
+        while True:
+            update, _, _ = await self.dispatcher.updates_queue.get()
+            if isinstance(update, raw.types.UpdateLoginToken):
+                break
+
     async def authorize(self) -> User:
         if self.bot_token:
             return await self.sign_in_bot(self.bot_token)
@@ -410,52 +426,60 @@ class Client(Methods):
         print(f"Welcome to Pyrogram (version {__version__})")
         print(f"Pyrogram is free software and comes with ABSOLUTELY NO WARRANTY. Licensed\n"
               f"under the terms of the {__license__}.\n")
+        if not self.use_qrcode:
+            while True:
+                try:   
+                    if not self.phone_number:
+                        while True:
+                            print("Enter 'qrcode' if you want to login with qrcode.")
+                            value = await ainput("Enter phone number or bot token: ")
+
+                            if not value:
+                                continue
+
+                            if value.lower() == "qrcode":
+                                self.use_qrcode = True
+                                break
+
+                            confirm = (await ainput(f'Is "{value}" correct? (y/N): ')).lower()
+
+                            if confirm == "y":
+                                break
+
+                        if ":" in value:
+                            self.bot_token = value
+                            return await self.sign_in_bot(value)
+                        else:
+                            self.phone_number = value
+
+                    sent_code = await self.send_code(self.phone_number)
+                except BadRequest as e:
+                    print(e.MESSAGE)
+                    self.phone_number = None
+                    self.bot_token = None
+                else:
+                    break
+
+            sent_code_descriptions = {
+                enums.SentCodeType.APP: "Telegram app",
+                enums.SentCodeType.SMS: "SMS",
+                enums.SentCodeType.CALL: "phone call",
+                enums.SentCodeType.FLASH_CALL: "phone flash call",
+                enums.SentCodeType.FRAGMENT_SMS: "Fragment SMS",
+                enums.SentCodeType.EMAIL_CODE: "email code"
+            }
+
+            print(f"The confirmation code has been sent via {sent_code_descriptions[sent_code.type]}")
 
         while True:
-            try:
-                if not self.phone_number:
-                    while True:
-                        value = await ainput("Enter phone number or bot token: ")
-
-                        if not value:
-                            continue
-
-                        confirm = (await ainput(f'Is "{value}" correct? (y/N): ')).lower()
-
-                        if confirm == "y":
-                            break
-
-                    if ":" in value:
-                        self.bot_token = value
-                        return await self.sign_in_bot(value)
-                    else:
-                        self.phone_number = value
-
-                sent_code = await self.send_code(self.phone_number)
-            except BadRequest as e:
-                print(e.MESSAGE)
-                self.phone_number = None
-                self.bot_token = None
-            else:
-                break
-
-        sent_code_descriptions = {
-            enums.SentCodeType.APP: "Telegram app",
-            enums.SentCodeType.SMS: "SMS",
-            enums.SentCodeType.CALL: "phone call",
-            enums.SentCodeType.FLASH_CALL: "phone flash call",
-            enums.SentCodeType.FRAGMENT_SMS: "Fragment SMS",
-            enums.SentCodeType.EMAIL_CODE: "email code"
-        }
-
-        print(f"The confirmation code has been sent via {sent_code_descriptions[sent_code.type]}")
-
-        while True:
-            if not self.phone_code:
+            if not self.use_qrcode and not self.phone_code:
                 self.phone_code = await ainput("Enter confirmation code: ")
 
             try:
-                signed_in = await self.sign_in(self.phone_number, sent_code.phone_code_hash, self.phone_code)
+                if self.use_qrcode:
+                    signed_in = await self.sign_in_qrcode()
+                else:
+                    signed_in = await self.sign_in(self.phone_number, sent_code.phone_code_hash, self.phone_code)
             except BadRequest as e:
                 print(e.MESSAGE)
                 self.phone_code = None
@@ -494,32 +518,17 @@ class Client(Methods):
                         print(e.MESSAGE)
                         self.password = None
             else:
+                if self.use_qrcode and isinstance(signed_in, types.LoginToken):
+                    time_out = signed_in.expires - datetime.timestamp(datetime.now())
+                    try:
+                        await asyncio.wait_for(self._wait_for_update_login_token(), timeout=time_out)
+                    except asyncio.TimeoutError:
+                        print("QR code expired, Requesting new Qr code...")
+                    continue
                 break
 
         if isinstance(signed_in, User):
             return signed_in
-
-        while True:
-            first_name = await ainput("Enter first name: ")
-            last_name = await ainput("Enter last name (empty to skip): ")
-
-            try:
-                signed_up = await self.sign_up(
-                    self.phone_number,
-                    sent_code.phone_code_hash,
-                    first_name,
-                    last_name
-                )
-            except BadRequest as e:
-                print(e.MESSAGE)
-            else:
-                break
-
-        if isinstance(signed_in, TermsOfService):
-            print("\n" + signed_in.text + "\n")
-            await self.accept_terms_of_service(signed_in.id)
-
-        return signed_up
 
     def set_parse_mode(self, parse_mode: Optional["enums.ParseMode"]):
         """Set the parse mode to be used globally by the client.

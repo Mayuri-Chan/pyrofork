@@ -1,5 +1,4 @@
 #  Pyrofork - Telegram MTProto API Client Library for Python
-#  Copyright (C) 2017-present Dan <https://github.com/delivrance>
 #  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
 #  This file is part of Pyrofork.
@@ -17,31 +16,31 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from enum import auto
+from ..object import Object
 
-from .auto_name import AutoName
+from pyrogram import raw
 
 
-class ChatType(AutoName):
-    """Chat type enumeration used in :obj:`~pyrogram.types.Chat`."""
+class LoginToken(Object):
+    """Contains info on a login token.
 
-    PRIVATE = auto()
-    "Chat is a private chat with a user"
+    Parameters:
+        token (``str``):
+            The login token.
 
-    BOT = auto()
-    "Chat is a private chat with a bot"
+        expires (``int``):
+            The expiration date of the token in UNIX format.
+    """
 
-    GROUP = auto()
-    "Chat is a basic group"
+    def __init__(self, *, token: str, expires: int):
+        super().__init__()
 
-    SUPERGROUP = auto()
-    "Chat is a supergroup"
+        self.token = token
+        self.expires = expires
 
-    CHANNEL = auto()
-    "Chat is a channel"
-
-    FORUM = auto()
-    "Chat is a forum"
-
-    MONOFORUM = auto()
-    "Chat is a monoforum"
+    @staticmethod
+    def _parse(login_token: "raw.base.LoginToken") -> "LoginToken":
+        return LoginToken(
+            token=login_token.token,
+            expires=login_token.expires,
+        )

@@ -17,29 +17,19 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-import pyrogram
-from pyrogram import raw
+from enum import auto
+
+from .auto_name import AutoName
 
 
-class AcceptTermsOfService:
-    async def accept_terms_of_service(
-        self: "pyrogram.Client",
-        terms_of_service_id: str
-    ) -> bool:
-        """Accept the given terms of service.
+class GiftForResaleOrder(AutoName):
+    """Describes order in which upgraded gifts for resale will be sorted. Used in :meth:`~pyrogram.Client.search_gifts_for_resale`."""
 
-        .. include:: /_includes/usable-by/users.rst
+    PRICE = auto()
+    "The gifts will be sorted by their price from the lowest to the highest"
 
-        Parameters:
-            terms_of_service_id (``str``):
-                The terms of service identifier.
-        """
-        r = await self.invoke(
-            raw.functions.help.AcceptTermsOfService(
-                id=raw.types.DataJSON(
-                    data=terms_of_service_id
-                )
-            )
-        )
+    CHANGE_DATE = auto()
+    "The gifts will be sorted by the last date when their price was changed from the newest to the oldest"
 
-        return bool(r)
+    NUMBER = auto()
+    "The gifts will be sorted by their number from the smallest to the largest"

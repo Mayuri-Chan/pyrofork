@@ -146,6 +146,7 @@ def pyrogram_api():
             stop_transmission
             export_session_string
             set_parse_mode
+            ping
         """,
         conversation="""
         Conversation
@@ -364,15 +365,23 @@ def pyrogram_api():
             get_chat_gifts
             hide_gift
             refund_star_payment
+            search_gifts_for_resale
             send_invoice
             send_paid_media
             send_paid_reaction
             send_payment_form
             send_gift
+            send_resold_gift
+            set_gift_resale_price
+            set_pinned_gifts
             show_gift
             transfer_gift
             upgrade_gift
             get_stars_balance
+        """,
+        phone="""
+        Phone
+            get_call_members
         """,
         password="""
         Password
@@ -408,7 +417,11 @@ def pyrogram_api():
         Telegram Business
             answer_pre_checkout_query
             answer_shipping_query
+            delete_business_messages
             get_business_connection
+            get_business_account_gifts
+            get_business_account_star_balance
+            transfer_business_account_stars
         """,
         authorization="""
         Authorization
@@ -420,12 +433,11 @@ def pyrogram_api():
             resend_code
             sign_in
             sign_in_bot
-            sign_up
+            sign_in_qrcode
             get_password_hint
             check_password
             send_recovery_code
             recover_password
-            accept_terms_of_service
             log_out
             get_active_sessions
         """,
@@ -483,6 +495,7 @@ def pyrogram_api():
             BusinessWeeklyOpen
             BusinessWorkingHours
             User
+            Username
             Chat
             ChatPreview
             ChatPhoto
@@ -505,6 +518,7 @@ def pyrogram_api():
             PeerUser
             PeerChannel
             BotInfo
+            GroupCallMember
             ChatColor
             CollectibleItemInfo
             BotVerification
@@ -603,6 +617,7 @@ def pyrogram_api():
             Invoice
             LabeledPrice
             PaidMedia
+            PaidMessagePriceChanged
             PaymentForm
             PaymentInfo
             PaymentRefunded
@@ -712,6 +727,7 @@ def pyrogram_api():
         InputMessageContent
             InputMessageContent
             InputReplyToMessage
+            InputReplyToMonoforum
             InputReplyToStory
             InputTextMessageContent
             InputLocationMessageContent
@@ -723,6 +739,7 @@ def pyrogram_api():
         Authorization
             ActiveSession
             ActiveSessions
+            LoginToken
             SentCode
             TermsOfService
         """

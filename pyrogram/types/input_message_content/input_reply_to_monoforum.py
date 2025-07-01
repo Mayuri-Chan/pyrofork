@@ -1,5 +1,4 @@
 #  Pyrofork - Telegram MTProto API Client Library for Python
-#  Copyright (C) 2017-present Dan <https://github.com/delivrance>
 #  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
 #  This file is part of Pyrofork.
@@ -17,31 +16,28 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from enum import auto
+from pyrogram import raw
+from ..object import Object
 
-from .auto_name import AutoName
+
+class InputReplyToMonoforum(Object):
+    """Contains information about a target replied monoforum.
 
 
-class ChatType(AutoName):
-    """Chat type enumeration used in :obj:`~pyrogram.types.Chat`."""
+    Parameters:
+        monoforum_peer (:obj:`~pyrogram.raw.types.InputPeer`):
+            An InputPeer.
+    """
 
-    PRIVATE = auto()
-    "Chat is a private chat with a user"
+    def __init__(
+        self, *,
+        monoforum_peer: "raw.types.InputPeer"
+    ):
+        super().__init__()
 
-    BOT = auto()
-    "Chat is a private chat with a bot"
+        self.monoforum_peer = monoforum_peer
 
-    GROUP = auto()
-    "Chat is a basic group"
-
-    SUPERGROUP = auto()
-    "Chat is a supergroup"
-
-    CHANNEL = auto()
-    "Chat is a channel"
-
-    FORUM = auto()
-    "Chat is a forum"
-
-    MONOFORUM = auto()
-    "Chat is a monoforum"
+    def write(self):
+        return raw.types.InputReplyToMonoForum(
+            monoforum_peer_id=self.monoforum_peer
+        ).write()

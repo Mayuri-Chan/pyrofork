@@ -50,6 +50,7 @@ class SendVideo:
         reply_to_message_id: int = None,
         reply_to_story_id: int = None,
         reply_to_chat_id: Union[int, str] = None,
+        reply_to_monoforum_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         cover: Union[str, BinaryIO] = None,
@@ -58,6 +59,7 @@ class SendVideo:
         protect_content: bool = None,
         allow_paid_broadcast: bool = None,
         message_effect_id: int = None,
+        view_once: bool = None,
         invert_media: bool = None,
         reply_markup: Union[
             "types.InlineKeyboardMarkup",
@@ -150,6 +152,11 @@ class SendVideo:
                 for reply to message from another chat.
                 You can also use chat public link in form of *t.me/<username>* (str).
 
+            reply_to_monoforum_id (``int`` | ``str``, *optional*):
+                Unique identifier for the target user of monoforum.
+                for reply to message from monoforum.
+                for channel administrators only.
+
             quote_text (``str``, *optional*):
                 Text to quote.
                 for reply_to_message only.
@@ -179,6 +186,10 @@ class SendVideo:
 
             message_effect_id (``int`` ``64-bit``, *optional*):
                 Unique identifier of the message effect to be added to the message; for private chats only.
+
+            view_once (``bool``, *optional*):
+                Self-Destruct Timer.
+                If True, the photo will self-destruct after it was viewed.
 
             invert_media (``bool``, *optional*):
                 Inverts the position of the video and caption.
@@ -246,6 +257,7 @@ class SendVideo:
             reply_to_story_id=reply_to_story_id,
             message_thread_id=message_thread_id,
             reply_to_chat_id=reply_to_chat_id,
+            reply_to_monoforum_id=reply_to_monoforum_id,
             quote_text=quote_text,
             quote_entities=quote_entities,
             parse_mode=parse_mode
@@ -298,7 +310,7 @@ class SendVideo:
                     media = raw.types.InputMediaUploadedDocument(
                         mime_type=self.guess_mime_type(video) or "video/mp4",
                         file=file,
-                        ttl_seconds=ttl_seconds,
+                        ttl_seconds=(1 << 31) - 1 if view_once else ttl_seconds,
                         spoiler=has_spoiler,
                         thumb=thumb,
                         attributes=[
@@ -316,13 +328,13 @@ class SendVideo:
                 elif re.match("^https?://", video):
                     media = raw.types.InputMediaDocumentExternal(
                         url=video,
-                        ttl_seconds=ttl_seconds,
+                        ttl_seconds=(1 << 31) - 1 if view_once else ttl_seconds,
                         spoiler=has_spoiler,
                         video_cover=vidcover_file,
                         video_timestamp=start_timestamp
                     )
                 else:
-                    media = utils.get_input_media_from_file_id(video, FileType.VIDEO, ttl_seconds=ttl_seconds)
+                    media = utils.get_input_media_from_file_id(video, FileType.VIDEO, ttl_seconds=(1 << 31) - 1 if view_once else ttl_seconds)
                     media.spoiler = has_spoiler
             else:
                 thumb = await self.save_file(thumb)
@@ -330,7 +342,7 @@ class SendVideo:
                 media = raw.types.InputMediaUploadedDocument(
                     mime_type=self.guess_mime_type(file_name or video.name) or "video/mp4",
                     file=file,
-                    ttl_seconds=ttl_seconds,
+                    ttl_seconds=(1 << 31) - 1 if view_once else ttl_seconds,
                     spoiler=has_spoiler,
                     thumb=thumb,
                     attributes=[

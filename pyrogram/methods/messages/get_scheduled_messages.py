@@ -78,6 +78,6 @@ class GetScheduledMessages:
 
         r = await self.invoke(rpc, sleep_threshold=-1)
 
-        messages = await utils.parse_messages(self, r)
+        messages = await utils.parse_messages(self, r, is_scheduled=True)
 
         return messages if is_iterable else messages[0] if messages else None

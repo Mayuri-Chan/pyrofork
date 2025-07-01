@@ -17,7 +17,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
-from pyrogram import raw, types
+from pyrogram import enums, raw, types
 from ..object import Object
 from typing import Union
 
@@ -99,15 +99,21 @@ class KeyboardButton(Object):
 
         if isinstance(b, raw.types.KeyboardButtonRequestPeer):
             if isinstance(b.peer_type, raw.types.RequestPeerTypeBroadcast):
+                user_privileges = getattr(b.peer_type, "user_admin_rights", None)
+                bot_privileges = getattr(b.peer_type, "bot_admin_rights", None)
                 return KeyboardButton(
                     text=b.text,
                     request_chat=types.RequestPeerTypeChannel(
                         is_creator=b.peer_type.creator,
                         is_username=b.peer_type.has_username,
-                        max=b.max_quantity
+                        max=b.max_quantity,
+                        user_privileges=user_privileges,
+                        bot_privileges=bot_privileges
                     )
                 )
             if isinstance(b.peer_type, raw.types.RequestPeerTypeChat):
+                user_privileges = getattr(b.peer_type, "user_admin_rights", None)
+                bot_privileges = getattr(b.peer_type, "bot_admin_rights", None)
                 return KeyboardButton(
                     text=b.text,
                     request_chat=types.RequestPeerTypeChat(
@@ -115,7 +121,9 @@ class KeyboardButton(Object):
                         is_bot_participant=b.peer_type.bot_participant,
                         is_username=b.peer_type.has_username,
                         is_forum=b.peer_type.forum,
-                        max=b.max_quantity
+                        max=b.max_quantity,
+                        user_privileges=user_privileges,
+                        bot_privileges=bot_privileges
                     )
                 )
 
@@ -135,13 +143,52 @@ class KeyboardButton(Object):
         elif self.request_location:
             return raw.types.KeyboardButtonRequestGeoLocation(text=self.text)
         elif self.request_chat:
+            user_privileges = self.request_chat.user_privileges
+            bot_privileges = self.request_chat.bot_privileges
+
+            user_admin_rights = raw.types.ChatAdminRights(
+                    change_info=user_privileges.can_change_info,
+                    post_messages=user_privileges.can_post_messages,
+                    post_stories=user_privileges.can_post_stories,
+                    edit_messages=user_privileges.can_edit_messages,
+                    edit_stories=user_privileges.can_post_stories,
+                    delete_messages=user_privileges.can_delete_messages,
+                    delete_stories=user_privileges.can_delete_stories,
+                    ban_users=user_privileges.can_restrict_members,
+                    invite_users=user_privileges.can_invite_users,
+                    pin_messages=user_privileges.can_pin_messages,
+                    add_admins=user_privileges.can_promote_members,
+                    anonymous=user_privileges.is_anonymous,
+                    manage_call=user_privileges.can_manage_video_chats,
+                    other=user_privileges.can_manage_chat
+            ) if user_privileges else None
+
+            bot_admin_rights = raw.types.ChatAdminRights(
+                    change_info=bot_privileges.can_change_info,
+                    post_messages=bot_privileges.can_post_messages,
+                    post_stories=bot_privileges.can_post_stories,
+                    edit_messages=bot_privileges.can_edit_messages,
+                    edit_stories=bot_privileges.can_post_stories,
+                    delete_messages=bot_privileges.can_delete_messages,
+                    delete_stories=bot_privileges.can_delete_stories,
+                    ban_users=bot_privileges.can_restrict_members,
+                    invite_users=bot_privileges.can_invite_users,
+                    pin_messages=bot_privileges.can_pin_messages,
+                    add_admins=bot_privileges.can_promote_members,
+                    anonymous=bot_privileges.is_anonymous,
+                    manage_call=bot_privileges.can_manage_video_chats,
+                    other=bot_privileges.can_manage_chat
+            ) if bot_privileges else None
+
             if isinstance(self.request_chat, types.RequestPeerTypeChannel):
                 return raw.types.InputKeyboardButtonRequestPeer(
                     text=self.text,
                     button_id=self.request_chat.button_id,
                     peer_type=raw.types.RequestPeerTypeBroadcast(
                         creator=self.request_chat.is_creator,
-                        has_username=self.request_chat.is_username
+                        has_username=self.request_chat.is_username,
+                        user_admin_rights=user_admin_rights,
+                        bot_admin_rights=bot_admin_rights
                     ),
                     max_quantity=self.request_chat.max,
                     name_requested=self.request_chat.is_name_requested,
@@ -155,7 +202,9 @@ class KeyboardButton(Object):
                     creator=self.request_chat.is_creator,
                     bot_participant=self.request_chat.is_bot_participant,
                     has_username=self.request_chat.is_username,
-                    forum=self.request_chat.is_forum
+                    forum=self.request_chat.is_forum,
+                    user_admin_rights=user_admin_rights,
+                    bot_admin_rights=bot_admin_rights
                 ),
                 max_quantity=self.request_chat.max,
                 name_requested=self.request_chat.is_name_requested,

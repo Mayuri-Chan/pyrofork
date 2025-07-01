@@ -103,7 +103,8 @@ async def parse_messages(
     client,
     messages: "raw.types.messages.Messages",
     replies: int = 1,
-    business_connection_id: str = None
+    business_connection_id: str = None,
+    is_scheduled: bool = False
 ) -> List["types.Message"]:
     users = {i.id: i for i in messages.users}
     chats = {i.id: i for i in messages.chats}
@@ -120,64 +121,76 @@ async def parse_messages(
         parsed_messages.append(await types.Message._parse(client, message, users, chats, topics, replies=0, business_connection_id=business_connection_id))
 
     if replies:
-        messages_with_replies = {
-            i.id: i.reply_to.reply_to_msg_id
-            for i in messages.messages
-            if (
-                not isinstance(i, raw.types.MessageEmpty)
-                and i.reply_to
-                and isinstance(i.reply_to, raw.types.MessageReplyHeader)
-                and i.reply_to.reply_to_msg_id is not None
-            )
-        }
+        if not is_scheduled:
+            messages_with_replies = {
+                i.id: i.reply_to.reply_to_msg_id
+                for i in messages.messages
+                if (
+                    not isinstance(i, raw.types.MessageEmpty)
+                    and i.reply_to
+                    and isinstance(i.reply_to, raw.types.MessageReplyHeader)
+                    and i.reply_to.reply_to_msg_id is not None
+                )
+            }
 
-        message_reply_to_story = {
-            i.id: {'user_id': i.reply_to.user_id, 'story_id': i.reply_to.story_id}
-            for i in messages.messages
-            if not isinstance(i, raw.types.MessageEmpty) and i.reply_to and isinstance(i.reply_to, raw.types.MessageReplyStoryHeader)
-        }
+            message_reply_to_story = {
+                i.id: {'user_id': i.reply_to.user_id, 'story_id': i.reply_to.story_id}
+                for i in messages.messages
+                if not isinstance(i, raw.types.MessageEmpty) and i.reply_to and isinstance(i.reply_to, raw.types.MessageReplyStoryHeader)
+            }
 
-        if messages_with_replies:
-            # We need a chat id, but some messages might be empty (no chat attribute available)
-            # Scan until we find a message with a chat available (there must be one, because we are fetching replies)
-            for m in parsed_messages:
-                if m.chat:
-                    chat_id = m.chat.id
-                    break
-            else:
-                chat_id = 0
+            if messages_with_replies:
+                # We need a chat id, but some messages might be empty (no chat attribute available)
+                # Scan until we find a message with a chat available (there must be one, because we are fetching replies)
+                for m in parsed_messages:
+                    if m.chat:
+                        chat_id = m.chat.id
+                        break
+                else:
+                    chat_id = 0
 
-            reply_messages = await client.get_messages(
-                chat_id,
-                reply_to_message_ids=messages_with_replies.keys(),
-                replies=replies - 1
-            )
-
-            for message in parsed_messages:
-                reply_id = messages_with_replies.get(message.id, None)
-
-                for reply in reply_messages:
-                    if reply.id == reply_id:
-                        if not reply.forum_topic_created:
-                            message.reply_to_message = reply
-        if message_reply_to_story:
-            for m in parsed_messages:
-                if m.chat:
-                    chat_id = m.chat.id
-                    break
-            else:
-                chat_id = 0
-
-            reply_messages = {}
-            for msg_id in message_reply_to_story.keys():
-                reply_messages[msg_id] = await client.get_stories(
-                    message_reply_to_story[msg_id]['user_id'],
-                    message_reply_to_story[msg_id]['story_id']
+                reply_messages = await client.get_messages(
+                    chat_id,
+                    reply_to_message_ids=messages_with_replies.keys(),
+                    replies=replies - 1
                 )
 
+                for message in parsed_messages:
+                    reply_id = messages_with_replies.get(message.id, None)
+
+                    for reply in reply_messages:
+                        if reply.id == reply_id:
+                            if not reply.forum_topic_created:
+                                message.reply_to_message = reply
+            if message_reply_to_story:
+                for m in parsed_messages:
+                    if m.chat:
+                        chat_id = m.chat.id
+                        break
+                else:
+                    chat_id = 0
+
+                reply_messages = {}
+                for msg_id in message_reply_to_story.keys():
+                    reply_messages[msg_id] = await client.get_stories(
+                        message_reply_to_story[msg_id]['user_id'],
+                        message_reply_to_story[msg_id]['story_id']
+                    )
+
+                for message in parsed_messages:
+                    if message.id in reply_messages:
+                        message.reply_to_story = reply_messages[message.id]
+        else:
             for message in parsed_messages:
-                if message.id in reply_messages:
-                    message.reply_to_story = reply_messages[message.id]
+                if (
+                    message.reply_to_message_id
+                    and not message.external_reply
+                ):
+                    message.reply_to_message = await client.get_messages(
+                        message.chat.id,
+                        message_ids=message.reply_to_message_id,
+                        replies=replies - 1
+                    )
 
     return types.List(parsed_messages)
 
@@ -474,6 +487,7 @@ async def get_reply_to(
     reply_to_message_id: int = None,
     reply_to_story_id: int = None,
     message_thread_id: int = None,
+    reply_to_monoforum_id: Union[int,str] = None,
     reply_to_chat_id: Union[int,str] = None,
     quote_text: str = None,
     quote_entities: List["types.MessageEntity"] = None,
@@ -482,7 +496,12 @@ async def get_reply_to(
 ):
     reply_to = None
     reply_to_chat = None
-    if reply_to_message_id or message_thread_id:
+    if reply_to_monoforum_id:
+        peer = await client.resolve_peer(reply_to_monoforum_id)
+        reply_to = types.InputReplyToMonoforum(
+            monoforum_peer=peer
+        )
+    elif reply_to_message_id or message_thread_id:
         text, entities = (await parse_text_entities(client, quote_text, parse_mode, quote_entities)).values()
         if reply_to_chat_id is not None:
             reply_to_chat = await client.resolve_peer(reply_to_chat_id)
@@ -494,7 +513,7 @@ async def get_reply_to(
             quote_entities=entities,
             quote_offset=quote_offset,
         )
-    if reply_to_story_id:
+    elif reply_to_story_id:
         peer = await client.resolve_peer(chat_id)
         reply_to = types.InputReplyToStory(
             peer=peer,
