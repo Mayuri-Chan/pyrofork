@@ -285,6 +285,7 @@ def pyrogram_api():
             hide_general_topic
             reopen_forum_topic
             reopen_general_topic
+            transfer_chat_ownership
             unhide_general_topic
             update_color
             update_folder
