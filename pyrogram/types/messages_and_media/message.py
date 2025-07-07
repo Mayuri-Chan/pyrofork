@@ -194,6 +194,9 @@ class Message(Object, Update):
         paid_media (:obj:`~pyrogram.types.PaidMedia`, *optional*):
             Message is a paid media, information about the paid media.
 
+        todo (:obj:`~pyrogram.types.Todo`, *optional*):
+            Message is a todo list, information about the todo list.
+
         sticker (:obj:`~pyrogram.types.Sticker`, *optional*):
             Message is a sticker, information about the sticker.
 
@@ -404,6 +407,21 @@ class Message(Object, Update):
         gifted_premium (:obj:`~pyrogram.types.GiftedPremium`, *optional*):
             Info about a gifted Telegram Premium subscription
 
+        screenshot_taken (:obj:`~pyrogram.types.ScreenshotTaken`, *optional*):
+            Service message: screenshot taken.
+
+        paid_message_price_changed (:obj:`~pyrogram.types.PaidMessagePriceChanged`, *optional*):
+            Service message: paid message price changed.
+
+        todo_tasks_added (:obj:`~pyrogram.types.TodoTasksAdded`, *optional*):
+            Service message: todo tasks added.
+
+        todo_tasks_completed (:obj:`~pyrogram.types.TodoTasksCompleted`, *optional*):
+            Service message: todo tasks completed.
+
+        todo_tasks_incompleted (:obj:`~pyrogram.types.TodoTasksIncompleted`, *optional*):
+            Service message: todo tasks incompleted.
+
         link (``str``, *property*):
             Generate a link to this message, only for groups and channels.
 
@@ -468,6 +486,7 @@ class Message(Object, Update):
         document: "types.Document" = None,
         photo: "types.Photo" = None,
         paid_media: "types.PaidMedia" = None,
+        todo: "types.Todo" = None,
         sticker: "types.Sticker" = None,
         animation: "types.Animation" = None,
         game: "types.Game" = None,
@@ -481,6 +500,9 @@ class Message(Object, Update):
         gift: "types.Gift" = None,
         screenshot_taken: "types.ScreenshotTaken" = None,
         paid_message_price_changed: "types.PaidMessagePriceChanged" = None,
+        todo_tasks_added: "types.TodoTasksAdded" = None,
+        todo_tasks_completed: "types.TodoTasksCompleted" = None,
+        todo_tasks_incompleted: "types.TodoTasksIncompleted" = None,
         invoice: "types.Invoice" = None,
         story: Union["types.MessageStory", "types.Story"] = None,
         alternative_videos: List["types.AlternativeVideo"] = None,
@@ -584,6 +606,7 @@ class Message(Object, Update):
         self.document = document
         self.photo = photo
         self.paid_media = paid_media
+        self.todo = todo
         self.sticker = sticker
         self.animation = animation
         self.game = game
@@ -598,6 +621,9 @@ class Message(Object, Update):
         self.gift = gift
         self.screenshot_taken = screenshot_taken
         self.paid_message_price_changed = paid_message_price_changed
+        self.todo_tasks_added = todo_tasks_added
+        self.todo_tasks_completed = todo_tasks_completed
+        self.todo_tasks_incompleted = todo_tasks_incompleted
         self.invoice = invoice
         self.story = story
         self.video = video
@@ -763,6 +789,9 @@ class Message(Object, Update):
             gift = None
             screenshot_taken = None
             paid_message_price_changed = None
+            todo_tasks_added = None
+            todo_tasks_completed = None
+            todo_tasks_incompleted = None
 
             service_type = None
             chat_join_type = None
@@ -888,6 +917,7 @@ class Message(Object, Update):
                 paid_message_price_changed = types.PaidMessagePriceChanged._parse(action)
                 service_type = enums.MessageServiceType.PAID_MESSAGE_PRICE_CHANGED
 
+
             parsed_message = Message(
                 id=message.id,
                 message_thread_id=message_thread_id,
@@ -967,6 +997,34 @@ class Message(Object, Update):
                         parsed_message.service = enums.MessageServiceType.GAME_HIGH_SCORE
                     except MessageIdsEmpty:
                         pass
+            if isinstance(action, raw.types.MessageActionTodoCompletions):
+                if action.completed:
+                    parsed_message.todo_tasks_completed = types.TodoTasksCompleted._parse(action)
+                if action.incompleted:
+                    parsed_message.todo_tasks_incompleted = types.TodoTasksIncompleted._parse(action)
+                parsed_message.service_type = enums.MessageServiceType.TODO_TASKS_COMPLETION
+                try:
+                    parsed_message.reply_to_message = await client.get_messages(
+                        parsed_message.chat.id,
+                        reply_to_message_ids=message.id,
+                        replies=0
+                    )
+                except MessageIdsEmpty:
+                    pass
+                parsed_message.reply_to_message_id = message.reply_to.reply_to_msg_id
+
+            if isinstance(action, raw.types.MessageActionTodoAppendTasks):
+                parsed_message.todo_tasks_added = types.TodoTasksAdded._parse(client, action)
+                parsed_message.service = enums.MessageServiceType.TODO_TASKS_ADDED
+                try:
+                    parsed_message.reply_to_message = await client.get_messages(
+                        parsed_message.chat.id,
+                        reply_to_message_ids=message.id,
+                        replies=0
+                    )
+                except MessageIdsEmpty:
+                    pass
+                parsed_message.reply_to_message_id = message.reply_to.reply_to_msg_id
 
             client.message_cache[(parsed_message.chat.id, parsed_message.id)] = parsed_message
 
@@ -1004,6 +1062,7 @@ class Message(Object, Update):
 
             photo = None
             paid_media = None
+            todo = None
             location = None
             contact = None
             venue = None
@@ -1130,6 +1189,9 @@ class Message(Object, Update):
                 elif isinstance(media, raw.types.MessageMediaPaidMedia):
                     paid_media = types.PaidMedia._parse(client, media)
                     media_type = enums.MessageMediaType.PAID_MEDIA
+                elif isinstance(media, raw.types.MessageMediaToDo):
+                    todo = types.TodoList._parse(client, media, users)
+                    media_type = enums.MessageMediaType.TODO
                 else:
                     media = None
 
@@ -1199,6 +1261,7 @@ class Message(Object, Update):
                 invert_media=message.invert_media,
                 photo=photo,
                 paid_media=paid_media,
+                todo=todo,
                 location=location,
                 contact=contact,
                 venue=venue,

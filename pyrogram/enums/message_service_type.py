@@ -135,3 +135,9 @@ class MessageServiceType(AutoName):
 
     PAID_MESSAGE_PRICE_CHANGED = auto()
     "Paid message price changed"
+
+    TODO_TASKS_ADDED = auto()
+    "To-Do tasks added"
+
+    TODO_TASKS_COMPLETION = auto()
+    "To-Do tasks completion/incompletion"
