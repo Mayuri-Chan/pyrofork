@@ -451,25 +451,25 @@ class Client(Methods):
                             return await self.sign_in_bot(value)
                         else:
                             self.phone_number = value
-
-                    sent_code = await self.send_code(self.phone_number)
+                    if not self.use_qrcode:
+                        sent_code = await self.send_code(self.phone_number)
                 except BadRequest as e:
                     print(e.MESSAGE)
                     self.phone_number = None
                     self.bot_token = None
                 else:
                     break
+            if not self.use_qrcode:
+                sent_code_descriptions = {
+                    enums.SentCodeType.APP: "Telegram app",
+                    enums.SentCodeType.SMS: "SMS",
+                    enums.SentCodeType.CALL: "phone call",
+                    enums.SentCodeType.FLASH_CALL: "phone flash call",
+                    enums.SentCodeType.FRAGMENT_SMS: "Fragment SMS",
+                    enums.SentCodeType.EMAIL_CODE: "email code"
+                }
 
-            sent_code_descriptions = {
-                enums.SentCodeType.APP: "Telegram app",
-                enums.SentCodeType.SMS: "SMS",
-                enums.SentCodeType.CALL: "phone call",
-                enums.SentCodeType.FLASH_CALL: "phone flash call",
-                enums.SentCodeType.FRAGMENT_SMS: "Fragment SMS",
-                enums.SentCodeType.EMAIL_CODE: "email code"
-            }
-
-            print(f"The confirmation code has been sent via {sent_code_descriptions[sent_code.type]}")
+                print(f"The confirmation code has been sent via {sent_code_descriptions[sent_code.type]}")
 
         while True:
             if not self.use_qrcode and not self.phone_code:
