@@ -37,6 +37,9 @@ class Folder(Object):
         title (``str``):
             The folder title.
 
+        title_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+            A list of entities in the folder title.
+
         included_chats (List of :obj:`~pyrogram.types.Chat`, *optional*):
             A list of included chats in folder.
 
@@ -83,6 +86,7 @@ class Folder(Object):
         client: "pyrogram.Client" = None,
         id: int,
         title: str,
+        title_entities: List["types.MessageEntity"] = None,
         included_chats: List["types.Chat"] = None,
         excluded_chats: List["types.Chat"] = None,
         pinned_chats: List["types.Chat"] = None,
@@ -102,6 +106,7 @@ class Folder(Object):
 
         self.id = id
         self.title = title
+        self.title_entities = title_entities
         self.included_chats = included_chats
         self.excluded_chats = excluded_chats
         self.pinned_chats = pinned_chats
@@ -122,6 +127,9 @@ class Folder(Object):
         included_chats = []
         excluded_chats = []
         pinned_chats = []
+        title = folder.title
+        title_text = title.text
+        title_entities = [types.MessageEntity._parse(client, entity) for entity in title.entities] if title.entities else None
 
         for peer in folder.include_peers:
             try:
@@ -144,7 +152,8 @@ class Folder(Object):
 
         return Folder(
             id=folder.id,
-            title=folder.title,
+            title=title_text,
+            title_entities=title_entities,
             included_chats=types.List(included_chats) or None,
             excluded_chats=types.List(excluded_chats) or None,
             pinned_chats=types.List(pinned_chats) or None,

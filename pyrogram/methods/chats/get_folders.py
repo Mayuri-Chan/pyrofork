@@ -81,7 +81,7 @@ class GetFolders:
             users.update({i.id: i for i in r.users})
             chats.update({i.id: i for i in r.chats})
 
-        folders = types.List(types.Folder._parse(self, folder, users, chats) for folder in raw_folders)
+        folders = types.List([types.Folder._parse(self, folder, users, chats) for folder in raw_folders])
 
         if not folders:
             return None

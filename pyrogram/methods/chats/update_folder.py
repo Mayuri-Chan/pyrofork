@@ -20,8 +20,7 @@
 from typing import List, Union
 
 import pyrogram
-from pyrogram import raw
-from pyrogram import enums
+from pyrogram import enums, raw, types, utils
 
 
 class UpdateFolder:
@@ -29,6 +28,7 @@ class UpdateFolder:
         self: "pyrogram.Client",
         folder_id: int,
         title: str,
+        title_entities: List["types.MessageEntity"] = None,
         included_chats: Union[Union[int, str], List[Union[int, str]]] = None,
         excluded_chats: Union[Union[int, str], List[Union[int, str]]] = None,
         pinned_chats: Union[Union[int, str], List[Union[int, str]]] = None,
@@ -41,7 +41,8 @@ class UpdateFolder:
         exclude_read: bool = None,
         exclude_archived: bool = None,
         color: "enums.FolderColor" = None,
-        emoji: str = None
+        emoji: str = None,
+        parse_mode: "pyrogram.enums.ParseMode" = pyrogram.enums.ParseMode.DEFAULT
     ) -> bool:
         """Create or update a user's folder.
 
@@ -53,6 +54,9 @@ class UpdateFolder:
 
             title (``str``):
                 Folder title.
+
+            title_entities (List of :obj:`~pyrogram.types.MessageEntity`, *optional*):
+                Entities for the folder title.
 
             included_chats (``int`` | ``str`` | List of ``int`` or ``str``, *optional*):
                 Users or chats that should added in the folder
@@ -98,6 +102,9 @@ class UpdateFolder:
                 Color type.
                 Pass :obj:`~pyrogram.enums.FolderColor` to set folder color.
 
+            parse_mode (:obj:`~pyrogram.enums.ParseMode`, *optional*):
+                The parse mode to use for the title.
+
         Returns:
             ``bool``: True, on success.
 
@@ -107,6 +114,8 @@ class UpdateFolder:
                 # Create or update folder
                 app.update_folder(folder_id, title="New folder", included_chats="me")
         """
+        title_text, title_entities = (await utils.parse_text_entities(self, title, parse_mode, title_entities)).values()
+
         if not isinstance(included_chats, list):
             included_chats = [included_chats] if included_chats else []
         if not isinstance(excluded_chats, list):
@@ -119,7 +128,10 @@ class UpdateFolder:
                 id=folder_id,
                 filter=raw.types.DialogFilter(
                     id=folder_id,
-                    title=title,
+                    title=raw.types.TextWithEntities(
+                        text=title_text,
+                        entities=title_entities or []
+                    ),
                     pinned_peers=[
                         await self.resolve_peer(user_id)
                         for user_id in pinned_chats
@@ -146,4 +158,4 @@ class UpdateFolder:
             )
         )
 
-        return r
+        return bool(r)
