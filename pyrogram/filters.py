@@ -796,7 +796,7 @@ from_scheduled = create(from_scheduled_filter)
 
 # region linked_channel_filter
 async def linked_channel_filter(_, __, m: Message):
-    return bool(m.forward_from_chat and not m.from_user)
+    return bool((m.forward_origin and m.forward_origin.chat) and not m.from_user)
 
 
 linked_channel = create(linked_channel_filter)
