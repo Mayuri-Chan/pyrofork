@@ -476,9 +476,9 @@ class Chat(Object):
         users: Dict[int, "raw.types.User"],
         chats: Dict[int, "raw.types.Chat"]
     ) -> "Chat":
-        if isinstance(peer, raw.types.PeerUser):
+        if isinstance(peer, raw.types.PeerUser) or isinstance(peer, raw.types.InputPeerUser):
             return Chat._parse_user_chat(client, users[peer.user_id])
-        elif isinstance(peer, raw.types.PeerChat):
+        elif isinstance(peer, raw.types.PeerChat) or isinstance(peer, raw.types.InputPeerChat):
             return Chat._parse_chat_chat(client, chats[peer.chat_id])
         else:
             return Chat._parse_channel_chat(client, chats[peer.channel_id])
