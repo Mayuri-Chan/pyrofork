@@ -421,7 +421,7 @@ class Session:
             except (FloodWait, FloodPremiumWait) as e:
                 amount = e.value
 
-                if amount > sleep_threshold >= 0:
+                if sleep_threshold < 0 or amount > sleep_threshold:
                     raise
 
                 log.warning('[%s] Waiting for %s seconds before continuing (required by "%s")',
