@@ -80,7 +80,20 @@ Using async_pymongo (Recommended for python3.9+):
         print(await app.get_me())
 
 
-Using motor:
+Using official mongodb driver:
+
+.. code-block:: python
+
+    from pymongo import AsyncMongoClient
+    from pyrogram import Client
+
+    conn = AsyncMongoClient("mongodb://...")
+
+    async with Client("my_account", mongodb=dict(connection=conn, remove_peers=False)) as app:
+        print(await app.get_me())
+
+
+Using motor (Deprecated, but still works):
 
 .. code-block:: python
 
