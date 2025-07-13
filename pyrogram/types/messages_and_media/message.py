@@ -308,7 +308,7 @@ class Message(Object, Update):
 
         views (``int``, *optional*):
             Channel post views.
-        
+
         forwards (``int``, *optional*):
             Channel post forwards.
 
