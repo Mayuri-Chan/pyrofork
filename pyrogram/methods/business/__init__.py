@@ -21,6 +21,9 @@ from .answer_pre_checkout_query import AnswerPreCheckoutQuery
 from .answer_shipping_query import AnswerShippingQuery
 from .delete_business_messages import DeleteBusinessMessages
 from .get_business_connection import GetBusinessConnection
+from .get_business_account_gifts import GetBusinessAccountGifts
+from .get_business_account_star_balance import GetBusinessAccountStarBalance
+from .transfer_business_account_stars import TransferBusinessAccountStars
 
 
 class TelegramBusiness(
@@ -28,5 +31,8 @@ class TelegramBusiness(
     AnswerShippingQuery,
     DeleteBusinessMessages,
     GetBusinessConnection,
+    GetBusinessAccountGifts,
+    GetBusinessAccountStarBalance,
+    TransferBusinessAccountStars,
 ):
     pass

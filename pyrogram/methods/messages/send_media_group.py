@@ -56,6 +56,7 @@ class SendMediaGroup:
         reply_to_message_id: int = None,
         reply_to_story_id: int = None,
         reply_to_chat_id: Union[int, str] = None,
+        reply_to_monoforum_id: Union[int, str] = None,
         quote_text: str = None,
         quote_entities: List["types.MessageEntity"] = None,
         parse_mode: Optional["enums.ParseMode"] = None,
@@ -103,6 +104,11 @@ class SendMediaGroup:
                 Unique identifier for the origin chat.
                 for reply to message from another chat.
                 You can also use chat public link in form of *t.me/<username>* (str).
+
+            reply_to_monoforum_id (``int`` | ``str``, *optional*):
+                Unique identifier for the target user of monoforum.
+                for reply to message from monoforum.
+                for channel administrators only.
 
             quote_text (``str``, *optional*):
                 Text to quote.
@@ -180,6 +186,7 @@ class SendMediaGroup:
             reply_to_story_id=reply_to_story_id,
             message_thread_id=message_thread_id,
             reply_to_chat_id=reply_to_chat_id,
+            reply_to_monoforum_id=reply_to_monoforum_id,
             quote_text=quote_text,
             quote_entities=quote_entities,
             parse_mode=parse_mode,
@@ -271,7 +278,7 @@ class SendMediaGroup:
                                 w=i.width,
                                 h=i.height
                             ),
-                            raw.types.DocumentAttributeFilename(file_name=os.path.basename(i.media)),
+                            raw.types.DocumentAttributeFilename(file_name=i.file_name or os.path.basename(i.media)),
                         ]
                         if is_animation:
                             attributes.append(raw.types.DocumentAttributeAnimated())
@@ -339,7 +346,7 @@ class SendMediaGroup:
                                         w=i.width,
                                         h=i.height
                                     ),
-                                    raw.types.DocumentAttributeFilename(file_name=getattr(i.media, "name", "video.mp4")),
+                                    raw.types.DocumentAttributeFilename(file_name=i.file_name or getattr(i.media, "name", "video.mp4")),
                                 ],
                             ),
                         ),
@@ -371,7 +378,7 @@ class SendMediaGroup:
                                             performer=i.performer,
                                             title=i.title
                                         ),
-                                        raw.types.DocumentAttributeFilename(file_name=os.path.basename(i.media)),
+                                        raw.types.DocumentAttributeFilename(file_name=i.file_name or os.path.basename(i.media)),
                                     ],
                                 ),
                             ),
@@ -419,7 +426,7 @@ class SendMediaGroup:
                                         performer=i.performer,
                                         title=i.title
                                     ),
-                                    raw.types.DocumentAttributeFilename(file_name=getattr(i.media, "name", "audio.mp3")),
+                                    raw.types.DocumentAttributeFilename(file_name=i.file_name or getattr(i.media, "name", "audio.mp3")),
                                 ],
                             ),
                         ),
@@ -445,7 +452,7 @@ class SendMediaGroup:
                                     file=file,
                                     thumb=thumb,
                                     attributes=[
-                                        raw.types.DocumentAttributeFilename(file_name=os.path.basename(i.media)),
+                                        raw.types.DocumentAttributeFilename(file_name=i.file_name or os.path.basename(i.media)),
                                     ],
                                 ),
                             ),
@@ -490,7 +497,7 @@ class SendMediaGroup:
                                 file=file,
                                 thumb=thumb,
                                 attributes=[
-                                    raw.types.DocumentAttributeFilename(file_name=getattr(i.media, "name", "file.zip")),
+                                    raw.types.DocumentAttributeFilename(file_name=i.file_name or getattr(i.media, "name", "file.zip")),
                                 ],
                             ),
                         ),

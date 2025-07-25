@@ -84,3 +84,6 @@ class MessageMediaType(AutoName):
 
     PAID_MEDIA = auto()
     "Paid media"
+
+    TODO = auto()
+    "To-Do list media"

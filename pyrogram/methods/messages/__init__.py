@@ -17,6 +17,7 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
+from .add_task_to_todo import AddTaskToTodo
 from .copy_media_group import CopyMediaGroup
 from .copy_message import CopyMessage
 from .delete_chat_history import DeleteChatHistory
@@ -52,6 +53,7 @@ from .search_global_hashtag_messages import SearchGlobalHashtagMessages
 from .search_global_hashtag_messages_count import SearchGlobalHashtagMessagesCount
 from .search_messages import SearchMessages
 from .search_messages_count import SearchMessagesCount
+from .set_todo_tasks_completion import SetTodoTasksCompletion
 from .send_animation import SendAnimation
 from .send_audio import SendAudio
 from .send_cached_media import SendCachedMedia
@@ -66,6 +68,7 @@ from .send_photo import SendPhoto
 from .send_poll import SendPoll
 from .send_reaction import SendReaction
 from .send_sticker import SendSticker
+from .send_todo import SendTodo
 from .send_venue import SendVenue
 from .send_video import SendVideo
 from .send_video_note import SendVideoNote
@@ -79,6 +82,7 @@ from .transcribe_audio import TranscribeAudio
 from .translate_text import TranslateText
 
 class Messages(
+    AddTaskToTodo,
     DeleteChatHistory,
     DeleteMessages,
     DeleteScheduledMessages,
@@ -93,6 +97,7 @@ class Messages(
     GetMessages,
     GetMessageReadParticipants,
     GetScheduledMessages,
+    SetTodoTasksCompletion,
     SendAudio,
     SendChatAction,
     SendContact,
@@ -103,6 +108,7 @@ class Messages(
     SendMessage,
     SendPhoto,
     SendSticker,
+    SendTodo,
     SendVenue,
     SendVideo,
     SendVideoNote,

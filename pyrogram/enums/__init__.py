@@ -27,6 +27,7 @@ from .chat_type import ChatType
 from .client_platform import ClientPlatform
 from .folder_color import FolderColor
 from .gift_attribute_type import GiftAttributeType
+from .gift_for_resale_order import GiftForResaleOrder
 from .listerner_types import ListenerTypes
 from .message_entity_type import MessageEntityType
 from .message_media_type import MessageMediaType
@@ -55,6 +56,7 @@ __all__ = [
     'ClientPlatform',
     'FolderColor',
     'GiftAttributeType',
+    'GiftForResaleOrder',
     'ListenerTypes',
     'MessageEntityType', 
     'MessageMediaType', 

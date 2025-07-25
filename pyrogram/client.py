@@ -227,10 +227,13 @@ class Client(Methods):
     SYSTEM_VERSION = f"{platform.system()} {platform.release()}"
 
     LANG_CODE = "en"
+    LANG_PACK = ""
+    SYSTEM_LANG_CODE = "en-US"
 
     PARENT_DIR = Path(sys.argv[0]).parent
 
     INVITE_LINK_RE = re.compile(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:joinchat/|\+))([\w-]+)$")
+    UPGRADED_GIFT_RE = re.compile(r"^(?:https?://)?(?:www\.)?(?:t(?:elegram)?\.(?:org|me|dog)/(?:nft/|\+))([\w-]+)$")
     WORKERS = min(32, (os.cpu_count() or 0) + 4)  # os.cpu_count() can be None
     WORKDIR = PARENT_DIR
 
@@ -251,7 +254,9 @@ class Client(Methods):
         app_version: str = APP_VERSION,
         device_model: str = DEVICE_MODEL,
         system_version: str = SYSTEM_VERSION,
+        system_lang_code: str = SYSTEM_LANG_CODE,
         lang_code: str = LANG_CODE,
+        lang_pack: str = LANG_PACK,
         ipv6: Optional[bool] = False,
         alt_port: Optional[bool] = False,
         proxy: Optional[dict] = None,
@@ -287,7 +292,9 @@ class Client(Methods):
         self.app_version = app_version
         self.device_model = device_model
         self.system_version = system_version
+        self.system_lang_code = system_lang_code.lower()
         self.lang_code = lang_code.lower()
+        self.lang_pack = lang_pack.lower()
         self.ipv6 = ipv6
         self.alt_port = alt_port
         self.proxy = proxy
@@ -444,25 +451,25 @@ class Client(Methods):
                             return await self.sign_in_bot(value)
                         else:
                             self.phone_number = value
-
-                    sent_code = await self.send_code(self.phone_number)
+                    if not self.use_qrcode:
+                        sent_code = await self.send_code(self.phone_number)
                 except BadRequest as e:
                     print(e.MESSAGE)
                     self.phone_number = None
                     self.bot_token = None
                 else:
                     break
+            if not self.use_qrcode:
+                sent_code_descriptions = {
+                    enums.SentCodeType.APP: "Telegram app",
+                    enums.SentCodeType.SMS: "SMS",
+                    enums.SentCodeType.CALL: "phone call",
+                    enums.SentCodeType.FLASH_CALL: "phone flash call",
+                    enums.SentCodeType.FRAGMENT_SMS: "Fragment SMS",
+                    enums.SentCodeType.EMAIL_CODE: "email code"
+                }
 
-            sent_code_descriptions = {
-                enums.SentCodeType.APP: "Telegram app",
-                enums.SentCodeType.SMS: "SMS",
-                enums.SentCodeType.CALL: "phone call",
-                enums.SentCodeType.FLASH_CALL: "phone flash call",
-                enums.SentCodeType.FRAGMENT_SMS: "Fragment SMS",
-                enums.SentCodeType.EMAIL_CODE: "email code"
-            }
-
-            print(f"The confirmation code has been sent via {sent_code_descriptions[sent_code.type]}")
+                print(f"The confirmation code has been sent via {sent_code_descriptions[sent_code.type]}")
 
         while True:
             if not self.use_qrcode and not self.phone_code:

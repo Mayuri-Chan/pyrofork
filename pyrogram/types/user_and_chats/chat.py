@@ -56,9 +56,6 @@ class Chat(Object):
         is_support (``bool``):
             True, if this chat is part of the Telegram support team. Users and bots only.
 
-        is_forum (``bool``, *optional*):
-            True, if the supergroup chat is a forum
-
         is_participants_hidden (``bool``, *optional*):
             True, if the chat members are hidden.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
@@ -170,6 +167,10 @@ class Chat(Object):
             The linked discussion group (in case of channels) or the linked channel (in case of supergroups).
             Returned only in :meth:`~pyrogram.Client.get_chat`.
 
+        linked_forum (:obj:`~pyrogram.types.Chat`, *optional*):
+            The linked monoforum (in case of channels) or the linked channel (in case of monoforum).
+            Returned only in :meth:`~pyrogram.Client.get_chat`.
+
         send_as_chat (:obj:`~pyrogram.types.Chat`, *optional*):
             The default "send_as" chat.
             Returned only in :meth:`~pyrogram.Client.get_chat`.
@@ -231,7 +232,6 @@ class Chat(Object):
         is_scam: bool = None,
         is_fake: bool = None,
         is_support: bool = None,
-        is_forum: bool = None,
         is_participants_hidden: bool = None,
         is_join_request: bool = None,
         is_join_to_send: bool = None,
@@ -263,6 +263,7 @@ class Chat(Object):
         permissions: "types.ChatPermissions" = None,
         distance: int = None,
         linked_chat: "types.Chat" = None,
+        linked_forum: "types.Chat" = None,
         send_as_chat: "types.Chat" = None,
         available_reactions: Optional["types.ChatReactions"] = None,
         usernames: List["types.Username"] = None,
@@ -286,7 +287,6 @@ class Chat(Object):
         self.is_scam = is_scam
         self.is_fake = is_fake
         self.is_support = is_support
-        self.is_forum = is_forum
         self.is_participants_hidden = is_participants_hidden
         self.is_join_request = is_join_request
         self.is_join_to_send = is_join_to_send
@@ -318,6 +318,7 @@ class Chat(Object):
         self.permissions = permissions
         self.distance = distance
         self.linked_chat = linked_chat
+        self.linked_forum = linked_forum
         self.send_as_chat = send_as_chat
         self.available_reactions = available_reactions
         self.usernames = usernames
@@ -394,6 +395,16 @@ class Chat(Object):
         restriction_reason = getattr(channel, "restriction_reason", [])
         user_name = getattr(channel, "username", None)
         active_usernames = getattr(channel, "usernames", [])
+        if getattr(channel, "monoforum", None):
+            chat_type = enums.ChatType.MONOFORUM
+        elif getattr(channel, "forum", None):
+            chat_type = enums.ChatType.FORUM
+        elif getattr(channel, "megagroup", None):
+            chat_type = enums.ChatType.SUPERGROUP
+        elif getattr(channel, "broadcast", None):
+            chat_type = enums.ChatType.CHANNEL
+        else:
+            chat_type = enums.ChatType.GROUP
         usernames = None
         if len(active_usernames) >= 1:
             usernames = []
@@ -410,13 +421,12 @@ class Chat(Object):
 
         return Chat(
             id=peer_id,
-            type=enums.ChatType.SUPERGROUP if getattr(channel, "megagroup", None) else enums.ChatType.CHANNEL,
+            type=chat_type,
             is_verified=getattr(channel, "verified", None),
             is_restricted=getattr(channel, "restricted", None),
             is_creator=getattr(channel, "creator", None),
             is_scam=getattr(channel, "scam", None),
             is_fake=getattr(channel, "fake", None),
-            is_forum=getattr(channel, "forum", None),
             is_join_request=getattr(channel, "join_request", None),
             is_join_to_send=getattr(channel, "join_to_send", None),
             is_slowmode_enabled=getattr(channel, "slowmode_enabled", None),
@@ -466,9 +476,9 @@ class Chat(Object):
         users: Dict[int, "raw.types.User"],
         chats: Dict[int, "raw.types.Chat"]
     ) -> "Chat":
-        if isinstance(peer, raw.types.PeerUser):
+        if isinstance(peer, raw.types.PeerUser) or isinstance(peer, raw.types.InputPeerUser):
             return Chat._parse_user_chat(client, users[peer.user_id])
-        elif isinstance(peer, raw.types.PeerChat):
+        elif isinstance(peer, raw.types.PeerChat) or isinstance(peer, raw.types.InputPeerChat):
             return Chat._parse_chat_chat(client, chats[peer.chat_id])
         else:
             return Chat._parse_channel_chat(client, chats[peer.channel_id])
@@ -546,8 +556,13 @@ class Chat(Object):
 
                 linked_chat_raw = chats.get(full_chat.linked_chat_id, None)
 
+                linked_forum_raw = chats.get(getattr(chat_raw, "linked_monoforum_id"), None)
+
                 if linked_chat_raw:
                     parsed_chat.linked_chat = Chat._parse_channel_chat(client, linked_chat_raw)
+
+                if linked_forum_raw:
+                    parsed_chat.linked_forum = Chat._parse_channel_chat(client, linked_forum_raw)
 
                 default_send_as = full_chat.default_send_as
 

@@ -104,6 +104,10 @@ class Gift(Object):
             The number of gifts available for purchase.
             Returned only if is_limited is True.
 
+        resale_amount (``int``, *optional*):
+            The number of gifts available for resale.
+            Returned only if is_limited is True.
+
         total_amount (``int``, *optional*):
             Total amount of gifts.
             Returned only if is_limited is True.
@@ -177,6 +181,7 @@ class Gift(Object):
         collectible_id: Optional[int] = None,
         attributes: Optional[List["types.GiftAttribute"]] = None,
         available_amount: Optional[int] = None,
+        resale_amount: Optional[int] = None,
         total_amount: Optional[int] = None,
         can_upgrade: Optional[bool] = None,
         can_export_at: Optional[datetime] = None,
@@ -216,6 +221,7 @@ class Gift(Object):
         self.collectible_id = collectible_id
         self.attributes = attributes
         self.available_amount = available_amount
+        self.resale_amount = resale_amount
         self.total_amount = total_amount
         self.can_upgrade = can_upgrade
         self.can_export_at = can_export_at
@@ -254,6 +260,7 @@ class Gift(Object):
             convert_price=star_gift.convert_stars,
             upgrade_price=getattr(star_gift, "upgrade_stars", None),
             available_amount=getattr(star_gift, "availability_remains", None),
+            resale_amount=getattr(star_gift, "availability_resale", None),
             total_amount=getattr(star_gift, "availability_total", None),
             is_limited=getattr(star_gift, "limited", None),
             is_sold_out=getattr(star_gift, "sold_out", None),
@@ -281,6 +288,7 @@ class Gift(Object):
                 [await types.GiftAttribute._parse(client, attr, users) for attr in star_gift.attributes]
             ) or None,
             available_amount=getattr(star_gift, "availability_issued", None),
+            resale_amount=getattr(star_gift, "availability_resale", None),
             total_amount=getattr(star_gift, "availability_total", None),
             owner=(
                 types.Chat._parse_chat(client, users.get(owner_id) or
