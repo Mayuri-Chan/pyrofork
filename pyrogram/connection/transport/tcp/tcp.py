@@ -456,7 +456,7 @@ class TCP:
         try:
             self.writer.close()
             await asyncio.wait_for(self.writer.wait_closed(), self.TIMEOUT)
-        except Exception:
+        except (OSError, asyncio.TimeoutError):
             pass
 
     async def send(self, data: bytes) -> None:
@@ -468,7 +468,7 @@ class TCP:
             try:
                 self.writer.write(data)
                 await self.writer.drain()
-            except Exception as e:
+            except (OSError, asyncio.TimeoutError) as e:
                 raise OSError(e)
 
     async def recv(self, length: int = 0) -> Optional[bytes]:
