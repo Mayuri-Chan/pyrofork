@@ -213,9 +213,7 @@ class SOCKS4Handler:
         writer: asyncio.StreamWriter,
         reader: asyncio.StreamReader,
         destination: Tuple[str, int],
-        *,
-        username: Optional[str] = None,
-        timeout: int = 10,
+        username: Optional[str] = None
     ) -> None:
         """Perform SOCKS4 handshake."""
         host, port = destination
@@ -224,7 +222,7 @@ class SOCKS4Handler:
         writer.write(request)
         await writer.drain()
 
-        response = await asyncio.wait_for(reader.read(8), timeout)
+        response = await asyncio.wait_for(reader.read(8), 10)
         if len(response) != 8 or response[0] != 0x00 or response[1] != 0x5A:
             raise ConnectionError("SOCKS4 connection failed")
 
