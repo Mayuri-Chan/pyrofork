@@ -388,7 +388,6 @@ class TCP:
                 self.reader,
                 destination,
                 username=username,
-                timeout=self.TIMEOUT,
             )
         elif scheme.upper() == "HTTP":
             await handler.handshake(
