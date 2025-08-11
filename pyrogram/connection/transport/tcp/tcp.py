@@ -121,7 +121,7 @@ class TCP:
     async def connect(self, address: Tuple[str, int]) -> None:
         try:
             await asyncio.wait_for(self._connect(address), TCP.TIMEOUT)
-        except asyncio.TimeoutError:  # re raise as TimeoutError. asyncio.TimeoutError is deprecated in 3.11
+        except asyncio.TimeoutError:
             raise TimeoutError("Connection timed out")
 
     async def close(self) -> None:
