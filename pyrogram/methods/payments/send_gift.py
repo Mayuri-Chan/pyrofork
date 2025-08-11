@@ -77,7 +77,8 @@ class SendGift:
         """
         peer = await self.resolve_peer(chat_id)
 
-        text, entities = (await utils.parse_text_entities(self, text, parse_mode, entities)).values()
+        result = await utils.parse_text_entities(self, text, parse_mode, entities)
+        text, entities = result["message"], result["entities"]
 
         invoice = raw.types.InputInvoiceStarGift(
             peer=peer,
