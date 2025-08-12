@@ -91,10 +91,8 @@ class TCP:
         )
         sock.settimeout(TCP.TIMEOUT)
 
-        await self.loop.sock_connect(
-            sock=sock,
-            address=destination
-        )
+        # fix: Use run_in_executor for socks.socksocket
+        await self.loop.run_in_executor(None, sock.connect, destination)
 
         sock.setblocking(False)
 
@@ -123,7 +121,7 @@ class TCP:
     async def connect(self, address: Tuple[str, int]) -> None:
         try:
             await asyncio.wait_for(self._connect(address), TCP.TIMEOUT)
-        except asyncio.TimeoutError:  # Re-raise as TimeoutError. asyncio.TimeoutError is deprecated in 3.11
+        except asyncio.TimeoutError:
             raise TimeoutError("Connection timed out")
 
     async def close(self) -> None:

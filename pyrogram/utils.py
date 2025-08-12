@@ -436,13 +436,15 @@ async def parse_text_entities(
     entities: List["types.MessageEntity"]
 ) -> Dict[str, Union[str, List[raw.base.MessageEntity]]]:
     if entities:
-        # Inject the client instance because parsing user mentions requires it
+      
         for entity in entities:
             entity._client = client
 
-        text, entities = text, [await entity.write() for entity in entities] or None
+        text, entities = text, [await entity.write() for entity in entities] or []
     else:
-        text, entities = (await client.parser.parse(text, parse_mode)).values()
+        parsed = await client.parser.parse(text, parse_mode)
+        
+        text, entities = parsed["message"], parsed.get("entities") or []
 
     return {
         "message": text,
