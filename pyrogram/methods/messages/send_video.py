@@ -335,6 +335,11 @@ class SendVideo:
                     )
                 else:
                     media = utils.get_input_media_from_file_id(video, FileType.VIDEO, ttl_seconds=(1 << 31) - 1 if view_once else ttl_seconds)
+                    if vidcover_file is not None:
+                        try:
+                            media.video_cover = vidcover_file
+                        except Exception as e:
+                            pass
                     media.spoiler = has_spoiler
             else:
                 thumb = await self.save_file(thumb)
