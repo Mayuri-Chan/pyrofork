@@ -26,17 +26,37 @@ from pyrogram import types
 
 log = logging.getLogger(__name__)
 
+async def get_chunk(
+    client: "pyrogram.Client",
+    chat_id: Union[int, str],
+    offset_date: int,
+    offset_id: int,
+    offset_topic: int,
+    limit: int
+):
+    peer = await client.resolve_peer(chat_id)
+
+    r = await client.invoke(
+        raw.functions.channels.GetForumTopics(
+            channel=peer,
+            offset_date=offset_date,
+            offset_id=offset_id,
+            offset_topic=offset_topic,
+            limit=limit
+        ),
+        sleep_threshold=-1
+    )
+
+    return r.topics
+
 
 class GetForumTopics:
     async def get_forum_topics(
         self: "pyrogram.Client",
         chat_id: Union[int, str],
-        limit: int = 0,
-        offset_date: int = 0,
-        offset_id: int = 0,
-        offset_topic: int = 0
+        limit: int = 0
     ) -> Optional[AsyncGenerator["types.ForumTopic", None]]:
-        """Get one or more topic from a chat.
+        """Get forum topics from a chat.
 
         .. include:: /_includes/usable-by/users.rst
 
@@ -47,15 +67,7 @@ class GetForumTopics:
 
             limit (``int``, *optional*):
                 Limits the number of topics to be retrieved.
-
-            offset_date (``int``, *optional*):
-                Date of the last message of the last found topic.
-
-            offset_id (``int``, *optional*):
-                ID of the last message of the last found topic.
-
-            offset_topic (``int``, *optional*):
-                ID of the last found topic.
+                By default, no limit is applied and all topics are returned.
 
         Returns:
             ``Generator``: On success, a generator yielding :obj:`~pyrogram.types.ForumTopic` objects is returned.
@@ -70,12 +82,35 @@ class GetForumTopics:
         Raises:
             ValueError: In case of invalid arguments.
         """
+        current = 0
+        offset_date = 0
+        offset_id = 0
+        offset_topic = 0
+        total = abs(limit) or (1 << 31) - 1
+        chunk_limit = min(100, total)
 
-        peer = await self.resolve_peer(chat_id)
+        while True:
+            topics = await get_chunk(
+                client=self,
+                chat_id=chat_id,
+                offset_date=offset_date,
+                offset_id=offset_id,
+                offset_topic=offset_topic,
+                limit=chunk_limit
+            )
 
-        rpc = raw.functions.channels.GetForumTopics(channel=peer, offset_date=offset_date, offset_id=offset_id, offset_topic=offset_topic, limit=limit)
+            if not topics:
+                return
 
-        r = await self.invoke(rpc, sleep_threshold=-1)
+            last_topic = topics[-1]
+            offset_date = int(last_topic.date) if last_topic.date else 0
+            offset_id = last_topic.top_message if last_topic.top_message else 0
+            offset_topic = last_topic.id
 
-        for _topic in r.topics:
-            yield types.ForumTopic._parse(_topic)
+            for topic in topics:
+                yield types.ForumTopic._parse(topic)
+
+                current += 1
+
+                if current >= total:
+                    return
