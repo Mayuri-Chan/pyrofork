@@ -86,7 +86,7 @@ class Message(Object, Update):
 
         topic (:obj:`~pyrogram.types.ForumTopic`, *optional*):
             Topic the message belongs to.
-            only returned using when client.get_messages.
+            only returned when using client.get_messages.
 
         forward_origin (:obj:`~pyrogram.types.MessageOrigin`, *optional*):
             Information about the original message for forwarded messages.
@@ -573,6 +573,7 @@ class Message(Object, Update):
         self.sender_business_bot = sender_business_bot
         self.date = date
         self.chat = chat
+        self.topic = topic
         self.forward_origin = forward_origin
         self.external_reply = external_reply
         self.is_topic_message = is_topic_message
