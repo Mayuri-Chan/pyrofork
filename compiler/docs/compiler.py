@@ -657,6 +657,7 @@ def pyrogram_api():
             RequestPeerTypeChannel
             RequestPeerTypeChat
             RequestPeerTypeUser
+            KeyboardButtonPollType
             RequestedChats
             RequestedChat
             RequestedUser
