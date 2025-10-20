@@ -159,9 +159,6 @@ class SendCachedMedia:
         media = utils.get_input_media_from_file_id(file_id)
         media.spoiler = has_spoiler
 
-        media = utils.get_input_media_from_file_id(file_id)
-        media.spoiler = has_spoiler
-
         r = await self.invoke(
             raw.functions.messages.SendMedia(
                 peer=await self.resolve_peer(chat_id),
