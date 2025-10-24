@@ -21,13 +21,13 @@ from pyrogram import raw
 from typing import Union
 
 
-class DeleteForumTopic:
-    async def delete_forum_topic(
+class ReopenForumTopic:
+    async def reopen_forum_topic(
         self: "pyrogram.Client",
         chat_id: Union[int, str],
         topic_id: int
     ) -> bool:
-        """Delete a forum topic.
+        """Reopen a forum topic.
 
         .. include:: /_includes/usable-by/users-bots.rst
 
@@ -45,16 +45,13 @@ class DeleteForumTopic:
         Example:
             .. code-block:: python
 
-                await app.delete_forum_topic(chat_id, topic_id)
+                await app.reopen_forum_topic(chat_id, topic_id)
         """
-        try:
-            await self.invoke(
-                raw.functions.channels.DeleteTopicHistory(
-                    channel=await self.resolve_peer(chat_id),
-                    top_msg_id=topic_id
-                )
+        await self.invoke(
+            raw.functions.messages.EditForumTopic(
+                channel=await self.resolve_peer(chat_id),
+                topic_id=topic_id,
+                closed=False
             )
-        except Exception as e:
-            print(e)
-            return False
+        )
         return True

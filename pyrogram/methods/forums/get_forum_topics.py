@@ -37,7 +37,7 @@ async def get_chunk(
     peer = await client.resolve_peer(chat_id)
 
     r = await client.invoke(
-        raw.functions.channels.GetForumTopics(
+        raw.functions.messages.GetForumTopics(
             channel=peer,
             offset_date=offset_date,
             offset_id=offset_id,

@@ -21,13 +21,13 @@ from pyrogram import raw
 from typing import Union
 
 
-class EditGeneralTopic:
-    async def edit_general_topic(
+class CloseForumTopic:
+    async def close_forum_topic(
         self: "pyrogram.Client",
         chat_id: Union[int, str],
-        title: str
+        topic_id: int
     ) -> bool:
-        """Edit a general forum topic.
+        """Close a forum topic.
 
         .. include:: /_includes/usable-by/users-bots.rst
 
@@ -36,22 +36,22 @@ class EditGeneralTopic:
                 Unique identifier (int) or username (str) of the target chat.
                 You can also use chat public link in form of *t.me/<username>* (str).
 
-            title (``str``):
-                The general forum topic title.
+            topic_id (``int``):
+                Unique identifier (int) of the target forum topic.
 
         Returns:
-            `bool`: On success, a True is returned.
+            `bool`: On success, a Boolean is returned.
 
         Example:
             .. code-block:: python
 
-                await app.edit_general_topic(chat_id,"New Topic Title")
+                await app.close_forum_topic(chat_id, topic_id)
         """
         await self.invoke(
-            raw.functions.channels.EditForumTopic(
+            raw.functions.messages.EditForumTopic(
                 channel=await self.resolve_peer(chat_id),
-                topic_id=1,
-                title=title
+                topic_id=topic_id,
+                closed=True
             )
         )
         return True

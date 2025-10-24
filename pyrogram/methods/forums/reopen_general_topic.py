@@ -21,15 +21,12 @@ from pyrogram import raw
 from typing import Union
 
 
-class EditForumTopic:
-    async def edit_forum_topic(
+class ReopenGeneralTopic:
+    async def reopen_general_topic(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        topic_id: int,
-        title: str = None,
-        icon_emoji_id: int = None
+        chat_id: Union[int, str]
     ) -> bool:
-        """Edit a forum topic.
+        """Reopen a general forum topic.
 
         .. include:: /_includes/usable-by/users-bots.rst
 
@@ -38,29 +35,19 @@ class EditForumTopic:
                 Unique identifier (int) or username (str) of the target chat.
                 You can also use chat public link in form of *t.me/<username>* (str).
 
-            topic_id (``int``):
-                Unique identifier (int) of the target forum topic.
-
-            title (``str``, *optional*):
-                The forum topic title.
-
-            icon_emoji_id (``int``, *optional*):
-                Unique identifier of the custom emoji shown as the topic icon
-
         Returns:
-            `bool`: On success, a Boolean is returned.
+            `bool`: On success, a True is returned.
 
         Example:
             .. code-block:: python
 
-                await app.edit_forum_topic(chat_id,topic_id,"New Topic Title")
+                await app.reopen_general_topic(chat_id, topic_id)
         """
         await self.invoke(
-            raw.functions.channels.EditForumTopic(
+            raw.functions.messages.EditForumTopic(
                 channel=await self.resolve_peer(chat_id),
-                topic_id=topic_id,
-                title=title,
-                icon_emoji_id=icon_emoji_id
+                topic_id=1,
+                closed=False
             )
         )
         return True

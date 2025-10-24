@@ -21,12 +21,13 @@ from pyrogram import raw
 from typing import Union
 
 
-class CloseGeneralTopic:
-    async def close_general_topic(
+class DeleteForumTopic:
+    async def delete_forum_topic(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
+        chat_id: Union[int, str],
+        topic_id: int
     ) -> bool:
-        """Close a forum topic.
+        """Delete a forum topic.
 
         .. include:: /_includes/usable-by/users-bots.rst
 
@@ -35,19 +36,25 @@ class CloseGeneralTopic:
                 Unique identifier (int) or username (str) of the target chat.
                 You can also use chat public link in form of *t.me/<username>* (str).
 
+            topic_id (``int``):
+                Unique identifier (int) of the target forum topic.
+
         Returns:
-            `bool`: On success, a True is returned.
+            `bool`: On success, a Boolean is returned.
 
         Example:
             .. code-block:: python
 
-                await app.close_general_topic(chat_id)
+                await app.delete_forum_topic(chat_id, topic_id)
         """
-        await self.invoke(
-            raw.functions.channels.EditForumTopic(
-                channel=await self.resolve_peer(chat_id),
-                topic_id=1,
-                closed=True
+        try:
+            await self.invoke(
+                raw.functions.messages.DeleteTopicHistory(
+                    channel=await self.resolve_peer(chat_id),
+                    top_msg_id=topic_id
+                )
             )
-        )
+        except Exception as e:
+            print(e)
+            return False
         return True

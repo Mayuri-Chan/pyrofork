@@ -15,21 +15,18 @@
 #
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
+
 import pyrogram
 from pyrogram import raw
-from pyrogram import types
 from typing import Union
 
 
-class CreateForumTopic:
-    async def create_forum_topic(
+class CloseGeneralTopic:
+    async def close_general_topic(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        title: str,
-        icon_color: int = None,
-        icon_emoji_id: int = None
-    ) -> "types.ForumTopicCreated":
-        """Create a new forum topic.
+        chat_id: Union[int, str]
+    ) -> bool:
+        """Close a forum topic.
 
         .. include:: /_includes/usable-by/users-bots.rst
 
@@ -38,31 +35,19 @@ class CreateForumTopic:
                 Unique identifier (int) or username (str) of the target chat.
                 You can also use chat public link in form of *t.me/<username>* (str).
 
-            title (``str``):
-                The forum topic title.
-
-            icon_color (``int``, *optional*):
-                The color of forum topic icon.
-
-            icon_emoji_id (``int``, *optional*):
-                Unique identifier of the custom emoji shown as the topic icon
-
         Returns:
-            :obj:`~pyrogram.types.ForumTopicCreated`: On success, a forum_topic_created object is returned.
+            `bool`: On success, a True is returned.
 
         Example:
             .. code-block:: python
 
-                await app.create_forum_topic("Topic Title")
+                await app.close_general_topic(chat_id)
         """
-        r = await self.invoke(
-            raw.functions.channels.CreateForumTopic(
+        await self.invoke(
+            raw.functions.messages.EditForumTopic(
                 channel=await self.resolve_peer(chat_id),
-                title=title,
-                random_id=self.rnd_id(),
-                icon_color=icon_color,
-                icon_emoji_id=icon_emoji_id
+                topic_id=1,
+                closed=True
             )
         )
-
-        return types.ForumTopicCreated._parse(r.updates[1].message)
+        return True
