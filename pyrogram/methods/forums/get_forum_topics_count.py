@@ -1,4 +1,5 @@
 #  Pyrofork - Telegram MTProto API Client Library for Python
+#  Copyright (C) 2017-present Dan <https://github.com/delivrance>
 #  Copyright (C) 2022-present Mayuri-Chan <https://github.com/Mayuri-Chan>
 #
 #  This file is part of Pyrofork.
@@ -15,19 +16,25 @@
 #
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
+
+import logging
+from typing import Union, Optional, AsyncGenerator
+
 import pyrogram
 from pyrogram import raw
-from typing import Union
+from pyrogram import types
+
+log = logging.getLogger(__name__)
 
 
-class HideGeneralTopic:
-    async def hide_general_topic(
+class GetForumTopicsCount:
+    async def get_forum_topics_count(
         self: "pyrogram.Client",
         chat_id: Union[int, str]
-    ) -> bool:
-        """hide a general forum topic.
+    ) -> Optional[AsyncGenerator["types.ForumTopic", None]]:
+        """Get forum topics count from a chat.
 
-        .. include:: /_includes/usable-by/users-bots.rst
+        .. include:: /_includes/usable-by/users.rst
 
         Parameters:
             chat_id (``int`` | ``str``):
@@ -35,18 +42,22 @@ class HideGeneralTopic:
                 You can also use chat public link in form of *t.me/<username>* (str).
 
         Returns:
-            `bool`: On success, a True is returned.
+            ``int``: On success, the count of forum topics is returned.
 
         Example:
             .. code-block:: python
 
-                await app.hide_general_topic(chat_id)
+                # get all forum topics count
+                app.get_forum_topics_count(chat_id)
+
+        Raises:
+            ValueError: In case of invalid arguments.
         """
-        await self.invoke(
-            raw.functions.channels.EditForumTopic(
-                channel=await self.resolve_peer(chat_id),
-                topic_id=1,
-                hidden=True
-            )
-        )
-        return True
+
+        peer = await self.resolve_peer(chat_id)
+
+        rpc = raw.functions.messages.GetForumTopics(channel=peer, offset_date=0, offset_id=0, offset_topic=0, limit=0)
+
+        r = await self.invoke(rpc, sleep_threshold=-1)
+
+        return r.count

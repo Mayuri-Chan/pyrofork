@@ -21,12 +21,13 @@ from pyrogram import raw
 from typing import Union
 
 
-class UnhideGeneralTopic:
-    async def unhide_general_topic(
+class EditGeneralTopic:
+    async def edit_general_topic(
         self: "pyrogram.Client",
-        chat_id: Union[int, str]
+        chat_id: Union[int, str],
+        title: str
     ) -> bool:
-        """unhide a general forum topic.
+        """Edit a general forum topic.
 
         .. include:: /_includes/usable-by/users-bots.rst
 
@@ -35,19 +36,22 @@ class UnhideGeneralTopic:
                 Unique identifier (int) or username (str) of the target chat.
                 You can also use chat public link in form of *t.me/<username>* (str).
 
+            title (``str``):
+                The general forum topic title.
+
         Returns:
             `bool`: On success, a True is returned.
 
         Example:
             .. code-block:: python
 
-                await app.unhide_general_topic(chat_id)
+                await app.edit_general_topic(chat_id,"New Topic Title")
         """
         await self.invoke(
-            raw.functions.channels.EditForumTopic(
+            raw.functions.messages.EditForumTopic(
                 channel=await self.resolve_peer(chat_id),
                 topic_id=1,
-                hidden=False
+                title=title
             )
         )
         return True

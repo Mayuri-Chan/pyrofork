@@ -21,13 +21,12 @@ from pyrogram import raw
 from typing import Union
 
 
-class ReopenForumTopic:
-    async def reopen_forum_topic(
+class UnhideGeneralTopic:
+    async def unhide_general_topic(
         self: "pyrogram.Client",
-        chat_id: Union[int, str],
-        topic_id: int
+        chat_id: Union[int, str]
     ) -> bool:
-        """Reopen a forum topic.
+        """unhide a general forum topic.
 
         .. include:: /_includes/usable-by/users-bots.rst
 
@@ -36,22 +35,19 @@ class ReopenForumTopic:
                 Unique identifier (int) or username (str) of the target chat.
                 You can also use chat public link in form of *t.me/<username>* (str).
 
-            topic_id (``int``):
-                Unique identifier (int) of the target forum topic.
-
         Returns:
-            `bool`: On success, a Boolean is returned.
+            `bool`: On success, a True is returned.
 
         Example:
             .. code-block:: python
 
-                await app.reopen_forum_topic(chat_id, topic_id)
+                await app.unhide_general_topic(chat_id)
         """
         await self.invoke(
-            raw.functions.channels.EditForumTopic(
+            raw.functions.messages.EditForumTopic(
                 channel=await self.resolve_peer(chat_id),
-                topic_id=topic_id,
-                closed=False
+                topic_id=1,
+                hidden=False
             )
         )
         return True

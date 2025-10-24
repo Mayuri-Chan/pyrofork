@@ -76,7 +76,7 @@ class GetForumTopicsByID:
         ids = list(ids) if is_iterable else [ids]
         ids = [i for i in ids]
 
-        rpc = raw.functions.channels.GetForumTopicsByID(channel=peer, topics=ids)
+        rpc = raw.functions.messages.GetForumTopicsByID(channel=peer, topics=ids)
 
         r = await self.invoke(rpc, sleep_threshold=-1)
 
