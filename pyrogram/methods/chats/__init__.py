@@ -28,6 +28,7 @@ from .delete_chat_photo import DeleteChatPhoto
 from .delete_folder import DeleteFolder
 from .delete_supergroup import DeleteSupergroup
 from .delete_user_history import DeleteUserHistory
+from .export_folder_link import ExportFolderLink
 from .get_chat import GetChat
 from .get_chat_event_log import GetChatEventLog
 from .get_chat_member import GetChatMember
