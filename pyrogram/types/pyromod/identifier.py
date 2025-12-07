@@ -46,7 +46,7 @@ class Identifier:
         # Compare each property of other with the corresponding property in self
         # If the property in self is None, the property in other can be anything
         # If the property in self is not None, the property in other must be the same
-        for field in self.__annotations__:
+        for field in self.__class__.__annotations__:
             pattern_value = getattr(self, field)
             update_value = getattr(update, field)
 
@@ -67,7 +67,7 @@ class Identifier:
     def count_populated(self):
         non_null_count = 0
 
-        for attr in self.__annotations__:
+        for attr in self.__class__.__annotations__:
             if getattr(self, attr) is not None:
                 non_null_count += 1
 
