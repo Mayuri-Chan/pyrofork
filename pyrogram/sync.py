@@ -29,7 +29,11 @@ from pyrogram.methods.utilities import idle as idle_module, compose as compose_m
 
 def async_to_sync(obj, name):
     function = getattr(obj, name)
-    main_loop = asyncio.get_event_loop()
+    try:
+        main_loop = asyncio.get_event_loop()
+    except RuntimeError:
+        main_loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(main_loop)
 
     def async_to_sync_gen(agen, loop, is_main_thread):
         async def anext(agen):
