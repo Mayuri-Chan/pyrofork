@@ -9,7 +9,7 @@
         Homepage
     </a>
     •
-    <a href="https://pyrofork.wulan17.top">
+    <a href="https://pyrofork.wulan17.dev">
         Documentation
     </a>
     •
@@ -44,7 +44,7 @@ async def hello(client, message):
 app.run()
 ```
 
-**Pyrofork** is a modern, elegant and asynchronous [MTProto API](https://pyrofork.wulan17.top/main/topics/mtproto-vs-botapi)
+**Pyrofork** is a modern, elegant and asynchronous [MTProto API](https://pyrofork.wulan17.dev/main/topics/mtproto-vs-botapi)
 framework. It enables you to easily interact with the main Telegram API through a user account (custom client) or a bot
 identity (bot API alternative) using Python.
 
@@ -72,6 +72,6 @@ pip3 install pyrofork
 
 ### Resources
 
-- Check out the docs at https://pyrofork.wulan17.top to learn more about Pyrofork, get started right
+- Check out the docs at https://pyrofork.wulan17.dev to learn more about Pyrofork, get started right
 away and discover more in-depth material for building your client applications.
 - Join the official group at https://t.me/MayuriChan_Chat and stay tuned for news, updates and announcements.

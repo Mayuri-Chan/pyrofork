@@ -43,7 +43,7 @@ Homepage = "https://github.com/Mayuri-Chan"
 Tracker = "https://github.com/Mayuri-Chan/pyrofork/issues"
 Community = "https://t.me/MayuriChan_Chat"
 Source = "https://github.com/Mayuri-Chan/pyrofork"
-Documentation = "https://pyrofork.wulan17.top"
+Documentation = "https://pyrofork.wulan17.dev"
 
 [build-system]
 requires = ["hatchling"]
