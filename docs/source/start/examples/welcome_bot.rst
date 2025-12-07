@@ -11,7 +11,7 @@ to make it only work for specific messages in a specific chat.
     # Target chat. Can also be a list of multiple chat ids/usernames
     TARGET = -100123456789
     # Welcome message template
-    MESSAGE = "{} Welcome to [Pyrofork](https://pyrofork.wulan17.top/)'s group chat {}!"
+    MESSAGE = "{} Welcome to [Pyrofork](https://pyrofork.wulan17.dev/)'s group chat {}!"
 
     app = Client("my_account")
 
