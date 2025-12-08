@@ -35,4 +35,3 @@ class KeyboardButtonPollType(Object):
         super().__init__()
 
         self.is_quiz = is_quiz
-        
