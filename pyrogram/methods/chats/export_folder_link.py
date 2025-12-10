@@ -67,4 +67,4 @@ class ExportFolderLink:
             )
         )
 
-        return r.invite.url
+        return types.ExportedFolderLink._parse(r)
