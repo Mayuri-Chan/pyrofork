@@ -14,8 +14,25 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: bash build-docs.sh configure
+
+      - name: Cleanup
+        run: bash build-docs.sh cleanup
+
+      - name: Create virtual environment
+        run: bash build-docs.sh virtualenv
+
       - name: Build
-        run: bash build-docs.sh
+        run: bash build-docs.sh build
+
+      - name: Clone gh-pages repository
+        run: bash build-docs.sh clone
         env:
           DOCS_KEY: ${{ secrets.DOCS_KEY }}
+
+      - name: Push changes
+        run: bash build-docs.sh push
