@@ -42,6 +42,7 @@ from .chat_privileges import ChatPrivileges
 from .chat_reactions import ChatReactions
 from .dialog import Dialog
 from .emoji_status import EmojiStatus
+from .exported_folder_link import ExportedFolderLink
 from .folder import Folder
 from .group_call_member import GroupCallMember
 from .invite_link_importer import InviteLinkImporter
@@ -107,6 +108,7 @@ __all__ = [
     "ChatPrivileges",
     "ChatJoiner",
     "EmojiStatus",
+    "ExportedFolderLink",
     "GroupCallMember",
     "ChatReactions"
 ]

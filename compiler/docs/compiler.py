@@ -518,6 +518,7 @@ def pyrogram_api():
             Folder
             Restriction
             EmojiStatus
+            ExportedFolderLink
             ForumTopic
             PeerUser
             PeerChannel
