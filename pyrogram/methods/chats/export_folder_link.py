@@ -25,7 +25,7 @@ class ExportFolderLink:
     async def export_folder_link(
         self: "pyrogram.Client",
         folder_id: int
-    ) -> str:
+    ) -> "pyrogram.types.ExportedFolderLink":
         """Export link to a user's folder.
 
         .. include:: /_includes/usable-by/users.rst
@@ -35,7 +35,7 @@ class ExportFolderLink:
                 Unique identifier (int) of the target folder.
 
         Returns:
-            ``str``: On success, a link to the folder as string is returned.
+            :obj:`~pyrogram.types.ExportedFolderLink` objects.
 
         Example:
             .. code-block:: python
