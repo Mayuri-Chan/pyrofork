@@ -65,15 +65,15 @@ class TodoTask(Object):
     @staticmethod
     def _parse(
         client: "pyrogram.Client",
-        todo_task: "raw.types.TodoTask",
+        todo_task: "raw.types.TodoList",
         users: Dict,
-        completions: List["raw.types.TodoTaskCompletion"] = None
+        completions: List["raw.types.TodoCompletion"] = None
     ) -> "TodoTask":
-        entities = [types.MessageEntity._parse(client, entity, None) for entity in todo_task.title.entities]
+        entities = [types.MessageEntity._parse(client, entity, users) for entity in todo_task.title.entities]
         entities = types.List(filter(lambda x: x is not None, entities))
         complete = {i.id: i for i in completions} if completions else {}
         todo_completion = complete.get(todo_task.id)
-        completed_by = types.User._parse(client, users.get(todo_completion.completed_by, None)) if todo_completion else None
+        completed_by = types.User._parse(client, users.get(getattr(todo_completion.completed_by, "user_id", None), None)) if todo_completion else None
         complete_date = utils.timestamp_to_datetime(todo_completion.date) if todo_completion else None
         return TodoTask(
             id=todo_task.id,

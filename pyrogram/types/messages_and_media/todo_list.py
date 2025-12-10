@@ -68,7 +68,7 @@ class TodoList(Object):
     ) -> "TodoList":
         todo_list = todo.todo
         completions = todo.completions
-        entities = [types.MessageEntity._parse(client, entity, None) for entity in todo_list.title.entities]
+        entities = [types.MessageEntity._parse(client, entity, users) for entity in todo_list.title.entities]
         entities = types.List(filter(lambda x: x is not None, entities))
         tasks = [
             types.TodoTask._parse(client, task, users, completions)
