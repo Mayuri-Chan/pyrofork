@@ -28,17 +28,24 @@ class GetCollectibleItemInfo:
         phone_number: str = None
     ) -> "types.CollectibleInfo":
         """Returns information about a given collectible item that was purchased at https://fragment.com
+
         .. include:: /_includes/usable-by/users.rst
+
         You must use exactly one of ``username`` OR ``phone_number``.
+
         Parameters:
             username (``str``, *optional*):
                 Describes a collectible username that can be purchased at https://fragment.com
+
             phone_number (``str``, *optional*):
                 Describes a collectible phone number that can be purchased at https://fragment.com
+
         Returns:
             :obj:`~pyrogram.types.CollectibleInfo`: On success, a collectible info is returned.
+
         Example:
             .. code-block:: python
+
                 username = await app.get_collectible_item_info(username="nerd")
                 print(username)
         """
