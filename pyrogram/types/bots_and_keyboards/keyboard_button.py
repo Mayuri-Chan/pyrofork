@@ -47,6 +47,9 @@ class KeyboardButton(Object):
             If specified, defines the criteria used to request a suitable users.
             The identifier of the selected users will be shared with the bot when the corresponding button is pressed.
 
+        request_poll (:obj:`~pyrogram.types.KeyboardButtonPollType`, *optional*):
+            If specified, the poll be sent when the button is pressed.
+
         web_app (:obj:`~pyrogram.types.WebAppInfo`, *optional*):
             If specified, the described `Web App <https://core.telegram.org/bots/webapps>`_ will be launched when the
             button is pressed. The Web App will be able to send a “web_app_data” service message. Available in private
@@ -61,6 +64,7 @@ class KeyboardButton(Object):
         request_location: bool = None,
         request_chat: Union["types.RequestPeerTypeChat","types.RequestPeerTypeChannel"] = None,
         request_user: "types.RequestPeerTypeUser" = None,
+        request_poll: "types.KeyboardButtonPollType" = None,
         web_app: "types.WebAppInfo" = None
     ):
         super().__init__()
@@ -70,6 +74,7 @@ class KeyboardButton(Object):
         self.request_location = request_location
         self.request_chat = request_chat
         self.request_user = request_user
+        self.request_poll = request_poll
         self.web_app = web_app
 
     @staticmethod
@@ -134,6 +139,14 @@ class KeyboardButton(Object):
                         is_bot=b.peer_type.bot,
                         is_premium=b.peer_type.premium,
                         max=b.max_quantity
+                    )
+            )
+
+            if isinstance(b, raw.types.KeyboardButtonRequestPoll):
+                return KeyboardButton(
+                    text=b.text,
+                    request_poll=types.KeyboardButtonPollType(
+                        is_quiz=b.quiz
                     )
             )
 
@@ -223,6 +236,11 @@ class KeyboardButton(Object):
                 name_requested=self.request_user.is_name_requested,
                 username_requested=self.request_user.is_username_requested,
                 photo_requested=self.request_user.is_photo_requested
+            )
+        elif self.request_poll:
+            return raw.types.KeyboardButtonRequestPoll(
+                text=self.text,
+                quiz=self.request_poll.is_quiz
             )
         elif self.web_app:
             return raw.types.KeyboardButtonSimpleWebView(text=self.text, url=self.web_app.url)
