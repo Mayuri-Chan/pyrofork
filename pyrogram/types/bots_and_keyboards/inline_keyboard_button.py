@@ -91,6 +91,7 @@ class InlineKeyboardButton(Object):
         callback_game: Optional["types.CallbackGame"] = None,
         requires_password: Optional[bool] = None,
         copy_text: Optional[str] = None
+        icon_custom_emoji_id: Optional[str] = None
     ):
         super().__init__()
 
@@ -106,6 +107,7 @@ class InlineKeyboardButton(Object):
         self.requires_password = requires_password
         # self.pay = pay
         self.copy_text = copy_text
+        self.icon_custom_emoji_id = icon_custom_emoji_id
 
     @staticmethod
     def read(b: "raw.base.KeyboardButton"):
@@ -181,11 +183,17 @@ class InlineKeyboardButton(Object):
             # Telegram only wants bytes, but we are allowed to pass strings too, for convenience.
             data = bytes(self.callback_data, "utf-8") if isinstance(self.callback_data, str) else self.callback_data
 
-            return raw.types.KeyboardButtonCallback(
+            btn = raw.types.KeyboardButtonCallback(
                 text=self.text,
                 data=data,
                 requires_password=self.requires_password
             )
+            
+            if self.icon_custom_emoji_id:
+                btn.icon_custom_emoji_id = self.icon_custom_emoji_id
+            
+            return btn
+
 
         if self.url is not None:
             return raw.types.KeyboardButtonUrl(
