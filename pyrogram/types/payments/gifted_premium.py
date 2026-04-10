@@ -41,7 +41,10 @@ class GiftedPremium(Object):
             The paid amount, in the smallest units of the cryptocurrency; 0 if none
 
         month_count (``int``):
-            Number of months the Telegram Premium subscription will be active
+            Number of months the Telegram Premium subscription will be active (int(days/30))
+
+        day_count (``int``):
+            Number of days the Telegram Premium subscription will be active
     """
 
     def __init__(
@@ -52,7 +55,8 @@ class GiftedPremium(Object):
         amount: int = None,
         cryptocurrency: str = None,
         cryptocurrency_amount: int = None,
-        month_count: int = None
+        month_count: int = None,
+        day_count: int = None
     ):
         super().__init__()
 
@@ -62,6 +66,7 @@ class GiftedPremium(Object):
         self.cryptocurrency = cryptocurrency
         self.cryptocurrency_amount = cryptocurrency_amount
         self.month_count = month_count
+        self.day_count = day_count
 
     @staticmethod
     async def _parse(
@@ -75,5 +80,6 @@ class GiftedPremium(Object):
             amount=gifted_premium.amount,
             cryptocurrency=getattr(gifted_premium, "crypto_currency", None),
             cryptocurrency_amount=getattr(gifted_premium, "crypto_amount", None),
-            month_count=gifted_premium.months
+            month_count=int(gifted_premium.days / 30),
+            day_count=gifted_premium.days
         )
