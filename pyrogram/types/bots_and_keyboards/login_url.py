@@ -81,11 +81,17 @@ class LoginUrl(Object):
             button_id=b.button_id
         )
 
-    def write(self, text: str, bot: "raw.types.InputUser"):
+    def write(
+        self,
+        text: str,
+        bot: "raw.types.InputUser",
+        style: "raw.types.KeyboardButtonStyle" = None
+    ):
         return raw.types.InputKeyboardButtonUrlAuth(
             text=text,
             url=self.url,
             bot=bot,
             fwd_text=self.forward_text,
-            request_write_access=self.request_write_access
+            request_write_access=self.request_write_access,
+            style=style
         )

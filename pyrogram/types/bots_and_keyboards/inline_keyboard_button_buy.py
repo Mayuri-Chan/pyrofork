@@ -15,11 +15,14 @@
 #
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
+
+from typing import Optional
+
 import pyrogram
+from pyrogram import raw
 
 from ..object import Object
-
-from pyrogram import raw
+from .button_style import parse_button_style, write_button_style
 
 class InlineKeyboardButtonBuy(Object):
     """One button of the inline keyboard.
@@ -29,23 +32,31 @@ class InlineKeyboardButtonBuy(Object):
         text (``str``):
             Text of the button. If none of the optional fields are used, it will be sent as a message when
             the button is pressed.
+
+        style (``str``, *optional*):
+            Optional button style. Can be one of ``"primary"``, ``"danger"`` or ``"success"``.
+            If omitted, Telegram uses an app-specific style.
     """
 
     def __init__(
         self,
-        text: str
+        text: str,
+        style: Optional[str] = None
     ):
         super().__init__()
 
         self.text = str(text)
+        self.style = style
 
     @staticmethod
     def read(b):
         return InlineKeyboardButtonBuy(
-            text=b.text
+            text=b.text,
+            style=parse_button_style(getattr(b, "style", None))
         )
 
     async def write(self, _: "pyrogram.Client"):
         return raw.types.KeyboardButtonBuy(
-            text=self.text
+            text=self.text,
+            style=write_button_style(self.style)
         )
