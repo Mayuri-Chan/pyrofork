@@ -19,16 +19,18 @@ function do_configure() {
     echo "#!/bin/bash" > config.sh
     echo "export VENV=\"$(pwd)/venv\"" >> config.sh
 
-    if [[ "$(echo "$GITHUB_REF" | cut -d '/' -f "1 2")" == "refs/tags" ]]; then
+    if [[ "$(echo "$GITHUB_REF" | cut -d '/' -f 1,2)" == "refs/tags" ]]; then
         echo "export BRANCH=\"main\"" >> config.sh
     elif [[ "$GITHUB_REF" == "refs/heads/staging" ]]; then
         echo "export BRANCH=\"staging\"" >> config.sh
     else
-        b="$(echo "$GITHUB_REF" | cut -d '/' -f '3 4')"
+        b="$(echo "$GITHUB_REF" | cut -d '/' -f 3,4)"
         if [[ $(echo "$b" | cut -d '/' -f 1 ) == "dev" ]]; then
             b="$(echo "$b" | cut -d '/' -f 2)"
             if [[ "$b" =~ ^[0-9]\.[0-9]\.x ]]; then
                 echo "export BRANCH=\"$b\"" >> config.sh
+            elif [[ "$b" == "dc" ]]; then
+                echo "export BRANCH=dc" >> config.sh
             else
                 exit 0
             fi
@@ -61,11 +63,12 @@ function do_clone() {
 }
 
 function do_push() {
+    local root_dir="$(pwd)"
     cd pyrofork-docs || exit 1
     mkdir -p "$BRANCH"
     cd "$BRANCH" || exit 1
     rm -rf _includes api genindex.html intro py-modindex.html sitemap.xml support.html topics _static faq index.html objects.inv searchindex.js start telegram
-    cp -r ../../docs/build/html/* .
+    cp -r "$root_dir/docs/build/html/"* .
     git config --local user.name "Mayuri-Chan"
     git config --local user.email "mayuri@mayuri.my.id"
     git add --all
@@ -84,4 +87,12 @@ function do_all() {
 }
 
 parse_parameters "$@"
+
+if [[ "$action" != "configure" && "$action" != "all" ]]; then
+    if [[ -z "$BRANCH" ]]; then
+        echo "BRANCH is not set in config.sh (branch not in filter). Skipping $action."
+        exit 0
+    fi
+fi
+
 do_"${action:=all}"

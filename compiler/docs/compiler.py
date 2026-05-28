@@ -495,7 +495,6 @@ def pyrogram_api():
             BusinessInfo
             BusinessMessage
             BusinessRecipients
-            BusinessSchedule
             BusinessWeeklyOpen
             BusinessWorkingHours
             User
