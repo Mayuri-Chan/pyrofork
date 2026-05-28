@@ -20,6 +20,7 @@
 from .file_storage import FileStorage
 from .memory_storage import MemoryStorage
 MONGO_AVAIL = False
+POSTGRES_AVAIL = False
 try:
     import pymongo
 except Exception:
@@ -27,6 +28,15 @@ except Exception:
 else:
     MONGO_AVAIL = True
     from .mongo_storage import MongoStorage
+
+try:
+    import asyncpg
+except Exception:
+    pass
+else:
+    POSTGRES_AVAIL = True
+    from .postgresql_storage import PostgreSQLStorage
+
 from .storage import Storage
 
 __all__ = [
@@ -36,3 +46,6 @@ __all__ = [
 ]
 if MONGO_AVAIL:
     __all__.append("MongoStorage")
+
+if POSTGRES_AVAIL:
+    __all__.append("PostgreSQLStorage")
