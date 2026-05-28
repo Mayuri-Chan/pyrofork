@@ -86,3 +86,6 @@ class MessageEntityType(AutoName):
 
     UNKNOWN = raw.types.MessageEntityUnknown
     "Unknown message entity type"
+
+    FORMATTED_DATE = raw.types.MessageEntityFormattedDate
+    "Formatted date"

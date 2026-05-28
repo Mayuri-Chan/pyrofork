@@ -68,7 +68,14 @@ class MessageEntity(Object):
         user: "types.User" = None,
         language: str = None,
         custom_emoji_id: int = None,
-        collapsed: bool = None
+        collapsed: bool = None,
+        date: int = None,
+        relative: bool = None,
+        short_time: bool = None,
+        long_time: bool = None,
+        short_date: bool = None,
+        long_date: bool = None,
+        day_of_week: bool = None
     ):
         super().__init__(client)
 
@@ -80,6 +87,13 @@ class MessageEntity(Object):
         self.language = language
         self.custom_emoji_id = custom_emoji_id
         self.collapsed = collapsed
+        self.date = date
+        self.relative = relative
+        self.short_time = short_time
+        self.long_time = long_time
+        self.short_date = short_date
+        self.long_date = long_date
+        self.day_of_week = day_of_week
 
     @staticmethod
     def _parse(
@@ -105,6 +119,13 @@ class MessageEntity(Object):
             language=getattr(entity, "language", None),
             custom_emoji_id=getattr(entity, "document_id", None),
             collapsed=getattr(entity, "collapsed", None),
+            date=getattr(entity, "date", None),
+            relative=getattr(entity, "relative", None),
+            short_time=getattr(entity, "short_time", None),
+            long_time=getattr(entity, "long_time", None),
+            short_date=getattr(entity, "short_date", None),
+            long_date=getattr(entity, "long_date", None),
+            day_of_week=getattr(entity, "day_of_week", None),
             client=client
         )
 
@@ -132,6 +153,10 @@ class MessageEntity(Object):
             enums.MessageEntityType.EXPANDABLE_BLOCKQUOTE
         ]:
             args.pop("collapsed")
+
+        if self.type != enums.MessageEntityType.FORMATTED_DATE:
+            for arg in ["date", "relative", "short_time", "long_time", "short_date", "long_date", "day_of_week"]:
+                args.pop(arg)
 
         entity = self.type.value
 
