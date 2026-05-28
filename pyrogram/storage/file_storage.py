@@ -74,6 +74,14 @@ class FileStorage(SQLiteStorage):
 
             version += 1
 
+        if version == 5:
+            with self.conn:
+                self.conn.execute(
+                    "CREATE TABLE IF NOT EXISTS auth_keys (dc_id INTEGER PRIMARY KEY, auth_key BLOB)"
+                )
+
+            version += 1
+
         self.version(version)
 
     async def open(self):

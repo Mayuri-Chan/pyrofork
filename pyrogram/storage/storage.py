@@ -103,6 +103,12 @@ class Storage:
     async def auth_key(self, value: bytes = object):
         raise NotImplementedError
 
+    async def get_auth_key(self, dc_id: int):
+        raise NotImplementedError
+
+    async def set_auth_key(self, dc_id: int, auth_key: bytes):
+        raise NotImplementedError
+
     async def date(self, value: int = object):
         raise NotImplementedError
 

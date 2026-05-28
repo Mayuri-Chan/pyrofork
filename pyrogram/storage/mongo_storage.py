@@ -78,6 +78,7 @@ class MongoStorage(Storage):
         self._usernames = database['usernames']
         self._states = database['update_state']
         self._dc_options = database['dc_options']
+        self._auth_keys = database['auth_keys']
         self._remove_peers = remove_peers
 
     async def open(self):
@@ -292,6 +293,15 @@ class MongoStorage(Storage):
 
     async def auth_key(self, value: bytes = object):
         return await self._accessor(value)
+
+    async def get_auth_key(self, dc_id: int):
+        r = await self._auth_keys.find_one({'_id': dc_id}, {'auth_key': 1})
+        if not r:
+            return None
+        return r['auth_key']
+
+    async def set_auth_key(self, dc_id: int, auth_key: bytes):
+        await self._auth_keys.update_one({'_id': dc_id}, {'$set': {'auth_key': auth_key}}, upsert=True)
 
     async def date(self, value: int = object):
         return await self._accessor(value)

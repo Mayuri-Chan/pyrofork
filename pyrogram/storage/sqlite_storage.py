@@ -39,6 +39,12 @@ CREATE TABLE sessions
     is_bot    INTEGER
 );
 
+CREATE TABLE auth_keys
+(
+    dc_id     INTEGER PRIMARY KEY,
+    auth_key  BLOB
+);
+
 CREATE TABLE peers
 (
     id             INTEGER PRIMARY KEY,
@@ -134,7 +140,7 @@ def get_input_peer(peer_id: int, access_hash: int, peer_type: str):
 
 
 class SQLiteStorage(Storage):
-    VERSION = 4
+    VERSION = 5
     USERNAME_TTL = 8 * 60 * 60
     UPDATE_DC_SCHEMA = globals().get("UPDATE_DC_SCHEMA", "")
 
@@ -354,6 +360,20 @@ class SQLiteStorage(Storage):
 
     async def auth_key(self, value: bytes = object):
         return self._accessor(value)
+
+    async def get_auth_key(self, dc_id: int) -> bytes:
+        r = self.conn.execute(
+            "SELECT auth_key FROM auth_keys WHERE dc_id = ?",
+            (dc_id,)
+        ).fetchone()
+        return r[0] if r is not None else None
+
+    async def set_auth_key(self, dc_id: int, auth_key: bytes):
+        with self.conn:
+            self.conn.execute(
+                "REPLACE INTO auth_keys (dc_id, auth_key) VALUES (?, ?)",
+                (dc_id, auth_key)
+            )
 
     async def date(self, value: int = object):
         return self._accessor(value)

@@ -1282,11 +1282,17 @@ class Client(Methods):
 
             dc_id = file_id.dc_id
 
+            if dc_id != await self.storage.dc_id():
+                auth_key = await self.storage.get_auth_key(dc_id)
+                if not auth_key:
+                    auth_key = await Auth(self, dc_id, await self.storage.test_mode()).create()
+                    await self.storage.set_auth_key(dc_id, auth_key)
+            else:
+                auth_key = await self.storage.auth_key()
+
             session = Session(
                 self, dc_id,
-                await Auth(self, dc_id, await self.storage.test_mode()).create()
-                if dc_id != await self.storage.dc_id()
-                else await self.storage.auth_key(),
+                auth_key,
                 await self.storage.test_mode(),
                 is_media=True
             )
@@ -1354,8 +1360,14 @@ class Client(Methods):
                         )
 
                 elif isinstance(r, raw.types.upload.FileCdnRedirect):
+                    cdn_dc_id = r.dc_id
+                    cdn_auth_key = await self.storage.get_auth_key(cdn_dc_id)
+                    if not cdn_auth_key:
+                        cdn_auth_key = await Auth(self, cdn_dc_id, await self.storage.test_mode()).create()
+                        await self.storage.set_auth_key(cdn_dc_id, cdn_auth_key)
+
                     cdn_session = Session(
-                        self, r.dc_id, await Auth(self, r.dc_id, await self.storage.test_mode()).create(),
+                        self, cdn_dc_id, cdn_auth_key,
                         await self.storage.test_mode(), is_media=True, is_cdn=True
                     )
 

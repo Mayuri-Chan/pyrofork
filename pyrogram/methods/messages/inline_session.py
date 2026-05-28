@@ -32,9 +32,14 @@ async def get_session(client: "pyrogram.Client", dc_id: int):
         if client.media_sessions.get(dc_id):
             return client.media_sessions[dc_id]
 
+        auth_key = await client.storage.get_auth_key(dc_id)
+        if not auth_key:
+            auth_key = await Auth(client, dc_id, await client.storage.test_mode()).create()
+            await client.storage.set_auth_key(dc_id, auth_key)
+
         session = client.media_sessions[dc_id] = Session(
             client, dc_id,
-            await Auth(client, dc_id, await client.storage.test_mode()).create(),
+            auth_key,
             await client.storage.test_mode(), is_media=True
         )
 
