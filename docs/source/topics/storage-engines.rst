@@ -108,6 +108,24 @@ Using motor (Deprecated, but still works):
 This storage engine is backed by MongoDB, a session will be created and saved to mongodb database. Any subsequent client
 restart will make PyroFork search for a database named that way and the session database will be automatically loaded.
 
+PostgreSQL Storage
+^^^^^^^^^^^^^^^^^^
+
+In case you want to have persistent session but you don't have persistent storage you can use postgresql storage by passing
+postgresql config as ``dict`` to the ``postgresql`` parameter of the :obj:`~pyrogram.Client` constructor:
+
+.. code-block:: python
+
+    from pyrogram import Client
+
+    database_url = "postgresql://user:password@host:port/database"
+
+    async with Client("my_account", postgresql=dict(database_url=database_url, remove_peers=False)) as app:
+        print(await app.get_me())
+
+This storage engine is backed by PostgreSQL, a session will be created and saved to postgresql database. Any subsequent client
+restart will make PyroFork search for a database named that way and the session database will be automatically loaded.
+
 Session Strings
 ---------------
 

@@ -65,6 +65,7 @@ from .session.internals.data_center import DataCenter
 
 log = logging.getLogger(__name__)
 MONGO_AVAIL = False
+POSTGRES_AVAIL = False
 
 try:
     import pymongo
@@ -74,6 +75,13 @@ else:
     from pyrogram.storage import MongoStorage
     MONGO_AVAIL = True
 
+try:
+    import asyncpg
+except Exception:
+    pass
+else:
+    from pyrogram.storage import PostgreSQLStorage
+    POSTGRES_AVAIL = True
 
 class Client(Methods):
     """Pyrogram Client, the main means for interacting with Telegram.
@@ -144,6 +152,10 @@ class Client(Methods):
 
         mongodb (``dict``, *optional*):
             Mongodb config as dict, e.g.: *dict(connection=async_pymongo.AsyncClient("mongodb://..."), remove_peers=False)*.
+            Only applicable for new sessions.
+
+        postgresql (``dict``, *optional*):
+            Postgresql config as dict, e.g.: *dict(database_url="postgresql://user:password@host:port/database", remove_peers=False)*.
             Only applicable for new sessions.
 
         storage (:obj:`~pyrogram.storage.Storage`, *optional*):
@@ -267,6 +279,7 @@ class Client(Methods):
         use_qrcode: Optional[bool] = False,
         in_memory: Optional[bool] = None,
         mongodb: Optional[dict] = None,
+        postgresql: Optional[dict] = None,
         storage: Optional[Storage] = None,
         phone_number: Optional[str] = None,
         phone_code: Optional[str] = None,
@@ -305,6 +318,7 @@ class Client(Methods):
         self.use_qrcode = use_qrcode
         self.in_memory = in_memory
         self.mongodb = mongodb
+        self.postgresql = postgresql
         self.phone_number = phone_number
         self.phone_code = phone_code
         self.password = password
@@ -342,6 +356,15 @@ class Client(Methods):
                 self.storage = MemoryStorage(self.name)
             else:
                 self.storage = MongoStorage(self.name, **self.mongodb)
+        elif self.postgresql:
+            if not POSTGRES_AVAIL:
+                log.warning(
+                    "asyncpg is missing! "
+                    "Using MemoryStorage as session storage"
+                )
+                self.storage = MemoryStorage(self.name)
+            else:
+                self.storage = PostgreSQLStorage(self.name, **self.postgresql)
         else:
             self.storage = FileStorage(self.name, self.workdir)
 
