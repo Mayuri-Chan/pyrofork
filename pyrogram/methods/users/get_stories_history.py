@@ -31,7 +31,7 @@ class GetUserStoriesHistory:
         chat_id: int = None,
         limit: int = 0,
         offset_id: int = 0
-    ) -> Optional[AsyncGenerator["types.Story", None]]:
+    ) -> AsyncGenerator["types.Story"]:
         """Get stories history.
 
         .. include:: /_includes/usable-by/users.rst

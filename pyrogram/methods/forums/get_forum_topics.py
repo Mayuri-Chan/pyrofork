@@ -55,7 +55,7 @@ class GetForumTopics:
         self: "pyrogram.Client",
         chat_id: Union[int, str],
         limit: int = 0
-    ) -> Optional[AsyncGenerator["types.ForumTopic", None]]:
+    ) -> AsyncGenerator["types.ForumTopic"]:
         """Get forum topics from a chat.
 
         .. include:: /_includes/usable-by/users.rst

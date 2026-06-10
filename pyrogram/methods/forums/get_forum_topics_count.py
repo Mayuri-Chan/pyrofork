@@ -31,7 +31,7 @@ class GetForumTopicsCount:
     async def get_forum_topics_count(
         self: "pyrogram.Client",
         chat_id: Union[int, str]
-    ) -> Optional[AsyncGenerator["types.ForumTopic", None]]:
+    ) -> int:
         """Get forum topics count from a chat.
 
         .. include:: /_includes/usable-by/users.rst

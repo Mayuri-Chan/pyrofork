@@ -31,7 +31,7 @@ class GetChatAdminInviteLinks:
         admin_id: Union[int, str],
         revoked: bool = False,
         limit: int = 0,
-    ) -> Optional[AsyncGenerator["types.ChatInviteLink", None]]:
+    ) -> AsyncGenerator["types.ChatInviteLink"]:
         """Get the invite links created by an administrator in a chat.
 
         .. note::

@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 class GetAllStories:
     async def get_all_stories(
         self: "pyrogram.Client"
-    ) -> Optional[AsyncGenerator["types.Story", None]]:
+    ) -> AsyncGenerator["types.Story"]:
         """Get all active stories.
 
         .. include:: /_includes/usable-by/users.rst

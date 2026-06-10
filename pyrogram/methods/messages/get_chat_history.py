@@ -66,7 +66,7 @@ class GetChatHistory:
         min_id: int = 0,
         max_id: int = 0,
         reverse: Optional[bool] = None
-    ) -> Optional[AsyncGenerator["types.Message", None]]:
+    ) -> AsyncGenerator["types.Message"]
         """Get messages from a chat history.
 
         The messages are returned in reverse chronological order.

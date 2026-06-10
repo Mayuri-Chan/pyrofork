@@ -34,7 +34,7 @@ class SearchGlobal:
         groups_only: Optional[bool] = None,
         users_only: Optional[bool] = None,
         limit: int = 0,
-    ) -> Optional[AsyncGenerator["types.Message", None]]:
+    ) -> AsyncGenerator["types.Message"]:
         """Search messages globally from all of your chats.
 
         If you want to get the messages count only, see :meth:`~pyrogram.Client.search_global_count`.
