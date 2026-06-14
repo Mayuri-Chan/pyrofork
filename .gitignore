@@ -2,9 +2,11 @@
 docs
 *.session
 config.ini
+config.sh
 main.py
 unknown_errors.txt
 .DS_Store
+.safety-project.ini
 
 # Pyrogram generated code
 pyrogram/errors/exceptions/

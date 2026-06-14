@@ -52,18 +52,18 @@ build-backend = "hatchling.build"
 [project.optional-dependencies]
 dev = [
     "hatch>=1.7.0",
-    "pytest>=7.4.3",
+    "pytest>=9.1.0",
     "pytest-asyncio>=0.21.1",
     "pytest-cov>=4.1.0",
     "twine>=4.0.2"
 ]
 
 docs = [
-    "sphinx",
-    "sphinx-immaterial==0.12.5",
+    "sphinx>=9.1.0",
+    "sphinx-immaterial==0.13.9",
     "sphinx_copybutton",
     "sphinx-autobuild",
-    "tornado>=6.3.3"
+    "tornado>=6.5.7"
 ]
 
 speedup = [
