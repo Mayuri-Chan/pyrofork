@@ -61,7 +61,7 @@ pygments_style = "friendly"
 
 copybutton_prompt_text = "$ "
 
-suppress_warnings = ["image.not_readable"]
+suppress_warnings = ["image.not_readable", "misc.highlighting_failure"]
 
 html_title = "Pyrofork Documentation"
 html_theme = "sphinx_immaterial"

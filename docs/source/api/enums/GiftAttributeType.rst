@@ -1,5 +1,5 @@
 GiftAttributeType
-==========
+=================
 
 .. autoclass:: pyrogram.enums.GiftAttributeType()
     :members:

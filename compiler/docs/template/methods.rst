@@ -113,7 +113,7 @@ Stickers
     {stickers}
 
 Telegram Business
--------------
+-----------------
 
 .. autosummary::
     :nosignatures:
@@ -191,7 +191,7 @@ Bots
     {bots}
 
 Payments
-----
+--------
 
 .. autosummary::
     :nosignatures:
@@ -202,6 +202,19 @@ Payments
     :hidden:
 
     {payments}
+
+Phone
+-----
+
+.. autosummary::
+    :nosignatures:
+
+    {phone}
+
+.. toctree::
+    :hidden:
+
+    {phone}
 
 Authorization
 -------------

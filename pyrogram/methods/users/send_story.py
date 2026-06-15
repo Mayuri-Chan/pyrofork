@@ -132,7 +132,7 @@ class SendStory:
             media_areas (List of :obj:`~pyrogram.types.InputMediaArea`):
                 List of media area object to be included in story.
 
-            forward_from_chat_id (``int`` | ``str``, *optional):
+            forward_from_chat_id (``int`` | ``str``, *optional*):
                 Unique identifier (int) or username (str) of the source chat where the original story was sent.
                 For your personal story you can simply use "me" or "self".
                 For a contact that exists in your Telegram address book you can use his phone number (str).

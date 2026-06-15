@@ -25,18 +25,12 @@ Pyrofork is a free and open source project.
 If you enjoy Pyrofork and would like to show your appreciation, consider donating or becoming
 a sponsor of the project. You can support Pyrofork via the ways shown below:
 
------
-
-GitHub Sponsor
---------------
-
-`Become a GitHub sponsor <https://github.com/sponsors/Mayuri-Chan>`_.
-
 .. raw:: html
 
-    <a class="github-button"
-       href="https://github.com/sponsors/Mayuri-Chan"
-       data-color-scheme="no-preference: light; light: light; dark: dark;"
-       data-icon="octicon-heart" data-size="large"
-       aria-label="Sponsor @Mayuri-Chan on GitHub">Sponsor</a>
-
+    <div class="row">
+        <div class="col-*-*">
+            <img src="_static/images/sponsor.png" alt="Github Sponsor" style="width: 100%; max-width: 400px;"/>
+            <blockquote>https://github.com/sponsors/Mayuri-Chan</blockquote>
+        </div>
+        <div class="col-*-*"></div>
+    </div>

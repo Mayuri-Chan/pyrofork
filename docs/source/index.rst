@@ -161,6 +161,7 @@ Meta
 
     faq/index
     support
+    donate
 
 .. toctree::
     :hidden:

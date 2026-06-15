@@ -289,7 +289,6 @@ def pyrogram_api():
             transfer_chat_ownership
             unhide_general_topic
             update_color
-            update_folder
         """,
         users="""
         Users
@@ -591,7 +590,6 @@ def pyrogram_api():
             ForumTopicReopened
             GeneralTopicHidden
             GeneralTopicUnhidden
-            Reaction
             MessageReactionUpdated
             MessageReactionCountUpdated
             ExportedStoryLink
@@ -724,14 +722,6 @@ def pyrogram_api():
             InlineQueryResultVideo
             InlineQueryResultVoice
             ChosenInlineResult
-        """,
-        pre_checkout_query="""
-        PreCheckoutQuery
-            PreCheckoutQuery.answer
-        """,
-        shipping_query="""
-        ShippingQuery
-            ShippingQuery.answer
         """,
         input_message_content="""
         InputMessageContent

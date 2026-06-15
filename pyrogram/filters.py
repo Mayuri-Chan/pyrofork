@@ -1131,8 +1131,10 @@ class chat(Filter, set):
 # noinspection PyPep8Naming
 class topic(Filter, set):
     """Filter messages coming from one or more topics.
+
     You can use `set bound methods <https://docs.python.org/3/library/stdtypes.html#set>`_ to manipulate the
     topics container.
+
     Parameters:
         topics (``int`` | ``list``):
             Pass one or more topic ids to filter messages in specific topics.

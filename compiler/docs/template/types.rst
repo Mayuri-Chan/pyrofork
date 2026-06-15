@@ -113,7 +113,7 @@ Bot commands
     {bot_commands}
 
 Telegram Business
--------------
+-----------------
 
 .. autosummary::
     :nosignatures:
@@ -164,31 +164,7 @@ InputMessageContent
 
     {input_message_content}
 
-ShippingQuery
--------------------
 
-.. autosummary::
-    :nosignatures:
-
-    {shipping_query}
-
-.. toctree::
-    :hidden:
-
-    {shipping_query}
-
-PreCheckoutQuery
--------------------
-
-.. autosummary::
-    :nosignatures:
-
-    {pre_checkout_query}
-
-.. toctree::
-    :hidden:
-
-    {pre_checkout_query}
 
 Payment
 -------------------

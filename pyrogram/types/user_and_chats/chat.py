@@ -146,7 +146,7 @@ class Chat(Object):
 
         join_requests_count (``int``, *optional*):
             Number of users who requested to join the chat.
-            Returned only in :meth:`~pyrogram.Client.get
+            Returned only in :meth:`~pyrogram.Client.get_chat`.
 
         slow_mode_delay (``int``, *optional*):
             For supergroups, the minimum allowed delay between consecutive messages sent by each unpriviledged user in seconds.

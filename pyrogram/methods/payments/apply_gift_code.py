@@ -38,6 +38,7 @@ class ApplyGiftCode:
             ValueError: In case the gift code link is invalid.
         Example:
             .. code-block:: python
+
                 # apply a gift code
                 app.apply_gift_code("t.me/giftcode/abc1234567def")
         """

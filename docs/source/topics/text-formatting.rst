@@ -13,6 +13,9 @@ Text Formatting
 .. role:: strike-italic
     :class: strike-italic
 
+.. role:: emoji
+    :class: emoji
+
 Pyrofork uses a custom Markdown dialect for text formatting which adds some unique features that make writing styled
 texts easier in both Markdown and HTML. You can send sophisticated text messages and media captions using a
 variety of decorations that can also be nested in order to combine multiple styles together.

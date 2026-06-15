@@ -23,9 +23,11 @@ to apply only a valid value among the expected ones.
     ClientPlatform
     FolderColor
     GiftAttributeType
+    GiftForResaleOrder
     ListenerTypes
     MessageEntityType
     MessageMediaType
+    MessageOriginType
     MessageServiceType
     MessagesFilter
     ParseMode
@@ -52,9 +54,11 @@ to apply only a valid value among the expected ones.
     ClientPlatform
     FolderColor
     GiftAttributeType
+    GiftForResaleOrder
     ListenerTypes
     MessageEntityType
     MessageMediaType
+    MessageOriginType
     MessageServiceType
     MessagesFilter
     ParseMode
