@@ -27,7 +27,7 @@ import struct
 from concurrent.futures.thread import ThreadPoolExecutor
 from datetime import datetime, timezone
 from getpass import getpass
-from typing import Union, List, Dict, Optional, Any, Callable, TypeVar
+from typing import Union, List, Dict, Optional, Any, Callable, TypeVar, ParamSpec
 from types import SimpleNamespace
 
 import pyrogram
@@ -43,6 +43,9 @@ PyromodConfig = SimpleNamespace(
     unallowed_click_alert=True,
     unallowed_click_alert_text=("[pyromod] You're not expected to click this button."),
 )
+
+P = ParamSpec("P")
+R = TypeVar("R")
     
 
 async def ainput(prompt: str = "", *, hide: bool = False):
@@ -464,6 +467,10 @@ def datetime_to_timestamp(dt: Optional[datetime]) -> Optional[int]:
 async def run_sync(func: Callable[..., TypeVar("Result")], *args: Any, **kwargs: Any) -> TypeVar("Result"):
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, functools.partial(func, *args, **kwargs))
+
+async def run_sync2(func: Callable[P, R], *args: P.args, **kwargs: P.kwargs) -> R:
+    # Safely hands off the blocking function to a worker thread
+    return await asyncio.to_thread(func, *args, **kwargs)
 
 def parse_text_with_entities(client, message: "raw.types.TextWithEntities", users):
     entities = types.List(

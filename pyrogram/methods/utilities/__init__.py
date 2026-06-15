@@ -25,6 +25,7 @@ from .remove_error_handler import RemoveErrorHandler
 from .restart import Restart
 from .run import Run
 from .run_sync import RunSync
+from .run_sync2 import RunSync2
 from .start import Start
 from .stop import Stop
 from .stop_transmission import StopTransmission
@@ -39,6 +40,7 @@ class Utilities(
     Restart,
     Run,
     RunSync,
+    RunSync2,
     Start,
     Stop,
     StopTransmission

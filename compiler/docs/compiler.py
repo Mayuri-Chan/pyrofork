@@ -140,6 +140,7 @@ def pyrogram_api():
             stop
             run
             run_sync
+            run_sync2
             restart
             add_handler
             remove_handler
