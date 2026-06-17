@@ -84,6 +84,8 @@ from .wallpaper_settings import WallpaperSettings
 from .transcribed_audio import TranscribedAudio
 from .translated_text import TranslatedText
 from .text_quote import TextQuote
+from .message_rich_text import MessageRichText
+from .page import Page
 
 __all__ = [
     "AlternativeVideo",
@@ -152,5 +154,8 @@ __all__ = [
     "TodoTask",
     "TodoTasksAdded",
     "TodoTasksCompleted",
-    "TodoTasksIncompleted"
+    "TodoTasksIncompleted",
+    "MessageRichText",
+    "Page"
 ]
+

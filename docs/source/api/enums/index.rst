@@ -30,9 +30,12 @@ to apply only a valid value among the expected ones.
     MessageOriginType
     MessageServiceType
     MessagesFilter
+    PageBlockType
+    PageBlockListType
     ParseMode
     PollType
     ProfileColor
+    RichTextStyle
     SentCodeType
     NextCodeType
     UserStatus
@@ -61,9 +64,12 @@ to apply only a valid value among the expected ones.
     MessageOriginType
     MessageServiceType
     MessagesFilter
+    PageBlockType
+    PageBlockListType
     ParseMode
     PollType
     ProfileColor
+    RichTextStyle
     SentCodeType
     NextCodeType
     UserStatus

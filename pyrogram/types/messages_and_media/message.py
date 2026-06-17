@@ -561,6 +561,7 @@ class Message(Object, Update):
         ] = None,
         reactions: List["types.Reaction"] = None,
         chat_join_type: "enums.ChatJoinType" = None,
+        rich_text: Optional["types.MessageRichText"] = None,
         raw: "raw.types.Message" = None
     ):
         super().__init__(client)
@@ -676,6 +677,7 @@ class Message(Object, Update):
         self.payment_refunded = payment_refunded
         self.reactions = reactions
         self.chat_join_type = chat_join_type
+        self.rich_text = rich_text
         self.raw = raw
 
     async def wait_for_click(
@@ -1288,6 +1290,7 @@ class Message(Object, Update):
                 outgoing=message.out,
                 reply_markup=reply_markup,
                 reactions=reactions,
+                rich_text=types.MessageRichText._parse(client, message.rich_message) if message.rich_message else None,
                 effect_id=getattr(message, "effect", None),
                 raw=message,
                 client=client

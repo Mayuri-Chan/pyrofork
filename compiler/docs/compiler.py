@@ -600,6 +600,8 @@ def pyrogram_api():
             ScreenshotTaken
             Wallpaper
             WallpaperSettings
+            Page
+            MessageRichText
         """,
         stories="""
         Stories
@@ -743,6 +745,17 @@ def pyrogram_api():
             LoginToken
             SentCode
             TermsOfService
+        """,
+        rich_text="""
+        Rich Text
+            PageBlock
+            PageBlockList
+            RichText
+            PageCaption
+            OrderedItems
+            RelatedArticle
+            TableRow
+            TableCell
         """
     )
 

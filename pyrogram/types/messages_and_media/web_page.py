@@ -83,6 +83,9 @@ class WebPage(Object):
 
         author (``str``, *optional*):
             Author of the webpage, eg the Twitter user for a tweet, or the author in an article.
+
+        cached_page (:obj:`~pyrogram.types.Page`, *optional*):
+            Page cached data if the page has already been downloaded.
     """
 
     def __init__(
@@ -106,7 +109,8 @@ class WebPage(Object):
         embed_width: int = None,
         embed_height: int = None,
         duration: int = None,
-        author: str = None
+        author: str = None,
+        cached_page: "types.Page" = None
     ):
         super().__init__(client)
 
@@ -128,6 +132,7 @@ class WebPage(Object):
         self.embed_height = embed_height
         self.duration = duration
         self.author = author
+        self.cached_page = cached_page
 
     @staticmethod
     def _parse(client, webpage: "raw.types.WebPage") -> "WebPage":
@@ -184,5 +189,8 @@ class WebPage(Object):
             embed_width=webpage.embed_width,
             embed_height=webpage.embed_height,
             duration=webpage.duration,
-            author=webpage.author
+            author=webpage.author,
+            cached_page=types.Page._parse(client, webpage.cached_page),
+            client=client
         )
+

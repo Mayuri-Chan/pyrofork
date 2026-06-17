@@ -191,3 +191,17 @@ Authorization
     :hidden:
 
     {authorization}
+
+Rich Text
+---------
+
+.. autosummary::
+    :nosignatures:
+
+    {rich_text}
+
+.. toctree::
+    :hidden:
+
+    {rich_text}
+

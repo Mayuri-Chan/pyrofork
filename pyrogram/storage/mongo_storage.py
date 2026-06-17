@@ -266,7 +266,7 @@ class MongoStorage(Storage):
         )
         if r is None:
             return None
-        return r['address'], r['port'], r['is_default_ip']
+        return r['address'], r['port'], r.get('is_default_ip', False)
 
     async def _get(self):
         attr = inspect.stack()[2].function

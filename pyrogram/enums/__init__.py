@@ -44,6 +44,9 @@ from .sent_code_type import SentCodeType
 from .stories_privacy_rules import StoriesPrivacyRules
 from .story_privacy import StoryPrivacy
 from .user_status import UserStatus
+from .page_block_type import PageBlockType
+from .page_block_list_type import PageBlockListType
+from .rich_text_style import RichTextStyle
 
 __all__ = [
     'BusinessSchedule',
@@ -72,5 +75,10 @@ __all__ = [
     'SentCodeType',
     "StoriesPrivacyRules",
     "StoryPrivacy",
-    'UserStatus'
+    'UserStatus',
+    'PageBlockType',
+    'PageBlockListType',
+    'RichTextStyle'
 ]
+
+
