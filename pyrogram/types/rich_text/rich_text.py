@@ -16,10 +16,12 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
+import re
 from typing import Optional, List, Union
+from datetime import datetime
 
 import pyrogram
-from pyrogram import enums, raw
+from pyrogram import enums, raw, utils
 from ..object import Object
 
 
@@ -76,6 +78,15 @@ class RichText(Object):
         width: Optional[int] = None,
         height: Optional[int] = None,
         name: Optional[str] = None,
+        date: Optional[datetime] = None,
+        is_relative: Optional[bool] = None,
+        is_short_time: Optional[bool] = None,
+        is_long_time: Optional[bool] = None,
+        is_short_date: Optional[bool] = None,
+        is_long_date: Optional[bool] = None,
+        is_day_of_week: Optional[bool] = None,
+        alt: Optional[str] = None,
+        source: Optional[str] = None,
     ):
         super().__init__(client)
         self.style = style
@@ -89,42 +100,71 @@ class RichText(Object):
         self.width = width
         self.height = height
         self.name = name
+        self.date = date
+        self.is_relative = is_relative
+        self.is_short_time = is_short_time
+        self.is_long_time = is_long_time
+        self.is_short_date = is_short_date
+        self.is_long_date = is_long_date
+        self.is_day_of_week = is_day_of_week
+        self.alt = alt
+        self.source = source
 
     @staticmethod
     def _parse(client: "pyrogram.Client", rich_text: "raw.base.RichText") -> Optional["RichText"]:
         if not rich_text:
             return None
 
-        if isinstance(rich_text, raw.types.TextPlain):
-            return RichText(style=enums.RichTextStyle.PLAIN, text=rich_text.text, client=client)
-        elif isinstance(rich_text, raw.types.TextBold):
-            return RichText(style=enums.RichTextStyle.BOLD, text=RichText._parse(client, rich_text.text), client=client)
-        elif isinstance(rich_text, raw.types.TextItalic):
-            return RichText(style=enums.RichTextStyle.ITALIC, text=RichText._parse(client, rich_text.text), client=client)
-        elif isinstance(rich_text, raw.types.TextUnderline):
-            return RichText(style=enums.RichTextStyle.UNDERLINE, text=RichText._parse(client, rich_text.text), client=client)
-        elif isinstance(rich_text, raw.types.TextStrike):
-            return RichText(style=enums.RichTextStyle.STRIKE, text=RichText._parse(client, rich_text.text), client=client)
-        elif isinstance(rich_text, raw.types.TextFixed):
-            return RichText(style=enums.RichTextStyle.FIXED, text=RichText._parse(client, rich_text.text), client=client)
-        elif isinstance(rich_text, raw.types.TextUrl):
-            return RichText(style=enums.RichTextStyle.URL, text=RichText._parse(client, rich_text.text), url=rich_text.url, webpage_id=rich_text.webpage_id, client=client)
-        elif isinstance(rich_text, raw.types.TextEmail):
-            return RichText(style=enums.RichTextStyle.EMAIL, text=RichText._parse(client, rich_text.text), email=rich_text.email, client=client)
-        elif isinstance(rich_text, raw.types.TextConcat):
-            return RichText(style=enums.RichTextStyle.CONCAT, texts=[RichText._parse(client, t) for t in rich_text.texts], client=client)
-        elif isinstance(rich_text, raw.types.TextSubscript):
-            return RichText(style=enums.RichTextStyle.SUBSCRIPT, text=RichText._parse(client, rich_text.text), client=client)
-        elif isinstance(rich_text, raw.types.TextSuperscript):
-            return RichText(style=enums.RichTextStyle.SUPERSCRIPT, text=RichText._parse(client, rich_text.text), client=client)
-        elif isinstance(rich_text, raw.types.TextMarked):
-            return RichText(style=enums.RichTextStyle.MARKED, text=RichText._parse(client, rich_text.text), client=client)
-        elif isinstance(rich_text, raw.types.TextPhone):
-            return RichText(style=enums.RichTextStyle.PHONE, text=RichText._parse(client, rich_text.text), phone=rich_text.phone, client=client)
-        elif isinstance(rich_text, raw.types.TextImage):
-            return RichText(style=enums.RichTextStyle.IMAGE, document_id=rich_text.document_id, width=rich_text.w, height=rich_text.h, client=client)
-        elif isinstance(rich_text, raw.types.TextAnchor):
-            return RichText(style=enums.RichTextStyle.ANCHOR, text=RichText._parse(client, rich_text.text), name=rich_text.name, client=client)
-        elif isinstance(rich_text, raw.types.TextSpoiler):
-            return RichText(style=enums.RichTextStyle.SPOILER, text=RichText._parse(client, rich_text.text), client=client)
-        return None
+        if isinstance(rich_text, str):
+            return RichText(style=enums.RichTextStyle.PLAIN, text=rich_text, client=client)
+
+        if isinstance(rich_text, raw.types.TextEmpty):
+            return RichText(
+                client=client,
+                style=enums.RichTextStyle.EMPTY
+            )
+
+        class_name = type(rich_text).__name__
+        stripped_name = class_name.replace("Text", "")
+        snake_case_name = re.sub(r'(?<!^)(?=[A-Z])', '_', stripped_name).upper()
+        try:
+            style = getattr(enums.RichTextStyle, snake_case_name)
+        except AttributeError:
+            client.log.warning("Unknown RichText type: %s", type(rich_text))
+            return RichText(
+                client=client,
+                style=enums.RichTextStyle.UNSUPPORTED
+            )
+
+        text = getattr(rich_text, "text", None)
+        if text is not None:
+            if isinstance(text, str):
+                parsed_text = text
+            else:
+                parsed_text = RichText._parse(client, text)
+        else:
+            parsed_text = None
+
+        return RichText(
+            client=client,
+            style=style,
+            text=parsed_text,
+            url=getattr(rich_text, "url", None),
+            webpage_id=getattr(rich_text, "webpage_id", None),
+            email=getattr(rich_text, "email", None),
+            texts=[RichText._parse(client, t) for t in getattr(rich_text, "texts", [])] if getattr(rich_text, "texts", None) else None,
+            phone=getattr(rich_text, "phone", None),
+            document_id=getattr(rich_text, "document_id", None),
+            width=getattr(rich_text, "w", None),
+            height=getattr(rich_text, "h", None),
+            name=getattr(rich_text, "name", None),
+            date=utils.timestamp_to_datetime(getattr(rich_text, "date", None)) if getattr(rich_text, "date", None) else None,
+            is_relative=getattr(rich_text, "relative", None),
+            is_short_time=getattr(rich_text, "short_time", None),
+            is_long_time=getattr(rich_text, "long_time", None),
+            is_short_date=getattr(rich_text, "short_date", None),
+            is_long_date=getattr(rich_text, "long_date", None),
+            is_day_of_week=getattr(rich_text, "day_of_week", None),
+            alt=getattr(rich_text, "alt", None),
+            source=getattr(rich_text, "source", None)
+        )

@@ -71,3 +71,18 @@ class RichTextStyle(AutoName):
 
     SPOILER = auto()
     """Spoiler text style."""
+
+    DATE = auto()
+    """Date formatted text style."""
+
+    CUSTOM_EMOJI = auto()
+    """Custom emoji text style."""
+
+    MATH = auto()
+    """Math formula text style."""
+
+    UNSUPPORTED = auto()
+    """Unsupported text style."""
+
+    EMPTY = auto()
+    """Empty text style."""

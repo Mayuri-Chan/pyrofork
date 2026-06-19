@@ -24,7 +24,24 @@ from ..object import Object
 
 
 class MessageRichText(Object):
-    """A Telegram rich text representation."""
+    """A Telegram rich text representation.
+
+    Parameters:
+        blocks (List of :obj:`~pyrogram.types.PageBlock`):
+            The content blocks of the rich text.
+
+        photos (List of :obj:`~pyrogram.types.Photo`):
+            List of photos contained in the rich text.
+
+        documents (List of :obj:`~pyrogram.types.Document`):
+            List of documents contained in the rich text.
+
+        is_rtl (``bool``, *optional*):
+            Whether the text is right-to-left.
+
+        is_partial (``bool``, *optional*):
+            Whether this rich text is partial and needs to be fully loaded.
+    """
 
     def __init__(
         self,
@@ -51,7 +68,13 @@ class MessageRichText(Object):
         
         blocks = [types.PageBlock._parse(client, b) for b in getattr(rich_text, "blocks", None)] if getattr(rich_text, "blocks", None) else []
         photos = [types.Photo._parse(client, p) for p in getattr(rich_text, "photos", None)] if getattr(rich_text, "photos", None) else []
-        documents = [types.Document._parse(client, d) for d in getattr(rich_text, "documents", None)] if getattr(rich_text, "documents", None) else []
+        documents = []
+        for d in getattr(rich_text, "documents", None) or []:
+            file_name = next(
+                (attr.file_name for attr in getattr(d, "attributes", []) if isinstance(attr, raw.types.DocumentAttributeFilename)),
+                None
+            )
+            documents.append(types.Document._parse(client, d, file_name))
         return MessageRichText(
             client=client,
             blocks=blocks,

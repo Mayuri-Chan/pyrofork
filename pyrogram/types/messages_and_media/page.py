@@ -81,7 +81,13 @@ class Page(Object):
     ) -> Optional["Page"]:
         blocks = [types.PageBlock._parse(client, b) for b in getattr(page, "blocks", None)] if getattr(page, "blocks", None) else []
         photos = [types.Photo._parse(client, p) for p in getattr(page, "photos", None)] if getattr(page, "photos", None) else []
-        documents = [types.Document._parse(client, d) for d in getattr(page, "documents", None)] if getattr(page, "documents", None) else []
+        documents = []
+        for d in getattr(page, "documents", None) or []:
+            file_name = next(
+                (attr.file_name for attr in getattr(d, "attributes", []) if isinstance(attr, raw.types.DocumentAttributeFilename)),
+                None
+            )
+            documents.append(types.Document._parse(client, d, file_name))
         return Page(
             client=client,
             url=getattr(page, "url", None),

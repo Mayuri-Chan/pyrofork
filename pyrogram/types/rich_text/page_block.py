@@ -16,6 +16,8 @@
 #  You should have received a copy of the GNU Lesser General Public License
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
+import re
+
 from typing import Optional, List, Union
 from datetime import datetime
 
@@ -258,92 +260,24 @@ class PageBlock(Object):
         if getattr(page_block, "items", None):
             items = []
             for item in getattr(page_block, "items", None):
-                if isinstance(item, raw.base.PageListOrderedItem):
+                if isinstance(item, (raw.types.PageListOrderedItemText, raw.types.PageListOrderedItemBlocks)):
                     items.append(types.OrderedItems._parse(client, item))
                 elif isinstance(item, raw.types.PageListItemText) or isinstance(item, raw.types.PageListItemBlocks):
                     items.append(types.PageBlockList._parse(client, item))
                 else:
                     items.append(PageBlock._parse(client, item))
-        if isinstance(page_block, raw.types.PageBlockAnchor):
-            page_block_type=enums.PageBlockType.ANCHOR
-        elif isinstance(page_block, raw.types.PageBlockAudio):
-            page_block_type=enums.PageBlockType.AUDIO
-        elif isinstance(page_block, raw.types.PageBlockAuthorDate):
-            page_block_type=enums.PageBlockType.AUTHOR_DATE
-        elif isinstance(page_block, raw.types.PageBlockBlockquote):
-            page_block_type=enums.PageBlockType.BLOCKQUOTE
-        elif isinstance(page_block, raw.types.PageBlockBlockquoteBlocks):
-            page_block_type=enums.PageBlockType.BLOCKQUOTE_BLOCKS
-        elif isinstance(page_block, raw.types.PageBlockChannel):
-            page_block_type=enums.PageBlockType.CHANNEL
-        elif isinstance(page_block, raw.types.PageBlockCollage):
-            page_block_type=enums.PageBlockType.COLLAGE
-        elif isinstance(page_block, raw.types.PageBlockCover):
-            page_block_type=enums.PageBlockType.COVER
-        elif isinstance(page_block, raw.types.PageBlockDetails):
-            page_block_type=enums.PageBlockType.DETAILS
-        elif isinstance(page_block, raw.types.PageBlockDivider):
-            page_block_type=enums.PageBlockType.DIVIDER
-        elif isinstance(page_block, raw.types.PageBlockEmbed):
-            page_block_type=enums.PageBlockType.EMBED
-        elif isinstance(page_block, raw.types.PageBlockEmbedPost):
-            page_block_type=enums.PageBlockType.EMBED_POST
-        elif isinstance(page_block, raw.types.PageBlockFooter):
-            page_block_type=enums.PageBlockType.FOOTER
-        elif isinstance(page_block, raw.types.PageBlockHeader):
-            page_block_type=enums.PageBlockType.HEADER
-        elif isinstance(page_block, raw.types.PageBlockHeading1):
-            page_block_type=enums.PageBlockType.HEADING1
-        elif isinstance(page_block, raw.types.PageBlockHeading2):
-            page_block_type=enums.PageBlockType.HEADING2
-        elif isinstance(page_block, raw.types.PageBlockHeading3):
-            page_block_type=enums.PageBlockType.HEADING3
-        elif isinstance(page_block, raw.types.PageBlockHeading4):
-            page_block_type=enums.PageBlockType.HEADING4
-        elif isinstance(page_block, raw.types.PageBlockHeading5):
-            page_block_type=enums.PageBlockType.HEADING5
-        elif isinstance(page_block, raw.types.PageBlockHeading6):
-            page_block_type=enums.PageBlockType.HEADING6
-        elif isinstance(page_block, raw.types.PageBlockKicker):
-            page_block_type=enums.PageBlockType.KICKER
-        elif isinstance(page_block, raw.types.PageBlockList):
-            page_block_type=enums.PageBlockType.LIST
-        elif isinstance(page_block, raw.types.PageBlockMap):
-            page_block_type=enums.PageBlockType.MAP
-        elif isinstance(page_block, raw.types.PageBlockMath):
-            page_block_type=enums.PageBlockType.MATH
-        elif isinstance(page_block, raw.types.PageBlockOrderedList):
-            page_block_type=enums.PageBlockType.ORDERED_LIST
-        elif isinstance(page_block, raw.types.PageBlockParagraph):
-            page_block_type=enums.PageBlockType.PARAGRAPH
-        elif isinstance(page_block, raw.types.PageBlockPhoto):
-            page_block_type=enums.PageBlockType.PHOTO
-        elif isinstance(page_block, raw.types.PageBlockPreformatted):
-            page_block_type=enums.PageBlockType.PREFORMATTED
-        elif isinstance(page_block, raw.types.PageBlockPullquote):
-            page_block_type=enums.PageBlockType.PULLQUOTE
-        elif isinstance(page_block, raw.types.PageBlockRelatedArticles):
-            page_block_type=enums.PageBlockType.RELATED_ARTICLES
-        elif isinstance(page_block, raw.types.PageBlockSlideshow):
-            page_block_type=enums.PageBlockType.SLIDESHOW
-        elif isinstance(page_block, raw.types.PageBlockSubtitle):
-            page_block_type=enums.PageBlockType.SUBTITLE
-        elif isinstance(page_block, raw.types.PageBlockSubheader):
-            page_block_type=enums.PageBlockType.SUBHEADER
-        elif isinstance(page_block, raw.types.PageBlockTable):
-            page_block_type=enums.PageBlockType.TABLE
-        elif isinstance(page_block, raw.types.PageBlockTable):
-            page_block_type=enums.PageBlockType.TABLE
-        elif isinstance(page_block, raw.types.PageBlockThinking):
-            page_block_type=enums.PageBlockType.THINKING
-        elif isinstance(page_block, raw.types.PageBlockTitle):
-            page_block_type=enums.PageBlockType.TITLE
-        elif isinstance(page_block, raw.types.PageBlockUnsupported):
-            page_block_type=enums.PageBlockType.UNSUPPORTED
-        elif isinstance(page_block, raw.types.PageBlockVideo):
-            page_block_type=enums.PageBlockType.VIDEO
-        else:
-            raise ValueError(f"Unknown page block type: {type(page_block)}")
+
+        class_name = type(page_block).__name__
+        stripped_name = class_name.replace("PageBlock", "")
+        snake_case_name = re.sub(r'(?<!^)(?=[A-Z])', '_', stripped_name).upper()
+        try:
+            page_block_type = getattr(enums.PageBlockType, snake_case_name)
+        except AttributeError:
+            client.log.warning(f"Unknown page block type: {class_name}")
+            return PageBlock(
+                client=client,
+                page_block_type=enums.PageBlockType.UNSUPPORTED
+            )
 
         return PageBlock(
             client=client,
@@ -353,7 +287,7 @@ class PageBlock(Object):
             content=types.RichText._parse(client, getattr(page_block, "content", None)) if getattr(page_block, "content", None) else None,
             caption=types.PageCaption._parse(client, getattr(page_block, "caption", None)) if getattr(page_block, "caption", None) else None,
             blocks=[PageBlock._parse(client, b) for b in getattr(page_block, "blocks", [])] if getattr(page_block, "blocks", None) else None,
-            chat=types.Chat._parse(client, getattr(page_block, "channel", None)) if getattr(page_block, "channel", None) else None,
+            chat=types.Chat._parse_chat(client, getattr(page_block, "channel", None)) if getattr(page_block, "channel", None) else None,
             cover=PageBlock._parse(client, getattr(page_block, "cover", None)) if getattr(page_block, "cover", None) else None,
             audio_id=getattr(page_block, "audio_id", None),
             photo_id=getattr(page_block, "photo_id", None),

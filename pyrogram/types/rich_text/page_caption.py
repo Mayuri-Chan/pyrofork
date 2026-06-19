@@ -50,8 +50,19 @@ class PageCaption(Object):
         if not page_caption:
             return None
 
-        return PageCaption(
-            client=client,
-            text=types.RichText._parse(client, page_caption.text),
-            credit=types.RichText._parse(client, page_caption.credit)
-        )
+        if isinstance(page_caption, raw.types.PageCaption):
+            return PageCaption(
+                client=client,
+                text=types.RichText._parse(client, page_caption.text),
+                credit=types.RichText._parse(client, page_caption.credit)
+            )
+
+        parsed_text = types.RichText._parse(client, page_caption)
+        if parsed_text:
+            return PageCaption(
+                client=client,
+                text=parsed_text,
+                credit=None
+            )
+
+        return None
