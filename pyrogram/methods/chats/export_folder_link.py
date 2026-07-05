@@ -18,7 +18,7 @@
 #  along with Pyrofork.  If not, see <http://www.gnu.org/licenses/>.
 
 import pyrogram
-from pyrogram import raw
+from pyrogram import raw, types
 
 
 class ExportFolderLink:
@@ -54,10 +54,10 @@ class ExportFolderLink:
             peers.extend(iter(folder.included_chats))
 
         if folder.excluded_chats:
-            peers.extend(iter(folder.included_chats))
+            peers.extend(iter(folder.excluded_chats))
 
         if folder.pinned_chats:
-            peers.extend(iter(folder.included_chats))
+            peers.extend(iter(folder.pinned_chats))
 
         r = await self.invoke(
             raw.functions.chatlists.ExportChatlistInvite(

@@ -116,7 +116,7 @@ class MongoStorage(Storage):
         try:
             await self._session.delete_one({'_id': 0})
             if self._remove_peers:
-                await self._peer.remove({})
+                await self._peer.delete_many({})
         except Exception as _:
             return
 
